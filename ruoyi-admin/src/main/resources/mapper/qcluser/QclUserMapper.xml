@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.qcluser.mapper.QclUserMapper">
+    
+    <resultMap type="QclUser" id="QclUserResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="education"    column="education"    />
+        <result property="age"    column="age"    />
+    </resultMap>
+
+    <sql id="selectQclUserVo">
+        select id, name, education, age from qcl_user
+    </sql>
+
+    <select id="selectQclUserList" parameterType="QclUser" resultMap="QclUserResult">
+        <include refid="selectQclUserVo"/>
+        <where>  
+            <if test="id != null "> and id like concat('%', #{id}, '%')</if>
+            <if test="name != null  and name != ''"> and name = #{name}</if>
+            <if test="education != null  and education != ''"> and education = #{education}</if>
+            <if test="age != null "> and age = #{age}</if>
+        </where>
+    </select>
+    
+    <select id="selectQclUserById" parameterType="Long" resultMap="QclUserResult">
+        <include refid="selectQclUserVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertQclUser" parameterType="QclUser" useGeneratedKeys="true" keyProperty="id">
+        insert into qcl_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="education != null">education,</if>
+            <if test="age != null">age,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="education != null">#{education},</if>
+            <if test="age != null">#{age},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQclUser" parameterType="QclUser">
+        update qcl_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="education != null">education = #{education},</if>
+            <if test="age != null">age = #{age},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteQclUserById" parameterType="Long">
+        delete from qcl_user where id = #{id}
+    </delete>
+
+    <delete id="deleteQclUserByIds" parameterType="String">
+        delete from qcl_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
