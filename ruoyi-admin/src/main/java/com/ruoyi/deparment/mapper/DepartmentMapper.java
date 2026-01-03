@@ -1,7 +1,8 @@
 package com.ruoyi.deparment.mapper;
 
 import java.util.List;
-import com.ruoyi.deparment.domain.Department;
+import com.ruoyi.deparment.domain.Model.Department;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 部门信息Mapper接口
@@ -9,6 +10,7 @@ import com.ruoyi.deparment.domain.Department;
  * @author ruoyi
  * @date 2025-11-03
  */
+@Mapper
 public interface DepartmentMapper 
 {
     /**

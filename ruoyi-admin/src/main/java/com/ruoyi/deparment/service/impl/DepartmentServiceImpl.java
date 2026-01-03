@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.deparment.mapper.DepartmentMapper;
-import com.ruoyi.deparment.domain.Department;
+import com.ruoyi.deparment.domain.Model.Department;
 import com.ruoyi.deparment.service.IDepartmentService;
 
 /**

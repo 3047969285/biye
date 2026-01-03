@@ -1,4 +1,4 @@
-package com.ruoyi.deparment.domain;
+package com.ruoyi.deparment.domain.Model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

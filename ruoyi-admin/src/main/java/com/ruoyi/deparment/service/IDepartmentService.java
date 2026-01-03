@@ -1,7 +1,7 @@
 package com.ruoyi.deparment.service;
 
 import java.util.List;
-import com.ruoyi.deparment.domain.Department;
+import com.ruoyi.deparment.domain.Model.Department;
 
 /**
  * 部门信息Service接口

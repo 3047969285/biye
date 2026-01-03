@@ -16,7 +16,7 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.deparment.domain.Department;
+import com.ruoyi.deparment.domain.Model.Department;
 import com.ruoyi.deparment.service.IDepartmentService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 

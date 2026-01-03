@@ -1,8 +1,8 @@
 {
-  "name": "ruoyi",
-  "version": "3.9.0",
-  "description": "哲学管理系统",
-  "author": "哲学",
+  "name": "wcz",
+  "version": "1.0.0",
+  "description": "电网智能运维管理系统",
+  "author": "wcz",
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",

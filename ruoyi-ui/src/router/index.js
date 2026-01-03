@@ -88,19 +88,6 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/chat',
-    component: Layout,
-    redirect: 'index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/chat/index'),
-        name: 'ChatRoom',
-        meta: { title: '聊天室', icon: 'message', affix: false }
-      }
-    ]
-  }
 ]
 
 // 动态路由，基于用户权限动态去加载
