@@ -100,7 +100,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <fork>true</fork> <!-- 如果没有该配置，devtools不会生效 -->
                     <mainClass>com.ruoyi.RuoYiApplication</mainClass>
                 </configuration>
                 <executions>
