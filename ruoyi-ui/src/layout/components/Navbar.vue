@@ -42,8 +42,9 @@ import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
-import RuoYiGit from '@/components/RuoYi/Git'
-import RuoYiDoc from '@/components/RuoYi/Doc'
+// 移除RuoYi相关组件，统一服务于智能电网运维系统
+// import RuoYiGit from '@/components/RuoYi/Git'
+// import RuoYiDoc from '@/components/RuoYi/Doc'
 
 export default {
   emits: ['setLayout'],
@@ -54,8 +55,8 @@ export default {
     Screenfull,
     SizeSelect,
     Search,
-    RuoYiGit,
-    RuoYiDoc
+    // RuoYiGit,
+    // RuoYiDoc
   },
   computed: {
     ...mapGetters([
@@ -99,11 +100,13 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;
+  height: 56px;
   overflow: hidden;
   position: relative;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  background: var(--surface-1);
+  backdrop-filter: blur(14px);
+  box-shadow: none;
+  border-bottom: 1px solid var(--border-1);
 
   .hamburger-container {
     line-height: 46px;
@@ -114,7 +117,7 @@ export default {
     -webkit-tap-highlight-color:transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: rgba(99, 102, 241, 0.10)
     }
   }
 
@@ -143,18 +146,20 @@ export default {
 
     .right-menu-item {
       display: inline-block;
-      padding: 0 8px;
+      padding: 0 12px;
       height: 100%;
       font-size: 18px;
-      color: #5a5e66;
+      color: var(--text-2);
       vertical-align: text-bottom;
+      transition: all 0.15s ease;
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        margin: 8px 4px;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(99, 102, 241, 0.12);
+          color: var(--accent-2);
         }
       }
     }
@@ -180,7 +185,8 @@ export default {
           bottom: 10px;
           left: 2px;
           font-size: 14px;
-          font-weight: bold;
+          font-weight: 500;
+          color: var(--text-1);
         }
 
         .el-icon-caret-bottom {

@@ -1,25 +1,25 @@
-// base color
-$blue:#324157;
-$light-blue:#3A71A8;
-$red:#C03639;
-$pink: #E65D6E;
-$green: #30B08F;
-$tiffany: #4AB7BD;
-$yellow:#FEC171;
-$panGreen: #30B08F;
+// base color - 现代简约配色（参考 Awwwards）
+$blue:#6366F1;
+$light-blue:#818CF8;
+$red:#EF4444;
+$pink: #EC4899;
+$green: #10B981;
+$tiffany: #06B6D4;
+$yellow:#F59E0B;
+$panGreen: #10B981;
 
-// 默认菜单主题风格
-$base-menu-color:#bfcbd9;
-$base-menu-color-active:#f4f4f5;
-$base-menu-background:#304156;
-$base-logo-title-color: #ffffff;
+// 默认菜单主题风格 - 现代简约深色主题
+$base-menu-color:rgba(255, 255, 255, 0.85);
+$base-menu-color-active:#6366F1;
+$base-menu-background:#0F172A;
+$base-logo-title-color: #FFFFFF;
 
-$base-menu-light-color:rgba(0,0,0,.70);
-$base-menu-light-background:#ffffff;
-$base-logo-light-title-color: #001529;
+$base-menu-light-color:rgba(0,0,0,.85);
+$base-menu-light-background:#0F172A;
+$base-logo-light-title-color: #1E293B;
 
-$base-sub-menu-background:#1f2d3d;
-$base-sub-menu-hover:#001528;
+$base-sub-menu-background:rgba(99, 102, 241, 0.08);
+$base-sub-menu-hover:rgba(99, 102, 241, 0.12);
 
 // 自定义暗色菜单风格
 /**
@@ -29,7 +29,7 @@ $base-menu-background:#001529;
 $base-logo-title-color: #ffffff;
 
 $base-menu-light-color:rgba(0,0,0,.70);
-$base-menu-light-background:#ffffff;
+$base-menu-light-background:#0F172A;
 $base-logo-light-title-color: #001529;
 
 $base-sub-menu-background:#000c17;

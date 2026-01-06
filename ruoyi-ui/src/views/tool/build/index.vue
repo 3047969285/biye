@@ -586,7 +586,7 @@ $lighterBlue: #409EFF;
   text-align: right;
   padding: 0 15px;
   box-sizing: border-box;;
-  border: 1px solid #f1e8e8;
+  border: 1px solid rgba(99, 102, 241, 0.2);
   border-top: none;
   border-left: none;
   .delete-btn{
@@ -596,8 +596,8 @@ $lighterBlue: #409EFF;
 .logo-wrapper{
   position: relative;
   height: 42px;
-  background: #fff;
-  border-bottom: 1px solid #f1e8e8;
+  background: rgba(15, 23, 42, 0.85);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
   box-sizing: border-box;
 }
 .logo{
@@ -747,7 +747,7 @@ $lighterBlue: #409EFF;
     right: 56px;
     border-color: $lighterBlue;
     color: $lighterBlue;
-    background: #fff;
+    background: rgba(15, 23, 42, 0.9);
     &:hover{
       background: $lighterBlue;
       color: #fff;
@@ -757,7 +757,7 @@ $lighterBlue: #409EFF;
     right: 24px;
     border-color: #F56C6C;
     color: #F56C6C;
-    background: #fff;
+    background: rgba(15, 23, 42, 0.9);
     &:hover{
       background: #F56C6C;
       color: #fff;

@@ -70,11 +70,17 @@ export default {
     position: relative;
     height: 100%;
     width: 100%;
+    background: transparent;
 
     &.mobile.openSidebar {
       position: fixed;
       top: 0;
     }
+  }
+  
+  .main-container {
+    background: transparent;
+    min-height: 100vh;
   }
 
   .main-container:has(.fixed-header) {

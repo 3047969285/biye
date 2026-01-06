@@ -26,10 +26,11 @@ export default {
   height: 36px;
   padding: 10px 20px;
   text-align: right;
-  background-color: #f8f8f8;
-  color: #666;
+  background: rgba(26, 31, 58, 0.9);
+  backdrop-filter: blur(10px);
+  color: #CBD5E1;
   font-size: 14px;
-  border-top: 1px solid #e7e7e7;
+  border-top: 1px solid rgba(99, 102, 241, 0.2);
   z-index: 999;
 }
 </style>

@@ -11,7 +11,7 @@
 
 ## 平台简介
 
-哲学是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
+智能电网运维系统是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。基于SpringBoot+Vue前后端分离的Java快速开发框架
 
 * 前端采用Vue、Element UI。
 * 后端采用Spring Boot、Spring Security、Redis & Jwt。

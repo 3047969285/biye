@@ -241,9 +241,9 @@ export default {
 .tags-view-container {
   height: 34px;
   width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--border-1);
+  box-shadow: none;
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
@@ -251,13 +251,15 @@ export default {
       cursor: pointer;
       height: 26px;
       line-height: 26px;
-      border: 1px solid #d8dce5;
-      color: #495060;
-      background: #fff;
+      border: 1px solid var(--border-1);
+      color: var(--text-2);
+      background: rgba(15, 23, 42, 0.55);
       padding: 0 8px;
       font-size: 12px;
       margin-left: 5px;
       margin-top: 4px;
+      border-radius: 9px;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
       &:first-of-type {
         margin-left: 15px;
       }
@@ -265,12 +267,12 @@ export default {
         margin-right: 15px;
       }
       &.active {
-        background-color: #42b983;
-        color: #fff;
-        border-color: #42b983;
+        background-color: rgba(99, 102, 241, 0.18);
+        color: var(--text-1);
+        border-color: var(--border-2);
         &::before {
           content: '';
-          background: #fff;
+            background: #1E293B;
           display: inline-block;
           width: 8px;
           height: 8px;
@@ -288,15 +290,16 @@ export default {
 
   .contextmenu {
     margin: 0;
-    background: #fff;
+    background: rgba(15, 23, 42, 0.92);
     z-index: 3000;
     position: absolute;
     list-style-type: none;
     padding: 5px 0;
-    border-radius: 4px;
+    border-radius: 12px;
     font-size: 12px;
     font-weight: 400;
-    color: #333;
+    color: var(--text-1);
+    border: 1px solid var(--border-1);
     box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
     li {
       margin: 0;

@@ -41,7 +41,7 @@ spring:
             testOnReturn: false
             webStatFilter: 
                 enabled: true
-            statViewServlet:
+            stat-view-servlet:
                 enabled: true
                 # 设置白名单，不填则允许所有访问
                 allow:

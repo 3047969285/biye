@@ -84,10 +84,10 @@ export default {
     font-size: 12px;
     position: relative;
     overflow: hidden;
-    color: #666;
-    background: #fff;
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
-    border-color: rgba(0, 0, 0, .05);
+    color: #E2E8F0;
+    background: rgba(15, 23, 42, 0.7);
+    box-shadow: none;
+    border: 1px solid rgba(99, 102, 241, 0.15);
 
     &:hover {
       .card-panel-icon-wrapper {

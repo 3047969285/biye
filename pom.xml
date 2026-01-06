@@ -16,10 +16,10 @@
         <ruoyi.version>3.9.0</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <java.version>21</java.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
-        <spring-boot.version>2.5.15</spring-boot.version>
-        <druid.version>1.2.23</druid.version>
+        <spring-boot.version>3.2.5</spring-boot.version>
+        <druid.version>1.2.24</druid.version>
         <bitwalker.version>1.21</bitwalker.version>
         <swagger.version>3.0.0</swagger.version>
         <kaptcha.version>2.3.3</kaptcha.version>
@@ -31,10 +31,11 @@
         <velocity.version>2.3</velocity.version>
         <jwt.version>0.9.1</jwt.version>
         <!-- override dependency version -->
-        <tomcat.version>9.0.108</tomcat.version>
-        <logback.version>1.2.13</logback.version>
-        <spring-security.version>5.7.14</spring-security.version>
-        <spring-framework.version>5.3.39</spring-framework.version>
+        <tomcat.version>10.1.35</tomcat.version>
+        <logback.version>1.4.14</logback.version>
+        <log4j2.version>2.23.1</log4j2.version>
+        <spring-security.version>6.2.5</spring-security.version>
+        <spring-framework.version>6.1.14</spring-framework.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -81,6 +82,12 @@
                 <version>${logback.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-access</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
             <!-- 覆盖tomcat的依赖配置-->
             <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
@@ -119,6 +126,13 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper.boot.version}</version>
+                <exclusions>
+                    <!-- 排除旧版MyBatis starter，使用更新版本 -->
+                    <exclusion>
+                        <groupId>org.mybatis.spring.boot</groupId>
+                        <artifactId>mybatis-spring-boot-starter</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- 获取系统信息 -->
@@ -176,6 +190,13 @@
                 <version>${jwt.version}</version>
             </dependency>
 
+            <!-- MyBatis Spring Boot Starter (与Spring Boot 3.2.5兼容) -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>3.0.4</version>
+            </dependency>
+
             <!-- 验证码 -->
             <dependency>
                 <groupId>pro.fessional</groupId>
@@ -228,6 +249,7 @@
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
+        <module>spring-ai</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -236,11 +258,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.11.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <release>${java.version}</release>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
         </plugins>

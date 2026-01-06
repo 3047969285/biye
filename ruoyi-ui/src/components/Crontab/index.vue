@@ -376,8 +376,8 @@ export default {
 .popup-main {
   position: relative;
   margin: 10px auto;
-  background: #fff;
-  border-radius: 5px;
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 0;
   font-size: 12px;
   overflow: hidden;
 }
@@ -385,14 +385,14 @@ export default {
   overflow: hidden;
   line-height: 34px;
   padding-top: 6px;
-  background: #f2f2f2;
+  background: rgba(26, 31, 58, 0.8);
 }
 .popup-result {
   box-sizing: border-box;
   line-height: 24px;
   margin: 25px auto;
   padding: 15px 10px 10px;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(99, 102, 241, 0.2);
   position: relative;
 }
 .popup-result .title {
@@ -404,7 +404,7 @@ export default {
   margin-left: -70px;
   text-align: center;
   line-height: 30px;
-  background: #fff;
+  background: rgba(26, 31, 58, 0.9);
 }
 .popup-result table {
   text-align: center;

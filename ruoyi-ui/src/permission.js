@@ -6,8 +6,13 @@ import 'nprogress/nprogress.css'
 import { getToken } from '@/utils/auth'
 import { isPathMatch } from '@/utils/validate'
 import { isRelogin } from '@/utils/request'
+import { useDynamicTitle } from '@/utils/dynamicTitle'
+import defaultSettings from '@/settings'
 
 NProgress.configure({ showSpinner: false })
+
+// 初始化页面标题
+document.title = defaultSettings.title || '智能电网运维系统'
 
 const whiteList = ['/login', '/register']
 

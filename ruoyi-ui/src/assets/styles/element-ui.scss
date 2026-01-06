@@ -90,3 +90,40 @@
   .el-submenu__icon-arrow {
   display: none;
 }
+
+// 确保菜单项没有白色背景
+.sidebar-container {
+  .el-menu-item,
+  .el-submenu__title {
+    background-color: transparent !important;
+    
+    &:hover {
+      background-color: rgba(99, 102, 241, 0.1) !important;
+    }
+    
+    &.is-active {
+      background-color: rgba(99, 102, 241, 0.15) !important;
+    }
+  }
+  
+  // 覆盖 Element UI 默认的白色背景
+  .el-menu {
+    background-color: transparent !important;
+  }
+  
+  // 确保子菜单也没有白色背景
+  .el-menu--vertical {
+    .el-menu-item,
+    .el-submenu__title {
+      background-color: transparent !important;
+      
+      &:hover {
+        background-color: rgba(99, 102, 241, 0.1) !important;
+      }
+      
+      &.is-active {
+        background-color: rgba(99, 102, 241, 0.15) !important;
+      }
+    }
+  }
+}

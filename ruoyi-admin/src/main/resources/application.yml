@@ -1,7 +1,7 @@
 # 项目相关配置
 ruoyi:
   # 名称
-  name: RuoYi
+  name: 智能电网运维系统
   # 版本
   version: 3.9.0
   # 版权年份
@@ -36,6 +36,11 @@ logging:
   level:
     com.ruoyi: debug
     org.springframework: warn
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/ruoyi.log
 
 # 用户配置
 user:
@@ -47,6 +52,10 @@ user:
 
 # Spring配置
 spring:
+  # 禁用 SQL 初始化（避免与 MyBatis Mapper 冲突）
+  sql:
+    init:
+      mode: never
   # 资源信息
   messages:
     # 国际化资源文件路径
@@ -87,6 +96,32 @@ spring:
         max-active: 8
         # #连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1ms
+  # Spring AI 阿里巴巴通义千问配置
+  ai:
+    dashscope:
+      api-key: sk-e85f9d9ff888466e9054ec1f34608875
+      chat:
+        options:
+          model: qwen-plus # 或者使用 qwen-max, qwen-turbo, qwen-plus 等
+          temperature: 0.7
+          max-output-tokens: 1024
+          top-p: 0.9
+    # Chroma 向量存储配置
+    vectorstore:
+      chroma:
+        client:
+          host: http://localhost
+          port: 8000
+        collection-name: documents
+        initialize-schema: true
+    # OpenAI 嵌入模型配置（用于向量嵌入）
+    openai:
+      api-key: your-openai-api-key-here
+  # 排除有问题的自动配置
+  autoconfigure:
+    exclude:
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAgentAutoConfiguration
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeEmbeddingAutoConfiguration
 
 # token配置
 token:

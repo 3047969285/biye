@@ -229,10 +229,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  // 确保 el-drawer 背景为深色
+  ::v-deep .el-drawer {
+    background: rgba(30, 35, 48, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-left: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  ::v-deep .el-drawer__body {
+    background: transparent !important;
+  }
+
   .setting-drawer-content {
     .setting-drawer-title {
       margin-bottom: 12px;
-      color: rgba(0, 0, 0, .85);
+      color: #E2E8F0;
       font-size: 14px;
       line-height: 22px;
       font-weight: bold;
@@ -264,7 +275,7 @@ export default {
           height: 100%;
           padding-top: 15px;
           padding-left: 24px;
-          color: #1890ff;
+          color: #6366F1;
           font-weight: 700;
           font-size: 14px;
         }
@@ -277,22 +288,53 @@ export default {
     font-size: 14px;
     line-height: 1.5;
     word-wrap: break-word;
+    background: transparent;
 
     .drawer-title {
       margin-bottom: 12px;
-      color: rgba(0, 0, 0, .85);
+      color: #E2E8F0;
       font-size: 14px;
       line-height: 22px;
     }
 
     .drawer-item {
-      color: rgba(0, 0, 0, .65);
+      color: #CBD5E1;
       font-size: 14px;
       padding: 12px 0;
     }
 
     .drawer-switch {
       float: right
+    }
+  }
+
+  // Element UI 分割线样式
+  ::v-deep .el-divider {
+    background-color: rgba(99, 102, 241, 0.15) !important;
+    border-color: rgba(99, 102, 241, 0.15) !important;
+  }
+
+  // Element UI 按钮样式（在设置面板中）
+  ::v-deep .el-button {
+    background: rgba(30, 35, 48, 0.5);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    color: #E2E8F0;
+
+    &:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: #6366F1;
+      color: #818CF8;
+    }
+  }
+
+  ::v-deep .el-button--primary {
+    background: #6366F1;
+    border-color: #6366F1;
+    color: #FFFFFF;
+
+    &:hover {
+      background: #818CF8;
+      border-color: #818CF8;
     }
   }
 </style>

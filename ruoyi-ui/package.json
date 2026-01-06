@@ -1,7 +1,7 @@
 {
   "name": "wcz",
   "version": "1.0.0",
-  "description": "电网智能运维管理系统",
+  "description": "智能电网运维系统",
   "author": "wcz",
   "license": "MIT",
   "scripts": {

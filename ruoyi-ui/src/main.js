@@ -13,6 +13,7 @@ import router from './router'
 import directive from './directive' // directive
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
+import defaultSettings from '@/settings'
 
 import './assets/icons' // icon
 import './permission' // permission control
@@ -74,6 +75,9 @@ Vue.use(Element, {
 })
 
 Vue.config.productionTip = false
+
+// 初始化页面标题
+document.title = defaultSettings.title || '智能电网运维系统'
 
 new Vue({
   el: '#app',

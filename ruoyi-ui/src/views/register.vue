@@ -61,7 +61,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-register-footer">
-      <span>Copyright © 2018-2025 ruoyi.vip All Rights Reserved.</span>
+      <span>Copyright © 2018-2025 智能电网运维系统. All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -80,7 +80,7 @@ export default {
       }
     }
     return {
-      title: process.env.VUE_APP_TITLE,
+      title: process.env.VUE_APP_TITLE || '智能电网运维系统',
       codeUrl: "",
       registerForm: {
         username: "",
@@ -153,30 +153,46 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
-  background-size: cover;
+  background: linear-gradient(135deg, #0A0E27 0%, #1A1F3A 50%, #0F1419 100%);
+  background-attachment: fixed;
 }
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
-  color: #707070;
+  color: #1E293B;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
 }
 
 .register-form {
-  border-radius: 6px;
-  background: #ffffff;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   width: 400px;
-  padding: 25px 25px 5px 25px;
+  padding: 30px 30px 15px 30px;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   .el-input {
-    height: 38px;
+    height: 40px;
     input {
-      height: 38px;
+      height: 40px;
+      border-radius: 0;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      background: rgba(15, 23, 42, 0.8);
+      color: #E2E8F0;
+      
+      &:focus {
+        border-color: #6366F1;
+        box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.4);
+      }
     }
   }
   .input-icon {
-    height: 39px;
+    height: 40px;
     width: 14px;
     margin-left: 2px;
+    color: #64748B;
   }
 }
 .register-tip {
@@ -200,10 +216,9 @@ export default {
   bottom: 0;
   width: 100%;
   text-align: center;
-  color: #fff;
-  font-family: Arial;
+  color: #CBD5E1;
   font-size: 12px;
-  letter-spacing: 1px;
+  letter-spacing: 0;
 }
 .register-code-img {
   height: 38px;

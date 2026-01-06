@@ -46,17 +46,19 @@ export default {
 
 <style lang="scss" scoped>
 .app-main {
-  /* 50= navbar  50  */
-  min-height: calc(100vh - 50px);
+  /* 56= navbar  56  */
+  min-height: calc(100vh - 56px);
   width: 100%;
   position: relative;
   overflow: hidden;
+  background: transparent;
+  padding: 20px;
 }
 
 .fixed-header + .app-main {
   overflow-y: auto;
   scrollbar-gutter: auto;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 56px);
   min-height: 0px;
 }
 
@@ -65,21 +67,21 @@ export default {
 }
 
 .fixed-header + .app-main {
-  margin-top: 50px;
+  margin-top: 56px;
 }
 
-.hasTagsView {
-  .app-main {
-    /* 84 = navbar + tags-view = 50 + 34 */
-    min-height: calc(100vh - 84px);
-  }
+  .hasTagsView {
+    .app-main {
+      /* 90 = navbar + tags-view = 56 + 34 */
+      min-height: calc(100vh - 90px);
+    }
 
-  .fixed-header + .app-main {
-    margin-top: 84px;
-    height: calc(100vh - 84px);
-    min-height: 0px;
+    .fixed-header + .app-main {
+      margin-top: 90px;
+      height: calc(100vh - 90px);
+      min-height: 0px;
+    }
   }
-}
 </style>
 
 <style lang="scss">
@@ -89,11 +91,15 @@ export default {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
+  background-color: rgba(26, 31, 58, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #c0c0c0;
-  border-radius: 3px;
+  background-color: rgba(99, 102, 241, 0.5);
+  border-radius: 0;
+  
+  &:hover {
+    background-color: rgba(99, 102, 241, 0.7);
+  }
 }
 </style>
