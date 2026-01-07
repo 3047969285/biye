@@ -1,14 +1,14 @@
 <template>
-    <div :class="{'has-logo':showLogo}" :style="{ backgroundColor: '#0F172A' }">
+    <div :class="{'has-logo':showLogo}" :style="{ backgroundColor: variables.menuBackground }">
         <logo v-if="showLogo" :collapse="isCollapse" />
         <el-scrollbar :class="settings.sideTheme" wrap-class="scrollbar-wrapper">
             <el-menu
                 :default-active="activeMenu"
                 :collapse="isCollapse"
-                :background-color="'#0F172A'"
-                :text-color="settings.sideTheme === 'theme-dark' ? '#FFFFFF' : variables.menuLightColor"
+                :background-color="variables.menuBackground"
+                :text-color="variables.menuColor"
                 :unique-opened="true"
-                :active-text-color="settings.theme"
+                :active-text-color="variables.menuColorActive"
                 :collapse-transition="false"
                 mode="vertical"
             >

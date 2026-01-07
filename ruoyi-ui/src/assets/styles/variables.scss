@@ -1,40 +1,36 @@
-// base color - 现代简约配色（参考 Awwwards）
-$blue:#6366F1;
-$light-blue:#818CF8;
-$red:#EF4444;
-$pink: #EC4899;
-$green: #10B981;
-$tiffany: #06B6D4;
-$yellow:#F59E0B;
-$panGreen: #10B981;
+/* ========== 统一配色方案：简约高级 ========== */
+// 主色调：深灰蓝 + 简约蓝
+$primary-bg: #1A1F2E;        // 主背景色
+$secondary-bg: #242938;      // 次级背景色
+$border-color: #2D3548;      // 边框色
+$accent-color: #5B8DEF;      // 强调色（统一蓝色）
+$text-primary: #FFFFFF;      // 主要文字（纯白，最高对比度）
+$text-secondary: #E2E8F0;    // 次要文字（更亮的浅灰，提高可读性）
+$text-disabled: #94A3B8;     // 禁用文字（更亮）
+$hover-bg: rgba(91, 141, 239, 0.08);  // 悬停背景
 
-// 默认菜单主题风格 - 现代简约深色主题
-$base-menu-color:rgba(255, 255, 255, 0.85);
-$base-menu-color-active:#6366F1;
-$base-menu-background:#0F172A;
-$base-logo-title-color: #FFFFFF;
+// 状态颜色（统一色系）
+$blue: $accent-color;
+$light-blue: lighten($accent-color, 10%);
+$red: #E74C3C;
+$pink: #E74C3C;
+$green: #27AE60;
+$tiffany: $accent-color;
+$yellow: #F39C12;
+$panGreen: $green;
 
-$base-menu-light-color:rgba(0,0,0,.85);
-$base-menu-light-background:#0F172A;
-$base-logo-light-title-color: #1E293B;
+// 菜单主题
+$base-menu-color: $text-secondary;
+$base-menu-color-active: $accent-color;
+$base-menu-background: $primary-bg;
+$base-logo-title-color: $text-primary;
 
-$base-sub-menu-background:rgba(99, 102, 241, 0.08);
-$base-sub-menu-hover:rgba(99, 102, 241, 0.12);
+$base-menu-light-color: $text-secondary;
+$base-menu-light-background: $primary-bg;
+$base-logo-light-title-color: $text-primary;
 
-// 自定义暗色菜单风格
-/**
-$base-menu-color:hsla(0,0%,100%,.65);
-$base-menu-color-active:#fff;
-$base-menu-background:#001529;
-$base-logo-title-color: #ffffff;
-
-$base-menu-light-color:rgba(0,0,0,.70);
-$base-menu-light-background:#0F172A;
-$base-logo-light-title-color: #001529;
-
-$base-sub-menu-background:#000c17;
-$base-sub-menu-hover:#001528;
-*/
+$base-sub-menu-background: $secondary-bg;
+$base-sub-menu-hover: $hover-bg;
 
 $base-sidebar-width: 200px;
 

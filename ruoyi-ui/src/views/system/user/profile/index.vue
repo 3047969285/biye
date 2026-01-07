@@ -93,3 +93,68 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import "~@/assets/styles/variables.scss";
+
+.app-container {
+  color: $text-primary !important;
+  
+  .el-card {
+    background: $secondary-bg !important;
+    border-color: $border-color !important;
+    
+    .el-card__header {
+      background: $primary-bg !important;
+      border-bottom-color: $border-color !important;
+      color: $text-primary !important;
+      font-weight: 600 !important;
+      font-size: 16px !important;
+      
+      span {
+        color: $text-primary !important;
+        font-weight: 600 !important;
+      }
+    }
+    
+    .el-card__body {
+      background: $secondary-bg !important;
+      color: $text-primary !important;
+    }
+  }
+  
+  .list-group {
+    .list-group-item {
+      background: $secondary-bg !important;
+      border-color: $border-color !important;
+      color: $text-primary !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      
+      .pull-right {
+        color: $text-primary !important;
+        font-weight: 500 !important;
+      }
+      
+      .svg-icon {
+        color: $accent-color !important;
+        margin-right: 8px;
+      }
+    }
+  }
+  
+  .text-center {
+    color: $text-primary !important;
+  }
+  
+  .clearfix {
+    color: $text-primary !important;
+    
+    span {
+      color: $text-primary !important;
+      font-weight: 600 !important;
+      font-size: 16px !important;
+    }
+  }
+}
+</style>

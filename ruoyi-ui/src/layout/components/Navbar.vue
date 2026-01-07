@@ -42,9 +42,6 @@ import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
-// 移除RuoYi相关组件，统一服务于智能电网运维系统
-// import RuoYiGit from '@/components/RuoYi/Git'
-// import RuoYiDoc from '@/components/RuoYi/Doc'
 
 export default {
   emits: ['setLayout'],
@@ -54,9 +51,7 @@ export default {
     Hamburger,
     Screenfull,
     SizeSelect,
-    Search,
-    // RuoYiGit,
-    // RuoYiDoc
+    Search
   },
   computed: {
     ...mapGetters([
@@ -68,6 +63,12 @@ export default {
     setting: {
       get() {
         return this.$store.state.settings.showSettings
+      },
+      set(val) {
+        this.$store.dispatch('settings/changeSetting', {
+          key: 'showSettings',
+          value: val
+        })
       }
     },
     topNav: {
@@ -80,33 +81,34 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    setLayout(event) {
-      this.$emit('setLayout')
-    },
-    logout() {
+    async logout() {
       this.$confirm('确定注销并退出系统吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.$store.dispatch('LogOut').then(() => {
-          location.href = '/index'
+          location.href = '/index';
         })
-      }).catch(() => {})
+      }).catch(() => {});
+    },
+    setLayout() {
+      this.$emit('setLayout');
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/styles/variables.scss";
+
 .navbar {
-  height: 56px;
+  height: 50px;
   overflow: hidden;
   position: relative;
-  background: var(--surface-1);
-  backdrop-filter: blur(14px);
-  box-shadow: none;
-  border-bottom: 1px solid var(--border-1);
+  background: $secondary-bg;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid $border-color;
 
   .hamburger-container {
     line-height: 46px;
@@ -117,7 +119,7 @@ export default {
     -webkit-tap-highlight-color:transparent;
 
     &:hover {
-      background: rgba(99, 102, 241, 0.10)
+      background: $hover-bg;
     }
   }
 
@@ -149,17 +151,17 @@ export default {
       padding: 0 12px;
       height: 100%;
       font-size: 18px;
-      color: var(--text-2);
+      color: $text-secondary;
       vertical-align: text-bottom;
-      transition: all 0.15s ease;
+      transition: all 0.2s ease;
 
       &.hover-effect {
         cursor: pointer;
         margin: 8px 4px;
 
         &:hover {
-          background: rgba(99, 102, 241, 0.12);
-          color: var(--accent-2);
+          background: $hover-bg;
+          color: $accent-color;
         }
       }
     }
@@ -186,7 +188,7 @@ export default {
           left: 2px;
           font-size: 14px;
           font-weight: 500;
-          color: var(--text-1);
+          color: $text-primary;
         }
 
         .el-icon-caret-bottom {

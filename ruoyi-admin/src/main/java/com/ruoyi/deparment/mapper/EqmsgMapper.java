@@ -1,6 +1,6 @@
 package com.ruoyi.deparment.mapper;
 
-import com.ruoyi.deparment.domain.Model.EqDevice;
+import com.ruoyi.system.domain.EqDevice;
 
 public interface EqmsgMapper {
 

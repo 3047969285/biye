@@ -1,10 +1,8 @@
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
-      <keep-alive :include="cachedViews">
-        <router-view v-if="!$route.meta.link" :key="key" />
-      </keep-alive>
-    </transition>
+    <keep-alive :include="cachedViews">
+      <router-view v-if="!$route.meta.link" :key="key" />
+    </keep-alive>
     <iframe-toggle />
     <copyright />
   </section>
@@ -85,21 +83,23 @@ export default {
 </style>
 
 <style lang="scss">
+@import "~@/assets/styles/variables.scss";
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: rgba(26, 31, 58, 0.5);
+  background-color: $primary-bg;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(99, 102, 241, 0.5);
+  background-color: $border-color;
   border-radius: 0;
   
   &:hover {
-    background-color: rgba(99, 102, 241, 0.7);
+    background-color: $accent-color;
   }
 }
 </style>

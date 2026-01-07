@@ -158,27 +158,39 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+@import "~@/assets/styles/variables.scss";
+
 .user-info-head {
   position: relative;
   display: inline-block;
   height: 120px;
+  
+  .img-circle {
+    border: 2px solid $accent-color !important;
+  }
+  
+  &:hover:after {
+    content: '+';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    color: $text-primary !important;
+    background: rgba(91, 141, 239, 0.7) !important;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600 !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor: pointer;
+    line-height: 110px;
+    border-radius: 50%;
+  }
 }
 
-.user-info-head:hover:after {
-  content: '+';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  color: #eee;
-  background: rgba(0, 0, 0, 0.5);
-  font-size: 24px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  cursor: pointer;
-  line-height: 110px;
-  border-radius: 50%;
+.avatar-upload-preview {
+  background: $primary-bg !important;
+  border: 1px solid $border-color !important;
 }
 </style>

@@ -86,3 +86,39 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import "~@/assets/styles/variables.scss";
+
+.el-form {
+  .el-form-item__label {
+    color: $text-primary !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+  }
+  
+  .el-form-item__content {
+    color: $text-primary !important;
+    
+    .el-input__inner {
+      background: $primary-bg !important;
+      border-color: $border-color !important;
+      color: $text-primary !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+    }
+  }
+  
+  .el-radio-group {
+    .el-radio {
+      color: $text-primary !important;
+      
+      .el-radio__label {
+        color: $text-primary !important;
+        font-weight: 400 !important;
+        padding-left: 8px;
+      }
+    }
+  }
+}
+</style>

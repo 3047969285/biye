@@ -92,14 +92,15 @@
   .el-table__header-wrapper, .el-table__fixed-header-wrapper {
     th {
       word-break: break-word;
-      background-color: #f8f8f9;
-      color: #515a6e;
+      background-color: #1A1F2E !important;
+      color: #FFFFFF !important;
       height: 40px;
       font-size: 13px;
     }
   }
 
   .el-table__body-wrapper {
+    background-color: #242938 !important;
     .el-button [class*="el-icon-"] + span {
       margin-left: 1px;
     }
