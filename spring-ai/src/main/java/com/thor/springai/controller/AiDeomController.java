@@ -31,7 +31,7 @@ public class AiDeomController extends BaseController {
      * @return AI 回复
      */
     @GetMapping("/chat")
-    public AjaxResult chat(@RequestParam String input) {
+    public AjaxResult chat(@RequestParam(name = "input") String input) {
         try {
             String reply = chatClient.prompt()
                     .user(input)

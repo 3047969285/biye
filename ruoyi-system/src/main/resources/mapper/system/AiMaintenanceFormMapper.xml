@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AiMaintenanceFormMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.AiMaintenanceForm" id="AiMaintenanceFormResult">
+        <result property="formId"             column="form_id"              />
+        <result property="deviceId"           column="device_id"            />
+        <result property="deviceName"         column="device_name"          />
+        <result property="faultDescription"   column="fault_description"    />
+        <result property="maintenanceType"    column="maintenance_type"     />
+        <result property="priorityLevel"      column="priority_level"       />
+        <result property="estimatedTime"      column="estimated_time"       />
+        <result property="requiredTools"      column="required_tools"       />
+        <result property="safetyPrecautions"  column="safety_precautions"   />
+        <result property="stepByStepGuide"    column="step_by_step_guide"   />
+        <result property="expectedOutcome"    column="expected_outcome"     />
+        <result property="formStatus"         column="form_status"          />
+        <result property="createdBy"          column="created_by"           />
+        <result property="createdTime"        column="created_time"         />
+        <result property="updatedBy"          column="updated_by"           />
+        <result property="updatedTime"        column="updated_time"         />
+        <result property="remark"             column="remark"               />
+    </resultMap>
+
+    <sql id="selectAiMaintenanceFormVo">
+        select form_id, device_id, device_name, fault_description, maintenance_type, 
+               priority_level, estimated_time, required_tools, safety_precautions, 
+               step_by_step_guide, expected_outcome, form_status, created_by, 
+               created_time, updated_by, updated_time, remark
+        from ai_maintenance_form
+    </sql>
+
+    <select id="selectAiMaintenanceFormList" parameterType="com.ruoyi.system.domain.AiMaintenanceForm" resultMap="AiMaintenanceFormResult">
+        <include refid="selectAiMaintenanceFormVo"/>
+        <where>  
+            <if test="deviceId != null">
+                and device_id = #{deviceId}
+            </if>
+            <if test="deviceName != null and deviceName != ''">
+                and device_name like concat('%', #{deviceName}, '%')
+            </if>
+            <if test="maintenanceType != null and maintenanceType != ''">
+                and maintenance_type = #{maintenanceType}
+            </if>
+            <if test="formStatus != null and formStatus != ''">
+                and form_status = #{formStatus}
+            </if>
+        </where>
+        order by created_time desc
+    </select>
+    
+    <select id="selectAiMaintenanceFormById" parameterType="Long" resultMap="AiMaintenanceFormResult">
+        <include refid="selectAiMaintenanceFormVo"/>
+        where form_id = #{formId}
+    </select>
+        
+    <insert id="insertAiMaintenanceForm" parameterType="com.ruoyi.system.domain.AiMaintenanceForm" useGeneratedKeys="true" keyProperty="formId">
+        insert into ai_maintenance_form
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">device_id,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="faultDescription != null">fault_description,</if>
+            <if test="maintenanceType != null">maintenance_type,</if>
+            <if test="priorityLevel != null">priority_level,</if>
+            <if test="estimatedTime != null">estimated_time,</if>
+            <if test="requiredTools != null">required_tools,</if>
+            <if test="safetyPrecautions != null">safety_precautions,</if>
+            <if test="stepByStepGuide != null">step_by_step_guide,</if>
+            <if test="expectedOutcome != null">expected_outcome,</if>
+            <if test="formStatus != null">form_status,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="remark != null">remark,</if>
+            created_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="faultDescription != null">#{faultDescription},</if>
+            <if test="maintenanceType != null">#{maintenanceType},</if>
+            <if test="priorityLevel != null">#{priorityLevel},</if>
+            <if test="estimatedTime != null">#{estimatedTime},</if>
+            <if test="requiredTools != null">#{requiredTools},</if>
+            <if test="safetyPrecautions != null">#{safetyPrecautions},</if>
+            <if test="stepByStepGuide != null">#{stepByStepGuide},</if>
+            <if test="expectedOutcome != null">#{expectedOutcome},</if>
+            <if test="formStatus != null">#{formStatus},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="remark != null">#{remark},</if>
+            now()
+        </trim>
+    </insert>
+
+    <update id="updateAiMaintenanceForm" parameterType="com.ruoyi.system.domain.AiMaintenanceForm">
+        update ai_maintenance_form
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="faultDescription != null">fault_description = #{faultDescription},</if>
+            <if test="maintenanceType != null">maintenance_type = #{maintenanceType},</if>
+            <if test="priorityLevel != null">priority_level = #{priorityLevel},</if>
+            <if test="estimatedTime != null">estimated_time = #{estimatedTime},</if>
+            <if test="requiredTools != null">required_tools = #{requiredTools},</if>
+            <if test="safetyPrecautions != null">safety_precautions = #{safetyPrecautions},</if>
+            <if test="stepByStepGuide != null">step_by_step_guide = #{stepByStepGuide},</if>
+            <if test="expectedOutcome != null">expected_outcome = #{expectedOutcome},</if>
+            <if test="formStatus != null">form_status = #{formStatus},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            updated_time = now()
+        </trim>
+        where form_id = #{formId}
+    </update>
+
+    <delete id="deleteAiMaintenanceFormById" parameterType="Long">
+        delete from ai_maintenance_form where form_id = #{formId}
+    </delete>
+
+    <delete id="deleteAiMaintenanceFormByIds" parameterType="Long">
+        delete from ai_maintenance_form where form_id in 
+        <foreach item="formId" collection="formIds" open="(" separator="," close=")">
+            #{formId}
+        </foreach>
+    </delete>
+</mapper>
