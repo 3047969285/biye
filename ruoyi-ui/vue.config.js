@@ -47,12 +47,11 @@ module.exports = {
         target: baseUrl,
         changeOrigin: true
       },
-      // WebSocket代理配置
       '/websocket': {
         target: baseUrl,
         ws: true,
         changeOrigin: true
-      }
+      },
     },
     disableHostCheck: true
   },

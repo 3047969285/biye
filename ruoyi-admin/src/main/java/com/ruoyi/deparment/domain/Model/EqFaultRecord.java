@@ -35,27 +35,6 @@ public class EqFaultRecord extends BaseEntity {
     private BigDecimal repairCost; //修复成本
     private String partsReplaced; //替换部件
     private Integer status;      //状态 1-待处理 2-已经解决 3-处理中
-    private Clob remark; //备注
+    private String remark; //备注
 
-    // 添加一个方法用于将对象转换为JSON字符串
-    public void setPartsReplacedFromObject(List<PartInfo> parts) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            this.partsReplaced = objectMapper.writeValueAsString(parts);
-        } catch (Exception e) {
-            this.partsReplaced = null;
-        }
-    }
-
-// 部件信息类
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class PartInfo {
-    private String partId;   //部件ID
-    private String partName; //部件名称
-    private String partNumber; //部件编号
-    private int quantity;      //部件数量
-    private String supplier;    //供应商
-}
 }

@@ -106,30 +106,15 @@ spring:
           temperature: 0.7
           max-output-tokens: 1024
           top-p: 0.9
-    # Chroma 向量存储配置
+    # SimpleVectorStore 内存向量存储配置
     vectorstore:
-      chroma:
-        client:
-          host: http://localhost
-          port: 8000
-        collection-name: documents
-        initialize-schema: true
-    # OpenAI 嵌入模型配置（用于向量嵌入）
-    openai:
-      api-key: your-openai-api-key-here
+      simple:
+        store-file: data/vector-store.json  # 持久化文件路径
   # 排除有问题的自动配置
   autoconfigure:
     exclude:
       - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAgentAutoConfiguration
       - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeEmbeddingAutoConfiguration
-  #JPA配置
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        types:
-          json: com.vladmihalcea.hibernate.type.json.JsonStringType
-          jsonb: com.vladmihalcea.hibernate.type.json.JsonBinaryType
 # token配置
 token:
   # 令牌自定义标识

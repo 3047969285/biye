@@ -3,16 +3,12 @@ package com.thor.springai.controller;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Spring AI 阿里巴巴通义千问集成控制器
+ * Spring AI 基础对话控制器
  *
  * @author ruoyi
  */
@@ -28,21 +24,24 @@ public class AiDeomController extends BaseController {
         this.chatClient = builder.build();
     }
 
+    /**
+     * 基础 AI 对话接口
+     * 
+     * @param input 用户输入
+     * @return AI 回复
+     */
     @GetMapping("/chat")
-    public AjaxResult chat(@RequestParam("input") String input) {
+    public AjaxResult chat(@RequestParam String input) {
         try {
-
-
-            String reply = this.chatClient
-                    .prompt()
+            String reply = chatClient.prompt()
                     .user(input)
                     .call()
                     .content();
 
-            logger.info("AI对话请求: {}, 回复: {}", input, reply);
+            logger.info("AI对话 - 问题: {}, 回复长度: {}", input, reply != null ? reply.length() : 0);
             return AjaxResult.success(reply != null ? reply : "AI未返回内容");
         } catch (Exception e) {
-            logger.error("AI对话服务异常: ", e);
+            logger.error("AI对话异常: ", e);
             return AjaxResult.error("AI服务异常: " + e.getMessage());
         }
     }

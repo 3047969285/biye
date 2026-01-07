@@ -120,7 +120,7 @@ public class SecurityConfig
                 requests.requestMatchers("/login", "/register", "/captchaImage").permitAll()
                 // 错误页面允许访问
                 .requestMatchers("/error").permitAll()
-                // WebSocket连接
+                // WebSocket连接允许访问
                 .requestMatchers("/websocket/**").permitAll()
                 // Spring AI 接口允许匿名访问（测试用）
                 .requestMatchers("/springai/**").permitAll()

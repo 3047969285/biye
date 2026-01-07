@@ -7,7 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
+/**
+ * 设备 mechanical_data 设备物理信息数据
+ * @author
+ *
+ * @date 2023-09-05
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

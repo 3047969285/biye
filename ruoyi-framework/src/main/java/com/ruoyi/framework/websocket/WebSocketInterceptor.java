@@ -8,9 +8,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 /**
- * WebSocket拦截器，用于在握手时进行身份验证
- * 
- * @author ruoyi
+ * WebSocket拦截器 (重新引入)，用于在握手时提炼token等信息。
  */
 @Component
 public class WebSocketInterceptor implements HandshakeInterceptor
@@ -19,7 +17,6 @@ public class WebSocketInterceptor implements HandshakeInterceptor
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
             WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception
     {
-        // 从请求参数中获取token
         String query = request.getURI().getQuery();
         if (query != null && query.contains("token="))
         {
@@ -37,7 +34,6 @@ public class WebSocketInterceptor implements HandshakeInterceptor
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response,
             WebSocketHandler wsHandler, Exception exception)
     {
-        // 握手后的处理
+        // no-op
     }
 }
-

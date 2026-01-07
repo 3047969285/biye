@@ -26,9 +26,8 @@ public class EqMaintenanceRecord extends BaseEntity {
     private Date nextMaintenanceTime; //下次维护时间
     private BigDecimal maintenanceCost; //维护成本
     private String performedBy; //执行人员
-    private Clob description;  //维护描述
+    private String description;  //维护描述
     private String partsReplaced; //替换部件
-    private Clob technicianNotes; //技术员备注
+    private String technicianNotes; //技术员备注
     private Integer status; //状态 1-已完成 2-安排中 3-进行中 4已取消
-    private Clob remark; //备注
 }

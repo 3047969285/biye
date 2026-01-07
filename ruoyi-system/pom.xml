@@ -23,18 +23,10 @@
             <artifactId>ruoyi-common</artifactId>
         </dependency>
         
-        <!-- MyBatis依赖 -->
+        <!-- MyBatis Spring Boot Starter -->
         <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>3.5.13</version>
-        </dependency>
-        
-        <!-- MyBatis Spring整合包 -->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>2.1.1</version>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
 
     </dependencies>
