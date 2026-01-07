@@ -1,0 +1,188 @@
+@import './variables.scss';
+
+/* ========== 个人中心页面高对比度修复 ========== */
+
+/* 个人中心容器 */
+.app-container {
+  color: $text-primary !important;
+  
+  .el-card {
+    background: $secondary-bg !important;
+    border-color: $border-color !important;
+    color: $text-primary !important;
+    
+    .el-card__header {
+      background: $primary-bg !important;
+      border-bottom-color: $border-color !important;
+      color: $text-primary !important;
+      font-weight: 600 !important;
+      font-size: 16px !important;
+    }
+    
+    .el-card__body {
+      background: $secondary-bg !important;
+      color: $text-primary !important;
+    }
+  }
+}
+
+/* 列表组 - 高对比度 */
+.list-group {
+  .list-group-item {
+    background: $secondary-bg !important;
+    border-color: $border-color !important;
+    color: $text-primary !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    
+    .pull-right {
+      color: $text-primary !important;
+      font-weight: 500 !important;
+    }
+    
+    .svg-icon {
+      color: $accent-color !important;
+      margin-right: 8px;
+    }
+  }
+}
+
+/* 表单标签和输入框 */
+.el-form-item__label {
+  color: $text-primary !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+}
+
+.el-form-item__content {
+  color: $text-primary !important;
+  
+  .el-input__inner,
+  .el-textarea__inner {
+    background: $primary-bg !important;
+    border-color: $border-color !important;
+    color: $text-primary !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+  }
+}
+
+/* 单选框组 */
+.el-radio-group {
+  .el-radio {
+    color: $text-primary !important;
+    font-weight: 400 !important;
+    
+    .el-radio__label {
+      color: $text-primary !important;
+      font-weight: 400 !important;
+      padding-left: 8px;
+    }
+    
+    .el-radio__input.is-checked .el-radio__inner {
+      background-color: $accent-color !important;
+      border-color: $accent-color !important;
+    }
+  }
+}
+
+/* 标签页 */
+.el-tabs {
+  .el-tabs__header {
+    background: $primary-bg !important;
+    border-bottom-color: $border-color !important;
+  }
+  
+  .el-tabs__item {
+    color: $text-secondary !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    
+    &:hover {
+      color: $text-primary !important;
+    }
+    
+    &.is-active {
+      color: $accent-color !important;
+      font-weight: 600 !important;
+    }
+  }
+  
+  .el-tabs__active-bar {
+    background-color: $accent-color !important;
+  }
+  
+  .el-tabs__content {
+    color: $text-primary !important;
+  }
+}
+
+/* 头像上传区域 */
+.user-info-head {
+  .img-circle {
+    border: 2px solid $accent-color !important;
+  }
+  
+  &:hover:after {
+    color: $text-primary !important;
+    background: rgba(91, 141, 239, 0.7) !important;
+    font-weight: 600 !important;
+  }
+}
+
+/* 文本居中 */
+.text-center {
+  color: $text-primary !important;
+}
+
+/* 清除浮动 */
+.clearfix {
+  color: $text-primary !important;
+  
+  span {
+    color: $text-primary !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+  }
+}
+
+/* 对话框增强 */
+.el-dialog {
+  .el-dialog__header {
+    background: $primary-bg !important;
+    border-bottom-color: $border-color !important;
+    
+    .el-dialog__title {
+      color: $text-primary !important;
+      font-weight: 600 !important;
+      font-size: 18px !important;
+    }
+  }
+  
+  .el-dialog__body {
+    background: $secondary-bg !important;
+    color: $text-primary !important;
+  }
+}
+
+/* 裁剪器容器 */
+.avatar-upload-preview {
+  background: $primary-bg !important;
+  border: 1px solid $border-color !important;
+}
+
+/* 确保所有文字都是高对比度 */
+.app-container,
+.el-card,
+.el-form,
+.el-tabs,
+.list-group {
+  * {
+    color: $text-primary !important;
+  }
+  
+  .el-button {
+    color: $text-primary !important;
+    font-weight: 500 !important;
+  }
+}

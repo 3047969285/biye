@@ -6,8 +6,10 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.domain.AiMaintenanceForm;
 import com.ruoyi.system.mapper.AiMaintenanceFormMapper;
 import com.thor.springai.service.ChromaRagService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +28,17 @@ public class RagController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(RagController.class);
     
-    @Autowired
-    private ChromaRagService chromaRagService;
+    private final ChromaRagService chromaRagService;
+    private final AiMaintenanceFormMapper maintenanceFormMapper;
+    private final ChatClient chatClient;
 
-    @Autowired
-    private AiMaintenanceFormMapper maintenanceFormMapper;
+    public RagController(ChromaRagService chromaRagService,
+                         AiMaintenanceFormMapper maintenanceFormMapper,
+                         ChatClient.Builder builder) {
+        this.chromaRagService = chromaRagService;
+        this.maintenanceFormMapper = maintenanceFormMapper;
+        this.chatClient = builder.build();
+    }
 
     /**
      * 添加文档到 Chroma 知识库
@@ -57,6 +65,61 @@ public class RagController extends BaseController {
             logger.error("添加文档失败: ", e);
             return AjaxResult.error("添加文档失败: " + e.getMessage());
         }
+    }
+
+    /**
+     * 基于 RAG 的智能问答
+     * 
+     * @param question 用户问题
+     * @param topK 检索文档数量（默认3）
+     * @return AI回答
+     */
+    @GetMapping("/ask")
+    public AjaxResult askWithRag(@RequestParam(name = "question") String question,
+                                  @RequestParam(name = "topK", defaultValue = "3") int topK) {
+        try {
+            String answer = chromaRagService.askWithRag(question, topK);
+            return AjaxResult.success(answer);
+        } catch (Exception e) {
+            logger.error("RAG问答失败: ", e);
+            return AjaxResult.error("问答失败: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 基于 RAG 的智能问答（流式）
+     */
+    @GetMapping(value = "/ask/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter askWithRagStream(@RequestParam(name = "question") String question,
+                                       @RequestParam(name = "topK", defaultValue = "3") int topK) {
+        SseEmitter emitter = new SseEmitter(0L);
+
+        try {
+            String prompt = chromaRagService.buildRagPrompt(question, topK);
+            // 给定系统角色，让回答保持运维专家语气
+            String systemPrompt = "你是智能电网运维专家，请基于提供的资料回答，先简述结论，再给步骤/注意事项。";
+
+            chatClient.prompt()
+                    .system(systemPrompt)
+                    .user(prompt)
+                    .stream()
+                    .content()
+                    .subscribe(
+                            chunk -> {
+                                try {
+                                    emitter.send(SseEmitter.event().data(chunk));
+                                } catch (Exception ex) {
+                                    emitter.completeWithError(ex);
+                                }
+                            },
+                            emitter::completeWithError,
+                            emitter::complete
+                    );
+        } catch (Exception e) {
+            emitter.completeWithError(e);
+        }
+
+        return emitter;
     }
 
     /**
@@ -121,6 +184,22 @@ public class RagController extends BaseController {
         } catch (Exception e) {
             logger.error("删除文档失败: ", e);
             return AjaxResult.error("删除失败: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 清空知识库
+     * 
+     * @return 操作结果
+     */
+    @PostMapping("/clear")
+    public AjaxResult clearKnowledgeBase() {
+        try {
+            chromaRagService.clearKnowledgeBase();
+            return AjaxResult.success("知识库已清空");
+        } catch (Exception e) {
+            logger.error("清空知识库失败: ", e);
+            return AjaxResult.error("清空失败: " + e.getMessage());
         }
     }
 

@@ -338,3 +338,61 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import "~@/assets/styles/variables.scss";
+
+.app-container {
+  background: transparent;
+  color: $text-primary;
+}
+
+.head-container {
+  background: $secondary-bg;
+  border: 1px solid $border-color;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 0;
+
+  :deep(.el-input__inner) {
+    background: $primary-bg;
+    color: $text-primary;
+    border-color: $border-color;
+  }
+}
+
+:deep(.el-tree) {
+  background: $primary-bg;
+  border: 1px solid $border-color;
+  color: $text-primary;
+}
+
+:deep(.el-table) {
+  background: $secondary-bg;
+  color: $text-primary;
+}
+
+:deep(.el-table th),
+:deep(.el-table tr),
+:deep(.el-table td) {
+  background: $secondary-bg;
+  color: $text-primary;
+}
+
+:deep(.el-dialog) {
+  background: $primary-bg;
+  border: 1px solid $border-color;
+}
+
+:deep(.el-dialog__header),
+:deep(.el-dialog__body),
+:deep(.el-dialog__footer) {
+  background: $primary-bg;
+  color: $text-primary;
+}
+
+/* 避免加载遮罩白闪 */
+:deep(.el-loading-mask) {
+  background-color: rgba(26, 31, 46, 0.88);
+}
+</style>

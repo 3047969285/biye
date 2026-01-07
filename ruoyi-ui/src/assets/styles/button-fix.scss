@@ -1,0 +1,186 @@
+@import './variables.scss';
+
+/* ========== 按钮文字清晰度增强 ========== */
+
+/* 所有按钮强制高对比度文字 */
+.el-button {
+  /* 确保文字颜色 */
+  color: $text-primary !important;
+  
+  /* 确保内部元素也使用正确颜色 */
+  * {
+    color: inherit !important;
+  }
+  
+  /* 图标颜色 */
+  i.el-icon,
+  .el-icon {
+    color: inherit !important;
+  }
+  
+  /* 文字和图标都清晰 */
+  span {
+    color: inherit !important;
+    font-weight: inherit !important;
+  }
+  
+  /* 默认按钮 */
+  &:not(.el-button--primary):not(.el-button--success):not(.el-button--warning):not(.el-button--danger):not(.el-button--info):not(.el-button--text) {
+    background: $secondary-bg !important;
+    border-color: $border-color !important;
+    color: $text-primary !important;
+    font-weight: 500 !important;
+    
+    &:hover {
+      background: $hover-bg !important;
+      border-color: $accent-color !important;
+      color: $text-primary !important;
+    }
+  }
+  
+  /* 主要按钮 - 蓝色背景，白色文字 */
+  &.el-button--primary {
+    background: $accent-color !important;
+    border-color: $accent-color !important;
+    color: $text-primary !important;
+    font-weight: 600 !important;
+    
+    &:hover,
+    &:focus,
+    &:active {
+      background: lighten($accent-color, 10%) !important;
+      border-color: lighten($accent-color, 10%) !important;
+      color: $text-primary !important;
+    }
+  }
+  
+  /* 成功按钮 - 绿色背景，白色文字 */
+  &.el-button--success {
+    background: $green !important;
+    border-color: $green !important;
+    color: $text-primary !important;
+    font-weight: 600 !important;
+    
+    &:hover,
+    &:focus,
+    &:active {
+      background: lighten($green, 10%) !important;
+      border-color: lighten($green, 10%) !important;
+      color: $text-primary !important;
+    }
+  }
+  
+  /* 警告按钮 - 黄色背景，白色文字 */
+  &.el-button--warning {
+    background: $yellow !important;
+    border-color: $yellow !important;
+    color: $text-primary !important;
+    font-weight: 600 !important;
+    
+    &:hover,
+    &:focus,
+    &:active {
+      background: lighten($yellow, 10%) !important;
+      border-color: lighten($yellow, 10%) !important;
+      color: $text-primary !important;
+    }
+  }
+  
+  /* 危险按钮 - 红色背景，白色文字 */
+  &.el-button--danger {
+    background: $red !important;
+    border-color: $red !important;
+    color: $text-primary !important;
+    font-weight: 600 !important;
+    
+    &:hover,
+    &:focus,
+    &:active {
+      background: lighten($red, 10%) !important;
+      border-color: lighten($red, 10%) !important;
+      color: $text-primary !important;
+    }
+  }
+  
+  /* 信息按钮 - 灰色背景，白色文字 */
+  &.el-button--info {
+    background: $secondary-bg !important;
+    border-color: $border-color !important;
+    color: $text-primary !important;
+    font-weight: 500 !important;
+    
+    &:hover,
+    &:focus,
+    &:active {
+      background: $hover-bg !important;
+      border-color: $accent-color !important;
+      color: $text-primary !important;
+    }
+  }
+  
+  /* 文本按钮 - 蓝色文字 */
+  &.el-button--text {
+    background: transparent !important;
+    border: none !important;
+    color: $accent-color !important;
+    font-weight: 500 !important;
+    padding: 0 !important;
+    
+    &:hover,
+    &:focus,
+    &:active {
+      color: lighten($accent-color, 15%) !important;
+      background: transparent !important;
+    }
+  }
+  
+  /* 禁用状态 */
+  &.is-disabled,
+  &.is-disabled:hover,
+  &.is-disabled:focus,
+  &.is-disabled:active {
+    color: $text-disabled !important;
+    background: $primary-bg !important;
+    border-color: $border-color !important;
+    cursor: not-allowed !important;
+    
+    * {
+      color: $text-disabled !important;
+    }
+  }
+  
+  /* 小尺寸按钮 */
+  &.el-button--mini {
+    font-size: 12px !important;
+    padding: 7px 15px !important;
+    font-weight: 500 !important;
+  }
+  
+  &.el-button--small {
+    font-size: 13px !important;
+    padding: 9px 15px !important;
+    font-weight: 500 !important;
+  }
+  
+  &.el-button--medium {
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    font-weight: 500 !important;
+  }
+}
+
+/* 按钮组 */
+.el-button-group {
+  .el-button {
+    color: $text-primary !important;
+    
+    &.el-button--primary {
+      color: $text-primary !important;
+    }
+  }
+}
+
+/* 确保按钮内的所有元素都清晰 */
+.el-button + .el-button {
+  margin-left: 10px;
+}

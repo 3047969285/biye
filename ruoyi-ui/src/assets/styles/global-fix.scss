@@ -1,0 +1,268 @@
+@import './variables.scss';
+
+/* ========== 全局修复：去除所有白色背景 ========== */
+
+/* 表格强制暗色 + 高对比度文字 */
+.el-table {
+  background-color: $secondary-bg !important;
+  color: $text-primary !important;
+  
+  th, td {
+    background-color: $secondary-bg !important;
+    color: $text-primary !important;
+    border-color: $border-color !important;
+  }
+  
+  th {
+    background-color: $primary-bg !important;
+    color: $text-primary !important;
+    font-weight: 500 !important;
+  }
+  
+  td {
+    color: $text-primary !important;
+  }
+  
+  tr {
+    background-color: $secondary-bg !important;
+    
+    &:hover td {
+      background-color: $hover-bg !important;
+      color: $text-primary !important;
+    }
+  }
+  
+  .el-table__body-wrapper {
+    background-color: $secondary-bg !important;
+  }
+  
+  .el-table__header-wrapper {
+    background-color: $primary-bg !important;
+  }
+  
+  .el-table__empty-block {
+    background-color: $secondary-bg !important;
+  }
+  
+  .el-table__empty-text {
+    color: $text-secondary !important;
+  }
+  
+  /* 确保所有文字都是高对比度 */
+  .cell {
+    color: $text-primary !important;
+  }
+  
+  .el-button--text {
+    color: $accent-color !important;
+    
+    &:hover {
+      color: lighten($accent-color, 15%) !important;
+    }
+  }
+}
+
+/* 表单标签 */
+.el-form-item__label {
+  color: $text-primary !important;
+  font-weight: 500 !important;
+}
+
+/* 表单内容文字 */
+.el-form-item__content {
+  color: $text-primary !important;
+}
+
+/* 描述列表 */
+.el-descriptions {
+  background-color: $secondary-bg !important;
+  
+  .el-descriptions__header {
+    color: $text-primary !important;
+  }
+  
+  .el-descriptions__title {
+    color: $text-primary !important;
+  }
+  
+  .el-descriptions__label {
+    background-color: $primary-bg !important;
+    color: $text-primary !important;
+    border-color: $border-color !important;
+  }
+  
+  .el-descriptions__content {
+    background-color: $secondary-bg !important;
+    color: $text-primary !important;
+    border-color: $border-color !important;
+  }
+}
+
+/* 分页组件 */
+.pagination-container {
+  .el-pagination {
+    .el-pagination__total,
+    .el-pagination__jump {
+      color: $text-primary !important;
+    }
+  }
+}
+
+/* 确保所有输入框都是暗色 + 高对比度文字 */
+.el-input__inner,
+.el-textarea__inner,
+.el-select .el-input__inner {
+  background-color: $primary-bg !important;
+  color: $text-primary !important;
+  border-color: $border-color !important;
+  font-weight: 400 !important;
+}
+
+.el-input__inner::placeholder,
+.el-textarea__inner::placeholder {
+  color: $text-disabled !important;
+  opacity: 0.8 !important;
+}
+
+/* 确保所有下拉框都是暗色 */
+.el-select-dropdown {
+  background-color: $secondary-bg !important;
+  
+  .el-select-dropdown__item {
+    color: $text-primary !important;
+    
+    &:hover {
+      background-color: $hover-bg !important;
+    }
+    
+    &.selected {
+      color: $accent-color !important;
+      background-color: $hover-bg !important;
+    }
+  }
+}
+
+/* 确保对话框内容区域是暗色 */
+.el-dialog__body {
+  background-color: $secondary-bg !important;
+  color: $text-primary !important;
+}
+
+/* 确保按钮文字清晰 - 增强版 */
+.el-button {
+  color: $text-primary !important;
+  font-weight: 500 !important;
+  text-shadow: none !important;
+  
+  span {
+    color: inherit !important;
+  }
+  
+  i {
+    color: inherit !important;
+  }
+  
+  &.el-button--text {
+    color: $accent-color !important;
+    font-weight: 500 !important;
+    
+    &:hover {
+      color: lighten($accent-color, 15%) !important;
+      background: $hover-bg !important;
+    }
+  }
+  
+  &.el-button--primary {
+    color: $text-primary !important;
+    font-weight: 600 !important;
+    background: $accent-color !important;
+    border-color: $accent-color !important;
+    
+    &:hover {
+      color: $text-primary !important;
+      background: lighten($accent-color, 10%) !important;
+    }
+  }
+  
+  &.el-button--success {
+    color: $text-primary !important;
+    font-weight: 600 !important;
+  }
+  
+  &.el-button--warning {
+    color: $text-primary !important;
+    font-weight: 600 !important;
+  }
+  
+  &.el-button--danger {
+    color: $text-primary !important;
+    font-weight: 600 !important;
+  }
+  
+  &.el-button--info {
+    color: $text-primary !important;
+    font-weight: 500 !important;
+  }
+  
+  &.el-button--mini {
+    font-size: 12px !important;
+    padding: 7px 15px !important;
+  }
+  
+  &.el-button--small {
+    font-size: 13px !important;
+    padding: 9px 15px !important;
+  }
+  
+  /* 确保按钮图标也清晰 */
+  .el-icon {
+    color: inherit !important;
+  }
+}
+
+/* 全局文字颜色增强 */
+body, .app-container, .el-card, .el-dialog {
+  color: $text-primary !important;
+}
+
+/* 标签文字 */
+.el-tag {
+  color: $text-primary !important;
+  font-weight: 500 !important;
+  
+  &.el-tag--success {
+    color: #10B981 !important;
+  }
+  
+  &.el-tag--warning {
+    color: #F59E0B !important;
+  }
+  
+  &.el-tag--danger {
+    color: #EF4444 !important;
+  }
+  
+  &.el-tag--info {
+    color: $text-secondary !important;
+  }
+}
+
+/* 分页文字 */
+.el-pagination {
+  color: $text-primary !important;
+  
+  .el-pagination__total,
+  .el-pagination__jump {
+    color: $text-primary !important;
+    font-weight: 400 !important;
+  }
+  
+  .el-pager li {
+    color: $text-primary !important;
+    
+    &.active {
+      color: $text-primary !important;
+      font-weight: 600 !important;
+    }
+  }
+}

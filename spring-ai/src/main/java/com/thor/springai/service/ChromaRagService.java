@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * 基于内存向量存储的 RAG 服务
@@ -34,7 +34,6 @@ public class ChromaRagService {
     @Value("${spring.ai.vectorstore.simple.store-file:data/vector-store.json}")
     private String vectorStoreFile;
 
-    @Autowired
     public ChromaRagService(ChatClient.Builder builder, 
                            @Autowired(required = false) VectorStore vectorStore,
                            TokenTextSplitter textSplitter) {
@@ -94,6 +93,73 @@ public class ChromaRagService {
     }
 
     /**
+     * 基于 RAG 的普通问答
+     * 
+     * @param question 用户问题
+     * @param topK 返回最相关的文档数量
+     * @return AI回答文本
+     */
+    public String askWithRag(String question, int topK) {
+        String prompt = buildRagPrompt(question, topK);
+        String systemPrompt = "你是智能电网运维专家，请基于参考资料回答，先给结论再给步骤和注意事项。";
+
+        try {
+            String answer = chatClient.prompt()
+                    .system(systemPrompt)
+                    .user(prompt)
+                    .call()
+                    .content();
+
+            logger.info("RAG问答完成 - 问题: {}, prompt长度: {}", question, prompt.length());
+            return answer;
+
+        } catch (Exception e) {
+            logger.error("RAG 问答失败: ", e);
+            throw new RuntimeException("RAG 问答失败: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 构建 RAG 提示词（可用于流式和普通问答）
+     */
+    public String buildRagPrompt(String question, int topK) {
+        if (vectorStore == null) {
+            logger.warn("向量存储未配置，使用原始问题作为提示词");
+            return question;
+        }
+
+        // 1. 从向量存储检索相关文档
+        List<Document> relevantDocs = Optional.ofNullable(vectorStore.similaritySearch(question))
+                .orElse(Collections.emptyList());
+
+        // 限制返回数量
+        if (relevantDocs.size() > topK) {
+            relevantDocs = relevantDocs.subList(0, topK);
+        }
+
+        // 2. 构建上下文
+        StringBuilder context = new StringBuilder();
+        if (!relevantDocs.isEmpty()) {
+            context.append("基于以下参考资料回答问题：\n\n");
+            for (int i = 0; i < relevantDocs.size(); i++) {
+                context.append("参考资料 ").append(i + 1).append(":\n");
+                context.append(relevantDocs.get(i).getText()).append("\n\n");
+            }
+        }
+
+        // 3. 构建提示词
+        if (context.length() > 0) {
+            return String.format(
+                "%s\n\n用户问题：%s\n\n请基于上述参考资料，提供专业、准确的回答。",
+                context.toString(), question
+            );
+        } else {
+            logger.warn("未找到相关文档，使用通用 AI 回答");
+            return question;
+        }
+    }
+
+    /**
      * 基于 RAG 的问答（固定输出格式）
      * 
      * @param question 用户问题
@@ -108,7 +174,8 @@ public class ChromaRagService {
         
         try {
             // 1. 从向量存储检索相关文档
-            List<Document> relevantDocs = vectorStore.similaritySearch(question);
+            List<Document> relevantDocs = Optional.ofNullable(vectorStore.similaritySearch(question))
+                    .orElse(Collections.emptyList());
             
             // 限制返回数量
             if (relevantDocs.size() > topK) {
@@ -117,7 +184,7 @@ public class ChromaRagService {
             
             // 2. 构建上下文
             StringBuilder context = new StringBuilder();
-            if (relevantDocs != null && !relevantDocs.isEmpty()) {
+            if (!relevantDocs.isEmpty()) {
                 for (int i = 0; i < relevantDocs.size(); i++) {
                     context.append("参考文档 ").append(i + 1).append(":\n");
                     context.append(relevantDocs.get(i).getText()).append("\n\n");
@@ -241,6 +308,42 @@ public class ChromaRagService {
         } catch (Exception e) {
             logger.error("删除文档失败: ", e);
             throw new RuntimeException("删除文档失败: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 清空知识库
+     */
+    public void clearKnowledgeBase() {
+        if (vectorStore == null) {
+            throw new RuntimeException("向量存储未配置");
+        }
+        
+        try {
+            // SimpleVectorStore 清空方法：删除存储文件并重新创建
+            if (vectorStore instanceof org.springframework.ai.vectorstore.SimpleVectorStore) {
+                try {
+                    File storeFile = new File(vectorStoreFile);
+                    if (storeFile.exists()) {
+                        storeFile.delete();
+                        logger.info("已删除向量存储文件: {}", vectorStoreFile);
+                    }
+                    // 重新创建空的向量存储（通过保存空文件）
+                    storeFile.getParentFile().mkdirs();
+                    storeFile.createNewFile();
+                    logger.info("知识库已清空");
+                } catch (Exception e) {
+                    logger.warn("清空向量存储文件失败: {}", e.getMessage());
+                    throw new RuntimeException("清空知识库失败: " + e.getMessage());
+                }
+            } else {
+                // 其他类型的向量存储，尝试通过删除所有文档实现
+                logger.warn("当前向量存储类型不支持直接清空，请手动删除存储文件");
+                throw new RuntimeException("当前向量存储类型不支持清空操作");
+            }
+        } catch (Exception e) {
+            logger.error("清空知识库失败: ", e);
+            throw new RuntimeException("清空知识库失败: " + e.getMessage());
         }
     }
 

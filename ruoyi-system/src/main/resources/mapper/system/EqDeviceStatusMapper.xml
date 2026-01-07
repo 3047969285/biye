@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqDeviceStatusMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.EqDeviceStatus" id="EqDeviceStatusResult">
+        <result property="statusId"    column="status_id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="timestamp"    column="timestamp"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="humidity"    column="humidity"    />
+        <result property="pressure"    column="pressure"    />
+        <result property="vibration"    column="vibration"    />
+        <result property="current"    column="current"    />
+        <result property="voltage"    column="voltage"    />
+        <result property="power"    column="power"    />
+        <result property="rpm"    column="rpm"    />
+        <result property="flowRate"    column="flow_rate"    />
+        <result property="liquidLevel"    column="liquid_level"    />
+        <result property="status"    column="status"    />
+        <result property="runtimeHours"    column="runtime_hours"    />
+        <result property="startCount"    column="start_count"    />
+        <result property="faultCount"    column="fault_count"    />
+        <result property="alarmCount"    column="alarm_count"    />
+        <result property="efficiency"    column="efficiency"    />
+        <result property="loadFactor"    column="load_factor"    />
+        <result property="ambientTemp"    column="ambient_temp"    />
+        <result property="ambientHumidity"    column="ambient_humidity"    />
+        <result property="noiseLevel"    column="noise_level"    />
+        <result property="airQuality"    column="air_quality"    />
+        <result property="faultCode"    column="fault_code"    />
+        <result property="faultDescription"    column="fault_description"    />
+        <result property="maintenanceRequired"    column="maintenance_required"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectEqDeviceStatusVo">
+        select status_id, device_id, timestamp, temperature, humidity, pressure, vibration, current, voltage, power, rpm, flow_rate, liquid_level, status, runtime_hours, start_count, fault_count, alarm_count, efficiency, load_factor, ambient_temp, ambient_humidity, noise_level, air_quality, fault_code, fault_description, maintenance_required, remark from eq_device_status
+    </sql>
+
+    <select id="selectEqDeviceStatusList" parameterType="com.ruoyi.system.domain.EqDeviceStatus" resultMap="EqDeviceStatusResult">
+        <include refid="selectEqDeviceStatusVo"/>
+        <where>  
+            <if test="deviceId != null "> and device_id = #{deviceId}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+        order by timestamp desc
+    </select>
+    
+    <select id="selectEqDeviceStatusByStatusId" parameterType="Long" resultMap="EqDeviceStatusResult">
+        <include refid="selectEqDeviceStatusVo"/>
+        where status_id = #{statusId}
+    </select>
+        
+    <insert id="insertEqDeviceStatus" parameterType="com.ruoyi.system.domain.EqDeviceStatus">
+        insert into eq_device_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="statusId != null">status_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="timestamp != null">timestamp,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test="humidity != null">humidity,</if>
+            <if test="pressure != null">pressure,</if>
+            <if test="vibration != null">vibration,</if>
+            <if test="current != null">current,</if>
+            <if test="voltage != null">voltage,</if>
+            <if test="power != null">power,</if>
+            <if test="rpm != null">rpm,</if>
+            <if test="flowRate != null">flow_rate,</if>
+            <if test="liquidLevel != null">liquid_level,</if>
+            <if test="status != null">status,</if>
+            <if test="runtimeHours != null">runtime_hours,</if>
+            <if test="startCount != null">start_count,</if>
+            <if test="faultCount != null">fault_count,</if>
+            <if test="alarmCount != null">alarm_count,</if>
+            <if test="efficiency != null">efficiency,</if>
+            <if test="loadFactor != null">load_factor,</if>
+            <if test="ambientTemp != null">ambient_temp,</if>
+            <if test="ambientHumidity != null">ambient_humidity,</if>
+            <if test="noiseLevel != null">noise_level,</if>
+            <if test="airQuality != null">air_quality,</if>
+            <if test="faultCode != null">fault_code,</if>
+            <if test="faultDescription != null">fault_description,</if>
+            <if test="maintenanceRequired != null">maintenance_required,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="statusId != null">#{statusId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="timestamp != null">#{timestamp},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test="humidity != null">#{humidity},</if>
+            <if test="pressure != null">#{pressure},</if>
+            <if test="vibration != null">#{vibration},</if>
+            <if test="current != null">#{current},</if>
+            <if test="voltage != null">#{voltage},</if>
+            <if test="power != null">#{power},</if>
+            <if test="rpm != null">#{rpm},</if>
+            <if test="flowRate != null">#{flowRate},</if>
+            <if test="liquidLevel != null">#{liquidLevel},</if>
+            <if test="status != null">#{status},</if>
+            <if test="runtimeHours != null">#{runtimeHours},</if>
+            <if test="startCount != null">#{startCount},</if>
+            <if test="faultCount != null">#{faultCount},</if>
+            <if test="alarmCount != null">#{alarmCount},</if>
+            <if test="efficiency != null">#{efficiency},</if>
+            <if test="loadFactor != null">#{loadFactor},</if>
+            <if test="ambientTemp != null">#{ambientTemp},</if>
+            <if test="ambientHumidity != null">#{ambientHumidity},</if>
+            <if test="noiseLevel != null">#{noiseLevel},</if>
+            <if test="airQuality != null">#{airQuality},</if>
+            <if test="faultCode != null">#{faultCode},</if>
+            <if test="faultDescription != null">#{faultDescription},</if>
+            <if test="maintenanceRequired != null">#{maintenanceRequired},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEqDeviceStatus" parameterType="com.ruoyi.system.domain.EqDeviceStatus">
+        update eq_device_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="timestamp != null">timestamp = #{timestamp},</if>
+            <if test="temperature != null">temperature = #{temperature},</if>
+            <if test="humidity != null">humidity = #{humidity},</if>
+            <if test="pressure != null">pressure = #{pressure},</if>
+            <if test="vibration != null">vibration = #{vibration},</if>
+            <if test="current != null">current = #{current},</if>
+            <if test="voltage != null">voltage = #{voltage},</if>
+            <if test="power != null">power = #{power},</if>
+            <if test="rpm != null">rpm = #{rpm},</if>
+            <if test="flowRate != null">flow_rate = #{flowRate},</if>
+            <if test="liquidLevel != null">liquid_level = #{liquidLevel},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="runtimeHours != null">runtime_hours = #{runtimeHours},</if>
+            <if test="startCount != null">start_count = #{startCount},</if>
+            <if test="faultCount != null">fault_count = #{faultCount},</if>
+            <if test="alarmCount != null">alarm_count = #{alarmCount},</if>
+            <if test="efficiency != null">efficiency = #{efficiency},</if>
+            <if test="loadFactor != null">load_factor = #{loadFactor},</if>
+            <if test="ambientTemp != null">ambient_temp = #{ambientTemp},</if>
+            <if test="ambientHumidity != null">ambient_humidity = #{ambientHumidity},</if>
+            <if test="noiseLevel != null">noise_level = #{noiseLevel},</if>
+            <if test="airQuality != null">air_quality = #{airQuality},</if>
+            <if test="faultCode != null">fault_code = #{faultCode},</if>
+            <if test="faultDescription != null">fault_description = #{faultDescription},</if>
+            <if test="maintenanceRequired != null">maintenance_required = #{maintenanceRequired},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where status_id = #{statusId}
+    </update>
+
+    <delete id="deleteEqDeviceStatusByStatusId" parameterType="Long">
+        delete from eq_device_status where status_id = #{statusId}
+    </delete>
+
+    <delete id="deleteEqDeviceStatusByStatusIds" parameterType="String">
+        delete from eq_device_status where status_id in 
+        <foreach item="statusId" collection="array" open="(" separator="," close=")">
+            #{statusId}
+        </foreach>
+    </delete>
+</mapper>

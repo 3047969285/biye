@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Map;
 
 /**
  * 数据库智能查询控制器 - AI 辅助数据库查询
@@ -48,14 +49,20 @@ public class DatabaseQueryController extends BaseController {
                 dbContext, question
             );
             
+            java.util.Objects.requireNonNull(prompt, "prompt");
+
             // 让 AI 生成 SQL
             String sql = chatClient.prompt()
                     .user(prompt)
                     .call()
                     .content();
+            if (sql == null || sql.trim().isEmpty()) {
+                return AjaxResult.error("AI 未能生成 SQL，请重试或检查提示词。");
+            }
+            sql = sql.trim();
             
             // 清理 SQL（移除 markdown 代码块标记）
-            sql = sql.trim();
+            sql = sql == null ? "" : sql.trim();
             if (sql.startsWith("```sql")) {
                 sql = sql.substring(6);
             }
@@ -70,12 +77,25 @@ public class DatabaseQueryController extends BaseController {
             logger.info("AI 生成的 SQL: {}", sql);
             
             // 执行查询
-            String result = databaseQueryService.executeQuery(sql);
-            
-            return AjaxResult.success()
-                    .put("question", question)
-                    .put("sql", sql)
-                    .put("result", result);
+            Map<String, Object> result = databaseQueryService.executeQuery(sql);
+            Map<String, Object> resp = new java.util.HashMap<>(result);
+
+            // 成功时追加 AI 总结（大模型摘要 + 易读摘要）
+            if (Boolean.TRUE.equals(result.get("success"))) {
+                String summary = databaseQueryService.summarizeResult(question, sql, result);
+                String readable = databaseQueryService.buildReadableSummary(result);
+                // 优先返回可读摘要，其次 AI 摘要
+                String finalSummary = (summary != null && !summary.trim().isEmpty())
+                        ? summary.trim()
+                        : readable;
+                resp.put("aiSummary", finalSummary);
+                resp.put("readableSummary", readable);
+                // 保留原始数据但迁移到 rawData，避免前端直接展示大列表
+                resp.put("rawData", result.get("data"));
+                resp.remove("data");
+            }
+
+            return AjaxResult.success(resp);
             
         } catch (Exception e) {
             logger.error("AI 数据库查询失败: ", e);
@@ -92,7 +112,7 @@ public class DatabaseQueryController extends BaseController {
     @PostMapping("/query")
     public AjaxResult executeQuery(@RequestParam(name = "sql") String sql) {
         try {
-            String result = databaseQueryService.executeQuery(sql);
+            var result = databaseQueryService.executeQuery(sql);
             return AjaxResult.success(result);
         } catch (Exception e) {
             logger.error("执行 SQL 失败: ", e);

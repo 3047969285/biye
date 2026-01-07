@@ -1,13 +1,13 @@
-/* ========== 统一配色方案：简约高级 ========== */
-// 主色调：深灰蓝 + 简约蓝
-$primary-bg: #1A1F2E;        // 主背景色
-$secondary-bg: #242938;      // 次级背景色
-$border-color: #2D3548;      // 边框色
-$accent-color: #5B8DEF;      // 强调色（统一蓝色）
-$text-primary: #FFFFFF;      // 主要文字（纯白，最高对比度）
-$text-secondary: #E2E8F0;    // 次要文字（更亮的浅灰，提高可读性）
-$text-disabled: #94A3B8;     // 禁用文字（更亮）
-$hover-bg: rgba(91, 141, 239, 0.08);  // 悬停背景
+/* ========== 统一配色方案：浅蓝科技感（更亮、更易读） ========== */
+// 主色调：浅蓝 + 科技蓝
+$primary-bg: #1B2435;        // 主背景色（较亮深蓝）
+$secondary-bg: #222D42;      // 次级背景色
+$border-color: #2E3B55;      // 边框色
+$accent-color: #5EA1FF;      // 强调色（统一蓝色）
+$text-primary: #F5F7FB;      // 主要文字（高对比）
+$text-secondary: #D1D7E6;    // 次要文字
+$text-disabled: #9AA6BF;     // 禁用文字
+$hover-bg: rgba(94, 161, 255, 0.15);  // 悬停背景（同一蓝色系）
 
 // 状态颜色（统一色系）
 $blue: $accent-color;

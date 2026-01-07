@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqDeviceMapper">
+
+    <resultMap type="com.ruoyi.system.domain.EqDevice" id="EqDeviceResult">
+        <id     property="deviceId"           column="device_id"          />
+        <result property="deviceNo"           column="device_no"          />
+        <result property="deviceName"         column="device_name"        />
+        <result property="deviceType"         column="device_type"        />
+        <result property="model"              column="model"              />
+        <result property="serialNumber"       column="serial_number"      />
+        <result property="manufacturer"       column="manufacturer"       />
+        <result property="location"           column="location"           />
+        <result property="department"         column="department"         />
+        <result property="installDate"        column="install_date"       />
+        <result property="warrantyExpiration" column="warranty_expiration"/>
+        <result property="status"             column="status"             />
+        <result property="assetValue"         column="asset_value"        />
+        <result property="lifespanYears"      column="lifespan_years"     />
+        <result property="responsiblePerson"  column="responsible_person" />
+        <result property="remark"             column="remark"             />
+        <result property="createBy"           column="create_by"          />
+        <result property="createTime"         column="create_time"        />
+        <result property="updateBy"           column="update_by"          />
+        <result property="updateTime"         column="update_time"        />
+    </resultMap>
+
+    <sql id="selectEqDeviceVo">
+        select device_id, device_no, device_name, device_type, model, serial_number, 
+               manufacturer, location, department, install_date, warranty_expiration, 
+               status, asset_value, lifespan_years, responsible_person, remark, 
+               create_by, create_time, update_by, update_time
+        from eq_device
+    </sql>
+
+    <select id="selectEqDeviceList" parameterType="com.ruoyi.system.domain.EqDevice" resultMap="EqDeviceResult">
+        <include refid="selectEqDeviceVo"/>
+        <where>
+            <if test="deviceNo != null and deviceNo != ''">
+                AND device_no like concat('%', #{deviceNo}, '%')
+            </if>
+            <if test="deviceName != null and deviceName != ''">
+                AND device_name like concat('%', #{deviceName}, '%')
+            </if>
+            <if test="deviceType != null and deviceType != ''">
+                AND device_type = #{deviceType}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="location != null and location != ''">
+                AND location like concat('%', #{location}, '%')
+            </if>
+            <if test="department != null and department != ''">
+                AND department = #{department}
+            </if>
+            <if test="responsiblePerson != null and responsiblePerson != ''">
+                AND responsible_person like concat('%', #{responsiblePerson}, '%')
+            </if>
+        </where>
+        order by device_id desc
+    </select>
+
+    <select id="selectEqDeviceByDeviceId" parameterType="Long" resultMap="EqDeviceResult">
+        <include refid="selectEqDeviceVo"/>
+        where device_id = #{deviceId}
+    </select>
+
+    <select id="selectEqDeviceByDeviceNo" parameterType="String" resultMap="EqDeviceResult">
+        <include refid="selectEqDeviceVo"/>
+        where device_no = #{deviceNo}
+    </select>
+
+    <insert id="insertEqDevice" parameterType="com.ruoyi.system.domain.EqDevice" useGeneratedKeys="true" keyProperty="deviceId">
+        insert into eq_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceNo != null and deviceNo != ''">device_no,</if>
+            <if test="deviceName != null and deviceName != ''">device_name,</if>
+            <if test="deviceType != null and deviceType != ''">device_type,</if>
+            <if test="model != null">model,</if>
+            <if test="serialNumber != null">serial_number,</if>
+            <if test="manufacturer != null">manufacturer,</if>
+            <if test="location != null">location,</if>
+            <if test="department != null">department,</if>
+            <if test="installDate != null">install_date,</if>
+            <if test="warrantyExpiration != null">warranty_expiration,</if>
+            <if test="status != null">status,</if>
+            <if test="assetValue != null">asset_value,</if>
+            <if test="lifespanYears != null">lifespan_years,</if>
+            <if test="responsiblePerson != null">responsible_person,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceNo != null and deviceNo != ''">#{deviceNo},</if>
+            <if test="deviceName != null and deviceName != ''">#{deviceName},</if>
+            <if test="deviceType != null and deviceType != ''">#{deviceType},</if>
+            <if test="model != null">#{model},</if>
+            <if test="serialNumber != null">#{serialNumber},</if>
+            <if test="manufacturer != null">#{manufacturer},</if>
+            <if test="location != null">#{location},</if>
+            <if test="department != null">#{department},</if>
+            <if test="installDate != null">#{installDate},</if>
+            <if test="warrantyExpiration != null">#{warrantyExpiration},</if>
+            <if test="status != null">#{status},</if>
+            <if test="assetValue != null">#{assetValue},</if>
+            <if test="lifespanYears != null">#{lifespanYears},</if>
+            <if test="responsiblePerson != null">#{responsiblePerson},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateEqDevice" parameterType="com.ruoyi.system.domain.EqDevice">
+        update eq_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceNo != null and deviceNo != ''">device_no = #{deviceNo},</if>
+            <if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
+            <if test="deviceType != null and deviceType != ''">device_type = #{deviceType},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="serialNumber != null">serial_number = #{serialNumber},</if>
+            <if test="manufacturer != null">manufacturer = #{manufacturer},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="installDate != null">install_date = #{installDate},</if>
+            <if test="warrantyExpiration != null">warranty_expiration = #{warrantyExpiration},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="assetValue != null">asset_value = #{assetValue},</if>
+            <if test="lifespanYears != null">lifespan_years = #{lifespanYears},</if>
+            <if test="responsiblePerson != null">responsible_person = #{responsiblePerson},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where device_id = #{deviceId}
+    </update>
+
+    <update id="updateEqDeviceStatus">
+        update eq_device set status = #{status}, update_time = sysdate()
+        where device_id = #{deviceId}
+    </update>
+
+    <update id="updateEqDeviceStatusBatch">
+        update eq_device set status = #{status}, update_time = sysdate()
+        where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </update>
+
+    <delete id="deleteEqDeviceByDeviceId" parameterType="Long">
+        delete from eq_device where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqDeviceByDeviceIds" parameterType="Long">
+        delete from eq_device where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+
+    <select id="countByStatus" resultType="java.util.Map">
+        select status, count(*) as count from eq_device group by status
+    </select>
+
+    <select id="countByType" resultType="java.util.Map">
+        select device_type as type, count(*) as count from eq_device group by device_type
+    </select>
+
+</mapper>

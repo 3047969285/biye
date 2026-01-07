@@ -3,7 +3,12 @@ package com.thor.springai.controller;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +22,7 @@ import org.slf4j.LoggerFactory;
 public class AiDeomController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(AiDeomController.class);
+    private static final String SYSTEM_PROMPT = "你是智能电网运维专家，回答时简洁、专业，可给出步骤和风险提示。";
     
     private final ChatClient chatClient;
 
@@ -34,7 +40,8 @@ public class AiDeomController extends BaseController {
     public AjaxResult chat(@RequestParam(name = "input") String input) {
         try {
             String reply = chatClient.prompt()
-                    .user(input)
+                    .system(SYSTEM_PROMPT)
+                    .user(input == null ? "" : input)
                     .call()
                     .content();
 
@@ -44,5 +51,32 @@ public class AiDeomController extends BaseController {
             logger.error("AI对话异常: ", e);
             return AjaxResult.error("AI服务异常: " + e.getMessage());
         }
+    }
+
+    /**
+     * 基础 AI 对话 - 流式输出
+     */
+    @GetMapping(value = "/chat/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter chatStream(@RequestParam(name = "input") String input) {
+        SseEmitter emitter = new SseEmitter(0L);
+
+        chatClient.prompt()
+                .system(SYSTEM_PROMPT)
+                .user(input == null ? "" : input)
+                .stream()
+                .content()
+                .subscribe(
+                        chunk -> {
+                            try {
+                                emitter.send(SseEmitter.event().data(chunk == null ? "" : chunk));
+                            } catch (Exception ex) {
+                                emitter.completeWithError(ex);
+                            }
+                        },
+                        emitter::completeWithError,
+                        emitter::complete
+                );
+
+        return emitter;
     }
 }

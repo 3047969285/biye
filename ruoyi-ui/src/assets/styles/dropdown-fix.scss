@@ -1,0 +1,132 @@
+@import './variables.scss';
+
+/* ========== 下拉菜单高对比度修复 ========== */
+
+/* 导航栏下拉菜单 */
+.el-dropdown-menu {
+  background: $secondary-bg !important;
+  border: 1px solid $border-color !important;
+  border-radius: 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  padding: 8px 0 !important;
+
+  .el-dropdown-menu__item {
+    color: $text-primary !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    padding: 12px 20px !important;
+    line-height: 1.5 !important;
+    background: $secondary-bg !important;
+
+    &:hover {
+      background: $hover-bg !important;
+      color: $accent-color !important;
+      font-weight: 600 !important;
+    }
+
+    &:focus {
+      background: $hover-bg !important;
+      color: $accent-color !important;
+    }
+
+    a {
+      color: inherit !important;
+      text-decoration: none !important;
+      display: block !important;
+      width: 100% !important;
+    }
+
+    span {
+      color: inherit !important;
+      font-weight: inherit !important;
+    }
+
+    &.is-divided {
+      border-top: 1px solid $border-color !important;
+      margin-top: 6px !important;
+      padding-top: 12px !important;
+    }
+  }
+}
+
+/* 确认对话框 */
+.el-message-box {
+  background: $secondary-bg !important;
+  border: 1px solid $border-color !important;
+  border-radius: 0 !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+
+  .el-message-box__header {
+    background: $primary-bg !important;
+    border-bottom: 1px solid $border-color !important;
+    padding: 20px 20px 10px !important;
+
+    .el-message-box__title {
+      color: $text-primary !important;
+      font-weight: 600 !important;
+      font-size: 18px !important;
+    }
+
+    .el-message-box__headerbtn {
+      .el-message-box__close {
+        color: $text-secondary !important;
+
+        &:hover {
+          color: $accent-color !important;
+        }
+      }
+    }
+  }
+
+  .el-message-box__content {
+    background: $secondary-bg !important;
+    padding: 20px !important;
+
+    .el-message-box__message {
+      color: $text-primary !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      line-height: 1.6 !important;
+
+      p {
+        color: $text-primary !important;
+        margin: 0 !important;
+      }
+    }
+  }
+
+  .el-message-box__btns {
+    background: $secondary-bg !important;
+    border-top: 1px solid $border-color !important;
+    padding: 10px 20px 20px !important;
+
+    .el-button {
+      color: $text-primary !important;
+      font-weight: 500 !important;
+      font-size: 14px !important;
+
+      &.el-button--primary {
+        background: $accent-color !important;
+        border-color: $accent-color !important;
+        color: $text-primary !important;
+        font-weight: 600 !important;
+
+        &:hover {
+          background: lighten($accent-color, 10%) !important;
+          border-color: lighten($accent-color, 10%) !important;
+        }
+      }
+
+      &.el-button--default {
+        background: $secondary-bg !important;
+        border-color: $border-color !important;
+        color: $text-primary !important;
+
+        &:hover {
+          background: $hover-bg !important;
+          border-color: $accent-color !important;
+        }
+      }
+    }
+  }
+}

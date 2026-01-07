@@ -114,6 +114,11 @@
   }
 }
 
+.main-container {
+  margin-left: $base-sidebar-width;
+  transition: margin-left .28s;
+}
+
 .hideSidebar {
   .sidebar-container {
     width: 54px !important;

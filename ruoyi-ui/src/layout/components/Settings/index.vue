@@ -229,24 +229,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/styles/variables.scss";
   // 确保 el-drawer 背景为深色
   ::v-deep .el-drawer {
-    background: rgba(30, 35, 48, 0.95) !important;
-    backdrop-filter: blur(10px);
-    border-left: 1px solid rgba(99, 102, 241, 0.2);
+    background: $secondary-bg !important;
+    border-left: 1px solid $border-color !important;
   }
 
   ::v-deep .el-drawer__body {
-    background: transparent !important;
+    background: $secondary-bg !important;
+    color: $text-primary !important;
   }
 
   .setting-drawer-content {
     .setting-drawer-title {
       margin-bottom: 12px;
-      color: #E2E8F0;
-      font-size: 14px;
+      color: $text-primary !important;
+      font-size: 16px !important;
       line-height: 22px;
-      font-weight: bold;
+      font-weight: 600 !important;
     }
 
     .setting-drawer-block-checbox {
@@ -283,24 +284,32 @@ export default {
     }
   }
 
-  .drawer-container {
+    .drawer-container {
     padding: 20px;
     font-size: 14px;
     line-height: 1.5;
     word-wrap: break-word;
-    background: transparent;
+    background: $secondary-bg !important;
+    color: $text-primary !important;
 
     .drawer-title {
       margin-bottom: 12px;
-      color: #E2E8F0;
-      font-size: 14px;
+      color: $text-primary !important;
+      font-size: 16px !important;
       line-height: 22px;
+      font-weight: 600 !important;
     }
 
     .drawer-item {
-      color: #CBD5E1;
-      font-size: 14px;
+      color: $text-primary !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
       padding: 12px 0;
+      
+      span {
+        color: $text-primary !important;
+        font-weight: 500 !important;
+      }
     }
 
     .drawer-switch {
@@ -316,25 +325,35 @@ export default {
 
   // Element UI 按钮样式（在设置面板中）
   ::v-deep .el-button {
-    background: rgba(30, 35, 48, 0.5);
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    color: #E2E8F0;
+    background: $secondary-bg !important;
+    border: 1px solid $border-color !important;
+    color: $text-primary !important;
+    font-weight: 500 !important;
 
     &:hover {
-      background: rgba(99, 102, 241, 0.15);
-      border-color: #6366F1;
-      color: #818CF8;
+      background: $hover-bg !important;
+      border-color: $accent-color !important;
+      color: $text-primary !important;
     }
   }
 
   ::v-deep .el-button--primary {
-    background: #6366F1;
-    border-color: #6366F1;
-    color: #FFFFFF;
+    background: $accent-color !important;
+    border-color: $accent-color !important;
+    color: $text-primary !important;
+    font-weight: 600 !important;
 
     &:hover {
-      background: #818CF8;
-      border-color: #818CF8;
+      background: lighten($accent-color, 10%) !important;
+      border-color: lighten($accent-color, 10%) !important;
+      color: $text-primary !important;
+    }
+  }
+  
+  // 开关样式
+  ::v-deep .el-switch {
+    .el-switch__label {
+      color: $text-primary !important;
     }
   }
 </style>
