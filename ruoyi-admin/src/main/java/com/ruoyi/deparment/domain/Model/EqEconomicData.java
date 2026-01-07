@@ -7,6 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+/**
+ * 经济数据  eq_economic_data
+ *
+ * @author wcz
+ * @date 2025-12-19
+ */
 
 @Data
 @NoArgsConstructor

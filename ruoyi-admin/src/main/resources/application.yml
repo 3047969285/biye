@@ -122,7 +122,14 @@ spring:
     exclude:
       - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAgentAutoConfiguration
       - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeEmbeddingAutoConfiguration
-
+  #JPA配置
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        types:
+          json: com.vladmihalcea.hibernate.type.json.JsonStringType
+          jsonb: com.vladmihalcea.hibernate.type.json.JsonBinaryType
 # token配置
 token:
   # 令牌自定义标识
