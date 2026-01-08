@@ -1,30 +1,36 @@
-package com.ruoyi.deparment.domain.Model;
+package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 /**
- * 设备 mechanical_data 设备物理信息数据
- * @author
+ * 设备机械数据 eq_mechanical_data
  *
- * @date 2023-09-05
+ * @author wcz
+ * @date 2025-12-19
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class EqMechanicalData extends BaseEntity {
-    private long mechanicalId; //机械数据ID
-    private long deviceId;    //设备ID
+    
+    private static final long serialVersionUID = 1L;
+    
+    private Long mechanicalId; //机械数据ID
+    private Long deviceId;    //设备ID
     private Date timestamp;   //采集时间
     private BigDecimal loadWeight; //载荷重量(kg)
     private BigDecimal loadRatio;  //载荷比率(%)
     private BigDecimal stressLevel; //应力水平(MPa)
-    private int fatigueCycles;      //疲劳循环次数
-    private int overloadTimes;      //过载次数
+    private Integer fatigueCycles;      //疲劳循环次数
+    private Integer overloadTimes;      //过载次数
     private BigDecimal vibrationAmplitude; //振动振幅(mm)
     private BigDecimal vibrationVelocity;  //振动速度(mm/s)
     private BigDecimal vibrationAcceleration; //振动加速度(g)

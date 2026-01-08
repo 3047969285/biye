@@ -1,4 +1,4 @@
-package com.ruoyi.deparment.domain.Model;
+package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -30,11 +30,9 @@ public class EqDeviceParam extends BaseEntity {
     private Long deviceId;
 
     /** 参数名称 */
-    // ✅ 修正：paramName → parameterName
     private String parameterName;
 
     /** 参数值 */
-    // ✅ 修正：String paramValue → BigDecimal parameterValue
     private BigDecimal parameterValue;
 
     /** 单位 */
@@ -57,9 +55,4 @@ public class EqDeviceParam extends BaseEntity {
 
     /** 最后更新时间 */
     private Date lastUpdated;
-
-    // ========== ✅ 新增：缺少的字段 ==========
-
-    /** 备注 */
-    private String remark;
 }

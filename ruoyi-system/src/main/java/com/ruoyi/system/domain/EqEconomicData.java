@@ -1,23 +1,28 @@
-package com.ruoyi.deparment.domain.Model;
+package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 /**
  * 经济数据  eq_economic_data
  *
  * @author wcz
  * @date 2025-12-19
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class EqEconomicData extends BaseEntity {
+    
+    private static final long serialVersionUID = 1L;
+    
     private Long economicId; //经济数据ID
     private Long deviceId; //设备ID
     private Date timestamp; //记录时间

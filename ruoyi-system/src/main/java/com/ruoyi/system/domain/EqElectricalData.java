@@ -1,12 +1,14 @@
-package com.ruoyi.deparment.domain.Model;
+package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 /**
  * 电器数据  eq_electrical_data
  *
@@ -16,7 +18,11 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class EqElectricalData extends BaseEntity {
+    
+    private static final long serialVersionUID = 1L;
+    
     private Long electricalId; //电器数据ID
     private Long deviceId; //设备ID
     private Date timestamp; //采集时间
@@ -36,8 +42,8 @@ public class EqElectricalData extends BaseEntity {
     private BigDecimal apparentPower; //视在功率(kVA)
     private BigDecimal powerFactor; //功率因数
     private BigDecimal efficiency; //效率(%)
-    private Object harmonicsVoltage;//电压谐波含量
-    private Object harmonicsCurrent;//电流谐波含量
+    private String harmonicsVoltage;//电压谐波含量
+    private String harmonicsCurrent;//电流谐波含量
     private BigDecimal totalHarmonicDistortion; //总谐波失真率（%）
     private BigDecimal voltageThd; //电压总谐波失真率(%)
     private BigDecimal currentThd; //电流总谐波失真率(%)

@@ -1,12 +1,14 @@
-package com.ruoyi.deparment.domain.Model;
+package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 /**
  * 环境数据  eq_environment_data
  *
@@ -16,9 +18,13 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class EqEnvironmentData extends BaseEntity {
-    private long envId;                   //环境数据ID
-    private long deviceId;                 //设备ID
+    
+    private static final long serialVersionUID = 1L;
+    
+    private Long envId;                   //环境数据ID
+    private Long deviceId;                 //设备ID
     private Date timestamp;               //采集时间
     private BigDecimal ambientTemperature;//环境温度(°C)
     private BigDecimal deviceTemperature; //设备温度(°C)
@@ -36,6 +42,4 @@ public class EqEnvironmentData extends BaseEntity {
     private BigDecimal shockImpact;     //冲击次数
     private BigDecimal maxVibrationLevel; //最大振动等级
     private BigDecimal environmentGrade;  //环境等级 1-优良 2良好 3一般 4较差
-
-
 }

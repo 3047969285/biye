@@ -1,4 +1,4 @@
-package com.ruoyi.deparment.domain.Model;
+package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -24,22 +24,18 @@ public class EqMaintenanceRecord extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** 记录ID */
-    // ✅ 修正：long → Long
     private Long recordId;
 
     /** 设备ID */
-    // ✅ 修正：long → Long
     private Long deviceId;
 
     /** 维护类型 (1-预防性, 2-纠正性, 3-预测性) */
     private Integer maintenanceType;
 
     /** 维护日期 */
-    // ✅ 修正：maintenanceTime → maintenanceDate
     private Date maintenanceDate;
 
     /** 下次维护日期 */
-    // ✅ 修正：nextMaintenanceTime → nextMaintenanceDate
     private Date nextMaintenanceDate;
 
     /** 维护成本 */
@@ -59,9 +55,4 @@ public class EqMaintenanceRecord extends BaseEntity {
 
     /** 状态 (1-已完成, 2-安排中, 3-进行中, 4-已取消) */
     private Integer status;
-
-    // ========== ✅ 新增：缺少的字段 ==========
-
-    /** 备注 */
-    private String remark;
 }
