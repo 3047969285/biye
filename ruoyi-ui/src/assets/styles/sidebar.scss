@@ -16,11 +16,21 @@
 
   .scrollbar-wrapper {
     overflow-x: hidden !important;
+    overflow-y: auto !important;
     background: $primary-bg !important;
+    height: 100% !important;
+    max-height: 100vh !important;
   }
 
   .el-scrollbar__view {
-    height: 100%;
+    height: auto !important;
+    min-height: 100%;
+  }
+
+  .el-scrollbar__wrap {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    max-height: 100vh !important;
   }
 
   &.has-logo {

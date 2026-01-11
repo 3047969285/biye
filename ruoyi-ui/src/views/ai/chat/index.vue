@@ -108,31 +108,16 @@
             <el-button size="mini" style="float: right" @click="loadDatabaseInfo" :loading="dbLoading">刷新</el-button>
           </div>
           <div v-if="dbStats" class="db-info">
-            <pre>{{ dbStats }}</pre>
+            <pre style="white-space: pre-wrap; word-wrap: break-word;">{{ dbStats }}</pre>
+          </div>
+          <div v-else-if="!dbLoading" class="empty-info">
+            <p>点击刷新查看数据库统计信息</p>
           </div>
           <div v-else class="empty-info">
-            <p>点击刷新查看数据库统计信息</p>
+            <p>正在加载...</p>
           </div>
         </el-card>
 
-        <!-- 快捷问题 -->
-        <el-card class="side-card">
-          <div slot="header">
-            <span>快捷问题</span>
-          </div>
-          <div class="quick-questions">
-            <el-button
-              v-for="(q, index) in quickQuestionsComputed"
-              :key="index"
-              size="mini"
-              plain
-              @click="useQuickQuestion(q)"
-              class="quick-btn"
-            >
-              {{ q }}
-            </el-button>
-          </div>
-        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -157,24 +142,7 @@ export default {
         content: ""
       },
       dbStats: "",
-      dbLoading: false,
-      quickQuestions: {
-        basic: [
-          "变压器温度过高如何处理？",
-          "如何提高设备运行效率？",
-          "写一段简短的巡检提示"
-        ],
-        rag: [
-          "根据知识库说明变压器检修步骤",
-          "列出常见故障的安全注意事项",
-          "根据知识库生成维护表单"
-        ],
-        db: [
-          "查询所有正常状态的设备",
-          "统计各部门的设备数量",
-          "最近一个月新增的用户有哪些？"
-        ]
-      }
+      dbLoading: false
     };
   },
   mounted() {
@@ -188,11 +156,6 @@ export default {
       if (this.chatMode === "db") {
         this.loadDatabaseInfo();
       }
-    }
-  },
-  computed: {
-    quickQuestionsComputed() {
-      return this.quickQuestions[this.chatMode] || [];
     }
   },
   methods: {
@@ -396,23 +359,24 @@ export default {
         const response = await getDatabaseStats();
         if (response.code === 200) {
           const data = response.data;
-          this.dbStats = typeof data === "string" ? data : JSON.stringify(data, null, 2);
+          if (typeof data === "string") {
+            this.dbStats = data;
+          } else if (data && typeof data === "object") {
+            this.dbStats = JSON.stringify(data, null, 2);
+          } else {
+            this.dbStats = "暂无数据";
+          }
         } else {
-          this.dbStats = "获取数据库信息失败：" + (response.msg || "");
+          this.dbStats = "获取数据库信息失败：" + (response.msg || "未知错误");
         }
       } catch (error) {
         console.error("加载数据库信息失败:", error);
-        this.dbStats = "获取数据库信息失败：" + error.message;
+        this.dbStats = "获取数据库信息失败：" + (error.message || error.toString());
       } finally {
         this.dbLoading = false;
       }
     },
 
-    // 使用快捷问题
-    useQuickQuestion(question) {
-      this.inputMessage = question;
-      this.sendMessage();
-    },
 
     // 清空对话
     clearMessages() {
@@ -423,11 +387,21 @@ export default {
       }
     },
 
-    // 格式化消息
+    // 格式化消息 - 去除Markdown符号并处理换行
     formatMessage(content) {
       if (!content) return "";
-      // 简单的换行处理
-      return content.replace(/\n/g, "<br>");
+      // 去除Markdown符号
+      let formatted = content
+        .replace(/^#+\s*/gm, "") // 去除标题符号 #
+        .replace(/\*\*(.*?)\*\*/g, "$1") // 去除粗体 **
+        .replace(/\*(.*?)\*/g, "$1") // 去除斜体 *
+        .replace(/`(.*?)`/g, "$1") // 去除代码块 `
+        .replace(/```[\s\S]*?```/g, "") // 去除代码块
+        .replace(/\[(.*?)\]\(.*?\)/g, "$1") // 去除链接
+        .replace(/^\s*[-*+]\s+/gm, "") // 去除列表符号
+        .replace(/^\s*\d+\.\s+/gm, "") // 去除有序列表
+        .replace(/\n/g, "<br>"); // 换行处理
+      return formatted;
     },
 
     // 格式化时间

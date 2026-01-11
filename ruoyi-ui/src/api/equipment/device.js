@@ -78,3 +78,11 @@ export function checkDeviceNoUnique(deviceNo) {
     method: 'get'
   })
 }
+
+// 获取设备仪表板数据
+export function getDeviceDashboardData() {
+  return request({
+    url: '/equipment/device/dashboard/data',
+    method: 'get'
+  })
+}

@@ -136,6 +136,15 @@ public class EqDeviceController extends BaseController {
     }
 
     /**
+     * 获取所有设备的汇总数据（用于首页仪表板）
+     */
+    @GetMapping("/dashboard/data")
+    public AjaxResult getDashboardData() {
+        Map<String, Object> data = eqDeviceService.getDeviceDashboardData();
+        return success(data);
+    }
+
+    /**
      * 校验设备编号是否唯一
      */
     @GetMapping("/checkDeviceNoUnique/{deviceNo}")

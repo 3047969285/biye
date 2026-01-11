@@ -127,3 +127,109 @@
     }
   }
 }
+
+// ========== 修改 el-input-number 的 +- 按钮颜色 ==========
+// 使用全局选择器确保所有页面的 +- 按钮都生效
+.el-input-number,
+.el-form-item .el-input-number,
+.el-dialog .el-input-number,
+.el-form .el-input-number {
+  // 修改增减按钮的颜色，使用主题色
+  .el-input-number__increase,
+  .el-input-number__decrease {
+    background-color: transparent !important;
+    color: var(--accent-color, #5B8DEF) !important;
+    border-left-color: var(--border-color, #2D3548) !important;
+    
+    // 图标颜色
+    i {
+      color: var(--accent-color, #5B8DEF) !important;
+    }
+    
+    &:hover {
+      background-color: rgba(91, 141, 239, 0.2) !important;
+      color: var(--text-primary, #FFFFFF) !important;
+      
+      i {
+        color: var(--text-primary, #FFFFFF) !important;
+      }
+    }
+    
+    &:active {
+      background-color: rgba(91, 141, 239, 0.3) !important;
+      color: var(--text-primary, #FFFFFF) !important;
+      
+      i {
+        color: var(--text-primary, #FFFFFF) !important;
+      }
+    }
+    
+    // 禁用状态
+    &.is-disabled {
+      color: var(--text-disabled, #6B7280) !important;
+      background-color: transparent !important;
+      
+      i {
+        color: var(--text-disabled, #6B7280) !important;
+      }
+    }
+  }
+  
+  // 右侧按钮位置时的样式
+  &.is-controls-right {
+    .el-input-number__increase,
+    .el-input-number__decrease {
+      border-left-color: var(--border-color, #2D3548) !important;
+      border-right: none !important;
+    }
+  }
+  
+  // 输入框本身的样式
+  .el-input__inner {
+    background-color: var(--secondary-bg, #242938) !important;
+    border-color: var(--border-color, #2D3548) !important;
+    color: var(--text-primary, #FFFFFF) !important;
+    
+    &:focus {
+      border-color: var(--accent-color, #5B8DEF) !important;
+    }
+  }
+}
+
+// 确保在所有容器中都能生效
+body .el-input-number__increase,
+body .el-input-number__decrease {
+  background-color: transparent !important;
+  color: var(--accent-color, #5B8DEF) !important;
+  
+  i {
+    color: var(--accent-color, #5B8DEF) !important;
+  }
+  
+  &:hover {
+    background-color: rgba(91, 141, 239, 0.2) !important;
+    color: var(--text-primary, #FFFFFF) !important;
+    
+    i {
+      color: var(--text-primary, #FFFFFF) !important;
+    }
+  }
+  
+  &:active {
+    background-color: rgba(91, 141, 239, 0.3) !important;
+    color: var(--text-primary, #FFFFFF) !important;
+    
+    i {
+      color: var(--text-primary, #FFFFFF) !important;
+    }
+  }
+  
+  &.is-disabled {
+    color: var(--text-disabled, #6B7280) !important;
+    background-color: transparent !important;
+    
+    i {
+      color: var(--text-disabled, #6B7280) !important;
+    }
+  }
+}

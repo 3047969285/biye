@@ -2,7 +2,7 @@
 
 ```bash
 # 克隆项目
-git clone https://gitee.com/y_project/RuoYi-Vue
+git clone https://github.com/3047969285/biye.git
 
 # 进入项目目录
 cd ruoyi-ui
@@ -26,5 +26,5 @@ npm run dev
 npm run build:stage
 
 # 构建生产环境
-npm run build:prod
+   
 ```

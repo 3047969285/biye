@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 AND responsible_person like concat('%', #{responsiblePerson}, '%')
             </if>
         </where>
-        order by device_id desc
+        order by device_id
     </select>
 
     <select id="selectEqDeviceByDeviceId" parameterType="Long" resultMap="EqDeviceResult">

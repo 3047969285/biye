@@ -3,10 +3,13 @@ package com.thor.springai.controller;
 import com.alibaba.fastjson2.JSON;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.system.domain.AiChatRecord;
 import com.ruoyi.system.domain.AiMaintenanceForm;
 import com.ruoyi.system.mapper.AiMaintenanceFormMapper;
+import com.ruoyi.system.service.IAiChatRecordService;
 import com.thor.springai.service.ChromaRagService;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -16,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * RAG（检索增强生成）控制器 - 基于 Chroma 向量数据库
@@ -31,6 +35,9 @@ public class RagController extends BaseController {
     private final ChromaRagService chromaRagService;
     private final AiMaintenanceFormMapper maintenanceFormMapper;
     private final ChatClient chatClient;
+    
+    @Autowired
+    private IAiChatRecordService aiChatRecordService;
 
     public RagController(ChromaRagService chromaRagService,
                          AiMaintenanceFormMapper maintenanceFormMapper,
@@ -38,6 +45,23 @@ public class RagController extends BaseController {
         this.chromaRagService = chromaRagService;
         this.maintenanceFormMapper = maintenanceFormMapper;
         this.chatClient = builder.build();
+    }
+    
+    /**
+     * 清理Markdown符号
+     */
+    private String cleanMarkdown(String text) {
+        if (text == null) return "";
+        return text
+            .replaceAll("^#+\\s*", "") // 去除标题符号 #
+            .replaceAll("\\*\\*(.*?)\\*\\*", "$1") // 去除粗体 **
+            .replaceAll("\\*(.*?)\\*", "$1") // 去除斜体 *
+            .replaceAll("`([^`]+)`", "$1") // 去除行内代码 `
+            .replaceAll("```[\\s\\S]*?```", "") // 去除代码块
+            .replaceAll("\\[([^\\]]+)\\]\\([^\\)]+\\)", "$1") // 去除链接
+            .replaceAll("^\\s*[-*+]\\s+", "") // 去除无序列表
+            .replaceAll("^\\s*\\d+\\.\\s+", "") // 去除有序列表
+            .trim();
     }
 
     /**
@@ -68,6 +92,30 @@ public class RagController extends BaseController {
     }
 
     /**
+     * 安全获取用户ID
+     */
+    private Long getUserIdSafely() {
+        try {
+            return getUserId();
+        } catch (Exception e) {
+            logger.warn("无法获取用户ID: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 安全获取用户名
+     */
+    private String getUsernameSafely() {
+        try {
+            return getUsername();
+        } catch (Exception e) {
+            logger.warn("无法获取用户名: {}", e.getMessage());
+            return "匿名用户";
+        }
+    }
+
+    /**
      * 基于 RAG 的智能问答
      * 
      * @param question 用户问题
@@ -78,8 +126,33 @@ public class RagController extends BaseController {
     public AjaxResult askWithRag(@RequestParam(name = "question") String question,
                                   @RequestParam(name = "topK", defaultValue = "3") int topK) {
         try {
+            // 保存用户消息
+            AiChatRecord record = new AiChatRecord();
+            record.setUserId(getUserIdSafely());
+            record.setUserName(getUsernameSafely());
+            record.setChatType("rag");
+            record.setUserMessage(question);
+            try {
+                aiChatRecordService.insertAiChatRecord(record);
+            } catch (Exception e) {
+                logger.warn("保存对话记录失败: {}", e.getMessage());
+            }
+            
             String answer = chromaRagService.askWithRag(question, topK);
-            return AjaxResult.success(answer);
+            
+            // 清理Markdown符号
+            String cleanedAnswer = cleanMarkdown(answer);
+            
+            // 更新AI回复
+            if (record.getRecordId() != null) {
+                try {
+                    aiChatRecordService.updateAiMessage(record.getRecordId(), cleanedAnswer);
+                } catch (Exception e) {
+                    logger.warn("更新AI回复失败: {}", e.getMessage());
+                }
+            }
+            
+            return AjaxResult.success(cleanedAnswer);
         } catch (Exception e) {
             logger.error("RAG问答失败: ", e);
             return AjaxResult.error("问答失败: " + e.getMessage());
@@ -94,10 +167,25 @@ public class RagController extends BaseController {
                                        @RequestParam(name = "topK", defaultValue = "3") int topK) {
         SseEmitter emitter = new SseEmitter(0L);
 
+        // 保存用户消息
+        AiChatRecord record = new AiChatRecord();
+        try {
+            record.setUserId(getUserIdSafely());
+            record.setUserName(getUsernameSafely());
+            record.setChatType("rag");
+            record.setUserMessage(question);
+            aiChatRecordService.insertAiChatRecord(record);
+        } catch (Exception e) {
+            logger.warn("保存对话记录失败: {}", e.getMessage());
+        }
+        
+        final Long recordId = record.getRecordId();
+        final AtomicReference<String> fullResponse = new AtomicReference<>("");
+
         try {
             String prompt = chromaRagService.buildRagPrompt(question, topK);
-            // 给定系统角色，让回答保持运维专家语气
-            String systemPrompt = "你是智能电网运维专家，请基于提供的资料回答，先简述结论，再给步骤/注意事项。";
+            // 给定系统角色，让回答保持运维专家语气，不使用Markdown格式
+            String systemPrompt = "你是智能电网运维专家，请基于提供的资料回答，先简述结论，再给步骤/注意事项。回答时不要使用Markdown格式，不要使用#、*、**等符号，直接使用纯文本。";
 
             chatClient.prompt()
                     .system(systemPrompt)
@@ -107,13 +195,36 @@ public class RagController extends BaseController {
                     .subscribe(
                             chunk -> {
                                 try {
-                                    emitter.send(SseEmitter.event().data(chunk));
+                                    String cleanedChunk = cleanMarkdown(chunk);
+                                    fullResponse.updateAndGet(v -> v + cleanedChunk);
+                                    emitter.send(SseEmitter.event().data(cleanedChunk));
                                 } catch (Exception ex) {
                                     emitter.completeWithError(ex);
                                 }
                             },
-                            emitter::completeWithError,
-                            emitter::complete
+                            error -> {
+                                logger.error("流式输出错误: ", error);
+                                // 保存AI回复
+                                if (recordId != null) {
+                                    try {
+                                        aiChatRecordService.updateAiMessage(recordId, cleanMarkdown(fullResponse.get()));
+                                    } catch (Exception e) {
+                                        logger.warn("更新AI回复失败: {}", e.getMessage());
+                                    }
+                                }
+                                emitter.completeWithError(error);
+                            },
+                            () -> {
+                                // 流式输出完成，保存AI回复
+                                if (recordId != null) {
+                                    try {
+                                        aiChatRecordService.updateAiMessage(recordId, cleanMarkdown(fullResponse.get()));
+                                    } catch (Exception e) {
+                                        logger.warn("更新AI回复失败: {}", e.getMessage());
+                                    }
+                                }
+                                emitter.complete();
+                            }
                     );
         } catch (Exception e) {
             emitter.completeWithError(e);

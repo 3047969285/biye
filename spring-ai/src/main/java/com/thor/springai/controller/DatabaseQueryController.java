@@ -2,6 +2,8 @@ package com.thor.springai.controller;
 
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.system.domain.AiChatRecord;
+import com.ruoyi.system.service.IAiChatRecordService;
 import com.thor.springai.service.DatabaseQueryService;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,50 @@ public class DatabaseQueryController extends BaseController {
 
     @Autowired
     private ChatClient chatClient;
+    
+    @Autowired
+    private IAiChatRecordService aiChatRecordService;
+    
+    /**
+     * 清理Markdown符号
+     */
+    private String cleanMarkdown(String text) {
+        if (text == null) return "";
+        return text
+            .replaceAll("^#+\\s*", "") // 去除标题符号 #
+            .replaceAll("\\*\\*(.*?)\\*\\*", "$1") // 去除粗体 **
+            .replaceAll("\\*(.*?)\\*", "$1") // 去除斜体 *
+            .replaceAll("`([^`]+)`", "$1") // 去除行内代码 `
+            .replaceAll("```[\\s\\S]*?```", "") // 去除代码块
+            .replaceAll("\\[([^\\]]+)\\]\\([^\\)]+\\)", "$1") // 去除链接
+            .replaceAll("^\\s*[-*+]\\s+", "") // 去除无序列表
+            .replaceAll("^\\s*\\d+\\.\\s+", "") // 去除有序列表
+            .trim();
+    }
+
+    /**
+     * 安全获取用户ID
+     */
+    private Long getUserIdSafely() {
+        try {
+            return getUserId();
+        } catch (Exception e) {
+            logger.warn("无法获取用户ID: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 安全获取用户名
+     */
+    private String getUsernameSafely() {
+        try {
+            return getUsername();
+        } catch (Exception e) {
+            logger.warn("无法获取用户名: {}", e.getMessage());
+            return "匿名用户";
+        }
+    }
 
     /**
      * AI 辅助数据库查询
@@ -37,6 +83,18 @@ public class DatabaseQueryController extends BaseController {
     @GetMapping("/ask")
     public AjaxResult askDatabase(@RequestParam(name = "question") String question) {
         try {
+            // 保存用户消息
+            AiChatRecord record = new AiChatRecord();
+            record.setUserId(getUserIdSafely());
+            record.setUserName(getUsernameSafely());
+            record.setChatType("db");
+            record.setUserMessage(question);
+            try {
+                aiChatRecordService.insertAiChatRecord(record);
+            } catch (Exception e) {
+                logger.warn("保存对话记录失败: {}", e.getMessage());
+            }
+            
             // 获取数据库上下文
             String dbContext = databaseQueryService.getDatabaseContext();
             
@@ -45,7 +103,7 @@ public class DatabaseQueryController extends BaseController {
                 "你是一个数据库查询专家。基于以下数据库结构，将用户的问题转换为 SQL 查询语句。\n\n" +
                 "%s\n\n" +
                 "用户问题：%s\n\n" +
-                "请生成对应的 SQL 查询语句（只返回 SQL，不要其他解释）：",
+                "请生成对应的 SQL 查询语句（只返回 SQL，不要其他解释，不要使用Markdown格式）：",
                 dbContext, question
             );
             
@@ -62,7 +120,7 @@ public class DatabaseQueryController extends BaseController {
             sql = sql.trim();
             
             // 清理 SQL（移除 markdown 代码块标记）
-            sql = sql == null ? "" : sql.trim();
+            sql = cleanMarkdown(sql);
             if (sql.startsWith("```sql")) {
                 sql = sql.substring(6);
             }
@@ -81,6 +139,7 @@ public class DatabaseQueryController extends BaseController {
             Map<String, Object> resp = new java.util.HashMap<>(result);
 
             // 成功时追加 AI 总结（大模型摘要 + 易读摘要）
+            String aiMessage = "";
             if (Boolean.TRUE.equals(result.get("success"))) {
                 String summary = databaseQueryService.summarizeResult(question, sql, result);
                 String readable = databaseQueryService.buildReadableSummary(result);
@@ -88,11 +147,28 @@ public class DatabaseQueryController extends BaseController {
                 String finalSummary = (summary != null && !summary.trim().isEmpty())
                         ? summary.trim()
                         : readable;
+                finalSummary = cleanMarkdown(finalSummary);
                 resp.put("aiSummary", finalSummary);
                 resp.put("readableSummary", readable);
                 // 保留原始数据但迁移到 rawData，避免前端直接展示大列表
                 resp.put("rawData", result.get("data"));
                 resp.remove("data");
+                
+                // 构建完整的AI回复消息
+                aiMessage = String.format("查询结果（%d 条）\n%s", 
+                    result.get("rowCount") != null ? ((Number)result.get("rowCount")).intValue() : 0,
+                    finalSummary);
+            } else {
+                aiMessage = "查询失败：" + (result.get("error") != null ? result.get("error").toString() : "未知错误");
+            }
+            
+            // 更新AI回复
+            if (record.getRecordId() != null) {
+                try {
+                    aiChatRecordService.updateAiMessage(record.getRecordId(), aiMessage);
+                } catch (Exception e) {
+                    logger.warn("更新AI回复失败: {}", e.getMessage());
+                }
             }
 
             return AjaxResult.success(resp);
@@ -148,12 +224,17 @@ public class DatabaseQueryController extends BaseController {
     }
 
     /**
-     * 获取运维表单统计信息
+     * 获取数据库统计信息
      */
     @GetMapping("/stats")
     public AjaxResult getStats() {
         try {
+            logger.info("开始获取数据库统计信息");
             String stats = databaseQueryService.getMaintenanceFormStats();
+            logger.info("获取数据库统计信息成功，长度: {}", stats != null ? stats.length() : 0);
+            if (stats == null || stats.trim().isEmpty()) {
+                stats = "暂无统计信息";
+            }
             return AjaxResult.success(stats);
         } catch (Exception e) {
             logger.error("获取统计信息失败: ", e);

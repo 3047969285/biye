@@ -98,12 +98,26 @@
   }
 }
 
-/* 分页组件 */
+/* 分页组件容器 */
 .pagination-container {
   .el-pagination {
     .el-pagination__total,
     .el-pagination__jump {
-      color: $text-primary !important;
+      color: $text-secondary !important;
+    }
+    
+    /* 确保所有页码元素都使用主题色 */
+    .el-pager li {
+      color: $text-secondary !important;
+      
+      &.active {
+        color: $text-primary !important;
+      }
+    }
+    
+    .btn-prev,
+    .btn-next {
+      color: $text-secondary !important;
     }
   }
 }
@@ -247,22 +261,147 @@ body, .app-container, .el-card, .el-dialog {
   }
 }
 
-/* 分页文字 */
+/* 分页文字 - 统一使用主题色 */
 .el-pagination {
-  color: $text-primary !important;
+  color: $text-secondary !important;
   
+  /* 总数和跳转文字 */
   .el-pagination__total,
   .el-pagination__jump {
-    color: $text-primary !important;
+    color: $text-secondary !important;
     font-weight: 400 !important;
   }
   
+  /* 页码数字 */
   .el-pager li {
+    background-color: $secondary-bg !important;
+    color: $text-secondary !important;
+    border-color: $border-color !important;
+    
+    &:hover {
+      color: $accent-color !important;
+      border-color: $accent-color !important;
+      background-color: rgba(91, 141, 239, 0.1) !important;
+    }
+    
+    /* 当前激活页码 */
+    &.active {
+      background-color: $accent-color !important;
+      color: $text-primary !important;
+      border-color: $accent-color !important;
+      font-weight: 600 !important;
+    }
+  }
+  
+  /* 上一页/下一页按钮 */
+  .btn-prev,
+  .btn-next {
+    background-color: $secondary-bg !important;
+    color: $text-secondary !important;
+    border-color: $border-color !important;
+    
+    &:hover {
+      color: $accent-color !important;
+      border-color: $accent-color !important;
+      background-color: rgba(91, 141, 239, 0.1) !important;
+    }
+    
+    &:disabled {
+      color: $text-disabled !important;
+      background-color: $secondary-bg !important;
+      border-color: $border-color !important;
+    }
+    
+    /* 按钮图标 */
+    i,
+    .el-icon {
+      color: inherit !important;
+    }
+  }
+  
+  /* 每页显示数量选择器 */
+  .el-pagination__sizes {
+    .el-input__inner {
+      background-color: $secondary-bg !important;
+      color: $text-secondary !important;
+      border-color: $border-color !important;
+    }
+  }
+  
+  /* 跳转输入框 */
+  .el-pagination__editor {
+    .el-input__inner {
+      background-color: $secondary-bg !important;
+      color: $text-secondary !important;
+      border-color: $border-color !important;
+    }
+  }
+}
+
+/* ========== 修改所有页面的 el-input-number 的 +- 按钮颜色 ========== */
+/* 使用最高优先级确保覆盖所有样式 */
+.el-input-number__increase,
+.el-input-number__decrease {
+  background-color: transparent !important;
+  color: $accent-color !important;
+  border-left-color: $border-color !important;
+  
+  /* 图标颜色 */
+  i,
+  .el-icon {
+    color: $accent-color !important;
+  }
+  
+  &:hover {
+    background-color: rgba(91, 141, 239, 0.2) !important;
     color: $text-primary !important;
     
-    &.active {
+    i,
+    .el-icon {
       color: $text-primary !important;
-      font-weight: 600 !important;
+    }
+  }
+  
+  &:active {
+    background-color: rgba(91, 141, 239, 0.3) !important;
+    color: $text-primary !important;
+    
+    i,
+    .el-icon {
+      color: $text-primary !important;
+    }
+  }
+  
+  /* 禁用状态 */
+  &.is-disabled {
+    color: $text-disabled !important;
+    background-color: transparent !important;
+    
+    i,
+    .el-icon {
+      color: $text-disabled !important;
+    }
+  }
+}
+
+/* 确保输入框样式正确 */
+.el-input-number {
+  .el-input__inner {
+    background-color: $secondary-bg !important;
+    border-color: $border-color !important;
+    color: $text-primary !important;
+    
+    &:focus {
+      border-color: $accent-color !important;
+    }
+  }
+  
+  /* 右侧按钮位置 */
+  &.is-controls-right {
+    .el-input-number__increase,
+    .el-input-number__decrease {
+      border-left-color: $border-color !important;
+      border-right: none !important;
     }
   }
 }

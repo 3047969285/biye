@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.EqDeviceStatusMapper;
@@ -16,6 +18,8 @@ import com.ruoyi.system.service.IEqDeviceStatusService;
 @Service
 public class EqDeviceStatusServiceImpl implements IEqDeviceStatusService 
 {
+    private static final Logger log = LoggerFactory.getLogger(EqDeviceStatusServiceImpl.class);
+    
     @Autowired
     private EqDeviceStatusMapper eqDeviceStatusMapper;
 
@@ -28,7 +32,14 @@ public class EqDeviceStatusServiceImpl implements IEqDeviceStatusService
     @Override
     public EqDeviceStatus selectEqDeviceStatusByStatusId(Long statusId)
     {
-        return eqDeviceStatusMapper.selectEqDeviceStatusByStatusId(statusId);
+        EqDeviceStatus status = eqDeviceStatusMapper.selectEqDeviceStatusByStatusId(statusId);
+        // 调试日志：检查设备编号和设备名称是否正确获取
+        if (status != null) {
+            log.debug("查询设备状态详情 - 状态ID: {}, 设备ID: {}, 设备编号: {}, 设备名称: {}", 
+                status.getStatusId(), status.getDeviceId(), 
+                status.getDeviceNo(), status.getDeviceName());
+        }
+        return status;
     }
 
     /**
@@ -40,7 +51,18 @@ public class EqDeviceStatusServiceImpl implements IEqDeviceStatusService
     @Override
     public List<EqDeviceStatus> selectEqDeviceStatusList(EqDeviceStatus eqDeviceStatus)
     {
-        return eqDeviceStatusMapper.selectEqDeviceStatusList(eqDeviceStatus);
+        List<EqDeviceStatus> list = eqDeviceStatusMapper.selectEqDeviceStatusList(eqDeviceStatus);
+        // 调试日志：检查设备编号和设备名称是否正确获取
+        if (list != null && !list.isEmpty()) {
+            for (EqDeviceStatus status : list) {
+                if (status.getDeviceId() != null) {
+                    log.debug("设备状态ID: {}, 设备ID: {}, 设备编号: {}, 设备名称: {}", 
+                        status.getStatusId(), status.getDeviceId(), 
+                        status.getDeviceNo(), status.getDeviceName());
+                }
+            }
+        }
+        return list;
     }
 
     /**

@@ -14,6 +14,8 @@ import java.util.Date;
 public class EqDeviceStatus extends BaseEntity {
     private Long statusId; //状态ID
     private Long deviceId; //设备ID
+    private String deviceNo; //设备编号（关联查询）
+    private String deviceName; //设备名称（关联查询）
     private Date timestamp;  //采集时间
     private BigDecimal temperature; //温度
     private BigDecimal humidity; //湿度
@@ -55,6 +57,22 @@ public class EqDeviceStatus extends BaseEntity {
 
     public void setDeviceId(Long deviceId) {
         this.deviceId = deviceId;
+    }
+
+    public String getDeviceNo() {
+        return deviceNo;
+    }
+
+    public void setDeviceNo(String deviceNo) {
+        this.deviceNo = deviceNo;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
     public Date getTimestamp() {

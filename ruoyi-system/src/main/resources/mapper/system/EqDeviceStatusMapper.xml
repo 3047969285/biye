@@ -7,12 +7,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.ruoyi.system.domain.EqDeviceStatus" id="EqDeviceStatusResult">
         <result property="statusId"    column="status_id"    />
         <result property="deviceId"    column="device_id"    />
+        <result property="deviceNo"    column="device_no"    />
+        <result property="deviceName"    column="device_name"    />
         <result property="timestamp"    column="timestamp"    />
         <result property="temperature"    column="temperature"    />
         <result property="humidity"    column="humidity"    />
         <result property="pressure"    column="pressure"    />
         <result property="vibration"    column="vibration"    />
-        <result property="current"    column="current"    />
+        <result property="current"    column="current_val"    />
         <result property="voltage"    column="voltage"    />
         <result property="power"    column="power"    />
         <result property="rpm"    column="rpm"    />
@@ -36,21 +38,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectEqDeviceStatusVo">
-        select status_id, device_id, timestamp, temperature, humidity, pressure, vibration, current, voltage, power, rpm, flow_rate, liquid_level, status, runtime_hours, start_count, fault_count, alarm_count, efficiency, load_factor, ambient_temp, ambient_humidity, noise_level, air_quality, fault_code, fault_description, maintenance_required, remark from eq_device_status
+        select s.status_id, s.device_id, s.timestamp, s.temperature, s.humidity, s.pressure, s.vibration, s.current, s.voltage, s.power, s.rpm, s.flow_rate, s.liquid_level, s.status, s.runtime_hours, s.start_count, s.fault_count, s.alarm_count, s.efficiency, s.load_factor, s.ambient_temp, s.ambient_humidity, s.noise_level, s.air_quality, s.fault_code, s.fault_description, s.maintenance_required, s.remark,
+        d.device_no, d.device_name
+        from eq_device_status s
+        left join eq_device d on s.device_id = d.device_id
     </sql>
 
     <select id="selectEqDeviceStatusList" parameterType="com.ruoyi.system.domain.EqDeviceStatus" resultMap="EqDeviceStatusResult">
         <include refid="selectEqDeviceStatusVo"/>
         <where>  
-            <if test="deviceId != null "> and device_id = #{deviceId}</if>
-            <if test="status != null "> and status = #{status}</if>
+            <if test="deviceId != null "> and s.device_id = #{deviceId}</if>
+            <if test="status != null "> and s.status = #{status}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
         </where>
-        order by timestamp desc
+        order by s.device_id, s.timestamp desc
     </select>
     
     <select id="selectEqDeviceStatusByStatusId" parameterType="Long" resultMap="EqDeviceStatusResult">
         <include refid="selectEqDeviceStatusVo"/>
-        where status_id = #{statusId}
+        where s.status_id = #{statusId}
     </select>
         
     <insert id="insertEqDeviceStatus" parameterType="com.ruoyi.system.domain.EqDeviceStatus">
@@ -63,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="humidity != null">humidity,</if>
             <if test="pressure != null">pressure,</if>
             <if test="vibration != null">vibration,</if>
-            <if test="current != null">current,</if>
+            <if test="current != null">current_val,</if>
             <if test="voltage != null">voltage,</if>
             <if test="power != null">power,</if>
             <if test="rpm != null">rpm,</if>
@@ -126,7 +133,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="humidity != null">humidity = #{humidity},</if>
             <if test="pressure != null">pressure = #{pressure},</if>
             <if test="vibration != null">vibration = #{vibration},</if>
-            <if test="current != null">current = #{current},</if>
+            <if test="current != null">current_val = #{current},</if>
             <if test="voltage != null">voltage = #{voltage},</if>
             <if test="power != null">power = #{power},</if>
             <if test="rpm != null">rpm = #{rpm},</if>
@@ -155,10 +162,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from eq_device_status where status_id = #{statusId}
     </delete>
 
-    <delete id="deleteEqDeviceStatusByStatusIds" parameterType="String">
+    <delete id="deleteEqDeviceStatusByStatusIds">
         delete from eq_device_status where status_id in 
-        <foreach item="statusId" collection="array" open="(" separator="," close=")">
+        <foreach item="statusId" collection="statusIds" open="(" separator="," close=")">
             #{statusId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqDeviceStatusByDeviceId" parameterType="Long">
+        delete from eq_device_status where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqDeviceStatusByDeviceIds">
+        delete from eq_device_status where device_id in 
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
         </foreach>
     </delete>
 </mapper>

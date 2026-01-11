@@ -96,6 +96,13 @@ public interface IEqDeviceService {
     Map<String, Object> getDeviceStatistics();
 
     /**
+     * 获取所有设备的汇总数据（用于首页仪表板）
+     *
+     * @return 仪表板数据
+     */
+    Map<String, Object> getDeviceDashboardData();
+
+    /**
      * 校验设备编号是否唯一
      *
      * @param deviceNo 设备编号

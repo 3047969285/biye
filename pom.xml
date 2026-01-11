@@ -197,6 +197,13 @@
                 <version>3.0.4</version>
             </dependency>
 
+            <!-- Lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.30</version>
+            </dependency>
+
             <!-- 验证码 -->
             <dependency>
                 <groupId>pro.fessional</groupId>

@@ -252,48 +252,63 @@
 .el-pagination {
   .el-pagination__total,
   .el-pagination__jump {
-    color: $text-primary;
+    color: $text-secondary !important;
   }
 
   .el-pager li {
-    background: $secondary-bg;
-    color: $text-primary;
-    border: 1px solid $border-color;
+    background: $secondary-bg !important;
+    color: $text-secondary !important;
+    border: 1px solid $border-color !important;
     margin: 0 4px;
     border-radius: 0;
 
     &:hover {
-      color: $accent-color;
-      border-color: $accent-color;
+      color: $accent-color !important;
+      border-color: $accent-color !important;
+      background-color: rgba(91, 141, 239, 0.1) !important;
     }
 
     &.active {
-      background: $accent-color;
-      color: $text-primary;
-      border-color: $accent-color;
+      background: $accent-color !important;
+      color: $text-primary !important;
+      border-color: $accent-color !important;
       font-weight: 600;
     }
   }
 
   .btn-prev,
   .btn-next {
-    background: $secondary-bg;
-    color: $text-primary;
-    border: 1px solid $border-color;
+    background: $secondary-bg !important;
+    color: $text-secondary !important;
+    border: 1px solid $border-color !important;
     border-radius: 0;
 
     &:hover {
-      color: $accent-color;
-      border-color: $accent-color;
+      color: $accent-color !important;
+      border-color: $accent-color !important;
+      background-color: rgba(91, 141, 239, 0.1) !important;
     }
 
     &:disabled {
-      color: $text-disabled;
+      color: $text-disabled !important;
+    }
+    
+    i,
+    .el-icon {
+      color: inherit !important;
     }
   }
 
   .el-pagination__sizes .el-input__inner {
-    background: $secondary-bg;
+    background: $secondary-bg !important;
+    color: $text-secondary !important;
+    border-color: $border-color !important;
+  }
+  
+  .el-pagination__editor .el-input__inner {
+    background: $secondary-bg !important;
+    color: $text-secondary !important;
+    border-color: $border-color !important;
   }
 }
 

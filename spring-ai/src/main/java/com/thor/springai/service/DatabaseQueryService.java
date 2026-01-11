@@ -53,7 +53,7 @@ public class DatabaseQueryService {
             // 执行查询
             List<Map<String, Object>> results = jdbcTemplate.queryForList(sql);
             
-            logger.info("数据库查询成功，返回 {} 条记录", results.size());
+            logger.info("数据库查询成功，返回 {} 条记录", Optional.of(results.size()));
             
             return Map.of(
                 "success", true,
@@ -118,49 +118,122 @@ public class DatabaseQueryService {
     }
 
     /**
-     * 查询运维表单统计信息
+     * 查询数据库统计信息（包括所有主要表）
      */
     public String getMaintenanceFormStats() {
         try {
-            // 先检查表是否存在
-            List<String> tables = getAllTables();
-            if (!tables.contains("ai_maintenance_form")) {
-                return "⚠️ 运维表单表 (ai_maintenance_form) 尚未创建\n\n" +
-                       "请执行 sql/create_maintenance_form.sql 创建表。\n" +
-                       "详细步骤请参考: SETUP_AI_TABLE.md";
-            }
-            
             StringBuilder stats = new StringBuilder();
+            stats.append("=== 数据库统计信息 ===\n\n");
             
-            // 总表单数
-            Integer total = jdbcTemplate.queryForObject(
-                "SELECT COUNT(*) FROM ai_maintenance_form", Integer.class);
-            stats.append("总表单数: ").append(total).append("\n");
+            List<String> tables = getAllTables();
             
-            // 按状态分组统计
-            List<Map<String, Object>> statusStats = jdbcTemplate.queryForList(
-                "SELECT form_status, COUNT(*) as count FROM ai_maintenance_form GROUP BY form_status");
-            stats.append("\n按状态统计:\n");
-            for (Map<String, Object> row : statusStats) {
-                stats.append("  - ").append(row.get("form_status"))
-                     .append(": ").append(row.get("count")).append("\n");
+            // 统计设备相关表
+            stats.append("【设备管理相关表】\n");
+            int deviceTableCount = 0;
+            for (String table : tables) {
+                if (table.startsWith("eq_")) {
+                    deviceTableCount++;
+                    try {
+                        Integer count = jdbcTemplate.queryForObject(
+                            "SELECT COUNT(*) FROM " + table, Integer.class);
+                        stats.append("  ").append(table).append(": ").append(count != null ? count : 0).append(" 条记录\n");
+                    } catch (Exception e) {
+                        stats.append("  ").append(table).append(": 查询失败\n");
+                    }
+                }
+            }
+            if (deviceTableCount == 0) {
+                stats.append("  暂无设备相关表\n");
             }
             
-            // 按维护类型统计
-            List<Map<String, Object>> typeStats = jdbcTemplate.queryForList(
-                "SELECT maintenance_type, COUNT(*) as count FROM ai_maintenance_form GROUP BY maintenance_type");
-            stats.append("\n按维护类型统计:\n");
-            for (Map<String, Object> row : typeStats) {
-                stats.append("  - ").append(row.get("maintenance_type"))
-                     .append(": ").append(row.get("count")).append("\n");
+            stats.append("\n【系统管理相关表】\n");
+            String[] systemTables = {"sys_user", "sys_role", "sys_menu", "sys_dept", "sys_post"};
+            for (String table : systemTables) {
+                if (tables.contains(table)) {
+                    try {
+                        Integer count = jdbcTemplate.queryForObject(
+                            "SELECT COUNT(*) FROM " + table, Integer.class);
+                        stats.append("  ").append(table).append(": ").append(count != null ? count : 0).append(" 条记录\n");
+                    } catch (Exception e) {
+                        stats.append("  ").append(table).append(": 查询失败\n");
+                    }
+                }
             }
+            
+            stats.append("\n【AI相关表】\n");
+            String[] aiTables = {"ai_maintenance_form", "ai_chat_record"};
+            for (String table : aiTables) {
+                if (tables.contains(table)) {
+                    try {
+                        Integer count = jdbcTemplate.queryForObject(
+                            "SELECT COUNT(*) FROM " + table, Integer.class);
+                        stats.append("  ").append(table).append(": ").append(count != null ? count : 0).append(" 条记录\n");
+                    } catch (Exception e) {
+                        stats.append("  ").append(table).append(": 查询失败\n");
+                    }
+                } else {
+                    stats.append("  ").append(table).append(": 表不存在\n");
+                }
+            }
+            
+            // 如果有ai_maintenance_form表，显示详细统计
+            if (tables.contains("ai_maintenance_form")) {
+                try {
+                    stats.append("\n【运维表单详细统计】\n");
+                    Integer total = jdbcTemplate.queryForObject(
+                        "SELECT COUNT(*) FROM ai_maintenance_form", Integer.class);
+                    stats.append("  总表单数: ").append(total != null ? total : 0).append("\n");
+                    
+                    // 按状态分组统计
+                    List<Map<String, Object>> statusStats = jdbcTemplate.queryForList(
+                        "SELECT form_status, COUNT(*) as count FROM ai_maintenance_form GROUP BY form_status");
+                    if (!statusStats.isEmpty()) {
+                        stats.append("  按状态统计:\n");
+                        for (Map<String, Object> row : statusStats) {
+                            stats.append("    - ").append(row.get("form_status"))
+                                 .append(": ").append(row.get("count")).append("\n");
+                        }
+                    }
+                } catch (Exception e) {
+                    stats.append("  获取详细统计失败: ").append(e.getMessage()).append("\n");
+                }
+            }
+            
+            // 如果有ai_chat_record表，显示对话记录统计
+            if (tables.contains("ai_chat_record")) {
+                try {
+                    stats.append("\n【对话记录统计】\n");
+                    Integer total = jdbcTemplate.queryForObject(
+                        "SELECT COUNT(*) FROM ai_chat_record", Integer.class);
+                    stats.append("  总对话记录数: ").append(total != null ? total : 0).append("\n");
+                    
+                    // 按类型分组统计
+                    List<Map<String, Object>> typeStats = jdbcTemplate.queryForList(
+                        "SELECT chat_type, COUNT(*) as count FROM ai_chat_record GROUP BY chat_type");
+                    if (!typeStats.isEmpty()) {
+                        stats.append("  按类型统计:\n");
+                        for (Map<String, Object> row : typeStats) {
+                            String type = (String) row.get("chat_type");
+                            String typeName = "basic".equals(type) ? "基础对话" : 
+                                            "rag".equals(type) ? "知识库问答" : 
+                                            "db".equals(type) ? "数据库查询" : type;
+                            stats.append("    - ").append(typeName)
+                                 .append(": ").append(row.get("count")).append(" 条\n");
+                        }
+                    }
+                } catch (Exception e) {
+                    stats.append("  获取对话记录统计失败: ").append(e.getMessage()).append("\n");
+                }
+            }
+            
+            stats.append("\n【数据库总览】\n");
+            stats.append("  总表数: ").append(tables.size()).append("\n");
             
             return stats.toString();
             
         } catch (Exception e) {
             logger.error("获取统计信息失败: ", e);
-            return "获取统计信息失败: " + e.getMessage() + "\n\n" +
-                   "提示：如果是表不存在的错误，请先执行 sql/create_maintenance_form.sql 创建表。";
+            return "获取统计信息失败: " + e.getMessage();
         }
     }
 

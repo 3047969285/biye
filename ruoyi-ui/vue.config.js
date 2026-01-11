@@ -9,7 +9,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 
 const name = process.env.VUE_APP_TITLE || '智能电网运维系统' // 网页标题
 
-const baseUrl = 'http://localhost:8080' // 后端接口
+const baseUrl = 'http://localhost:8081' // 后端接口
 
 const port = process.env.port || process.env.npm_config_port || 80 // 端口
 
@@ -35,11 +35,12 @@ module.exports = {
     open: true,
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API]: {
+      [process.env.VUE_APP_BASE_API || '/dev-api']: {
         target: baseUrl,
         changeOrigin: true,
+        ws: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
+          ['^' + (process.env.VUE_APP_BASE_API || '/dev-api')]: ''
         }
       },
       // springdoc proxy
@@ -52,6 +53,15 @@ module.exports = {
         ws: true,
         changeOrigin: true
       },
+      // 直接代理到后端的路径
+      '/logout': {
+        target: baseUrl,
+        changeOrigin: true
+      },
+      '/getInfo': {
+        target: baseUrl,
+        changeOrigin: true
+      }
     },
     disableHostCheck: true
   },

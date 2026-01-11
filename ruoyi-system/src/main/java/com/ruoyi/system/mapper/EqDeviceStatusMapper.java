@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import com.ruoyi.system.domain.EqDeviceStatus;
 
 /**
@@ -59,5 +60,21 @@ public interface EqDeviceStatusMapper
      * @param statusIds 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteEqDeviceStatusByStatusIds(Long[] statusIds);
+    public int deleteEqDeviceStatusByStatusIds(@Param("statusIds") Long[] statusIds);
+    
+    /**
+     * 根据设备ID删除设备运行状态
+     * 
+     * @param deviceId 设备ID
+     * @return 结果
+     */
+    public int deleteEqDeviceStatusByDeviceId(@Param("deviceId") Long deviceId);
+    
+    /**
+     * 批量根据设备ID删除设备运行状态
+     * 
+     * @param deviceIds 设备ID数组
+     * @return 结果
+     */
+    public int deleteEqDeviceStatusByDeviceIds(@Param("deviceIds") Long[] deviceIds);
 }
