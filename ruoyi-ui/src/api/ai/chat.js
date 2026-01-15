@@ -76,3 +76,29 @@ export function getDatabaseContext() {
     method: 'get'
   })
 }
+
+// 获取对话历史记录列表
+export function getChatHistory(chatType) {
+  return request({
+    url: '/springai/history/list',
+    method: 'get',
+    params: { chatType }
+  })
+}
+
+// 根据ID获取单条对话记录
+export function getChatHistoryById(recordId) {
+  return request({
+    url: '/springai/history/' + recordId,
+    method: 'get'
+  })
+}
+
+// 批量删除对话记录
+export function deleteChatRecords(recordIds) {
+  return request({
+    url: '/springai/history/delete',
+    method: 'delete',
+    data: recordIds
+  })
+}

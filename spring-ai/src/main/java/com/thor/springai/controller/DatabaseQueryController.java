@@ -85,14 +85,23 @@ public class DatabaseQueryController extends BaseController {
         try {
             // 保存用户消息
             AiChatRecord record = new AiChatRecord();
-            record.setUserId(getUserIdSafely());
-            record.setUserName(getUsernameSafely());
+            Long userId = getUserIdSafely();
+            String userName = getUsernameSafely();
+            
+            // 如果用户ID为null，设置为0（匿名用户）
+            if (userId == null) {
+                userId = 0L;
+                logger.warn("用户ID为null，使用默认值0（匿名用户）");
+            }
+            
+            record.setUserId(userId);
+            record.setUserName(userName != null ? userName : "匿名用户");
             record.setChatType("db");
             record.setUserMessage(question);
             try {
                 aiChatRecordService.insertAiChatRecord(record);
             } catch (Exception e) {
-                logger.warn("保存对话记录失败: {}", e.getMessage());
+                logger.error("保存对话记录失败: ", e);
             }
             
             // 获取数据库上下文
@@ -232,10 +241,24 @@ public class DatabaseQueryController extends BaseController {
             logger.info("开始获取数据库统计信息");
             String stats = databaseQueryService.getMaintenanceFormStats();
             logger.info("获取数据库统计信息成功，长度: {}", stats != null ? stats.length() : 0);
+            logger.info("统计信息内容预览（前100字符）: {}", stats != null && stats.length() > 100 ? stats.substring(0, 100) : stats);
+            
             if (stats == null || stats.trim().isEmpty()) {
+                logger.warn("数据库统计信息为空");
                 stats = "暂无统计信息";
             }
-            return AjaxResult.success(stats);
+            
+            // 直接创建 AjaxResult 并设置数据，确保数据被正确设置
+            AjaxResult result = new AjaxResult();
+            result.put(AjaxResult.CODE_TAG, 200);
+            result.put(AjaxResult.MSG_TAG, "操作成功");
+            result.put(AjaxResult.DATA_TAG, stats); // 直接设置，不经过 StringUtils.isNotNull 检查
+            
+            logger.info("返回 AjaxResult，data 是否为 null: {}", result.get("data") == null);
+            logger.info("返回 AjaxResult，data 类型: {}", result.get("data") != null ? result.get("data").getClass().getName() : "null");
+            logger.info("返回 AjaxResult，data 长度: {}", result.get("data") != null && result.get("data") instanceof String ? ((String)result.get("data")).length() : "N/A");
+            
+            return result;
         } catch (Exception e) {
             logger.error("获取统计信息失败: ", e);
             return AjaxResult.error("获取失败: " + e.getMessage());

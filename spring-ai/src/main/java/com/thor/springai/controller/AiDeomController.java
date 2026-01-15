@@ -135,17 +135,33 @@ public class AiDeomController extends BaseController {
         
         // 保存用户消息
         AiChatRecord record = new AiChatRecord();
+        Long recordId = null;
         try {
-            record.setUserId(getUserIdSafely());
-            record.setUserName(getUsernameSafely());
+            Long userId = getUserIdSafely();
+            String userName = getUsernameSafely();
+            
+            // 如果用户ID为null，设置为0（匿名用户）
+            if (userId == null) {
+                userId = 0L;
+                logger.warn("用户ID为null，使用默认值0（匿名用户）");
+            }
+            
+            logger.info("准备保存基础对话记录，用户ID: {}, 用户名: {}, 消息: {}", userId, userName, input != null ? input.substring(0, Math.min(50, input.length())) : "null");
+            
+            record.setUserId(userId);
+            record.setUserName(userName != null ? userName : "匿名用户");
             record.setChatType("basic");
             record.setUserMessage(input);
-            aiChatRecordService.insertAiChatRecord(record);
+            
+            int result = aiChatRecordService.insertAiChatRecord(record);
+            recordId = record.getRecordId();
+            logger.info("保存基础对话记录成功，记录ID: {}, 插入结果: {}", recordId, result);
         } catch (Exception e) {
-            logger.warn("保存对话记录失败: {}", e.getMessage());
+            logger.error("保存对话记录失败: ", e);
+            recordId = null;
         }
         
-        final Long recordId = record.getRecordId();
+        final Long finalRecordId = recordId;
         final AtomicReference<String> fullResponse = new AtomicReference<>("");
 
         chatClient.prompt()
@@ -166,23 +182,33 @@ public class AiDeomController extends BaseController {
                         error -> {
                             logger.error("流式输出错误: ", error);
                             // 保存AI回复
-                            if (recordId != null) {
+                            if (finalRecordId != null) {
                                 try {
-                                    aiChatRecordService.updateAiMessage(recordId, cleanMarkdown(fullResponse.get()));
+                                    String aiMessage = cleanMarkdown(fullResponse.get());
+                                    logger.info("流式输出错误，尝试更新AI回复，记录ID: {}, 回复长度: {}", finalRecordId, aiMessage != null ? aiMessage.length() : 0);
+                                    int result = aiChatRecordService.updateAiMessage(finalRecordId, aiMessage);
+                                    logger.info("更新AI回复结果: {}", result);
                                 } catch (Exception e) {
-                                    logger.warn("更新AI回复失败: {}", e.getMessage());
+                                    logger.error("更新AI回复失败: ", e);
                                 }
+                            } else {
+                                logger.warn("记录ID为空，无法更新AI回复");
                             }
                             emitter.completeWithError(error);
                         },
                         () -> {
                             // 流式输出完成，保存AI回复
-                            if (recordId != null) {
+                            if (finalRecordId != null) {
                                 try {
-                                    aiChatRecordService.updateAiMessage(recordId, cleanMarkdown(fullResponse.get()));
+                                    String aiMessage = cleanMarkdown(fullResponse.get());
+                                    logger.info("流式输出完成，更新AI回复，记录ID: {}, 回复长度: {}", finalRecordId, aiMessage != null ? aiMessage.length() : 0);
+                                    int result = aiChatRecordService.updateAiMessage(finalRecordId, aiMessage);
+                                    logger.info("更新AI回复结果: {}", result);
                                 } catch (Exception e) {
-                                    logger.warn("更新AI回复失败: {}", e.getMessage());
+                                    logger.error("更新AI回复失败: ", e);
                                 }
+                            } else {
+                                logger.warn("记录ID为空，无法更新AI回复");
                             }
                             emitter.complete();
                         }
