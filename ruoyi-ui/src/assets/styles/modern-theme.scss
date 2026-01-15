@@ -161,27 +161,28 @@
 .el-input__inner,
 .el-textarea__inner,
 .el-select .el-input__inner {
-  background: $primary-bg;
-  border: 1px solid $border-color;
+  background: $secondary-bg !important;
+  border: 1px solid $border-color !important;
   border-radius: 0;
-  color: $text-primary;
+  color: $text-primary !important;
 
   &:hover {
-    border-color: $accent-color;
+    border-color: $accent-color !important;
   }
 
   &:focus {
-    border-color: $accent-color;
+    border-color: $accent-color !important;
+    background: $secondary-bg !important;
   }
 
   &::placeholder {
-    color: $text-disabled;
+    color: $text-disabled !important;
   }
 }
 
 .el-input.is-disabled .el-input__inner {
-  background: $primary-bg;
-  color: $text-disabled;
+  background: $primary-bg !important;
+  color: $text-disabled !important;
 }
 
 /* 下拉框 */

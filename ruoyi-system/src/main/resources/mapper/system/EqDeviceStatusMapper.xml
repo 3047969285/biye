@@ -179,4 +179,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{deviceId}
         </foreach>
     </delete>
+
+    <!-- 查询需要维护的设备（状态不好） -->
+    <select id="selectDevicesRequiringMaintenance" resultMap="EqDeviceStatusResult">
+        <include refid="selectEqDeviceStatusVo"/>
+        <where>
+            <!-- 状态为警告、错误或离线 -->
+            (s.status IN (2, 3, 4) 
+            <!-- 或需要维护 -->
+            OR s.maintenance_required = 1)
+            <!-- 只取每个设备的最新状态 -->
+            AND s.timestamp = (
+                SELECT MAX(timestamp) 
+                FROM eq_device_status s2 
+                WHERE s2.device_id = s.device_id
+            )
+        </where>
+        ORDER BY 
+            CASE s.status 
+                WHEN 3 THEN 1  -- 错误优先
+                WHEN 4 THEN 2  -- 离线次之
+                WHEN 2 THEN 3  -- 警告再次
+                ELSE 4
+            END,
+            s.timestamp DESC
+    </select>
 </mapper>

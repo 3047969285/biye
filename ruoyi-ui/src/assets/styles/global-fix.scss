@@ -62,6 +62,57 @@
   }
 }
 
+/* 表单输入框 - 统一深色主题 - 最高优先级 */
+input.el-input__inner,
+textarea.el-textarea__inner,
+.el-input__inner,
+.el-textarea__inner,
+.el-select .el-input__inner,
+.el-input-number .el-input__inner,
+.el-date-editor .el-input__inner,
+.el-range-editor.el-input__inner,
+.el-form-item .el-input__inner,
+.el-form-item .el-textarea__inner,
+.el-dialog .el-input__inner,
+.el-dialog .el-textarea__inner {
+  background-color: $secondary-bg !important;
+  border-color: $border-color !important;
+  color: $text-primary !important;
+  
+  &:focus {
+    border-color: $accent-color !important;
+    background-color: $secondary-bg !important;
+  }
+  
+  &::placeholder {
+    color: $text-disabled !important;
+    opacity: 0.8 !important;
+  }
+  
+  &:disabled {
+    background-color: $primary-bg !important;
+    color: $text-disabled !important;
+    cursor: not-allowed;
+  }
+}
+
+/* 文本域特殊处理 */
+.el-textarea__inner {
+  background-color: $secondary-bg !important;
+  border-color: $border-color !important;
+  color: $text-primary !important;
+  resize: vertical;
+  
+  &:focus {
+    border-color: $accent-color !important;
+    background-color: $secondary-bg !important;
+  }
+  
+  &::placeholder {
+    color: $text-disabled !important;
+  }
+}
+
 /* 表单标签 */
 .el-form-item__label {
   color: $text-primary !important;
@@ -73,11 +124,35 @@
   color: $text-primary !important;
 }
 
-/* 描述列表 */
-.el-descriptions {
+/* 选择器下拉框 */
+.el-select-dropdown {
   background-color: $secondary-bg !important;
+  border-color: $border-color !important;
+  
+  .el-select-dropdown__item {
+    background-color: $secondary-bg !important;
+    color: $text-primary !important;
+    
+    &:hover {
+      background-color: $hover-bg !important;
+      color: $accent-color !important;
+    }
+    
+    &.selected {
+      background-color: rgba(94, 161, 255, 0.2) !important;
+      color: $accent-color !important;
+    }
+  }
+}
+
+/* 描述列表 - 彻底去除白色 */
+.el-descriptions,
+.form-descriptions {
+  background-color: transparent !important;
+  color: $text-primary !important;
   
   .el-descriptions__header {
+    background-color: transparent !important;
     color: $text-primary !important;
   }
   
@@ -86,15 +161,68 @@
   }
   
   .el-descriptions__label {
-    background-color: $primary-bg !important;
-    color: $text-primary !important;
+    background-color: $secondary-bg !important;
+    color: $text-secondary !important;
     border-color: $border-color !important;
+    font-weight: 600 !important;
   }
   
   .el-descriptions__content {
     background-color: $secondary-bg !important;
     color: $text-primary !important;
     border-color: $border-color !important;
+    
+    // 强制所有子元素文字颜色为高对比度
+    * {
+      color: $text-primary !important;
+    }
+    
+    // 确保所有文字元素都是可见的
+    strong, span, div, p, pre, label, a, b, i, em {
+      color: $text-primary !important;
+    }
+    
+    // 输入框在内容区域内
+    .el-input__inner,
+    .el-textarea__inner,
+    .el-select .el-input__inner,
+    .el-input-number .el-input__inner {
+      background-color: $secondary-bg !important;
+      border-color: $border-color !important;
+      color: $text-primary !important;
+    }
+  }
+  
+  .el-descriptions__table {
+    border-color: $border-color !important;
+    background: transparent !important;
+    
+    td, th {
+      border-color: $border-color !important;
+      background: $secondary-bg !important;
+      color: $text-primary !important;
+    }
+    
+    th {
+      background: $secondary-bg !important;
+      color: $text-secondary !important;
+    }
+    
+    td {
+      background: $secondary-bg !important;
+      color: $text-primary !important;
+      
+      // 确保td内的所有文字都是可见的
+      * {
+        color: $text-primary !important;
+      }
+    }
+  }
+  
+  // 确保所有单元格都没有白色背景
+  .el-descriptions__cell {
+    background-color: $secondary-bg !important;
+    color: $text-primary !important;
   }
 }
 
@@ -122,21 +250,7 @@
   }
 }
 
-/* 确保所有输入框都是暗色 + 高对比度文字 */
-.el-input__inner,
-.el-textarea__inner,
-.el-select .el-input__inner {
-  background-color: $primary-bg !important;
-  color: $text-primary !important;
-  border-color: $border-color !important;
-  font-weight: 400 !important;
-}
-
-.el-input__inner::placeholder,
-.el-textarea__inner::placeholder {
-  color: $text-disabled !important;
-  opacity: 0.8 !important;
-}
+/* 确保所有输入框都是暗色 + 高对比度文字 - 已被上面的统一样式覆盖 */
 
 /* 确保所有下拉框都是暗色 */
 .el-select-dropdown {

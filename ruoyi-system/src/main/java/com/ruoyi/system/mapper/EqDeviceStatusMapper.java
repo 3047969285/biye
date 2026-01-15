@@ -77,4 +77,11 @@ public interface EqDeviceStatusMapper
      * @return 结果
      */
     public int deleteEqDeviceStatusByDeviceIds(@Param("deviceIds") Long[] deviceIds);
+    
+    /**
+     * 查询需要维护的设备（状态不好）
+     * 
+     * @return 需要维护的设备状态列表
+     */
+    public List<EqDeviceStatus> selectDevicesRequiringMaintenance();
 }

@@ -102,3 +102,72 @@ export function deleteChatRecords(recordIds) {
     data: recordIds
   })
 }
+
+// 查询需要维护的设备列表
+export function getDevicesRequiringMaintenance() {
+  return request({
+    url: '/ai/maintenance-form/devices',
+    method: 'get'
+  })
+}
+
+// 为指定设备生成运维表单
+export function generateFormForDevice(deviceId, saveToDb = false) {
+  return request({
+    url: '/ai/maintenance-form/generate',
+    method: 'post',
+    params: { deviceId, saveToDb }
+  })
+}
+
+// 批量生成运维表单
+export function batchGenerateForms(deviceIds, saveToDb = false) {
+  return request({
+    url: '/ai/maintenance-form/batch-generate',
+    method: 'post',
+    params: { deviceIds: deviceIds.join(','), saveToDb }
+  })
+}
+
+// 查询运维表单列表（历史记录）
+export function listAiMaintenanceForm(query) {
+  return request({
+    url: '/ai/maintenance-form/forms',
+    method: 'get',
+    params: query
+  })
+}
+
+// 根据ID获取运维表单详情
+export function getAiMaintenanceFormById(formId) {
+  return request({
+    url: '/ai/maintenance-form/forms/' + formId,
+    method: 'get'
+  })
+}
+
+// 更新运维表单
+export function updateMaintenanceForm(data) {
+  return request({
+    url: '/ai/maintenance-form/forms',
+    method: 'put',
+    data: data
+  })
+}
+
+// 删除运维表单
+export function deleteMaintenanceForm(formId) {
+  return request({
+    url: '/ai/maintenance-form/forms/' + formId,
+    method: 'delete'
+  })
+}
+
+// 批量删除运维表单
+export function batchDeleteMaintenanceForms(formIds) {
+  return request({
+    url: '/ai/maintenance-form/forms',
+    method: 'delete',
+    data: formIds
+  })
+}
