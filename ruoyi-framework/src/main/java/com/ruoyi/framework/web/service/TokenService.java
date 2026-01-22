@@ -21,6 +21,7 @@ import com.ruoyi.common.utils.uuid.IdUtils;
 import eu.bitwalker.useragentutils.UserAgent;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
@@ -179,7 +180,7 @@ public class TokenService
     {
         String token = Jwts.builder()
                 .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes())).compact();
         return token;
     }
 
@@ -191,8 +192,12 @@ public class TokenService
      */
     private Claims parseToken(String token)
     {
-        return Jwts.parser()
-                .setSigningKey(secret)
+        byte[] keyBytes = secret.getBytes();
+        var key = keyBytes.length < 32 ? Keys.secretKeyFor(SignatureAlgorithm.HS512) : Keys.hmacShaKeyFor(keyBytes);
+        
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }

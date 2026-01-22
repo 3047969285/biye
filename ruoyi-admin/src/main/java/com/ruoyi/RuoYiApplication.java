@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
     "com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeEmbeddingAutoConfiguration"
 })
 @ComponentScan(basePackages = {"com.ruoyi", "com.thor.springai"})
-@MapperScan(basePackages = {"com.ruoyi.system.mapper", "com.ruoyi.quartz.mapper", "com.ruoyi.generator.mapper", "com.ruoyi.qcluser.mapper", "com.ruoyi.deparment.mapper"})
+@MapperScan(basePackages = {"com.ruoyi.system.mapper", "com.ruoyi.quartz.mapper", "com.ruoyi.generator.mapper", "com.ruoyi.qcluser.mapper", "com.ruoyi.deparment.mapper", "com.ruoyi.equipment.mapper"})
 public class RuoYiApplication
 {
     public static void main(String[] args)
