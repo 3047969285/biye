@@ -248,13 +248,24 @@
                   <span class="time-badge">{{ currentForm.estimatedTime }} 分钟</span>
                 </el-descriptions-item>
                 <el-descriptions-item label="表单状态" v-if="currentForm.formStatus">
-                  <el-tag 
-                    :type="getFormStatusTagType(currentForm.formStatus)" 
-                    size="small"
-                    class="form-tag"
-                  >
-                    {{ getFormStatusText(currentForm.formStatus) }}
-                  </el-tag>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <el-tag 
+                      :type="getFormStatusTagType(currentForm.formStatus)" 
+                      size="small"
+                      class="form-tag"
+                    >
+                      {{ getFormStatusText(currentForm.formStatus) }}
+                    </el-tag>
+                    <el-button 
+                      type="text" 
+                      size="mini" 
+                      icon="el-icon-edit"
+                      @click="showStatusEditDialog"
+                      v-if="currentForm.formId"
+                    >
+                      修改
+                    </el-button>
+                  </div>
                 </el-descriptions-item>
                 <el-descriptions-item label="故障描述" :span="2">
                   <div class="fault-description">{{ currentForm.faultDescription }}</div>
@@ -399,6 +410,53 @@
             <li><el-tag type="info" size="small">离线</el-tag> - 设备离线或无法通信</li>
           </ul>
         </el-card>
+
+        <el-card style="margin-top: 20px;">
+          <div slot="header" class="card-header">
+            <span>状态和优先级判断依据</span>
+          </div>
+          <div class="judgment-rules">
+            <div class="rule-section">
+              <strong>设备状态判断：</strong>
+              <ul>
+                <li>来自设备状态表（eq_device_status）的 status 字段</li>
+                <li>1 = 正常，2 = 警告，3 = 错误，4 = 离线</li>
+              </ul>
+            </div>
+            <div class="rule-section" style="margin-top: 12px;">
+              <strong>优先级判断（按优先级从高到低）：</strong>
+              <ul>
+                <li><strong>高优先级：</strong>
+                  <ul>
+                    <li>故障等级为"紧急"（1）或"严重"（2）</li>
+                    <li>设备状态为"错误"（3）或"离线"（4）</li>
+                    <li>告警级别 ≤ 2</li>
+                  </ul>
+                </li>
+                <li><strong>中优先级：</strong>
+                  <ul>
+                    <li>设备状态为"警告"（2）</li>
+                    <li>故障等级为"一般"（3）</li>
+                    <li>默认优先级</li>
+                  </ul>
+                </li>
+                <li><strong>低优先级：</strong>
+                  <ul>
+                    <li>故障等级为"轻微"（4）</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="rule-section" style="margin-top: 12px;">
+              <strong>表单状态：</strong>
+              <ul>
+                <li><el-tag type="info" size="small">草稿</el-tag> - 初始状态，可编辑</li>
+                <li><el-tag type="success" size="small">已审批</el-tag> - 已通过审批</li>
+                <li><el-tag type="danger" size="small">已拒绝</el-tag> - 审批被拒绝</li>
+              </ul>
+            </div>
+          </div>
+        </el-card>
       </el-col>
     </el-row>
 
@@ -461,6 +519,16 @@
             <el-option label="中" value="中" />
             <el-option label="低" value="低" />
           </el-select>
+          <div style="font-size: 12px; color: #909399; margin-top: 4px;">
+            优先级判断依据：故障等级（紧急/严重→高）、设备状态（错误/离线→高，警告→中）、告警级别（≤2→高）
+          </div>
+        </el-form-item>
+        <el-form-item label="表单状态" v-if="editForm.formId">
+          <el-select v-model="editForm.formStatus" style="width: 100%">
+            <el-option label="草稿" value="draft" />
+            <el-option label="已审批" value="approved" />
+            <el-option label="已拒绝" value="rejected" />
+          </el-select>
         </el-form-item>
         <el-form-item label="预计耗时(分钟)">
           <el-input-number v-model="editForm.estimatedTime" :min="1" style="width: 100%" />
@@ -493,6 +561,36 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelEdit">取消</el-button>
         <el-button type="primary" @click="saveEdit" :loading="saving">保存</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 快速修改状态对话框 -->
+    <el-dialog
+      title="修改表单状态"
+      :visible.sync="showStatusEdit"
+      width="500px"
+      @close="cancelStatusEdit"
+    >
+      <el-form :model="statusEditForm" label-width="120px" v-if="statusEditForm">
+        <el-form-item label="当前状态">
+          <el-tag 
+            :type="getFormStatusTagType(statusEditForm.formStatus)" 
+            size="small"
+          >
+            {{ getFormStatusText(statusEditForm.formStatus) }}
+          </el-tag>
+        </el-form-item>
+        <el-form-item label="新状态">
+          <el-select v-model="statusEditForm.formStatus" style="width: 100%">
+            <el-option label="草稿" value="draft" />
+            <el-option label="已审批" value="approved" />
+            <el-option label="已拒绝" value="rejected" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelStatusEdit">取消</el-button>
+        <el-button type="primary" @click="saveStatusEdit" :loading="saving">保存</el-button>
       </div>
     </el-dialog>
 
@@ -581,7 +679,9 @@ export default {
       editForm: null,
       showFormHistory: false,
       formHistoryList: [],
-      statisticsCollapsed: false
+      statisticsCollapsed: false,
+      showStatusEdit: false,
+      statusEditForm: null
     };
   },
   computed: {
@@ -820,8 +920,32 @@ export default {
       
       this.saving = true;
       try {
-        console.log("开始更新表单，表单ID:", this.currentForm.formId);
-        const res = await updateMaintenanceForm(this.currentForm);
+        // 确保数据类型正确
+        const updateData = {
+          formId: Number(this.currentForm.formId),
+          deviceId: this.currentForm.deviceId ? Number(this.currentForm.deviceId) : null,
+          deviceName: this.currentForm.deviceName,
+          faultDescription: this.currentForm.faultDescription,
+          maintenanceType: this.currentForm.maintenanceType,
+          priorityLevel: this.currentForm.priorityLevel,
+          estimatedTime: this.currentForm.estimatedTime ? Number(this.currentForm.estimatedTime) : null,
+          requiredTools: this.currentForm.requiredTools,
+          safetyPrecautions: this.currentForm.safetyPrecautions,
+          stepByStepGuide: this.currentForm.stepByStepGuide,
+          expectedOutcome: this.currentForm.expectedOutcome,
+          formStatus: this.currentForm.formStatus
+        };
+        
+        // 移除 null 和 undefined 的字段
+        Object.keys(updateData).forEach(key => {
+          if (updateData[key] === null || updateData[key] === undefined) {
+            delete updateData[key];
+          }
+        });
+        
+        console.log("开始更新表单，表单ID:", updateData.formId);
+        console.log("发送更新数据:", updateData);
+        const res = await updateMaintenanceForm(updateData);
         console.log("更新表单响应:", res);
         
         if (res && res.code === 200) {
@@ -848,20 +972,150 @@ export default {
     editForm() {
       if (!this.currentForm) return;
       this.editForm = JSON.parse(JSON.stringify(this.currentForm));
+      // 确保数字字段的类型正确
+      if (this.editForm.formId) {
+        this.editForm.formId = Number(this.editForm.formId);
+      }
+      if (this.editForm.deviceId) {
+        this.editForm.deviceId = Number(this.editForm.deviceId);
+      }
+      if (this.editForm.estimatedTime !== null && this.editForm.estimatedTime !== undefined) {
+        this.editForm.estimatedTime = Number(this.editForm.estimatedTime);
+      }
       this.formEditVisible = true;
     },
     
     // 保存编辑
-    saveEdit() {
+    async saveEdit() {
       if (!this.editForm) return;
-      this.currentForm = { ...this.currentForm, ...this.editForm };
-      this.formEditVisible = false;
-      this.$modal.msgSuccess("表单已更新");
+      
+      // 如果有表单ID，调用后端API保存
+      if (this.editForm.formId) {
+        this.saving = true;
+        try {
+          // 确保数据类型正确
+          const updateData = {
+            formId: this.editForm.formId,
+            deviceId: this.editForm.deviceId ? Number(this.editForm.deviceId) : null,
+            deviceName: this.editForm.deviceName,
+            faultDescription: this.editForm.faultDescription,
+            maintenanceType: this.editForm.maintenanceType,
+            priorityLevel: this.editForm.priorityLevel,
+            estimatedTime: this.editForm.estimatedTime ? Number(this.editForm.estimatedTime) : null,
+            requiredTools: this.editForm.requiredTools,
+            safetyPrecautions: this.editForm.safetyPrecautions,
+            stepByStepGuide: this.editForm.stepByStepGuide,
+            expectedOutcome: this.editForm.expectedOutcome,
+            formStatus: this.editForm.formStatus
+          };
+          
+          // 移除 null 和 undefined 的字段
+          Object.keys(updateData).forEach(key => {
+            if (updateData[key] === null || updateData[key] === undefined) {
+              delete updateData[key];
+            }
+          });
+          
+          console.log("发送更新数据:", updateData);
+          const res = await updateMaintenanceForm(updateData);
+          if (res && res.code === 200) {
+            this.$modal.msgSuccess("表单已更新");
+            this.formEditVisible = false;
+            // 重新加载表单详情
+            const detailRes = await getAiMaintenanceFormById(this.editForm.formId);
+            if (detailRes && detailRes.code === 200) {
+              this.currentForm = detailRes.data;
+            }
+            this.loadFormHistory();
+          } else {
+            this.$modal.msgError(res?.msg || "更新失败");
+          }
+        } catch (e) {
+          console.error("更新表单异常:", e);
+          this.$modal.msgError("更新失败：" + e.message);
+        } finally {
+          this.saving = false;
+        }
+      } else {
+        // 如果没有表单ID，只在前端更新
+        this.currentForm = { ...this.currentForm, ...this.editForm };
+        this.formEditVisible = false;
+        this.$modal.msgSuccess("表单已更新");
+      }
     },
     
     // 取消编辑
     cancelEdit() {
       this.editForm = null;
+    },
+    
+    // 显示状态编辑对话框
+    showStatusEditDialog() {
+      if (!this.currentForm || !this.currentForm.formId) {
+        this.$modal.msgWarning("表单ID不存在，无法修改状态");
+        return;
+      }
+      console.log("打开状态编辑对话框，当前表单:", this.currentForm);
+      this.statusEditForm = {
+        formId: Number(this.currentForm.formId),
+        formStatus: this.currentForm.formStatus || "draft"
+      };
+      console.log("状态编辑表单数据:", this.statusEditForm);
+      this.showStatusEdit = true;
+    },
+    
+    // 保存状态修改
+    async saveStatusEdit() {
+      if (!this.statusEditForm || !this.statusEditForm.formId) {
+        this.$modal.msgWarning("表单ID不存在");
+        return;
+      }
+      
+      if (!this.statusEditForm.formStatus) {
+        this.$modal.msgWarning("请选择新状态");
+        return;
+      }
+      
+      this.saving = true;
+      try {
+        // 只更新状态字段，确保 formId 是数字类型
+        const updateData = {
+          formId: Number(this.statusEditForm.formId),
+          formStatus: String(this.statusEditForm.formStatus)
+        };
+        console.log("发送状态更新数据:", updateData);
+        console.log("数据类型检查 - formId:", typeof updateData.formId, updateData.formId);
+        console.log("数据类型检查 - formStatus:", typeof updateData.formStatus, updateData.formStatus);
+        
+        const res = await updateMaintenanceForm(updateData);
+        console.log("状态更新响应:", res);
+        
+        if (res && res.code === 200) {
+          this.$modal.msgSuccess("状态已更新");
+          this.showStatusEdit = false;
+          // 重新加载表单详情
+          const detailRes = await getAiMaintenanceFormById(this.statusEditForm.formId);
+          if (detailRes && detailRes.code === 200) {
+            this.currentForm = detailRes.data;
+            console.log("重新加载的表单数据:", this.currentForm);
+          }
+          this.loadFormHistory();
+        } else {
+          console.error("状态更新失败，响应:", res);
+          this.$modal.msgError(res?.msg || "更新失败");
+        }
+      } catch (e) {
+        console.error("更新状态异常:", e);
+        console.error("异常详情:", e.response || e.message);
+        this.$modal.msgError("更新失败：" + (e.response?.data?.msg || e.message));
+      } finally {
+        this.saving = false;
+      }
+    },
+    
+    // 取消状态编辑
+    cancelStatusEdit() {
+      this.statusEditForm = null;
     },
     
     // 查看设备详情
@@ -1522,6 +1776,40 @@ export default {
     
     li {
       margin-bottom: 8px;
+    }
+  }
+  
+  .judgment-rules {
+    color: $text-secondary;
+    line-height: 1.8;
+    
+    .rule-section {
+      strong {
+        color: $text-primary;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+      
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        
+        li {
+          margin-bottom: 6px;
+          font-size: 13px;
+          
+          ul {
+            margin-top: 4px;
+            padding-left: 20px;
+            
+            li {
+              margin-bottom: 4px;
+              font-size: 12px;
+            }
+          }
+        }
+      }
     }
   }
   

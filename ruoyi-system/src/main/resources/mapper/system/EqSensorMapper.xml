@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqSensorMapper">
+    <resultMap type="com.ruoyi.system.domain.EqSensor" id="EqSensorResult">
+        <result property="sensorId" column="sensor_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="sensorType" column="sensor_type"/>
+        <result property="sensorName" column="sensor_name"/>
+        <result property="location" column="location"/>
+        <result property="unit" column="unit"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <sql id="selectEqSensorVo">
+        select s.sensor_id, s.device_id, s.sensor_type, s.sensor_name, s.location, s.unit, s.status,
+        d.device_no, d.device_name
+        from eq_sensor s
+        left join eq_device d on s.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqSensorList" parameterType="com.ruoyi.system.domain.EqSensor" resultMap="EqSensorResult">
+        <include refid="selectEqSensorVo"/>
+        <where>
+            <if test="deviceId != null"> and s.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="sensorType != null and sensorType != ''"> and s.sensor_type like concat('%', #{sensorType}, '%')</if>
+            <if test="status != null"> and s.status = #{status}</if>
+        </where>
+        order by s.device_id, s.sensor_id desc
+    </select>
+    
+    <select id="selectEqSensorBySensorId" parameterType="Long" resultMap="EqSensorResult">
+        <include refid="selectEqSensorVo"/>
+        where s.sensor_id = #{sensorId}
+    </select>
+
+    <select id="selectEqSensorListByDeviceId" parameterType="Long" resultMap="EqSensorResult">
+        <include refid="selectEqSensorVo"/>
+        where s.device_id = #{deviceId}
+        order by s.device_id, s.sensor_id desc
+    </select>
+        
+    <insert id="insertEqSensor" parameterType="com.ruoyi.system.domain.EqSensor">
+        insert into eq_sensor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sensorId != null">sensor_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="sensorType != null and sensorType != ''">sensor_type,</if>
+            <if test="sensorName != null and sensorName != ''">sensor_name,</if>
+            <if test="location != null">location,</if>
+            <if test="unit != null">unit,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sensorId != null">#{sensorId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="sensorType != null and sensorType != ''">#{sensorType},</if>
+            <if test="sensorName != null and sensorName != ''">#{sensorName},</if>
+            <if test="location != null">#{location},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEqSensor" parameterType="com.ruoyi.system.domain.EqSensor">
+        update eq_sensor
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="sensorType != null and sensorType != ''">sensor_type = #{sensorType},</if>
+            <if test="sensorName != null and sensorName != ''">sensor_name = #{sensorName},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where sensor_id = #{sensorId}
+    </update>
+
+    <delete id="deleteEqSensorBySensorId" parameterType="Long">
+        delete from eq_sensor where sensor_id = #{sensorId}
+    </delete>
+
+    <delete id="deleteEqSensorBySensorIds">
+        delete from eq_sensor where sensor_id in
+        <foreach item="sensorId" collection="sensorIds" open="(" separator="," close=")">
+            #{sensorId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqSensorByDeviceId" parameterType="Long">
+        delete from eq_sensor where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqSensorByDeviceIds">
+        delete from eq_sensor where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

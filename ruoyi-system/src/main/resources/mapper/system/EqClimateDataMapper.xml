@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqClimateDataMapper">
+    <resultMap type="com.ruoyi.system.domain.EqClimateData" id="EqClimateDataResult">
+        <result property="climateId" column="climate_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="timestamp" column="timestamp"/>
+        <result property="season" column="season"/>
+        <result property="weatherCondition" column="weather_condition"/>
+        <result property="precipitation" column="precipitation"/>
+        <result property="windSpeed" column="wind_speed"/>
+        <result property="temperatureExtreme" column="temperature_extreme"/>
+        <result property="airQualityIndex" column="air_quality_index"/>
+        <result property="pollutionLevel" column="pollution_level"/>
+    </resultMap>
+
+    <sql id="selectEqClimateDataVo">
+        select c.climate_id, c.device_id, c.timestamp, c.season, c.weather_condition, c.precipitation, c.wind_speed, c.temperature_extreme, c.air_quality_index, c.pollution_level,
+        d.device_no, d.device_name
+        from eq_climate_data c
+        left join eq_device d on c.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqClimateDataList" parameterType="com.ruoyi.system.domain.EqClimateData" resultMap="EqClimateDataResult">
+        <include refid="selectEqClimateDataVo"/>
+        <where>
+            <if test="deviceId != null"> and c.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="timestamp != null"> and c.timestamp = #{timestamp}</if>
+            <if test="season != null"> and c.season = #{season}</if>
+        </where>
+        order by c.device_id, c.climate_id desc
+    </select>
+    
+    <select id="selectEqClimateDataByClimateId" parameterType="Long" resultMap="EqClimateDataResult">
+        <include refid="selectEqClimateDataVo"/>
+        where c.climate_id = #{climateId}
+    </select>
+
+    <select id="selectEqClimateDataListByDeviceId" parameterType="Long" resultMap="EqClimateDataResult">
+        <include refid="selectEqClimateDataVo"/>
+        where c.device_id = #{deviceId}
+        order by c.device_id, c.climate_id desc
+    </select>
+        
+    <insert id="insertEqClimateData" parameterType="com.ruoyi.system.domain.EqClimateData">
+        insert into eq_climate_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="climateId != null">climate_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="timestamp != null">timestamp,</if>
+            <if test="season != null">season,</if>
+            <if test="weatherCondition != null">weather_condition,</if>
+            <if test="precipitation != null">precipitation,</if>
+            <if test="windSpeed != null">wind_speed,</if>
+            <if test="temperatureExtreme != null">temperature_extreme,</if>
+            <if test="airQualityIndex != null">air_quality_index,</if>
+            <if test="pollutionLevel != null">pollution_level,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="climateId != null">#{climateId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="timestamp != null">#{timestamp},</if>
+            <if test="season != null">#{season},</if>
+            <if test="weatherCondition != null">#{weatherCondition},</if>
+            <if test="precipitation != null">#{precipitation},</if>
+            <if test="windSpeed != null">#{windSpeed},</if>
+            <if test="temperatureExtreme != null">#{temperatureExtreme},</if>
+            <if test="airQualityIndex != null">#{airQualityIndex},</if>
+            <if test="pollutionLevel != null">#{pollutionLevel},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEqClimateData" parameterType="com.ruoyi.system.domain.EqClimateData">
+        update eq_climate_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="timestamp != null">timestamp = #{timestamp},</if>
+            <if test="season != null">season = #{season},</if>
+            <if test="weatherCondition != null">weather_condition = #{weatherCondition},</if>
+            <if test="precipitation != null">precipitation = #{precipitation},</if>
+            <if test="windSpeed != null">wind_speed = #{windSpeed},</if>
+            <if test="temperatureExtreme != null">temperature_extreme = #{temperatureExtreme},</if>
+            <if test="airQualityIndex != null">air_quality_index = #{airQualityIndex},</if>
+            <if test="pollutionLevel != null">pollution_level = #{pollutionLevel},</if>
+        </trim>
+        where climate_id = #{climateId}
+    </update>
+
+    <delete id="deleteEqClimateDataByClimateId" parameterType="Long">
+        delete from eq_climate_data where climate_id = #{climateId}
+    </delete>
+
+    <delete id="deleteEqClimateDataByClimateIds">
+        delete from eq_climate_data where climate_id in
+        <foreach item="climateId" collection="climateIds" open="(" separator="," close=")">
+            #{climateId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqClimateDataByDeviceId" parameterType="Long">
+        delete from eq_climate_data where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqClimateDataByDeviceIds">
+        delete from eq_climate_data where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqOperationalDataMapper">
+    <resultMap type="com.ruoyi.system.domain.EqOperationalData" id="EqOperationalDataResult">
+        <result property="operationalId" column="operational_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="timestamp" column="timestamp"/>
+        <result property="operatorId" column="operator_id"/>
+        <result property="operatorName" column="operator_name"/>
+        <result property="operatorSkillLevel" column="operator_skill_level"/>
+        <result property="trainingCompletion" column="training_completion"/>
+        <result property="operationType" column="operation_type"/>
+        <result property="operationDuration" column="operation_duration"/>
+        <result property="operationResult" column="operation_result"/>
+        <result property="operationNotes" column="operation_notes"/>
+        <result property="maintenanceType" column="maintenance_type"/>
+        <result property="maintenanceDuration" column="maintenance_duration"/>
+        <result property="maintenanceCost" column="maintenance_cost"/>
+        <result property="partsUsed" column="parts_used"/>
+        <result property="operatorPerformanceScore" column="operator_performance_score"/>
+        <result property="safetyCompliance" column="safety_compliance"/>
+    </resultMap>
+
+    <sql id="selectEqOperationalDataVo">
+        select o.operational_id, o.device_id, o.timestamp, o.operator_id, o.operator_name, o.operator_skill_level, o.training_completion, o.operation_type, o.operation_duration, o.operation_result, o.operation_notes, o.maintenance_type, o.maintenance_duration, o.maintenance_cost, o.parts_used, o.operator_performance_score, o.safety_compliance,
+        d.device_no, d.device_name
+        from eq_operational_data o
+        left join eq_device d on o.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqOperationalDataList" parameterType="com.ruoyi.system.domain.EqOperationalData" resultMap="EqOperationalDataResult">
+        <include refid="selectEqOperationalDataVo"/>
+        <where>
+            <if test="deviceId != null"> and o.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="timestamp != null"> and o.timestamp = #{timestamp}</if>
+            <if test="operatorId != null"> and o.operator_id = #{operatorId}</if>
+        </where>
+        order by o.device_id, o.operational_id desc
+    </select>
+    
+    <select id="selectEqOperationalDataByOperationalId" parameterType="Long" resultMap="EqOperationalDataResult">
+        <include refid="selectEqOperationalDataVo"/>
+        where o.operational_id = #{operationalId}
+    </select>
+
+    <select id="selectEqOperationalDataListByDeviceId" parameterType="Long" resultMap="EqOperationalDataResult">
+        <include refid="selectEqOperationalDataVo"/>
+        where o.device_id = #{deviceId}
+        order by o.device_id, o.operational_id desc
+    </select>
+        
+    <insert id="insertEqOperationalData" parameterType="com.ruoyi.system.domain.EqOperationalData">
+        insert into eq_operational_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="operationalId != null">operational_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="timestamp != null">timestamp,</if>
+            <if test="operatorId != null">operator_id,</if>
+            <if test="operatorName != null">operator_name,</if>
+            <if test="operatorSkillLevel != null">operator_skill_level,</if>
+            <if test="trainingCompletion != null">training_completion,</if>
+            <if test="operationType != null">operation_type,</if>
+            <if test="operationDuration != null">operation_duration,</if>
+            <if test="operationResult != null">operation_result,</if>
+            <if test="operationNotes != null">operation_notes,</if>
+            <if test="maintenanceType != null">maintenance_type,</if>
+            <if test="maintenanceDuration != null">maintenance_duration,</if>
+            <if test="maintenanceCost != null">maintenance_cost,</if>
+            <if test="partsUsed != null">parts_used,</if>
+            <if test="operatorPerformanceScore != null">operator_performance_score,</if>
+            <if test="safetyCompliance != null">safety_compliance,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="operationalId != null">#{operationalId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="timestamp != null">#{timestamp},</if>
+            <if test="operatorId != null">#{operatorId},</if>
+            <if test="operatorName != null">#{operatorName},</if>
+            <if test="operatorSkillLevel != null">#{operatorSkillLevel},</if>
+            <if test="trainingCompletion != null">#{trainingCompletion},</if>
+            <if test="operationType != null">#{operationType},</if>
+            <if test="operationDuration != null">#{operationDuration},</if>
+            <if test="operationResult != null">#{operationResult},</if>
+            <if test="operationNotes != null">#{operationNotes},</if>
+            <if test="maintenanceType != null">#{maintenanceType},</if>
+            <if test="maintenanceDuration != null">#{maintenanceDuration},</if>
+            <if test="maintenanceCost != null">#{maintenanceCost},</if>
+            <if test="partsUsed != null">#{partsUsed},</if>
+            <if test="operatorPerformanceScore != null">#{operatorPerformanceScore},</if>
+            <if test="safetyCompliance != null">#{safetyCompliance},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEqOperationalData" parameterType="com.ruoyi.system.domain.EqOperationalData">
+        update eq_operational_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="timestamp != null">timestamp = #{timestamp},</if>
+            <if test="operatorId != null">operator_id = #{operatorId},</if>
+            <if test="operatorName != null">operator_name = #{operatorName},</if>
+            <if test="operatorSkillLevel != null">operator_skill_level = #{operatorSkillLevel},</if>
+            <if test="trainingCompletion != null">training_completion = #{trainingCompletion},</if>
+            <if test="operationType != null">operation_type = #{operationType},</if>
+            <if test="operationDuration != null">operation_duration = #{operationDuration},</if>
+            <if test="operationResult != null">operation_result = #{operationResult},</if>
+            <if test="operationNotes != null">operation_notes = #{operationNotes},</if>
+            <if test="maintenanceType != null">maintenance_type = #{maintenanceType},</if>
+            <if test="maintenanceDuration != null">maintenance_duration = #{maintenanceDuration},</if>
+            <if test="maintenanceCost != null">maintenance_cost = #{maintenanceCost},</if>
+            <if test="partsUsed != null">parts_used = #{partsUsed},</if>
+            <if test="operatorPerformanceScore != null">operator_performance_score = #{operatorPerformanceScore},</if>
+            <if test="safetyCompliance != null">safety_compliance = #{safetyCompliance},</if>
+        </trim>
+        where operational_id = #{operationalId}
+    </update>
+
+    <delete id="deleteEqOperationalDataByOperationalId" parameterType="Long">
+        delete from eq_operational_data where operational_id = #{operationalId}
+    </delete>
+
+    <delete id="deleteEqOperationalDataByOperationalIds">
+        delete from eq_operational_data where operational_id in
+        <foreach item="operationalId" collection="operationalIds" open="(" separator="," close=")">
+            #{operationalId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqOperationalDataByDeviceId" parameterType="Long">
+        delete from eq_operational_data where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqOperationalDataByDeviceIds">
+        delete from eq_operational_data where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

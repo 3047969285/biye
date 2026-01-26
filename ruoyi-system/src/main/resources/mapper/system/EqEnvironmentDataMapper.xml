@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqEnvironmentDataMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.EqEnvironmentData" id="EqEnvironmentDataResult">
+        <result property="envId"    column="env_id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceNo"    column="device_no"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="timestamp"    column="timestamp"    />
+        <result property="ambientTemperature"    column="ambient_temperature"    />
+        <result property="deviceTemperature"    column="device_temperature"    />
+        <result property="temperatureChangeRate"    column="temperature_change_rate"    />
+        <result property="extremeHighTemp"    column="extreme_high_temp"    />
+        <result property="extremeLowTemp"    column="extreme_low_temp"    />
+        <result property="humidity"    column="humidity"    />
+        <result property="dewPoint"    column="dew_point"    />
+        <result property="moistureContent"    column="moisture_content"    />
+        <result property="humidityFluctuation"    column="humidity_fluctuation"    />
+        <result property="vibrationX"    column="vibration_x"    />
+        <result property="vibrationY"    column="vibration_y"    />
+        <result property="vibrationZ"    column="vibration_z"    />
+        <result property="vibrationFrequency"    column="vibration_frequency"    />
+        <result property="shockImpact"    column="shock_impact"    />
+        <result property="maxVibrationLevel"    column="max_vibration_level"    />
+        <result property="environmentGrade"    column="environment_grade"    />
+    </resultMap>
+
+    <sql id="selectEqEnvironmentDataVo">
+        select e.env_id, e.device_id, e.timestamp, e.ambient_temperature, e.device_temperature, e.temperature_change_rate, e.extreme_high_temp, e.extreme_low_temp, e.humidity, e.dew_point, e.moisture_content, e.humidity_fluctuation, e.vibration_x, e.vibration_y, e.vibration_z, e.vibration_frequency, e.shock_impact, e.max_vibration_level, e.environment_grade,
+        d.device_no, d.device_name
+        from eq_environment_data e
+        left join eq_device d on e.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqEnvironmentDataList" parameterType="com.ruoyi.system.domain.EqEnvironmentData" resultMap="EqEnvironmentDataResult">
+        <include refid="selectEqEnvironmentDataVo"/>
+        <where>  
+            <if test="deviceId != null "> and e.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="timestamp != null "> and e.timestamp = #{timestamp}</if>
+        </where>
+        order by e.device_id, e.env_id desc
+    </select>
+    
+    <select id="selectEqEnvironmentDataByEnvId" parameterType="Long" resultMap="EqEnvironmentDataResult">
+        <include refid="selectEqEnvironmentDataVo"/>
+        where e.env_id = #{envId}
+    </select>
+
+    <select id="selectEqEnvironmentDataListByDeviceId" parameterType="Long" resultMap="EqEnvironmentDataResult">
+        <include refid="selectEqEnvironmentDataVo"/>
+        where e.device_id = #{deviceId}
+        order by e.device_id, e.env_id desc
+    </select>
+        
+    <insert id="insertEqEnvironmentData" parameterType="com.ruoyi.system.domain.EqEnvironmentData">
+        insert into eq_environment_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="envId != null">env_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="timestamp != null">timestamp,</if>
+            <if test="ambientTemperature != null">ambient_temperature,</if>
+            <if test="deviceTemperature != null">device_temperature,</if>
+            <if test="temperatureChangeRate != null">temperature_change_rate,</if>
+            <if test="extremeHighTemp != null">extreme_high_temp,</if>
+            <if test="extremeLowTemp != null">extreme_low_temp,</if>
+            <if test="humidity != null">humidity,</if>
+            <if test="dewPoint != null">dew_point,</if>
+            <if test="moistureContent != null">moisture_content,</if>
+            <if test="humidityFluctuation != null">humidity_fluctuation,</if>
+            <if test="vibrationX != null">vibration_x,</if>
+            <if test="vibrationY != null">vibration_y,</if>
+            <if test="vibrationZ != null">vibration_z,</if>
+            <if test="vibrationFrequency != null">vibration_frequency,</if>
+            <if test="shockImpact != null">shock_impact,</if>
+            <if test="maxVibrationLevel != null">max_vibration_level,</if>
+            <if test="environmentGrade != null">environment_grade,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="envId != null">#{envId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="timestamp != null">#{timestamp},</if>
+            <if test="ambientTemperature != null">#{ambientTemperature},</if>
+            <if test="deviceTemperature != null">#{deviceTemperature},</if>
+            <if test="temperatureChangeRate != null">#{temperatureChangeRate},</if>
+            <if test="extremeHighTemp != null">#{extremeHighTemp},</if>
+            <if test="extremeLowTemp != null">#{extremeLowTemp},</if>
+            <if test="humidity != null">#{humidity},</if>
+            <if test="dewPoint != null">#{dewPoint},</if>
+            <if test="moistureContent != null">#{moistureContent},</if>
+            <if test="humidityFluctuation != null">#{humidityFluctuation},</if>
+            <if test="vibrationX != null">#{vibrationX},</if>
+            <if test="vibrationY != null">#{vibrationY},</if>
+            <if test="vibrationZ != null">#{vibrationZ},</if>
+            <if test="vibrationFrequency != null">#{vibrationFrequency},</if>
+            <if test="shockImpact != null">#{shockImpact},</if>
+            <if test="maxVibrationLevel != null">#{maxVibrationLevel},</if>
+            <if test="environmentGrade != null">#{environmentGrade},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEqEnvironmentData" parameterType="com.ruoyi.system.domain.EqEnvironmentData">
+        update eq_environment_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="timestamp != null">timestamp = #{timestamp},</if>
+            <if test="ambientTemperature != null">ambient_temperature = #{ambientTemperature},</if>
+            <if test="deviceTemperature != null">device_temperature = #{deviceTemperature},</if>
+            <if test="temperatureChangeRate != null">temperature_change_rate = #{temperatureChangeRate},</if>
+            <if test="extremeHighTemp != null">extreme_high_temp = #{extremeHighTemp},</if>
+            <if test="extremeLowTemp != null">extreme_low_temp = #{extremeLowTemp},</if>
+            <if test="humidity != null">humidity = #{humidity},</if>
+            <if test="dewPoint != null">dew_point = #{dewPoint},</if>
+            <if test="moistureContent != null">moisture_content = #{moistureContent},</if>
+            <if test="humidityFluctuation != null">humidity_fluctuation = #{humidityFluctuation},</if>
+            <if test="vibrationX != null">vibration_x = #{vibrationX},</if>
+            <if test="vibrationY != null">vibration_y = #{vibrationY},</if>
+            <if test="vibrationZ != null">vibration_z = #{vibrationZ},</if>
+            <if test="vibrationFrequency != null">vibration_frequency = #{vibrationFrequency},</if>
+            <if test="shockImpact != null">shock_impact = #{shockImpact},</if>
+            <if test="maxVibrationLevel != null">max_vibration_level = #{maxVibrationLevel},</if>
+            <if test="environmentGrade != null">environment_grade = #{environmentGrade},</if>
+        </trim>
+        where env_id = #{envId}
+    </update>
+
+    <delete id="deleteEqEnvironmentDataByEnvId" parameterType="Long">
+        delete from eq_environment_data where env_id = #{envId}
+    </delete>
+
+    <delete id="deleteEqEnvironmentDataByEnvIds">
+        delete from eq_environment_data where env_id in 
+        <foreach item="envId" collection="envIds" open="(" separator="," close=")">
+            #{envId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqEnvironmentDataByDeviceId" parameterType="Long">
+        delete from eq_environment_data where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqEnvironmentDataByDeviceIds">
+        delete from eq_environment_data where device_id in 
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

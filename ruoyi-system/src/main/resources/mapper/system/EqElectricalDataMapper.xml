@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqElectricalDataMapper">
+    <resultMap type="com.ruoyi.system.domain.EqElectricalData" id="EqElectricalDataResult">
+        <result property="electricalId" column="electrical_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="timestamp" column="timestamp"/>
+        <result property="voltageL1" column="voltage_l1"/>
+        <result property="voltageL2" column="voltage_l2"/>
+        <result property="voltageL3" column="voltage_l3"/>
+        <result property="voltageUnbalance" column="voltage_unbalance"/>
+        <result property="frequency" column="frequency"/>
+        <result property="voltageFluctuation" column="voltage_fluctuation"/>
+        <result property="currentL1" column="current_l1"/>
+        <result property="currentL2" column="current_l2"/>
+        <result property="currentL3" column="current_l3"/>
+        <result property="currentUnbalance" column="current_unbalance"/>
+        <result property="totalCurrent" column="total_current"/>
+        <result property="activePower" column="active_power"/>
+        <result property="reactivePower" column="reactive_power"/>
+        <result property="apparentPower" column="apparent_power"/>
+        <result property="powerFactor" column="power_factor"/>
+        <result property="efficiency" column="efficiency"/>
+        <result property="harmonicsVoltage" column="harmonics_voltage"/>
+        <result property="harmonicsCurrent" column="harmonics_current"/>
+        <result property="totalHarmonicDistortion" column="total_harmonic_distortion"/>
+        <result property="voltageThd" column="voltage_thd"/>
+        <result property="currentThd" column="current_thd"/>
+        <result property="electromagneticInterference" column="electromagnetic_interference"/>
+        <result property="groundingResistance" column="grounding_resistance"/>
+        <result property="shieldingEffectiveness" column="shielding_effectiveness"/>
+        <result property="electricalGrade" column="electrical_grade"/>
+    </resultMap>
+
+    <sql id="selectEqElectricalDataVo">
+        select el.electrical_id, el.device_id, el.timestamp, el.voltage_l1, el.voltage_l2, el.voltage_l3, el.voltage_unbalance, el.frequency, el.voltage_fluctuation, el.current_l1, el.current_l2, el.current_l3, el.current_unbalance, el.total_current, el.active_power, el.reactive_power, el.apparent_power, el.power_factor, el.efficiency, el.harmonics_voltage, el.harmonics_current, el.total_harmonic_distortion, el.voltage_thd, el.current_thd, el.electromagnetic_interference, el.grounding_resistance, el.shielding_effectiveness, el.electrical_grade,
+        d.device_no, d.device_name
+        from eq_electrical_data el
+        left join eq_device d on el.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqElectricalDataList" parameterType="com.ruoyi.system.domain.EqElectricalData" resultMap="EqElectricalDataResult">
+        <include refid="selectEqElectricalDataVo"/>
+        <where>
+            <if test="deviceId != null"> and el.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="timestamp != null"> and el.timestamp = #{timestamp}</if>
+        </where>
+        order by el.device_id, el.electrical_id desc
+    </select>
+    
+    <select id="selectEqElectricalDataByElectricalId" parameterType="Long" resultMap="EqElectricalDataResult">
+        <include refid="selectEqElectricalDataVo"/>
+        where el.electrical_id = #{electricalId}
+    </select>
+
+    <select id="selectEqElectricalDataListByDeviceId" parameterType="Long" resultMap="EqElectricalDataResult">
+        <include refid="selectEqElectricalDataVo"/>
+        where el.device_id = #{deviceId}
+        order by el.device_id, el.electrical_id desc
+    </select>
+        
+    <insert id="insertEqElectricalData" parameterType="com.ruoyi.system.domain.EqElectricalData">
+        insert into eq_electrical_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="electricalId != null">electrical_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="timestamp != null">timestamp,</if>
+            <if test="voltageL1 != null">voltage_l1,</if>
+            <if test="voltageL2 != null">voltage_l2,</if>
+            <if test="voltageL3 != null">voltage_l3,</if>
+            <if test="voltageUnbalance != null">voltage_unbalance,</if>
+            <if test="frequency != null">frequency,</if>
+            <if test="voltageFluctuation != null">voltage_fluctuation,</if>
+            <if test="currentL1 != null">current_l1,</if>
+            <if test="currentL2 != null">current_l2,</if>
+            <if test="currentL3 != null">current_l3,</if>
+            <if test="currentUnbalance != null">current_unbalance,</if>
+            <if test="totalCurrent != null">total_current,</if>
+            <if test="activePower != null">active_power,</if>
+            <if test="reactivePower != null">reactive_power,</if>
+            <if test="apparentPower != null">apparent_power,</if>
+            <if test="powerFactor != null">power_factor,</if>
+            <if test="efficiency != null">efficiency,</if>
+            <if test="harmonicsVoltage != null">harmonics_voltage,</if>
+            <if test="harmonicsCurrent != null">harmonics_current,</if>
+            <if test="totalHarmonicDistortion != null">total_harmonic_distortion,</if>
+            <if test="voltageThd != null">voltage_thd,</if>
+            <if test="currentThd != null">current_thd,</if>
+            <if test="electromagneticInterference != null">electromagnetic_interference,</if>
+            <if test="groundingResistance != null">grounding_resistance,</if>
+            <if test="shieldingEffectiveness != null">shielding_effectiveness,</if>
+            <if test="electricalGrade != null">electrical_grade,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="electricalId != null">#{electricalId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="timestamp != null">#{timestamp},</if>
+            <if test="voltageL1 != null">#{voltageL1},</if>
+            <if test="voltageL2 != null">#{voltageL2},</if>
+            <if test="voltageL3 != null">#{voltageL3},</if>
+            <if test="voltageUnbalance != null">#{voltageUnbalance},</if>
+            <if test="frequency != null">#{frequency},</if>
+            <if test="voltageFluctuation != null">#{voltageFluctuation},</if>
+            <if test="currentL1 != null">#{currentL1},</if>
+            <if test="currentL2 != null">#{currentL2},</if>
+            <if test="currentL3 != null">#{currentL3},</if>
+            <if test="currentUnbalance != null">#{currentUnbalance},</if>
+            <if test="totalCurrent != null">#{totalCurrent},</if>
+            <if test="activePower != null">#{activePower},</if>
+            <if test="reactivePower != null">#{reactivePower},</if>
+            <if test="apparentPower != null">#{apparentPower},</if>
+            <if test="powerFactor != null">#{powerFactor},</if>
+            <if test="efficiency != null">#{efficiency},</if>
+            <if test="harmonicsVoltage != null">#{harmonicsVoltage},</if>
+            <if test="harmonicsCurrent != null">#{harmonicsCurrent},</if>
+            <if test="totalHarmonicDistortion != null">#{totalHarmonicDistortion},</if>
+            <if test="voltageThd != null">#{voltageThd},</if>
+            <if test="currentThd != null">#{currentThd},</if>
+            <if test="electromagneticInterference != null">#{electromagneticInterference},</if>
+            <if test="groundingResistance != null">#{groundingResistance},</if>
+            <if test="shieldingEffectiveness != null">#{shieldingEffectiveness},</if>
+            <if test="electricalGrade != null">#{electricalGrade},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEqElectricalData" parameterType="com.ruoyi.system.domain.EqElectricalData">
+        update eq_electrical_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="timestamp != null">timestamp = #{timestamp},</if>
+            <if test="voltageL1 != null">voltage_l1 = #{voltageL1},</if>
+            <if test="voltageL2 != null">voltage_l2 = #{voltageL2},</if>
+            <if test="voltageL3 != null">voltage_l3 = #{voltageL3},</if>
+            <if test="voltageUnbalance != null">voltage_unbalance = #{voltageUnbalance},</if>
+            <if test="frequency != null">frequency = #{frequency},</if>
+            <if test="voltageFluctuation != null">voltage_fluctuation = #{voltageFluctuation},</if>
+            <if test="currentL1 != null">current_l1 = #{currentL1},</if>
+            <if test="currentL2 != null">current_l2 = #{currentL2},</if>
+            <if test="currentL3 != null">current_l3 = #{currentL3},</if>
+            <if test="currentUnbalance != null">current_unbalance = #{currentUnbalance},</if>
+            <if test="totalCurrent != null">total_current = #{totalCurrent},</if>
+            <if test="activePower != null">active_power = #{activePower},</if>
+            <if test="reactivePower != null">reactive_power = #{reactivePower},</if>
+            <if test="apparentPower != null">apparent_power = #{apparentPower},</if>
+            <if test="powerFactor != null">power_factor = #{powerFactor},</if>
+            <if test="efficiency != null">efficiency = #{efficiency},</if>
+            <if test="harmonicsVoltage != null">harmonics_voltage = #{harmonicsVoltage},</if>
+            <if test="harmonicsCurrent != null">harmonics_current = #{harmonicsCurrent},</if>
+            <if test="totalHarmonicDistortion != null">total_harmonic_distortion = #{totalHarmonicDistortion},</if>
+            <if test="voltageThd != null">voltage_thd = #{voltageThd},</if>
+            <if test="currentThd != null">current_thd = #{currentThd},</if>
+            <if test="electromagneticInterference != null">electromagnetic_interference = #{electromagneticInterference},</if>
+            <if test="groundingResistance != null">grounding_resistance = #{groundingResistance},</if>
+            <if test="shieldingEffectiveness != null">shielding_effectiveness = #{shieldingEffectiveness},</if>
+            <if test="electricalGrade != null">electrical_grade = #{electricalGrade},</if>
+        </trim>
+        where electrical_id = #{electricalId}
+    </update>
+
+    <delete id="deleteEqElectricalDataByElectricalId" parameterType="Long">
+        delete from eq_electrical_data where electrical_id = #{electricalId}
+    </delete>
+
+    <delete id="deleteEqElectricalDataByElectricalIds">
+        delete from eq_electrical_data where electrical_id in
+        <foreach item="electricalId" collection="electricalIds" open="(" separator="," close=")">
+            #{electricalId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqElectricalDataByDeviceId" parameterType="Long">
+        delete from eq_electrical_data where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqElectricalDataByDeviceIds">
+        delete from eq_electrical_data where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

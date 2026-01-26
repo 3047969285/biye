@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqTechnologyDataMapper">
+    <resultMap type="com.ruoyi.system.domain.EqTechnologyData" id="EqTechnologyDataResult">
+        <result property="techId" column="tech_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="timestamp" column="timestamp"/>
+        <result property="technologyLevel" column="technology_level"/>
+        <result property="upgradeStatus" column="upgrade_status"/>
+        <result property="standardCompliance" column="standard_compliance"/>
+        <result property="certificationStatus" column="certification_status"/>
+        <result property="softwareVersion" column="software_version"/>
+        <result property="firmwareVersion" column="firmware_version"/>
+        <result property="systemUpdates" column="system_updates"/>
+        <result property="digitalizationLevel" column="digitalization_level"/>
+        <result property="connectivityLevel" column="connectivity_level"/>
+        <result property="technologyMaturity" column="technology_maturity"/>
+        <result property="obsolescenceRisk" column="obsolescence_risk"/>
+    </resultMap>
+
+    <sql id="selectEqTechnologyDataVo">
+        select t.tech_id, t.device_id, t.timestamp, t.technology_level, t.upgrade_status, t.standard_compliance, t.certification_status, t.software_version, t.firmware_version, t.system_updates, t.digitalization_level, t.connectivity_level, t.technology_maturity, t.obsolescence_risk,
+        d.device_no, d.device_name
+        from eq_technology_data t
+        left join eq_device d on t.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqTechnologyDataList" parameterType="com.ruoyi.system.domain.EqTechnologyData" resultMap="EqTechnologyDataResult">
+        <include refid="selectEqTechnologyDataVo"/>
+        <where>
+            <if test="deviceId != null"> and t.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="timestamp != null"> and t.timestamp = #{timestamp}</if>
+        </where>
+        order by t.device_id, t.tech_id desc
+    </select>
+    
+    <select id="selectEqTechnologyDataByTechId" parameterType="Long" resultMap="EqTechnologyDataResult">
+        <include refid="selectEqTechnologyDataVo"/>
+        where t.tech_id = #{techId}
+    </select>
+
+    <select id="selectEqTechnologyDataListByDeviceId" parameterType="Long" resultMap="EqTechnologyDataResult">
+        <include refid="selectEqTechnologyDataVo"/>
+        where t.device_id = #{deviceId}
+        order by t.device_id, t.tech_id desc
+    </select>
+        
+    <insert id="insertEqTechnologyData" parameterType="com.ruoyi.system.domain.EqTechnologyData">
+        insert into eq_technology_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="techId != null">tech_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="timestamp != null">timestamp,</if>
+            <if test="technologyLevel != null">technology_level,</if>
+            <if test="upgradeStatus != null">upgrade_status,</if>
+            <if test="standardCompliance != null">standard_compliance,</if>
+            <if test="certificationStatus != null">certification_status,</if>
+            <if test="softwareVersion != null">software_version,</if>
+            <if test="firmwareVersion != null">firmware_version,</if>
+            <if test="systemUpdates != null">system_updates,</if>
+            <if test="digitalizationLevel != null">digitalization_level,</if>
+            <if test="connectivityLevel != null">connectivity_level,</if>
+            <if test="technologyMaturity != null">technology_maturity,</if>
+            <if test="obsolescenceRisk != null">obsolescence_risk,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="techId != null">#{techId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="timestamp != null">#{timestamp},</if>
+            <if test="technologyLevel != null">#{technologyLevel},</if>
+            <if test="upgradeStatus != null">#{upgradeStatus},</if>
+            <if test="standardCompliance != null">#{standardCompliance},</if>
+            <if test="certificationStatus != null">#{certificationStatus},</if>
+            <if test="softwareVersion != null">#{softwareVersion},</if>
+            <if test="firmwareVersion != null">#{firmwareVersion},</if>
+            <if test="systemUpdates != null">#{systemUpdates},</if>
+            <if test="digitalizationLevel != null">#{digitalizationLevel},</if>
+            <if test="connectivityLevel != null">#{connectivityLevel},</if>
+            <if test="technologyMaturity != null">#{technologyMaturity},</if>
+            <if test="obsolescenceRisk != null">#{obsolescenceRisk},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEqTechnologyData" parameterType="com.ruoyi.system.domain.EqTechnologyData">
+        update eq_technology_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="timestamp != null">timestamp = #{timestamp},</if>
+            <if test="technologyLevel != null">technology_level = #{technologyLevel},</if>
+            <if test="upgradeStatus != null">upgrade_status = #{upgradeStatus},</if>
+            <if test="standardCompliance != null">standard_compliance = #{standardCompliance},</if>
+            <if test="certificationStatus != null">certification_status = #{certificationStatus},</if>
+            <if test="softwareVersion != null">software_version = #{softwareVersion},</if>
+            <if test="firmwareVersion != null">firmware_version = #{firmwareVersion},</if>
+            <if test="systemUpdates != null">system_updates = #{systemUpdates},</if>
+            <if test="digitalizationLevel != null">digitalization_level = #{digitalizationLevel},</if>
+            <if test="connectivityLevel != null">connectivity_level = #{connectivityLevel},</if>
+            <if test="technologyMaturity != null">technology_maturity = #{technologyMaturity},</if>
+            <if test="obsolescenceRisk != null">obsolescence_risk = #{obsolescenceRisk},</if>
+        </trim>
+        where tech_id = #{techId}
+    </update>
+
+    <delete id="deleteEqTechnologyDataByTechId" parameterType="Long">
+        delete from eq_technology_data where tech_id = #{techId}
+    </delete>
+
+    <delete id="deleteEqTechnologyDataByTechIds">
+        delete from eq_technology_data where tech_id in
+        <foreach item="techId" collection="techIds" open="(" separator="," close=")">
+            #{techId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqTechnologyDataByDeviceId" parameterType="Long">
+        delete from eq_technology_data where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqTechnologyDataByDeviceIds">
+        delete from eq_technology_data where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqDeviceRuleMapper">
+    <resultMap type="com.ruoyi.system.domain.EqDeviceRule" id="EqDeviceRuleResult">
+        <result property="ruleId" column="rule_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="ruleName" column="rule_name"/>
+        <result property="parameterName" column="parameter_name"/>
+        <result property="conditionType" column="condition_type"/>
+        <result property="thresholdValue" column="threshold_value"/>
+        <result property="thresholdUnit" column="threshold_unit"/>
+        <result property="alertLevel" column="alert_level"/>
+        <result property="enabled" column="enabled"/>
+        <result property="notificationChannels" column="notification_channels"/>
+    </resultMap>
+
+    <sql id="selectEqDeviceRuleVo">
+        select r.rule_id, r.device_id, r.rule_name, r.parameter_name, r.condition_type, r.threshold_value, r.threshold_unit, r.alert_level, r.enabled, r.notification_channels,
+        d.device_no, d.device_name
+        from eq_device_rule r
+        left join eq_device d on r.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqDeviceRuleList" parameterType="com.ruoyi.system.domain.EqDeviceRule" resultMap="EqDeviceRuleResult">
+        <include refid="selectEqDeviceRuleVo"/>
+        <where>
+            <if test="deviceId != null"> and r.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="ruleName != null and ruleName != ''"> and r.rule_name like concat('%', #{ruleName}, '%')</if>
+            <if test="enabled != null"> and r.enabled = #{enabled}</if>
+        </where>
+        order by r.device_id, r.rule_id desc
+    </select>
+    
+    <select id="selectEqDeviceRuleByRuleId" parameterType="Long" resultMap="EqDeviceRuleResult">
+        <include refid="selectEqDeviceRuleVo"/>
+        where r.rule_id = #{ruleId}
+    </select>
+
+    <select id="selectEqDeviceRuleListByDeviceId" parameterType="Long" resultMap="EqDeviceRuleResult">
+        <include refid="selectEqDeviceRuleVo"/>
+        where r.device_id = #{deviceId}
+        order by r.device_id, r.rule_id desc
+    </select>
+        
+    <insert id="insertEqDeviceRule" parameterType="com.ruoyi.system.domain.EqDeviceRule">
+        insert into eq_device_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleId != null">rule_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="ruleName != null and ruleName != ''">rule_name,</if>
+            <if test="parameterName != null and parameterName != ''">parameter_name,</if>
+            <if test="conditionType != null">condition_type,</if>
+            <if test="thresholdValue != null">threshold_value,</if>
+            <if test="thresholdUnit != null">threshold_unit,</if>
+            <if test="alertLevel != null">alert_level,</if>
+            <if test="enabled != null">enabled,</if>
+            <if test="notificationChannels != null">notification_channels,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleId != null">#{ruleId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="ruleName != null and ruleName != ''">#{ruleName},</if>
+            <if test="parameterName != null and parameterName != ''">#{parameterName},</if>
+            <if test="conditionType != null">#{conditionType},</if>
+            <if test="thresholdValue != null">#{thresholdValue},</if>
+            <if test="thresholdUnit != null">#{thresholdUnit},</if>
+            <if test="alertLevel != null">#{alertLevel},</if>
+            <if test="enabled != null">#{enabled},</if>
+            <if test="notificationChannels != null">#{notificationChannels},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEqDeviceRule" parameterType="com.ruoyi.system.domain.EqDeviceRule">
+        update eq_device_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="ruleName != null and ruleName != ''">rule_name = #{ruleName},</if>
+            <if test="parameterName != null and parameterName != ''">parameter_name = #{parameterName},</if>
+            <if test="conditionType != null">condition_type = #{conditionType},</if>
+            <if test="thresholdValue != null">threshold_value = #{thresholdValue},</if>
+            <if test="thresholdUnit != null">threshold_unit = #{thresholdUnit},</if>
+            <if test="alertLevel != null">alert_level = #{alertLevel},</if>
+            <if test="enabled != null">enabled = #{enabled},</if>
+            <if test="notificationChannels != null">notification_channels = #{notificationChannels},</if>
+        </trim>
+        where rule_id = #{ruleId}
+    </update>
+
+    <delete id="deleteEqDeviceRuleByRuleId" parameterType="Long">
+        delete from eq_device_rule where rule_id = #{ruleId}
+    </delete>
+
+    <delete id="deleteEqDeviceRuleByRuleIds">
+        delete from eq_device_rule where rule_id in
+        <foreach item="ruleId" collection="ruleIds" open="(" separator="," close=")">
+            #{ruleId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqDeviceRuleByDeviceId" parameterType="Long">
+        delete from eq_device_rule where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqDeviceRuleByDeviceIds">
+        delete from eq_device_rule where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

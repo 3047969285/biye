@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqFaultRecordMapper">
+    <resultMap type="com.ruoyi.system.domain.EqFaultRecord" id="EqFaultRecordResult">
+        <result property="faultId" column="fault_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="faultCode" column="fault_code"/>
+        <result property="faultDescription" column="fault_description"/>
+        <result property="faultLevel" column="fault_level"/>
+        <result property="detectedTime" column="detected_time"/>
+        <result property="resolvedTime" column="resolved_time"/>
+        <result property="resolutionNotes" column="resolution_notes"/>
+        <result property="rootCause" column="root_cause"/>
+        <result property="repairDuration" column="repair_duration"/>
+        <result property="repairCost" column="repair_cost"/>
+        <result property="partsReplaced" column="parts_replaced"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectEqFaultRecordVo">
+        select f.fault_id, f.device_id, f.fault_code, f.fault_description, f.fault_level, f.detected_time, f.resolved_time, f.resolution_notes, f.root_cause, f.repair_duration, f.repair_cost, f.parts_replaced, f.status, f.remark,
+        d.device_no, d.device_name
+        from eq_fault_record f
+        left join eq_device d on f.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqFaultRecordList" parameterType="com.ruoyi.system.domain.EqFaultRecord" resultMap="EqFaultRecordResult">
+        <include refid="selectEqFaultRecordVo"/>
+        <where>
+            <if test="deviceId != null"> and f.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="faultCode != null and faultCode != ''"> and f.fault_code like concat('%', #{faultCode}, '%')</if>
+            <if test="faultLevel != null and faultLevel != ''"> and f.fault_level = #{faultLevel}</if>
+            <if test="status != null"> and f.status = #{status}</if>
+        </where>
+        order by f.device_id, f.fault_id desc
+    </select>
+    
+    <select id="selectEqFaultRecordByFaultId" parameterType="Long" resultMap="EqFaultRecordResult">
+        <include refid="selectEqFaultRecordVo"/>
+        where f.fault_id = #{faultId}
+    </select>
+
+    <select id="selectEqFaultRecordListByDeviceId" parameterType="Long" resultMap="EqFaultRecordResult">
+        <include refid="selectEqFaultRecordVo"/>
+        where f.device_id = #{deviceId}
+        order by f.device_id, f.fault_id desc
+    </select>
+        
+    <insert id="insertEqFaultRecord" parameterType="com.ruoyi.system.domain.EqFaultRecord">
+        insert into eq_fault_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="faultId != null">fault_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="faultCode != null and faultCode != ''">fault_code,</if>
+            <if test="faultDescription != null">fault_description,</if>
+            <if test="faultLevel != null and faultLevel != ''">fault_level,</if>
+            <if test="detectedTime != null">detected_time,</if>
+            <if test="resolvedTime != null">resolved_time,</if>
+            <if test="resolutionNotes != null">resolution_notes,</if>
+            <if test="rootCause != null">root_cause,</if>
+            <if test="repairDuration != null">repair_duration,</if>
+            <if test="repairCost != null">repair_cost,</if>
+            <if test="partsReplaced != null">parts_replaced,</if>
+            <if test="status != null">status,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="faultId != null">#{faultId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="faultCode != null and faultCode != ''">#{faultCode},</if>
+            <if test="faultDescription != null">#{faultDescription},</if>
+            <if test="faultLevel != null and faultLevel != ''">#{faultLevel},</if>
+            <if test="detectedTime != null">#{detectedTime},</if>
+            <if test="resolvedTime != null">#{resolvedTime},</if>
+            <if test="resolutionNotes != null">#{resolutionNotes},</if>
+            <if test="rootCause != null">#{rootCause},</if>
+            <if test="repairDuration != null">#{repairDuration},</if>
+            <if test="repairCost != null">#{repairCost},</if>
+            <if test="partsReplaced != null">#{partsReplaced},</if>
+            <if test="status != null">#{status},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEqFaultRecord" parameterType="com.ruoyi.system.domain.EqFaultRecord">
+        update eq_fault_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="faultCode != null and faultCode != ''">fault_code = #{faultCode},</if>
+            <if test="faultDescription != null">fault_description = #{faultDescription},</if>
+            <if test="faultLevel != null and faultLevel != ''">fault_level = #{faultLevel},</if>
+            <if test="detectedTime != null">detected_time = #{detectedTime},</if>
+            <if test="resolvedTime != null">resolved_time = #{resolvedTime},</if>
+            <if test="resolutionNotes != null">resolution_notes = #{resolutionNotes},</if>
+            <if test="rootCause != null">root_cause = #{rootCause},</if>
+            <if test="repairDuration != null">repair_duration = #{repairDuration},</if>
+            <if test="repairCost != null">repair_cost = #{repairCost},</if>
+            <if test="partsReplaced != null">parts_replaced = #{partsReplaced},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where fault_id = #{faultId}
+    </update>
+
+    <delete id="deleteEqFaultRecordByFaultId" parameterType="Long">
+        delete from eq_fault_record where fault_id = #{faultId}
+    </delete>
+
+    <delete id="deleteEqFaultRecordByFaultIds">
+        delete from eq_fault_record where fault_id in
+        <foreach item="faultId" collection="faultIds" open="(" separator="," close=")">
+            #{faultId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqFaultRecordByDeviceId" parameterType="Long">
+        delete from eq_fault_record where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqFaultRecordByDeviceIds">
+        delete from eq_fault_record where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

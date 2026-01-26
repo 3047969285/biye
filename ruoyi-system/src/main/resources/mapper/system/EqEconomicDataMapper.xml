@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqEconomicDataMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.EqEconomicData" id="EqEconomicDataResult">
+        <result property="economicId" column="economic_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="timestamp" column="timestamp"/>
+        <result property="maintenanceCost" column="maintenance_cost"/>
+        <result property="energyConsumption" column="energy_consumption"/>
+        <result property="laborCost" column="labor_cost"/>
+        <result property="partsCost" column="parts_cost"/>
+        <result property="downtimeCost" column="downtime_cost"/>
+        <result property="roi" column="roi"/>
+        <result property="npv" column="npv"/>
+        <result property="paybackPeriod" column="payback_period"/>
+        <result property="annualBudget" column="annual_budget"/>
+        <result property="actualSpending" column="actual_spending"/>
+        <result property="budgetUtilization" column="budget_utilization"/>
+        <result property="regulatoryCompliance" column="regulatory_compliance"/>
+        <result property="environmentalImpact" column="environmental_impact"/>
+    </resultMap>
+
+    <sql id="selectEqEconomicDataVo">
+        select ec.economic_id, ec.device_id, ec.timestamp, ec.maintenance_cost, ec.energy_consumption, ec.labor_cost, ec.parts_cost, ec.downtime_cost, ec.roi, ec.npv, ec.payback_period, ec.annual_budget, ec.actual_spending, ec.budget_utilization, ec.regulatory_compliance, ec.environmental_impact,
+        d.device_no, d.device_name
+        from eq_economic_data ec
+        left join eq_device d on ec.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqEconomicDataList" parameterType="com.ruoyi.system.domain.EqEconomicData" resultMap="EqEconomicDataResult">
+        <include refid="selectEqEconomicDataVo"/>
+        <where>
+            <if test="deviceId != null"> and ec.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="timestamp != null"> and ec.timestamp = #{timestamp}</if>
+        </where>
+        order by ec.device_id, ec.economic_id desc
+    </select>
+    
+    <select id="selectEqEconomicDataByEconomicId" parameterType="Long" resultMap="EqEconomicDataResult">
+        <include refid="selectEqEconomicDataVo"/>
+        where ec.economic_id = #{economicId}
+    </select>
+
+    <select id="selectEqEconomicDataListByDeviceId" parameterType="Long" resultMap="EqEconomicDataResult">
+        <include refid="selectEqEconomicDataVo"/>
+        where ec.device_id = #{deviceId}
+        order by ec.device_id, ec.economic_id desc
+    </select>
+        
+    <insert id="insertEqEconomicData" parameterType="com.ruoyi.system.domain.EqEconomicData">
+        insert into eq_economic_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="economicId != null">economic_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="timestamp != null">timestamp,</if>
+            <if test="maintenanceCost != null">maintenance_cost,</if>
+            <if test="energyConsumption != null">energy_consumption,</if>
+            <if test="laborCost != null">labor_cost,</if>
+            <if test="partsCost != null">parts_cost,</if>
+            <if test="downtimeCost != null">downtime_cost,</if>
+            <if test="roi != null">roi,</if>
+            <if test="npv != null">npv,</if>
+            <if test="paybackPeriod != null">payback_period,</if>
+            <if test="annualBudget != null">annual_budget,</if>
+            <if test="actualSpending != null">actual_spending,</if>
+            <if test="budgetUtilization != null">budget_utilization,</if>
+            <if test="regulatoryCompliance != null">regulatory_compliance,</if>
+            <if test="environmentalImpact != null">environmental_impact,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="economicId != null">#{economicId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="timestamp != null">#{timestamp},</if>
+            <if test="maintenanceCost != null">#{maintenanceCost},</if>
+            <if test="energyConsumption != null">#{energyConsumption},</if>
+            <if test="laborCost != null">#{laborCost},</if>
+            <if test="partsCost != null">#{partsCost},</if>
+            <if test="downtimeCost != null">#{downtimeCost},</if>
+            <if test="roi != null">#{roi},</if>
+            <if test="npv != null">#{npv},</if>
+            <if test="paybackPeriod != null">#{paybackPeriod},</if>
+            <if test="annualBudget != null">#{annualBudget},</if>
+            <if test="actualSpending != null">#{actualSpending},</if>
+            <if test="budgetUtilization != null">#{budgetUtilization},</if>
+            <if test="regulatoryCompliance != null">#{regulatoryCompliance},</if>
+            <if test="environmentalImpact != null">#{environmentalImpact},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEqEconomicData" parameterType="com.ruoyi.system.domain.EqEconomicData">
+        update eq_economic_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="timestamp != null">timestamp = #{timestamp},</if>
+            <if test="maintenanceCost != null">maintenance_cost = #{maintenanceCost},</if>
+            <if test="energyConsumption != null">energy_consumption = #{energyConsumption},</if>
+            <if test="laborCost != null">labor_cost = #{laborCost},</if>
+            <if test="partsCost != null">parts_cost = #{partsCost},</if>
+            <if test="downtimeCost != null">downtime_cost = #{downtimeCost},</if>
+            <if test="roi != null">roi = #{roi},</if>
+            <if test="npv != null">npv = #{npv},</if>
+            <if test="paybackPeriod != null">payback_period = #{paybackPeriod},</if>
+            <if test="annualBudget != null">annual_budget = #{annualBudget},</if>
+            <if test="actualSpending != null">actual_spending = #{actualSpending},</if>
+            <if test="budgetUtilization != null">budget_utilization = #{budgetUtilization},</if>
+            <if test="regulatoryCompliance != null">regulatory_compliance = #{regulatoryCompliance},</if>
+            <if test="environmentalImpact != null">environmental_impact = #{environmentalImpact},</if>
+        </trim>
+        where economic_id = #{economicId}
+    </update>
+
+    <delete id="deleteEqEconomicDataByEconomicId" parameterType="Long">
+        delete from eq_economic_data where economic_id = #{economicId}
+    </delete>
+
+    <delete id="deleteEqEconomicDataByEconomicIds">
+        delete from eq_economic_data where economic_id in
+        <foreach item="economicId" collection="economicIds" open="(" separator="," close=")">
+            #{economicId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqEconomicDataByDeviceId" parameterType="Long">
+        delete from eq_economic_data where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqEconomicDataByDeviceIds">
+        delete from eq_economic_data where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

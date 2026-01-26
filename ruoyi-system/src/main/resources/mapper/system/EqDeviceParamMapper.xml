@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqDeviceParamMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.EqDeviceParam" id="EqDeviceParamResult">
+        <result property="paramId"    column="param_id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceNo"    column="device_no"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="parameterName"    column="parameter_name"    />
+        <result property="parameterValue"    column="parameter_value"    />
+        <result property="unit"    column="unit"    />
+        <result property="defaultValue"    column="default_value"    />
+        <result property="minValue"    column="min_value"    />
+        <result property="maxValue"    column="max_value"    />
+        <result property="criticalThreshold"    column="critical_threshold"    />
+        <result property="warningThreshold"    column="warning_threshold"    />
+        <result property="lastUpdated"    column="last_updated"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectEqDeviceParamVo">
+        select p.param_id, p.device_id, p.parameter_name, p.parameter_value, p.unit, p.default_value, p.min_value, p.max_value, p.critical_threshold, p.warning_threshold, p.last_updated, p.remark,
+        d.device_no, d.device_name
+        from eq_device_param p
+        left join eq_device d on p.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqDeviceParamList" parameterType="com.ruoyi.system.domain.EqDeviceParam" resultMap="EqDeviceParamResult">
+        <include refid="selectEqDeviceParamVo"/>
+        <where>  
+            <if test="deviceId != null "> and p.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="parameterName != null and parameterName != ''"> and p.parameter_name like concat('%', #{parameterName}, '%')</if>
+        </where>
+        order by p.device_id, p.param_id desc
+    </select>
+    
+    <select id="selectEqDeviceParamByParamId" parameterType="Long" resultMap="EqDeviceParamResult">
+        <include refid="selectEqDeviceParamVo"/>
+        where p.param_id = #{paramId}
+    </select>
+
+    <select id="selectEqDeviceParamListByDeviceId" parameterType="Long" resultMap="EqDeviceParamResult">
+        <include refid="selectEqDeviceParamVo"/>
+        where p.device_id = #{deviceId}
+        order by p.device_id, p.param_id desc
+    </select>
+        
+    <insert id="insertEqDeviceParam" parameterType="com.ruoyi.system.domain.EqDeviceParam">
+        insert into eq_device_param
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paramId != null">param_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="parameterName != null and parameterName != ''">parameter_name,</if>
+            <if test="parameterValue != null">parameter_value,</if>
+            <if test="unit != null">unit,</if>
+            <if test="defaultValue != null">default_value,</if>
+            <if test="minValue != null">min_value,</if>
+            <if test="maxValue != null">max_value,</if>
+            <if test="criticalThreshold != null">critical_threshold,</if>
+            <if test="warningThreshold != null">warning_threshold,</if>
+            <if test="lastUpdated != null">last_updated,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paramId != null">#{paramId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="parameterName != null and parameterName != ''">#{parameterName},</if>
+            <if test="parameterValue != null">#{parameterValue},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="defaultValue != null">#{defaultValue},</if>
+            <if test="minValue != null">#{minValue},</if>
+            <if test="maxValue != null">#{maxValue},</if>
+            <if test="criticalThreshold != null">#{criticalThreshold},</if>
+            <if test="warningThreshold != null">#{warningThreshold},</if>
+            <if test="lastUpdated != null">#{lastUpdated},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEqDeviceParam" parameterType="com.ruoyi.system.domain.EqDeviceParam">
+        update eq_device_param
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="parameterName != null and parameterName != ''">parameter_name = #{parameterName},</if>
+            <if test="parameterValue != null">parameter_value = #{parameterValue},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="defaultValue != null">default_value = #{defaultValue},</if>
+            <if test="minValue != null">min_value = #{minValue},</if>
+            <if test="maxValue != null">max_value = #{maxValue},</if>
+            <if test="criticalThreshold != null">critical_threshold = #{criticalThreshold},</if>
+            <if test="warningThreshold != null">warning_threshold = #{warningThreshold},</if>
+            <if test="lastUpdated != null">last_updated = #{lastUpdated},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where param_id = #{paramId}
+    </update>
+
+    <delete id="deleteEqDeviceParamByParamId" parameterType="Long">
+        delete from eq_device_param where param_id = #{paramId}
+    </delete>
+
+    <delete id="deleteEqDeviceParamByParamIds">
+        delete from eq_device_param where param_id in 
+        <foreach item="paramId" collection="paramIds" open="(" separator="," close=")">
+            #{paramId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqDeviceParamByDeviceId" parameterType="Long">
+        delete from eq_device_param where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqDeviceParamByDeviceIds">
+        delete from eq_device_param where device_id in 
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

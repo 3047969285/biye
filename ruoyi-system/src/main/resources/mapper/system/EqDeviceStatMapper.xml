@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqDeviceStatMapper">
+    <resultMap type="com.ruoyi.system.domain.EqDeviceStat" id="EqDeviceStatResult">
+        <result property="statId" column="stat_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="statDate" column="stat_date"/>
+        <result property="totalRuntimeHours" column="total_runtime_hours"/>
+        <result property="totalFaultCount" column="total_fault_count"/>
+        <result property="totalMaintenanceCount" column="total_maintenance_count"/>
+        <result property="averageTemperature" column="average_temperature"/>
+        <result property="maximumTemperature" column="maximum_temperature"/>
+        <result property="minimumTemperature" column="minimum_temperature"/>
+        <result property="averagePower" column="average_power"/>
+        <result property="uptimePercentage" column="uptime_percentage"/>
+        <result property="downtimeMinutes" column="downtime_minutes"/>
+        <result property="maintenanceCost" column="maintenance_cost"/>
+        <result property="faultRatePerHour" column="fault_rate_per_hour"/>
+    </resultMap>
+
+    <sql id="selectEqDeviceStatVo">
+        select s.stat_id, s.device_id, s.stat_date, s.total_runtime_hours, s.total_fault_count, s.total_maintenance_count, s.average_temperature, s.maximum_temperature, s.minimum_temperature, s.average_power, s.uptime_percentage, s.downtime_minutes, s.maintenance_cost, s.fault_rate_per_hour,
+        d.device_no, d.device_name
+        from eq_device_stat s
+        left join eq_device d on s.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqDeviceStatList" parameterType="com.ruoyi.system.domain.EqDeviceStat" resultMap="EqDeviceStatResult">
+        <include refid="selectEqDeviceStatVo"/>
+        <where>
+            <if test="deviceId != null"> and s.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="statDate != null"> and s.stat_date = #{statDate}</if>
+        </where>
+        order by s.device_id, s.stat_id desc
+    </select>
+    
+    <select id="selectEqDeviceStatByStatId" parameterType="Long" resultMap="EqDeviceStatResult">
+        <include refid="selectEqDeviceStatVo"/>
+        where s.stat_id = #{statId}
+    </select>
+
+    <select id="selectEqDeviceStatListByDeviceId" parameterType="Long" resultMap="EqDeviceStatResult">
+        <include refid="selectEqDeviceStatVo"/>
+        where s.device_id = #{deviceId}
+        order by s.device_id, s.stat_id desc
+    </select>
+        
+    <insert id="insertEqDeviceStat" parameterType="com.ruoyi.system.domain.EqDeviceStat">
+        insert into eq_device_stat
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="statId != null">stat_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="statDate != null">stat_date,</if>
+            <if test="totalRuntimeHours != null">total_runtime_hours,</if>
+            <if test="totalFaultCount != null">total_fault_count,</if>
+            <if test="totalMaintenanceCount != null">total_maintenance_count,</if>
+            <if test="averageTemperature != null">average_temperature,</if>
+            <if test="maximumTemperature != null">maximum_temperature,</if>
+            <if test="minimumTemperature != null">minimum_temperature,</if>
+            <if test="averagePower != null">average_power,</if>
+            <if test="uptimePercentage != null">uptime_percentage,</if>
+            <if test="downtimeMinutes != null">downtime_minutes,</if>
+            <if test="maintenanceCost != null">maintenance_cost,</if>
+            <if test="faultRatePerHour != null">fault_rate_per_hour,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="statId != null">#{statId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="statDate != null">#{statDate},</if>
+            <if test="totalRuntimeHours != null">#{totalRuntimeHours},</if>
+            <if test="totalFaultCount != null">#{totalFaultCount},</if>
+            <if test="totalMaintenanceCount != null">#{totalMaintenanceCount},</if>
+            <if test="averageTemperature != null">#{averageTemperature},</if>
+            <if test="maximumTemperature != null">#{maximumTemperature},</if>
+            <if test="minimumTemperature != null">#{minimumTemperature},</if>
+            <if test="averagePower != null">#{averagePower},</if>
+            <if test="uptimePercentage != null">#{uptimePercentage},</if>
+            <if test="downtimeMinutes != null">#{downtimeMinutes},</if>
+            <if test="maintenanceCost != null">#{maintenanceCost},</if>
+            <if test="faultRatePerHour != null">#{faultRatePerHour},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEqDeviceStat" parameterType="com.ruoyi.system.domain.EqDeviceStat">
+        update eq_device_stat
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="statDate != null">stat_date = #{statDate},</if>
+            <if test="totalRuntimeHours != null">total_runtime_hours = #{totalRuntimeHours},</if>
+            <if test="totalFaultCount != null">total_fault_count = #{totalFaultCount},</if>
+            <if test="totalMaintenanceCount != null">total_maintenance_count = #{totalMaintenanceCount},</if>
+            <if test="averageTemperature != null">average_temperature = #{averageTemperature},</if>
+            <if test="maximumTemperature != null">maximum_temperature = #{maximumTemperature},</if>
+            <if test="minimumTemperature != null">minimum_temperature = #{minimumTemperature},</if>
+            <if test="averagePower != null">average_power = #{averagePower},</if>
+            <if test="uptimePercentage != null">uptime_percentage = #{uptimePercentage},</if>
+            <if test="downtimeMinutes != null">downtime_minutes = #{downtimeMinutes},</if>
+            <if test="maintenanceCost != null">maintenance_cost = #{maintenanceCost},</if>
+            <if test="faultRatePerHour != null">fault_rate_per_hour = #{faultRatePerHour},</if>
+        </trim>
+        where stat_id = #{statId}
+    </update>
+
+    <delete id="deleteEqDeviceStatByStatId" parameterType="Long">
+        delete from eq_device_stat where stat_id = #{statId}
+    </delete>
+
+    <delete id="deleteEqDeviceStatByStatIds">
+        delete from eq_device_stat where stat_id in
+        <foreach item="statId" collection="statIds" open="(" separator="," close=")">
+            #{statId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqDeviceStatByDeviceId" parameterType="Long">
+        delete from eq_device_stat where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqDeviceStatByDeviceIds">
+        delete from eq_device_stat where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqAlertRecordMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.EqAlertRecord" id="EqAlertRecordResult">
+        <result property="alertId"    column="alert_id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceNo"    column="device_no"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="ruleId"    column="rule_id"    />
+        <result property="alertLevel"    column="alert_level"    />
+        <result property="alertMessage"    column="alert_message"    />
+        <result property="triggeredTime"    column="triggered_time"    />
+        <result property="resolvedTime"    column="resolved_time"    />
+        <result property="status"    column="status"    />
+        <result property="resolvedBy"    column="resolved_by"    />
+        <result property="resolutionNotes"    column="resolution_notes"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectEqAlertRecordVo">
+        select a.alert_id, a.device_id, a.rule_id, a.alert_level, a.alert_message, a.triggered_time, a.resolved_time, a.status, a.resolved_by, a.resolution_notes, a.remark,
+        d.device_no, d.device_name
+        from eq_alert_record a
+        left join eq_device d on a.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqAlertRecordList" parameterType="com.ruoyi.system.domain.EqAlertRecord" resultMap="EqAlertRecordResult">
+        <include refid="selectEqAlertRecordVo"/>
+        <where>  
+            <if test="deviceId != null "> and a.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="alertLevel != null "> and a.alert_level = #{alertLevel}</if>
+            <if test="status != null "> and a.status = #{status}</if>
+        </where>
+        order by 
+            case when a.status = 1 then 1 else 2 end,
+            a.alert_level asc,
+            a.triggered_time desc
+    </select>
+    
+    <select id="selectEqAlertRecordByAlertId" parameterType="Long" resultMap="EqAlertRecordResult">
+        <include refid="selectEqAlertRecordVo"/>
+        where a.alert_id = #{alertId}
+    </select>
+
+    <select id="selectEqAlertRecordListByDeviceId" parameterType="Long" resultMap="EqAlertRecordResult">
+        <include refid="selectEqAlertRecordVo"/>
+        where a.device_id = #{deviceId}
+        order by 
+            case when a.status = 1 then 1 else 2 end,
+            a.alert_level asc,
+            a.triggered_time desc
+    </select>
+        
+    <insert id="insertEqAlertRecord" parameterType="com.ruoyi.system.domain.EqAlertRecord">
+        insert into eq_alert_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="alertId != null">alert_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="ruleId != null">rule_id,</if>
+            <if test="alertLevel != null">alert_level,</if>
+            <if test="alertMessage != null">alert_message,</if>
+            <if test="triggeredTime != null">triggered_time,</if>
+            <if test="resolvedTime != null">resolved_time,</if>
+            <if test="status != null">status,</if>
+            <if test="resolvedBy != null">resolved_by,</if>
+            <if test="resolutionNotes != null">resolution_notes,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="alertId != null">#{alertId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="ruleId != null">#{ruleId},</if>
+            <if test="alertLevel != null">#{alertLevel},</if>
+            <if test="alertMessage != null">#{alertMessage},</if>
+            <if test="triggeredTime != null">#{triggeredTime},</if>
+            <if test="resolvedTime != null">#{resolvedTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="resolvedBy != null">#{resolvedBy},</if>
+            <if test="resolutionNotes != null">#{resolutionNotes},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEqAlertRecord" parameterType="com.ruoyi.system.domain.EqAlertRecord">
+        update eq_alert_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="ruleId != null">rule_id = #{ruleId},</if>
+            <if test="alertLevel != null">alert_level = #{alertLevel},</if>
+            <if test="alertMessage != null">alert_message = #{alertMessage},</if>
+            <if test="triggeredTime != null">triggered_time = #{triggeredTime},</if>
+            <if test="resolvedTime != null">resolved_time = #{resolvedTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="resolvedBy != null">resolved_by = #{resolvedBy},</if>
+            <if test="resolutionNotes != null">resolution_notes = #{resolutionNotes},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where alert_id = #{alertId}
+    </update>
+
+    <delete id="deleteEqAlertRecordByAlertId" parameterType="Long">
+        delete from eq_alert_record where alert_id = #{alertId}
+    </delete>
+
+    <delete id="deleteEqAlertRecordByAlertIds">
+        delete from eq_alert_record where alert_id in 
+        <foreach item="alertId" collection="alertIds" open="(" separator="," close=")">
+            #{alertId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqAlertRecordByDeviceId" parameterType="Long">
+        delete from eq_alert_record where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqAlertRecordByDeviceIds">
+        delete from eq_alert_record where device_id in 
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqMechanicalDataMapper">
+    <resultMap type="com.ruoyi.system.domain.EqMechanicalData" id="EqMechanicalDataResult">
+        <result property="mechanicalId" column="mechanical_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="timestamp" column="timestamp"/>
+        <result property="loadWeight" column="load_weight"/>
+        <result property="loadRatio" column="load_ratio"/>
+        <result property="stressLevel" column="stress_level"/>
+        <result property="fatigueCycles" column="fatigue_cycles"/>
+        <result property="overloadTimes" column="overload_times"/>
+        <result property="vibrationAmplitude" column="vibration_amplitude"/>
+        <result property="vibrationVelocity" column="vibration_velocity"/>
+        <result property="vibrationAcceleration" column="vibration_acceleration"/>
+        <result property="vibrationSpectrum" column="vibration_spectrum"/>
+        <result property="vibrationDirection" column="vibration_direction"/>
+        <result property="corrosionRate" column="corrosion_rate"/>
+        <result property="corrosionDepth" column="corrosion_depth"/>
+        <result property="surfaceCondition" column="surface_condition"/>
+        <result property="coatingThickness" column="coating_thickness"/>
+        <result property="materialTemperature" column="material_temperature"/>
+        <result property="thermalExpansion" column="thermal_expansion"/>
+        <result property="materialHardness" column="material_hardness"/>
+        <result property="mechanicalGrade" column="mechanical_grade"/>
+    </resultMap>
+
+    <sql id="selectEqMechanicalDataVo">
+        select m.mechanical_id, m.device_id, m.timestamp, m.load_weight, m.load_ratio, m.stress_level, m.fatigue_cycles, m.overload_times, m.vibration_amplitude, m.vibration_velocity, m.vibration_acceleration, m.vibration_spectrum, m.vibration_direction, m.corrosion_rate, m.corrosion_depth, m.surface_condition, m.coating_thickness, m.material_temperature, m.thermal_expansion, m.material_hardness, m.mechanical_grade,
+        d.device_no, d.device_name
+        from eq_mechanical_data m
+        left join eq_device d on m.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqMechanicalDataList" parameterType="com.ruoyi.system.domain.EqMechanicalData" resultMap="EqMechanicalDataResult">
+        <include refid="selectEqMechanicalDataVo"/>
+        <where>
+            <if test="deviceId != null"> and m.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="timestamp != null"> and m.timestamp = #{timestamp}</if>
+        </where>
+        order by m.device_id, m.mechanical_id desc
+    </select>
+    
+    <select id="selectEqMechanicalDataByMechanicalId" parameterType="Long" resultMap="EqMechanicalDataResult">
+        <include refid="selectEqMechanicalDataVo"/>
+        where m.mechanical_id = #{mechanicalId}
+    </select>
+
+    <select id="selectEqMechanicalDataListByDeviceId" parameterType="Long" resultMap="EqMechanicalDataResult">
+        <include refid="selectEqMechanicalDataVo"/>
+        where m.device_id = #{deviceId}
+        order by m.device_id, m.mechanical_id desc
+    </select>
+        
+    <insert id="insertEqMechanicalData" parameterType="com.ruoyi.system.domain.EqMechanicalData">
+        insert into eq_mechanical_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mechanicalId != null">mechanical_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="timestamp != null">timestamp,</if>
+            <if test="loadWeight != null">load_weight,</if>
+            <if test="loadRatio != null">load_ratio,</if>
+            <if test="stressLevel != null">stress_level,</if>
+            <if test="fatigueCycles != null">fatigue_cycles,</if>
+            <if test="overloadTimes != null">overload_times,</if>
+            <if test="vibrationAmplitude != null">vibration_amplitude,</if>
+            <if test="vibrationVelocity != null">vibration_velocity,</if>
+            <if test="vibrationAcceleration != null">vibration_acceleration,</if>
+            <if test="vibrationSpectrum != null">vibration_spectrum,</if>
+            <if test="vibrationDirection != null">vibration_direction,</if>
+            <if test="corrosionRate != null">corrosion_rate,</if>
+            <if test="corrosionDepth != null">corrosion_depth,</if>
+            <if test="surfaceCondition != null">surface_condition,</if>
+            <if test="coatingThickness != null">coating_thickness,</if>
+            <if test="materialTemperature != null">material_temperature,</if>
+            <if test="thermalExpansion != null">thermal_expansion,</if>
+            <if test="materialHardness != null">material_hardness,</if>
+            <if test="mechanicalGrade != null">mechanical_grade,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mechanicalId != null">#{mechanicalId},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="timestamp != null">#{timestamp},</if>
+            <if test="loadWeight != null">#{loadWeight},</if>
+            <if test="loadRatio != null">#{loadRatio},</if>
+            <if test="stressLevel != null">#{stressLevel},</if>
+            <if test="fatigueCycles != null">#{fatigueCycles},</if>
+            <if test="overloadTimes != null">#{overloadTimes},</if>
+            <if test="vibrationAmplitude != null">#{vibrationAmplitude},</if>
+            <if test="vibrationVelocity != null">#{vibrationVelocity},</if>
+            <if test="vibrationAcceleration != null">#{vibrationAcceleration},</if>
+            <if test="vibrationSpectrum != null">#{vibrationSpectrum},</if>
+            <if test="vibrationDirection != null">#{vibrationDirection},</if>
+            <if test="corrosionRate != null">#{corrosionRate},</if>
+            <if test="corrosionDepth != null">#{corrosionDepth},</if>
+            <if test="surfaceCondition != null">#{surfaceCondition},</if>
+            <if test="coatingThickness != null">#{coatingThickness},</if>
+            <if test="materialTemperature != null">#{materialTemperature},</if>
+            <if test="thermalExpansion != null">#{thermalExpansion},</if>
+            <if test="materialHardness != null">#{materialHardness},</if>
+            <if test="mechanicalGrade != null">#{mechanicalGrade},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEqMechanicalData" parameterType="com.ruoyi.system.domain.EqMechanicalData">
+        update eq_mechanical_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="timestamp != null">timestamp = #{timestamp},</if>
+            <if test="loadWeight != null">load_weight = #{loadWeight},</if>
+            <if test="loadRatio != null">load_ratio = #{loadRatio},</if>
+            <if test="stressLevel != null">stress_level = #{stressLevel},</if>
+            <if test="fatigueCycles != null">fatigue_cycles = #{fatigueCycles},</if>
+            <if test="overloadTimes != null">overload_times = #{overloadTimes},</if>
+            <if test="vibrationAmplitude != null">vibration_amplitude = #{vibrationAmplitude},</if>
+            <if test="vibrationVelocity != null">vibration_velocity = #{vibrationVelocity},</if>
+            <if test="vibrationAcceleration != null">vibration_acceleration = #{vibrationAcceleration},</if>
+            <if test="vibrationSpectrum != null">vibration_spectrum = #{vibrationSpectrum},</if>
+            <if test="vibrationDirection != null">vibration_direction = #{vibrationDirection},</if>
+            <if test="corrosionRate != null">corrosion_rate = #{corrosionRate},</if>
+            <if test="corrosionDepth != null">corrosion_depth = #{corrosionDepth},</if>
+            <if test="surfaceCondition != null">surface_condition = #{surfaceCondition},</if>
+            <if test="coatingThickness != null">coating_thickness = #{coatingThickness},</if>
+            <if test="materialTemperature != null">material_temperature = #{materialTemperature},</if>
+            <if test="thermalExpansion != null">thermal_expansion = #{thermalExpansion},</if>
+            <if test="materialHardness != null">material_hardness = #{materialHardness},</if>
+            <if test="mechanicalGrade != null">mechanical_grade = #{mechanicalGrade},</if>
+        </trim>
+        where mechanical_id = #{mechanicalId}
+    </update>
+
+    <delete id="deleteEqMechanicalDataByMechanicalId" parameterType="Long">
+        delete from eq_mechanical_data where mechanical_id = #{mechanicalId}
+    </delete>
+
+    <delete id="deleteEqMechanicalDataByMechanicalIds">
+        delete from eq_mechanical_data where mechanical_id in
+        <foreach item="mechanicalId" collection="mechanicalIds" open="(" separator="," close=")">
+            #{mechanicalId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqMechanicalDataByDeviceId" parameterType="Long">
+        delete from eq_mechanical_data where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqMechanicalDataByDeviceIds">
+        delete from eq_mechanical_data where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

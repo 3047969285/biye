@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AiChatRecordMapper">
+
+    <resultMap type="com.ruoyi.system.domain.AiChatRecord" id="AiChatRecordResult">
+        <id     property="recordId"     column="record_id"     />
+        <result property="userId"       column="user_id"       />
+        <result property="userName"     column="user_name"     />
+        <result property="chatType"     column="chat_type"     />
+        <result property="userMessage"  column="user_message"  />
+        <result property="aiMessage"    column="ai_message"     />
+        <result property="createTime"   column="create_time"   />
+    </resultMap>
+
+    <sql id="selectAiChatRecordVo">
+        select record_id, user_id, user_name, chat_type, user_message, ai_message, create_time
+        from ai_chat_record
+    </sql>
+
+    <select id="selectAiChatRecordList" parameterType="com.ruoyi.system.domain.AiChatRecord" resultMap="AiChatRecordResult">
+        <include refid="selectAiChatRecordVo"/>
+        <where>
+            <if test="userId != null"> and user_id = #{userId}</if>
+            <if test="chatType != null and chatType != ''"> and chat_type = #{chatType}</if>
+            <if test="userName != null and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectAiChatRecordByRecordId" parameterType="Long" resultMap="AiChatRecordResult">
+        <include refid="selectAiChatRecordVo"/>
+        where record_id = #{recordId}
+    </select>
+        
+    <insert id="insertAiChatRecord" parameterType="com.ruoyi.system.domain.AiChatRecord" useGeneratedKeys="true" keyProperty="recordId">
+        insert into ai_chat_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="chatType != null">chat_type,</if>
+            <if test="userMessage != null">user_message,</if>
+            <if test="aiMessage != null">ai_message,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="chatType != null">#{chatType},</if>
+            <if test="userMessage != null">#{userMessage},</if>
+            <if test="aiMessage != null">#{aiMessage},</if>
+            NOW()
+        </trim>
+    </insert>
+
+    <update id="updateAiMessage">
+        update ai_chat_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="aiMessage != null">ai_message = #{aiMessage},</if>
+        </trim>
+        where record_id = #{recordId}
+    </update>
+
+    <delete id="deleteAiChatRecordByRecordId" parameterType="Long">
+        delete from ai_chat_record where record_id = #{recordId}
+    </delete>
+
+    <delete id="deleteAiChatRecordByRecordIds">
+        delete from ai_chat_record where record_id in
+        <foreach item="recordId" collection="recordIds" open="(" separator="," close=")">
+            #{recordId}
+        </foreach>
+    </delete>
+</mapper>
