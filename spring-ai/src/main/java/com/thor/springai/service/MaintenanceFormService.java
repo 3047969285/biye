@@ -161,6 +161,16 @@ public class MaintenanceFormService {
     }
     
     /**
+     * 通知需要维护的设备（定时任务调用，别名方法）
+     * 这个方法是为了兼容定时任务配置中的方法名
+     * 
+     * @return 查询结果
+     */
+    public AjaxResult notifyDevicesRequiringMaintenance() {
+        return getDevicesRequiringMaintenance();
+    }
+    
+    /**
      * 为指定设备生成运维表单
      * 
      * @param deviceId 设备ID
