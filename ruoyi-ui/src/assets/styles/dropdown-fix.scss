@@ -41,10 +41,11 @@
       font-weight: inherit !important;
     }
 
+    /* 去掉 Element 默认浅色顶边（退出登录上方那条「白线」） */
     &.is-divided {
-      border-top: 1px solid $border-color !important;
-      margin-top: 6px !important;
-      padding-top: 12px !important;
+      border-top: none !important;
+      margin-top: 4px !important;
+      padding-top: 10px !important;
     }
   }
 }

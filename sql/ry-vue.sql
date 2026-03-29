@@ -1,4 +1,7 @@
 /*
+ 项目整合库脚本（单文件）：含 RuoYi 基础库、业务表、风力预测绑定表及可选列升级。
+ 新库：直接导入本文件。旧库仅补列：可只执行文件末尾「可选升级」段或整文件（注意 DROP 段会删表，勿随意全量执行生产库）。
+
  Navicat Premium Dump SQL
 
  Source Server         : localhost_3306
@@ -1115,7 +1118,7 @@ CREATE TABLE `eq_device`  (
   INDEX `idx_device_type`(`device_type` ASC) USING BTREE,
   INDEX `idx_location`(`location` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of eq_device
@@ -1140,6 +1143,7 @@ INSERT INTO `eq_device` VALUES (17, 'DEV-017', 'UPS电源1号', 'UPS', 'C3K-3KVA
 INSERT INTO `eq_device` VALUES (18, 'DEV-018', 'UPS电源2号', 'UPS', 'C3K-3KVA', 'UPS-20210802', '山特电子', '监控室B区', '运维部', '2021-10-05 00:00:00', '2026-10-05 00:00:00', 1, 45000.00, 8, '郑工', '备用电源', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
 INSERT INTO `eq_device` VALUES (19, 'DEV-019', '直流屏1号', '直流屏', 'GZDW-50Ah/220V', 'ZLP-20210901', '许继电气', '直流室A区', '运维部', '2021-11-01 00:00:00', '2031-11-01 00:00:00', 1, 68000.00, 15, '冯工', '直流供电设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
 INSERT INTO `eq_device` VALUES (20, 'DEV-020', '直流屏2号', '直流屏', 'GZDW-50Ah/220V', 'ZLP-20210902', '许继电气', '直流室B区', '运维部', '2021-11-10 00:00:00', '2031-11-10 00:00:00', 1, 68000.00, 15, '冯工', '备用直流电源', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES (21, 'WIND-FD001', '风力发电机组 FD001', '风力发电', 'FD001-GRU', 'FD001-SN', '风电场', '风电场一期', '运维部', '2024-06-01 00:00:00', '2034-06-01 00:00:00', 1, 3200000.00, 25, '运维', 'GRU 预测数据源设备（与 FD001.xlsx / predict.py 对应）', 'admin', '2026-03-29 00:00:00', '', '2026-03-29 00:00:00');
 
 -- ----------------------------
 -- Table structure for eq_device_param
@@ -3690,7 +3694,7 @@ INSERT INTO `sys_menu` VALUES (114, '缓存列表', 2, 6, 'cacheList', 'monitor/
 INSERT INTO `sys_menu` VALUES (115, '表单构建', 3, 1, 'build', 'tool/build/index', '', '', 1, 0, 'C', '1', '0', 'tool:build:list', 'build', 'admin', '2025-10-31 15:23:03', '', NULL, '表单构建菜单');
 INSERT INTO `sys_menu` VALUES (116, '代码生成', 3, 2, 'gen', 'tool/gen/index', '', '', 1, 0, 'C', '1', '0', 'tool:gen:list', 'code', 'admin', '2025-10-31 15:23:03', '', NULL, '代码生成菜单');
 INSERT INTO `sys_menu` VALUES (117, '系统接口', 3, 3, 'swagger', 'tool/swagger/index', '', '', 1, 0, 'C', '1', '0', 'tool:swagger:list', 'swagger', 'admin', '2025-10-31 15:23:03', '', NULL, '系统接口菜单');
-INSERT INTO `sys_menu` VALUES (200, '发电预测', 0, 3, 'power-forecast', NULL, '', '', 1, 0, 'M', '0', '0', '', 'chart', 'admin', '2026-01-06 19:25:04', '', NULL, '??????');
+INSERT INTO `sys_menu` VALUES (200, '发电预测', 0, 3, 'power-forecast', 'powerForecast/index', '', '', 1, 0, 'C', '0', '0', 'power:forecast:list', 'chart', 'admin', '2026-01-06 19:25:04', '', NULL, '发电预测菜单');
 INSERT INTO `sys_menu` VALUES (201, '智能运维表单生成', 0, 4, 'maintenance-form', 'ai/maintenance-form/index', '', '', 1, 0, 'C', '0', '0', 'ai:maintenance:form', 'form', 'admin', '2026-01-15 21:48:02', '', NULL, '智能运维表单生成菜单');
 INSERT INTO `sys_menu` VALUES (202, '设备管理', 0, 5, 'equipment', 'equipment/manage/index', '', '', 1, 0, 'C', '0', '0', '', 'tool', 'admin', '2026-01-06 19:25:04', '', NULL, '??????');
 INSERT INTO `sys_menu` VALUES (205, '智能问答', 0, 6, 'ai-chat', 'ai/chat/index', '', '', 1, 0, 'C', '0', '0', 'ai:chat:list', 'message', 'admin', '2026-01-06 19:25:04', '', NULL, '??????');
@@ -4112,6 +4116,7 @@ CREATE TABLE `sys_role_menu`  (
 -- Records of sys_role_menu
 -- ----------------------------
 INSERT INTO `sys_role_menu` VALUES (1, 201);
+INSERT INTO `sys_role_menu` VALUES (1, 200);
 INSERT INTO `sys_role_menu` VALUES (1, 206);
 INSERT INTO `sys_role_menu` VALUES (1, 2011);
 INSERT INTO `sys_role_menu` VALUES (1, 2012);
@@ -4303,5 +4308,36 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 INSERT INTO `t_user` VALUES (2, '买买买', 22, 1);
 INSERT INTO `t_user` VALUES (3, '55', 1, 0);
+
+-- ----------------------------
+-- 风力预测：每台设备绑定的模型与 Excel 路径（绝对路径或 /profile 相对上传路径）
+-- ----------------------------
+DROP TABLE IF EXISTS `eq_wind_forecast_bind`;
+CREATE TABLE `eq_wind_forecast_bind`  (
+  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `model_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'GRU 模型 .h5 绝对路径',
+  `feature_excel_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '特征 Excel 绝对路径',
+  `real_excel_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '实测功率 Excel 绝对路径',
+  `inline_data_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '页面编辑的风速+功率序列 JSON，预测时生成临时 Excel',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`device_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '风力预测设备数据绑定' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- 可选升级：旧库已存在 eq_wind_forecast_bind 但缺少 inline_data_json 时补齐（可重复执行）
+-- ----------------------------
+SET @db := DATABASE();
+SET @exists := (
+  SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = @db AND TABLE_NAME = 'eq_wind_forecast_bind' AND COLUMN_NAME = 'inline_data_json'
+);
+SET @sql := IF(
+  @exists = 0,
+  'ALTER TABLE `eq_wind_forecast_bind` ADD COLUMN `inline_data_json` longtext NULL COMMENT ''页面编辑的风速+功率序列 JSON'' AFTER `real_excel_path`',
+  'SELECT 1'
+);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
 SET FOREIGN_KEY_CHECKS = 1;

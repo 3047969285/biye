@@ -107,6 +107,8 @@
                 <version>3.2.5</version>
                 <configuration>
                     <mainClass>com.ruoyi.RuoYiApplication</mainClass>
+                    <!-- JVM 内存优化配置 -->
+                    <jvmArguments>-Xms256m -Xmx512m -XX:+UseG1GC -XX:MaxGCPauseMillis=200</jvmArguments>
                 </configuration>
                 <executions>
                     <execution>

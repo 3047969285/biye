@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="humidity"    column="humidity"    />
         <result property="pressure"    column="pressure"    />
         <result property="vibration"    column="vibration"    />
-        <result property="current"    column="current_val"    />
+        <result property="current"    column="current"    />
         <result property="voltage"    column="voltage"    />
         <result property="power"    column="power"    />
         <result property="rpm"    column="rpm"    />
@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectEqDeviceStatusVo">
-        select s.status_id, s.device_id, s.timestamp, s.temperature, s.humidity, s.pressure, s.vibration, s.current, s.voltage, s.power, s.rpm, s.flow_rate, s.liquid_level, s.status, s.runtime_hours, s.start_count, s.fault_count, s.alarm_count, s.efficiency, s.load_factor, s.ambient_temp, s.ambient_humidity, s.noise_level, s.air_quality, s.fault_code, s.fault_description, s.maintenance_required, s.remark,
+        select s.status_id, s.device_id, s.timestamp, s.temperature, s.humidity, s.pressure, s.vibration, s.`current`, s.voltage, s.power, s.rpm, s.flow_rate, s.liquid_level, s.status, s.runtime_hours, s.start_count, s.fault_count, s.alarm_count, s.efficiency, s.load_factor, s.ambient_temp, s.ambient_humidity, s.noise_level, s.air_quality, s.fault_code, s.fault_description, s.maintenance_required, s.remark,
         d.device_no, d.device_name
         from eq_device_status s
         left join eq_device d on s.device_id = d.device_id
@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where s.status_id = #{statusId}
     </select>
         
-    <insert id="insertEqDeviceStatus" parameterType="com.ruoyi.system.domain.EqDeviceStatus">
+    <insert id="insertEqDeviceStatus" parameterType="com.ruoyi.system.domain.EqDeviceStatus" useGeneratedKeys="true" keyProperty="statusId">
         insert into eq_device_status
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="statusId != null">status_id,</if>
@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="humidity != null">humidity,</if>
             <if test="pressure != null">pressure,</if>
             <if test="vibration != null">vibration,</if>
-            <if test="current != null">current_val,</if>
+            <if test="current != null">`current`,</if>
             <if test="voltage != null">voltage,</if>
             <if test="power != null">power,</if>
             <if test="rpm != null">rpm,</if>
@@ -133,7 +133,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="humidity != null">humidity = #{humidity},</if>
             <if test="pressure != null">pressure = #{pressure},</if>
             <if test="vibration != null">vibration = #{vibration},</if>
-            <if test="current != null">current_val = #{current},</if>
+            <if test="current != null">`current` = #{current},</if>
             <if test="voltage != null">voltage = #{voltage},</if>
             <if test="power != null">power = #{power},</if>
             <if test="rpm != null">rpm = #{rpm},</if>
@@ -179,6 +179,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{deviceId}
         </foreach>
     </delete>
+
+    <select id="selectLatestByDeviceId" resultMap="EqDeviceStatusResult">
+        <include refid="selectEqDeviceStatusVo"/>
+        where s.device_id = #{deviceId}
+        order by s.timestamp desc
+        limit 1
+    </select>
 
     <!-- 查询需要维护的设备（状态不好） -->
     <select id="selectDevicesRequiringMaintenance" resultMap="EqDeviceStatusResult">

@@ -113,6 +113,12 @@
   }
   
   .el-tabs__content {
+    background: $secondary-bg !important;
+    color: $text-primary !important;
+  }
+
+  .el-tab-pane {
+    background: $secondary-bg !important;
     color: $text-primary !important;
   }
 }

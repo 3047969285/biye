@@ -84,4 +84,9 @@ public interface EqDeviceStatusMapper
      * @return 需要维护的设备状态列表
      */
     public List<EqDeviceStatus> selectDevicesRequiringMaintenance();
+
+    /**
+     * 某设备最新一条运行状态（按采集时间倒序）
+     */
+    public EqDeviceStatus selectLatestByDeviceId(@Param("deviceId") Long deviceId);
 }

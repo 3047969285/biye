@@ -86,4 +86,9 @@ public interface EqAlertRecordMapper
      * @return 结果
      */
     public int deleteEqAlertRecordByDeviceIds(@Param("deviceIds") Long[] deviceIds);
+
+    /**
+     * 未解决且同一规则下是否已有告警（去重）
+     */
+    int countUnresolvedByDeviceAndRule(@Param("deviceId") Long deviceId, @Param("ruleId") Long ruleId);
 }

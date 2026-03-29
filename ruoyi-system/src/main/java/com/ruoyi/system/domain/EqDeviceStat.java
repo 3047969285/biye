@@ -41,4 +41,7 @@ public class EqDeviceStat extends BaseEntity {
     private Integer downtimeMinutes; //停机分钟数
     private BigDecimal maintenanceCost; //维修成本
     private BigDecimal faultRatePerHour; //故障率
+
+    /** 查询条件：仅风力预测写入（remark 以 WIND_FORECAST 开头），非表字段 */
+    private Boolean windForecastOnly;
 }

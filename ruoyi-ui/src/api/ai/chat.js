@@ -103,11 +103,16 @@ export function deleteChatRecords(recordIds) {
   })
 }
 
-// 查询需要维护的设备列表
-export function getDevicesRequiringMaintenance() {
+// 查询需要维护的设备列表；aiSummary=false 跳过 LLM，仅规则摘要，首屏更快
+export function getDevicesRequiringMaintenance(options) {
+  const params = {}
+  if (options && options.aiSummary === false) {
+    params.aiSummary = false
+  }
   return request({
     url: '/ai/maintenance-form/devices',
-    method: 'get'
+    method: 'get',
+    params
   })
 }
 

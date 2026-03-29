@@ -1,17 +1,21 @@
 <template>
-  <div class="app-container form-gen">
-    <el-row :gutter="20">
-      <!-- 左侧：设备列表和生成表单 -->
-      <el-col :span="14" :xs="24">
-        <el-card>
-          <div slot="header" class="card-header">
-            <span>智能运维表单生成</span>
+  <div class="app-container form-gen form-gen-layout">
+    <div class="form-gen-workspace">
+    <div
+      ref="splitWorkspace"
+      class="split-workspace"
+      :class="{ 'split-workspace--narrow': splitLayoutNarrow, 'split-workspace--dragging': splitDragging }"
+    >
+      <div class="split-pane split-pane--left" :style="leftPaneStyle">
+        <el-card class="list-card">
+          <div slot="header" class="card-header card-header--list">
+            <span class="header-title-row">运维表单 <em class="header-count">待维护 {{ filteredDeviceList.length }}/{{ deviceList.length }}</em></span>
             <div class="header-actions">
               <el-button 
                 type="primary" 
                 size="small" 
                 icon="el-icon-refresh" 
-                @click="loadDevices"
+                @click="() => loadDevices(true)"
                 :loading="deviceLoading"
               >
                 刷新
@@ -24,7 +28,7 @@
                 :loading="batchLoading"
                 :disabled="selectedDevices.length === 0"
               >
-                批量生成 ({{ selectedDevices.length }})
+                批量 ({{ selectedDevices.length }})
               </el-button>
               <el-button 
                 type="info" 
@@ -37,22 +41,23 @@
             </div>
           </div>
 
-          <!-- 搜索和筛选 -->
-          <div class="filter-section">
+          <div class="filter-section filter-section--comfortable">
             <el-input
               v-model="searchKeyword"
-              placeholder="搜索设备编号或名称"
+              placeholder="搜索编号或名称"
               prefix-icon="el-icon-search"
               clearable
+              size="small"
               @input="handleSearch"
-              style="width: 300px; margin-right: 10px;"
+              class="filter-search"
             />
             <el-select
               v-model="filterStatus"
-              placeholder="筛选状态"
+              placeholder="状态"
               clearable
+              size="small"
               @change="handleFilter"
-              style="width: 120px; margin-right: 10px;"
+              class="filter-select"
             >
               <el-option label="全部" value="" />
               <el-option label="警告" :value="2" />
@@ -61,10 +66,11 @@
             </el-select>
             <el-select
               v-model="filterPriority"
-              placeholder="筛选优先级"
+              placeholder="优先级"
               clearable
+              size="small"
               @change="handleFilter"
-              style="width: 120px;"
+              class="filter-select"
             >
               <el-option label="全部" value="" />
               <el-option label="高" value="高" />
@@ -73,25 +79,25 @@
             </el-select>
           </div>
 
-          <!-- 设备列表 -->
           <div class="device-list-section">
-            <div class="section-title">
-              <span>需要维护的设备列表 ({{ filteredDeviceList.length }}/{{ deviceList.length }})</span>
-            </div>
             <el-table
               :data="filteredDeviceList"
               v-loading="deviceLoading"
+              size="small"
+              :height="listTableHeight"
               @selection-change="handleSelectionChange"
               @row-click="handleRowClick"
               border
+              stripe
+              highlight-current-row
+              class="device-table device-table--readable"
               style="width: 100%"
-              max-height="400"
               :row-class-name="tableRowClassName"
             >
-              <el-table-column type="selection" width="55" align="center" />
-              <el-table-column prop="deviceNo" label="设备编号" width="120" />
-              <el-table-column prop="deviceName" label="设备名称" min-width="150" show-overflow-tooltip />
-              <el-table-column prop="statusText" label="状态" width="80" align="center">
+              <el-table-column type="selection" width="48" align="center" />
+              <el-table-column prop="deviceNo" label="设备编号" width="108" show-overflow-tooltip />
+              <el-table-column prop="deviceName" label="设备名称" min-width="110" show-overflow-tooltip />
+              <el-table-column prop="statusText" label="状态" width="76" align="center">
                 <template slot-scope="scope">
                   <el-tag 
                     :type="getStatusTagType(scope.row.status)"
@@ -101,7 +107,7 @@
                   </el-tag>
                 </template>
               </el-table-column>
-              <el-table-column prop="priority" label="优先级" width="80" align="center">
+              <el-table-column prop="priority" label="优先级" width="68" align="center">
                 <template slot-scope="scope">
                   <el-tag 
                     :type="getPriorityTagType(scope.row.priority)"
@@ -111,34 +117,39 @@
                   </el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="问题描述" min-width="200" show-overflow-tooltip>
+              <el-table-column label="问题描述" min-width="130" show-overflow-tooltip>
                 <template slot-scope="scope">
-                  <div v-if="scope.row.issues && scope.row.issues.length > 0">
-                    <el-tooltip effect="dark" placement="top">
-                      <div slot="content">
-                        <div v-for="(issue, index) in scope.row.issues" :key="index" style="margin-bottom: 4px;">
-                          {{ issue }}
+                  <div v-if="hasIssueDisplay(scope.row)">
+                    <el-tooltip effect="dark" placement="top" :open-delay="300">
+                      <div slot="content" class="issues-tooltip">
+                        <div v-if="trimStr(scope.row.issueAiSummary)" class="issue-ai-tooltip">
+                          {{ scope.row.issueAiSummary }}
                         </div>
+                        <template v-if="scope.row.pendingFaults && scope.row.pendingFaults.length">
+                          <div v-if="trimStr(scope.row.issueAiSummary)" class="issues-tooltip-sep" />
+                          <div class="issues-tooltip-cap">待处理故障</div>
+                          <div v-for="(line, idx) in scope.row.pendingFaults" :key="'f' + idx">{{ line }}</div>
+                        </template>
+                        <template v-if="scope.row.issues && scope.row.issues.length">
+                          <div v-if="trimStr(scope.row.issueAiSummary) || (scope.row.pendingFaults && scope.row.pendingFaults.length)" class="issues-tooltip-sep" />
+                          <div class="issues-tooltip-cap">未恢复告警</div>
+                          <div v-for="(issue, index) in scope.row.issues" :key="'a' + index">
+                            {{ issue }}
+                          </div>
+                        </template>
                       </div>
-                      <div>
-                        <div v-for="(issue, index) in scope.row.issues.slice(0, 1)" :key="index" class="issue-item">
-                          {{ issue }}
-                        </div>
-                        <span v-if="scope.row.issues.length > 1" class="more-issues">
-                          +{{ scope.row.issues.length - 1 }} 个问题
-                        </span>
-                      </div>
+                      <span class="issue-inline">{{ formatIssueDescriptionCell(scope.row) }}</span>
                     </el-tooltip>
                   </div>
-                  <span v-else class="text-muted">无</span>
+                  <span v-else class="text-muted">—</span>
                 </template>
               </el-table-column>
-              <el-table-column label="操作" width="150" align="center" fixed="right">
+              <el-table-column label="操作" width="132" align="center" fixed="right">
                 <template slot-scope="scope">
                   <el-button 
                     type="text" 
                     size="small" 
-                    icon="el-icon-view"
+                    class="table-action-btn"
                     @click.stop="viewDeviceDetail(scope.row)"
                   >
                     详情
@@ -146,7 +157,7 @@
                   <el-button 
                     type="text" 
                     size="small" 
-                    icon="el-icon-edit"
+                    class="table-action-btn"
                     @click.stop="generateForDevice(scope.row)"
                     :loading="generatingDeviceId === scope.row.deviceId"
                   >
@@ -157,65 +168,81 @@
             </el-table>
             
             <!-- 空状态提示 -->
-            <div v-if="!deviceLoading && filteredDeviceList.length === 0 && deviceList.length > 0" class="empty-filter-tip">
-              <el-alert
-                title="没有匹配的设备"
-                type="info"
-                :closable="false"
-                show-icon
-              >
-                <template slot="default">
-                  <p>当前筛选条件下没有找到匹配的设备，请尝试：</p>
-                  <ul style="margin: 10px 0 0 20px; text-align: left;">
-                    <li>清除搜索关键词</li>
-                    <li>调整状态或优先级筛选条件</li>
-                    <li>点击"刷新"按钮重新加载设备列表</li>
-                  </ul>
-                </template>
-              </el-alert>
-            </div>
+            <p
+              v-if="!deviceLoading && filteredDeviceList.length === 0 && deviceList.length > 0"
+              class="empty-filter-hint"
+            >
+              无匹配结果，请清空筛选或调整条件。
+            </p>
           </div>
 
-          <!-- 生成表单区域 -->
-          <div class="form-section" v-if="currentForm">
-            <div class="section-title">
-              <span>生成的运维表单</span>
-              <div class="form-actions-header">
-                <el-button 
-                  size="mini" 
-                  type="text" 
-                  icon="el-icon-printer"
-                  @click="printForm"
-                >
-                  打印
-                </el-button>
-                <el-button 
-                  size="mini" 
-                  type="text" 
-                  icon="el-icon-download"
-                  @click="exportForm"
-                >
-                  导出
-                </el-button>
-                <el-button 
-                  size="mini" 
-                  type="text" 
-                  icon="el-icon-document-copy"
-                  @click="copyForm"
-                >
-                  复制
-                </el-button>
-                <el-button 
-                  size="mini" 
-                  type="text" 
-                  icon="el-icon-edit"
-                  @click="editForm"
-                >
-                  编辑
-                </el-button>
-              </div>
+          <!-- 空状态 -->
+          <el-empty 
+            v-if="!deviceLoading && deviceList.length === 0" 
+            description="暂无待维护设备"
+            :image-size="80"
+          />
+        </el-card>
+      </div>
+
+      <div
+        v-show="!splitLayoutNarrow"
+        class="split-gutter"
+        title="拖动调整左右区域宽度"
+        role="separator"
+        aria-orientation="vertical"
+        @mousedown.prevent="startSplitDrag"
+      >
+        <span class="split-gutter__line" />
+      </div>
+
+      <div class="split-pane split-pane--right">
+        <el-card 
+          v-if="currentForm" 
+          class="form-result-card form-section form-panel-card"
+        >
+          <div slot="header" class="card-header">
+            <span>当前表单</span>
+            <div class="form-actions-header">
+              <el-button 
+                size="small" 
+                type="text" 
+                icon="el-icon-printer"
+                @click="printForm"
+              >
+                打印
+              </el-button>
+              <el-button 
+                size="small" 
+                type="text" 
+                icon="el-icon-download"
+                @click="exportForm"
+              >
+                导出
+              </el-button>
+              <el-button 
+                size="small" 
+                type="text" 
+                icon="el-icon-document-copy"
+                @click="copyForm"
+              >
+                复制
+              </el-button>
+              <el-button 
+                size="small" 
+                type="text" 
+                icon="el-icon-edit"
+                @click="openEditForm"
+              >
+                编辑
+              </el-button>
             </div>
-            <div class="form-content" id="form-content">
+          </div>
+          <div 
+            class="form-content form-content-scroll" 
+            id="form-content"
+            :style="{ maxHeight: formPanelScrollMax + 'px' }"
+          >
               <el-descriptions :column="2" border class="form-descriptions">
                 <el-descriptions-item label="设备名称" :span="2">
                   <strong class="device-name">{{ currentForm.deviceName }}</strong>
@@ -245,7 +272,7 @@
                   </el-tag>
                 </el-descriptions-item>
                 <el-descriptions-item label="预计耗时">
-                  <span class="time-badge">{{ currentForm.estimatedTime }} 分钟</span>
+                  <span class="time-badge">{{ currentForm.estimatedTime }} min</span>
                 </el-descriptions-item>
                 <el-descriptions-item label="表单状态" v-if="currentForm.formStatus">
                   <div style="display: flex; align-items: center; gap: 8px;">
@@ -315,7 +342,7 @@
                   :loading="saving"
                   v-if="!currentForm.formId"
                 >
-                  保存到数据库
+                  保存
                 </el-button>
                 <el-button 
                   type="primary" 
@@ -324,7 +351,7 @@
                   :loading="saving"
                   v-if="currentForm.formId"
                 >
-                  更新表单
+                  更新
                 </el-button>
                 <el-button @click="clearForm">清空</el-button>
                 <el-button 
@@ -333,132 +360,22 @@
                   @click="deleteCurrentForm"
                   v-if="currentForm && currentForm.formId"
                 >
-                  删除表单
+                  删除
                 </el-button>
               </div>
             </div>
-          </div>
-
-          <!-- 空状态 -->
-          <el-empty 
-            v-if="!deviceLoading && deviceList.length === 0" 
-            description="暂无需要维护的设备"
-            :image-size="100"
-          />
         </el-card>
-      </el-col>
-
-      <!-- 右侧：统计信息和提示 -->
-      <el-col :span="10" :xs="24">
-        <!-- 统计卡片 -->
-        <el-card>
+        <el-card v-else class="form-placeholder-card form-panel-card">
           <div slot="header" class="card-header">
-            <span>统计信息</span>
-            <el-button 
-              type="text" 
-              size="mini" 
-              icon="el-icon-arrow-up"
-              :icon="statisticsCollapsed ? 'el-icon-arrow-down' : 'el-icon-arrow-up'"
-              @click="statisticsCollapsed = !statisticsCollapsed"
-              class="collapse-btn"
-            >
-              {{ statisticsCollapsed ? '展开' : '收起' }}
-            </el-button>
+            <span>当前表单</span>
           </div>
-          <div class="statistics" v-show="!statisticsCollapsed">
-            <div class="stat-item">
-              <div class="stat-value">{{ deviceList.length }}</div>
-              <div class="stat-label">需要维护设备</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value warning">{{ statusCount.warning }}</div>
-              <div class="stat-label">警告状态</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value danger">{{ statusCount.error }}</div>
-              <div class="stat-label">错误状态</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value info">{{ statusCount.offline }}</div>
-              <div class="stat-label">离线状态</div>
-            </div>
+          <div class="form-placeholder-body" :style="{ minHeight: formPanelScrollMax + 'px' }">
+            <el-empty description="在左侧选择设备后，点击「生成」查看运维表单" :image-size="96" />
           </div>
         </el-card>
-
-        <el-card style="margin-top: 20px;">
-          <div slot="header" class="card-header">
-            <span>使用说明</span>
-          </div>
-          <ul class="tips">
-            <li>系统会自动检测状态不好的设备（警告、错误、离线或需要维护）</li>
-            <li>支持单个设备生成表单，也支持批量生成</li>
-            <li>生成的表单包含完整的维护信息：故障描述、操作步骤、安全注意事项等</li>
-            <li>可以保存表单到数据库，状态为"草稿"，后续可编辑和审批</li>
-            <li>表单格式参考了标准运维操作规范</li>
-            <li>支持打印、导出、复制等操作</li>
-          </ul>
-        </el-card>
-
-        <el-card style="margin-top: 20px;">
-          <div slot="header" class="card-header">
-            <span>设备状态说明</span>
-          </div>
-          <ul class="tips">
-            <li><el-tag type="success" size="small">正常</el-tag> - 设备运行正常</li>
-            <li><el-tag type="warning" size="small">警告</el-tag> - 设备有异常但可继续运行</li>
-            <li><el-tag type="danger" size="small">错误</el-tag> - 设备出现故障</li>
-            <li><el-tag type="info" size="small">离线</el-tag> - 设备离线或无法通信</li>
-          </ul>
-        </el-card>
-
-        <el-card style="margin-top: 20px;">
-          <div slot="header" class="card-header">
-            <span>状态和优先级判断依据</span>
-          </div>
-          <div class="judgment-rules">
-            <div class="rule-section">
-              <strong>设备状态判断：</strong>
-              <ul>
-                <li>来自设备状态表（eq_device_status）的 status 字段</li>
-                <li>1 = 正常，2 = 警告，3 = 错误，4 = 离线</li>
-              </ul>
-            </div>
-            <div class="rule-section" style="margin-top: 12px;">
-              <strong>优先级判断（按优先级从高到低）：</strong>
-              <ul>
-                <li><strong>高优先级：</strong>
-                  <ul>
-                    <li>故障等级为"紧急"（1）或"严重"（2）</li>
-                    <li>设备状态为"错误"（3）或"离线"（4）</li>
-                    <li>告警级别 ≤ 2</li>
-                  </ul>
-                </li>
-                <li><strong>中优先级：</strong>
-                  <ul>
-                    <li>设备状态为"警告"（2）</li>
-                    <li>故障等级为"一般"（3）</li>
-                    <li>默认优先级</li>
-                  </ul>
-                </li>
-                <li><strong>低优先级：</strong>
-                  <ul>
-                    <li>故障等级为"轻微"（4）</li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-            <div class="rule-section" style="margin-top: 12px;">
-              <strong>表单状态：</strong>
-              <ul>
-                <li><el-tag type="info" size="small">草稿</el-tag> - 初始状态，可编辑</li>
-                <li><el-tag type="success" size="small">已审批</el-tag> - 已通过审批</li>
-                <li><el-tag type="danger" size="small">已拒绝</el-tag> - 审批被拒绝</li>
-              </ul>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
+    </div>
 
     <!-- 设备详情对话框 -->
     <el-dialog
@@ -479,10 +396,23 @@
             {{ selectedDevice.priority }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item label="问题列表" :span="2">
-          <ul class="issue-list">
+        <el-descriptions-item v-if="trimStr(selectedDevice.issueAiSummary)" label="综合摘要" :span="2">
+          {{ selectedDevice.issueAiSummary }}
+        </el-descriptions-item>
+        <el-descriptions-item v-if="selectedDevice.faultDescription" label="状态说明" :span="2">
+          {{ selectedDevice.faultDescription }}
+        </el-descriptions-item>
+        <el-descriptions-item label="待处理故障" :span="2">
+          <ul v-if="selectedDevice.pendingFaults && selectedDevice.pendingFaults.length" class="issue-list">
+            <li v-for="(line, index) in selectedDevice.pendingFaults" :key="'pf' + index">{{ line }}</li>
+          </ul>
+          <span v-else class="text-muted">无</span>
+        </el-descriptions-item>
+        <el-descriptions-item label="未恢复告警" :span="2">
+          <ul v-if="selectedDevice.issues && selectedDevice.issues.length" class="issue-list">
             <li v-for="(issue, index) in selectedDevice.issues" :key="index">{{ issue }}</li>
           </ul>
+          <span v-else class="text-muted">无</span>
         </el-descriptions-item>
         <el-descriptions-item label="时间" :span="2" v-if="selectedDevice.timestamp">
           {{ selectedDevice.timestamp }}
@@ -496,7 +426,7 @@
 
     <!-- 表单编辑对话框 -->
     <el-dialog
-      title="编辑运维表单"
+      title="编辑表单"
       :visible.sync="formEditVisible"
       width="800px"
       @close="cancelEdit"
@@ -519,9 +449,6 @@
             <el-option label="中" value="中" />
             <el-option label="低" value="低" />
           </el-select>
-          <div style="font-size: 12px; color: #909399; margin-top: 4px;">
-            优先级判断依据：故障等级（紧急/严重→高）、设备状态（错误/离线→高，警告→中）、告警级别（≤2→高）
-          </div>
         </el-form-item>
         <el-form-item label="表单状态" v-if="editForm.formId">
           <el-select v-model="editForm.formStatus" style="width: 100%">
@@ -596,7 +523,7 @@
 
     <!-- 表单历史记录对话框 -->
     <el-dialog
-      title="表单历史记录"
+      title="历史记录"
       :visible.sync="showFormHistory"
       width="900px"
     >
@@ -679,12 +606,37 @@ export default {
       editForm: null,
       showFormHistory: false,
       formHistoryList: [],
-      statisticsCollapsed: false,
       showStatusEdit: false,
-      statusEditForm: null
+      statusEditForm: null,
+      winInnerHeight: typeof window !== "undefined" ? window.innerHeight : 900,
+      winInnerWidth: typeof window !== "undefined" ? window.innerWidth : 1200,
+      leftPaneWidth: 440,
+      splitDragging: false
     };
   },
   computed: {
+    splitLayoutNarrow() {
+      return this.winInnerWidth < 992;
+    },
+    leftPaneStyle() {
+      if (this.splitLayoutNarrow) {
+        return { width: "100%" };
+      }
+      return {
+        width: `${this.leftPaneWidth}px`,
+        flexShrink: 0
+      };
+    },
+    listTableHeight() {
+      const h = this.winInnerHeight;
+      const reserved = 230;
+      return Math.max(220, Math.min(720, h - reserved));
+    },
+    formPanelScrollMax() {
+      const h = this.winInnerHeight;
+      const reserved = 215;
+      return Math.max(280, Math.min(760, h - reserved));
+    },
     currentFormTools() {
       if (!this.currentForm || !this.currentForm.requiredTools) return [];
       try {
@@ -701,35 +653,104 @@ export default {
         return [];
       }
     },
-    statusCount() {
-      return {
-        warning: this.deviceList.filter(d => d.status === 2).length,
-        error: this.deviceList.filter(d => d.status === 3).length,
-        offline: this.deviceList.filter(d => d.status === 4).length
-      };
-    }
   },
   mounted() {
-    console.log("运维表单生成页面已加载");
-    console.log("当前路由:", this.$route);
-    this.loadDevices();
-    this.loadFormHistory();
+    Promise.all([this.loadDevices(), this.loadFormHistory()]).catch(() => {});
+    this.onWinResize();
+    window.addEventListener("resize", this.onWinResize);
+    this.$nextTick(() => this.initSplitWidth());
   },
-  created() {
-    console.log("运维表单生成组件已创建");
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onWinResize);
+    this.stopSplitDrag();
   },
   methods: {
-    // 加载设备列表
-    async loadDevices() {
+    initSplitWidth() {
+      const el = this.$refs.splitWorkspace;
+      if (!el || this.splitLayoutNarrow) return;
+      const w = el.clientWidth;
+      const gutter = 10;
+      const target = Math.round((w - gutter) * 0.44);
+      this.leftPaneWidth = Math.max(280, Math.min(w - 300 - gutter, target));
+    },
+    startSplitDrag() {
+      if (this.splitLayoutNarrow) return;
+      this.splitDragging = true;
+      document.body.style.cursor = "col-resize";
+      document.body.style.userSelect = "none";
+      document.addEventListener("mousemove", this.onSplitDrag);
+      document.addEventListener("mouseup", this.stopSplitDrag);
+    },
+    onSplitDrag(e) {
+      if (!this.splitDragging || !this.$refs.splitWorkspace) return;
+      const rect = this.$refs.splitWorkspace.getBoundingClientRect();
+      const gutter = 10;
+      const minLeft = 260;
+      const minRight = 280;
+      let x = e.clientX - rect.left - gutter / 2;
+      const maxLeft = rect.width - minRight - gutter;
+      this.leftPaneWidth = Math.max(minLeft, Math.min(maxLeft, x));
+    },
+    stopSplitDrag() {
+      if (this.splitDragging) {
+        this.splitDragging = false;
+        document.body.style.cursor = "";
+        document.body.style.userSelect = "";
+      }
+      document.removeEventListener("mousemove", this.onSplitDrag);
+      document.removeEventListener("mouseup", this.stopSplitDrag);
+    },
+    onWinResize() {
+      this.winInnerHeight = window.innerHeight || 900;
+      this.winInnerWidth = window.innerWidth || 1200;
+      this.$nextTick(() => {
+        const el = this.$refs.splitWorkspace;
+        if (!el || this.splitLayoutNarrow) return;
+        const w = el.clientWidth;
+        const gutter = 10;
+        const maxLeft = w - 280 - gutter;
+        if (this.leftPaneWidth > maxLeft) {
+          this.leftPaneWidth = Math.max(260, maxLeft);
+        }
+      });
+    },
+    trimStr(s) {
+      return s != null && String(s).trim().length > 0;
+    },
+    hasIssueDisplay(row) {
+      return (
+        this.trimStr(row.issueAiSummary) ||
+        (row.issues && row.issues.length > 0) ||
+        (row.pendingFaults && row.pendingFaults.length > 0)
+      );
+    },
+    /** 表格单元格：优先综合摘要；否则待处理故障/告警一行 */
+    formatIssueDescriptionCell(row) {
+      if (this.trimStr(row.issueAiSummary)) {
+        const t = String(row.issueAiSummary).trim();
+        return t.length > 56 ? t.slice(0, 53) + "…" : t;
+      }
+      if (row.issues && row.issues.length) {
+        return this.formatIssuesOneLine(row.issues);
+      }
+      if (row.pendingFaults && row.pendingFaults.length) {
+        return this.formatIssuesOneLine(row.pendingFaults);
+      }
+      return "";
+    },
+    formatIssuesOneLine(issues) {
+      if (!issues || !issues.length) return "";
+      const s = issues.join("；");
+      return s.length > 56 ? s.slice(0, 53) + "…" : s;
+    },
+    // 加载设备列表；首屏 withAi=false 快；手动「刷新」传 true 再走大模型摘要
+    async loadDevices(withAiSummary) {
       this.deviceLoading = true;
       try {
-        console.log("开始加载设备列表...");
-        const res = await getDevicesRequiringMaintenance();
-        console.log("设备列表响应:", res);
+        const res = await getDevicesRequiringMaintenance({ aiSummary: withAiSummary === true });
         
         if (res && res.code === 200) {
           const devices = res.data && res.data.devices ? res.data.devices : [];
-          console.log("获取到设备列表:", devices);
           
           // 确保每个设备都有status和priority字段
           devices.forEach(device => {
@@ -742,25 +763,24 @@ export default {
             if (!device.priority) {
               device.priority = "中";
             }
+            if (!device.pendingFaults) {
+              device.pendingFaults = [];
+            }
           });
           
           this.deviceList = devices;
           this.filteredDeviceList = [...devices];
           
-          if (devices.length > 0) {
-            this.$modal.msgSuccess(`找到 ${devices.length} 个需要维护的设备`);
-          } else {
-            this.$modal.msgInfo("当前没有需要维护的设备");
+          if (devices.length === 0) {
+            this.$modal.msgInfo("暂无待维护设备");
           }
         } else {
           const errorMsg = res ? (res.msg || "加载设备列表失败") : "接口返回数据异常";
-          console.error("加载设备列表失败:", errorMsg, res);
           this.$modal.msgError(errorMsg);
           this.deviceList = [];
           this.filteredDeviceList = [];
         }
       } catch (e) {
-        console.error("加载设备列表异常:", e);
         this.$modal.msgError("加载设备列表失败：" + (e.message || "未知错误"));
         this.deviceList = [];
         this.filteredDeviceList = [];
@@ -788,7 +808,11 @@ export default {
         const keyword = this.searchKeyword.toLowerCase();
         filtered = filtered.filter(d => 
           (d.deviceNo && d.deviceNo.toLowerCase().includes(keyword)) ||
-          (d.deviceName && d.deviceName.toLowerCase().includes(keyword))
+          (d.deviceName && d.deviceName.toLowerCase().includes(keyword)) ||
+          (d.issueAiSummary && String(d.issueAiSummary).toLowerCase().includes(keyword)) ||
+          (d.issues && d.issues.some(x => x && String(x).toLowerCase().includes(keyword))) ||
+          (d.pendingFaults && d.pendingFaults.some(x => x && String(x).toLowerCase().includes(keyword))) ||
+          (d.faultDescription && String(d.faultDescription).toLowerCase().includes(keyword))
         );
       }
       
@@ -810,17 +834,14 @@ export default {
       this.generatingDeviceId = device.deviceId;
       this.deviceDetailVisible = false;
       try {
-        console.log("开始生成表单，设备ID:", device.deviceId, "设备信息:", device);
         const res = await generateFormForDevice(device.deviceId, false);
-        console.log("生成表单响应:", res);
         
         if (res && res.code === 200) {
           // 处理返回的数据
           let formData = res.data;
           if (formData && typeof formData === 'object') {
             this.currentForm = formData;
-            console.log("表单数据已设置:", this.currentForm);
-            this.$modal.msgSuccess("表单生成成功");
+            this.$modal.msgSuccess("已生成");
             
             // 滚动到表单区域
             this.$nextTick(() => {
@@ -830,14 +851,12 @@ export default {
               }
             });
           } else {
-            console.error("表单数据格式错误:", formData);
             this.$modal.msgError("表单数据格式错误");
           }
         } else {
           this.$modal.msgError(res?.msg || "生成表单失败");
         }
       } catch (e) {
-        console.error("生成表单异常:", e);
         this.$modal.msgError("生成表单失败：" + e.message);
       } finally {
         this.generatingDeviceId = null;
@@ -852,8 +871,8 @@ export default {
       }
       
       this.$confirm(
-        `确定要为 ${this.selectedDevices.length} 个设备批量生成运维表单吗？`,
-        "批量生成确认",
+        `为 ${this.selectedDevices.length} 台设备批量生成表单？`,
+        "确认",
         {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -898,7 +917,7 @@ export default {
       try {
         const res = await generateFormForDevice(this.currentForm.deviceId, true);
         if (res.code === 200) {
-          this.$modal.msgSuccess("表单已保存到数据库");
+          this.$modal.msgSuccess("已保存");
           this.currentForm = res.data;
           this.loadFormHistory();
         } else {
@@ -943,13 +962,10 @@ export default {
           }
         });
         
-        console.log("开始更新表单，表单ID:", updateData.formId);
-        console.log("发送更新数据:", updateData);
         const res = await updateMaintenanceForm(updateData);
-        console.log("更新表单响应:", res);
         
         if (res && res.code === 200) {
-          this.$modal.msgSuccess("表单已更新");
+          this.$modal.msgSuccess("已更新");
           this.formEditVisible = false;
           // 重新加载表单详情
           const detailRes = await getAiMaintenanceFormById(this.currentForm.formId);
@@ -961,7 +977,6 @@ export default {
           this.$modal.msgError(res?.msg || "更新失败");
         }
       } catch (e) {
-        console.error("更新表单异常:", e);
         this.$modal.msgError("更新失败：" + e.message);
       } finally {
         this.saving = false;
@@ -969,7 +984,7 @@ export default {
     },
     
     // 编辑表单
-    editForm() {
+    openEditForm() {
       if (!this.currentForm) return;
       this.editForm = JSON.parse(JSON.stringify(this.currentForm));
       // 确保数字字段的类型正确
@@ -1016,10 +1031,9 @@ export default {
             }
           });
           
-          console.log("发送更新数据:", updateData);
           const res = await updateMaintenanceForm(updateData);
           if (res && res.code === 200) {
-            this.$modal.msgSuccess("表单已更新");
+            this.$modal.msgSuccess("已更新");
             this.formEditVisible = false;
             // 重新加载表单详情
             const detailRes = await getAiMaintenanceFormById(this.editForm.formId);
@@ -1031,7 +1045,6 @@ export default {
             this.$modal.msgError(res?.msg || "更新失败");
           }
         } catch (e) {
-          console.error("更新表单异常:", e);
           this.$modal.msgError("更新失败：" + e.message);
         } finally {
           this.saving = false;
@@ -1040,7 +1053,7 @@ export default {
         // 如果没有表单ID，只在前端更新
         this.currentForm = { ...this.currentForm, ...this.editForm };
         this.formEditVisible = false;
-        this.$modal.msgSuccess("表单已更新");
+        this.$modal.msgSuccess("已更新");
       }
     },
     
@@ -1055,12 +1068,10 @@ export default {
         this.$modal.msgWarning("表单ID不存在，无法修改状态");
         return;
       }
-      console.log("打开状态编辑对话框，当前表单:", this.currentForm);
       this.statusEditForm = {
         formId: Number(this.currentForm.formId),
         formStatus: this.currentForm.formStatus || "draft"
       };
-      console.log("状态编辑表单数据:", this.statusEditForm);
       this.showStatusEdit = true;
     },
     
@@ -1083,30 +1094,22 @@ export default {
           formId: Number(this.statusEditForm.formId),
           formStatus: String(this.statusEditForm.formStatus)
         };
-        console.log("发送状态更新数据:", updateData);
-        console.log("数据类型检查 - formId:", typeof updateData.formId, updateData.formId);
-        console.log("数据类型检查 - formStatus:", typeof updateData.formStatus, updateData.formStatus);
         
         const res = await updateMaintenanceForm(updateData);
-        console.log("状态更新响应:", res);
         
         if (res && res.code === 200) {
-          this.$modal.msgSuccess("状态已更新");
+          this.$modal.msgSuccess("已更新");
           this.showStatusEdit = false;
           // 重新加载表单详情
           const detailRes = await getAiMaintenanceFormById(this.statusEditForm.formId);
           if (detailRes && detailRes.code === 200) {
             this.currentForm = detailRes.data;
-            console.log("重新加载的表单数据:", this.currentForm);
           }
           this.loadFormHistory();
         } else {
-          console.error("状态更新失败，响应:", res);
           this.$modal.msgError(res?.msg || "更新失败");
         }
       } catch (e) {
-        console.error("更新状态异常:", e);
-        console.error("异常详情:", e.response || e.message);
         this.$modal.msgError("更新失败：" + (e.response?.data?.msg || e.message));
       } finally {
         this.saving = false;
@@ -1146,7 +1149,7 @@ export default {
       
       const formText = this.formatFormText(this.currentForm);
       clipboard(formText, null);
-      this.$modal.msgSuccess("表单已复制到剪贴板");
+      this.$modal.msgSuccess("已复制");
     },
     
     // 打印表单
@@ -1172,7 +1175,7 @@ export default {
             </style>
           </head>
           <body>
-            <h2>智能运维操作表单</h2>
+            <h2>运维表单</h2>
             ${printContent}
           </body>
         </html>
@@ -1196,18 +1199,18 @@ export default {
       link.download = `运维表单_${this.currentForm.deviceName}_${new Date().getTime()}.txt`;
       link.click();
       URL.revokeObjectURL(url);
-      this.$modal.msgSuccess("表单已导出");
+      this.$modal.msgSuccess("已导出");
     },
     
     // 格式化表单文本
     formatFormText(form) {
-      let text = "=== 智能运维操作表单 ===\n\n";
+      let text = "=== 运维表单 ===\n\n";
       text += `设备名称：${form.deviceName}\n`;
       text += `设备ID：${form.deviceId}\n`;
       if (form.formId) text += `表单ID：${form.formId}\n`;
       text += `维护类型：${form.maintenanceType}\n`;
       text += `优先级：${form.priorityLevel}\n`;
-      text += `预计耗时：${form.estimatedTime} 分钟\n\n`;
+      text += `预计耗时：${form.estimatedTime} min\n\n`;
       text += `故障描述：\n${form.faultDescription}\n\n`;
       text += `所需工具：\n${this.currentFormTools.join("、")}\n\n`;
       text += `安全注意事项：\n${form.safetyPrecautions}\n\n`;
@@ -1226,8 +1229,8 @@ export default {
       if (this.currentForm && this.currentForm.formId) {
         // 如果表单已保存，提示用户
         this.$confirm(
-          "确定要清空当前表单吗？表单内容将丢失，但已保存的表单不会删除。",
-          "清空确认",
+          "清空当前表单？（已入库记录不受影响）",
+          "清空",
           {
             confirmButtonText: "确定",
             cancelButtonText: "取消",
@@ -1235,11 +1238,11 @@ export default {
           }
         ).then(() => {
           this.currentForm = null;
-          this.$modal.msgSuccess("表单已清空");
+          this.$modal.msgSuccess("已清空");
         }).catch(() => {});
       } else {
         this.currentForm = null;
-        this.$modal.msgSuccess("表单已清空");
+        this.$modal.msgSuccess("已清空");
       }
     },
     
@@ -1255,9 +1258,7 @@ export default {
         }
       ).then(async () => {
         try {
-          console.log("开始删除表单，表单ID:", form.formId);
           const res = await deleteMaintenanceForm(form.formId);
-          console.log("删除表单响应:", res);
           
           if (res && res.code === 200) {
             this.$modal.msgSuccess("删除成功");
@@ -1271,7 +1272,6 @@ export default {
             this.$modal.msgError(res?.msg || "删除失败");
           }
         } catch (e) {
-          console.error("删除表单异常:", e);
           this.$modal.msgError("删除失败：" + e.message);
         }
       }).catch(() => {});
@@ -1294,9 +1294,7 @@ export default {
         }
       ).then(async () => {
         try {
-          console.log("开始删除当前表单，表单ID:", this.currentForm.formId);
           const res = await deleteMaintenanceForm(this.currentForm.formId);
-          console.log("删除表单响应:", res);
           
           if (res && res.code === 200) {
             this.$modal.msgSuccess("删除成功");
@@ -1307,7 +1305,6 @@ export default {
             this.$modal.msgError(res?.msg || "删除失败");
           }
         } catch (e) {
-          console.error("删除表单异常:", e);
           this.$modal.msgError("删除失败：" + e.message);
         }
       }).catch(() => {});
@@ -1322,9 +1319,7 @@ export default {
     async loadFormHistory() {
       this.historyLoading = true;
       try {
-        console.log("开始加载表单历史记录...");
         const res = await listAiMaintenanceForm({});
-        console.log("历史记录响应:", res);
         
         if (res && res.code === 200) {
           // 处理分页数据
@@ -1337,13 +1332,10 @@ export default {
           } else {
             this.formHistoryList = [];
           }
-          console.log("加载历史记录成功，数量:", this.formHistoryList.length);
         } else {
-          console.error("加载历史记录失败:", res?.msg);
           this.formHistoryList = [];
         }
       } catch (e) {
-        console.error("加载历史记录异常:", e);
         this.formHistoryList = [];
       } finally {
         this.historyLoading = false;
@@ -1354,7 +1346,7 @@ export default {
     loadFormFromHistory(form) {
       this.currentForm = form;
       this.showFormHistory = false;
-      this.$modal.msgSuccess("表单已加载");
+      this.$modal.msgSuccess("已加载");
     },
     
     // 查看表单详情
@@ -1429,6 +1421,260 @@ export default {
 @import "~@/assets/styles/variables.scss";
 
 .form-gen {
+  &.form-gen-layout {
+    width: calc(100% + 40px);
+    max-width: none;
+    margin-left: -20px;
+    margin-right: -20px;
+    box-sizing: border-box;
+    padding-left: 12px;
+    padding-right: 12px;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 90px);
+  }
+
+  .form-gen-workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  @media (max-width: 768px) {
+    &.form-gen-layout {
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .split-workspace {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    gap: 0;
+  }
+
+  .split-workspace--dragging {
+    cursor: col-resize;
+    user-select: none;
+
+    * {
+      user-select: none;
+    }
+  }
+
+  .split-pane {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+
+    > .el-card {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+    }
+  }
+
+  .split-pane--right {
+    flex: 1;
+  }
+
+  .split-gutter {
+    flex-shrink: 0;
+    width: 10px;
+    margin: 0 4px;
+    cursor: col-resize;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+
+    &:hover,
+    .split-workspace--dragging & {
+      background: rgba(94, 161, 255, 0.12);
+    }
+
+    .split-gutter__line {
+      align-self: center;
+      width: 3px;
+      height: 48px;
+      border-radius: 2px;
+      background: $border-color;
+      transition: background 0.15s ease;
+    }
+
+    &:hover .split-gutter__line,
+    .split-workspace--dragging & .split-gutter__line {
+      background: $accent-color;
+    }
+  }
+
+  .split-workspace--narrow {
+    flex-direction: column;
+
+    .split-gutter {
+      display: none;
+    }
+
+    .split-pane--left,
+    .split-pane--right {
+      width: 100% !important;
+      flex: none;
+    }
+
+    .split-pane--left {
+      margin-bottom: 12px;
+    }
+  }
+
+  .list-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    ::v-deep .el-card__body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      padding: 14px 16px 16px;
+    }
+  }
+
+  .card-header--list {
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    align-items: center;
+
+    .header-title-row {
+      font-size: 16px;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    .header-count {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13px;
+      color: $accent-color;
+      margin-left: 8px;
+    }
+  }
+
+  .filter-section--comfortable {
+    margin-bottom: 12px;
+    gap: 8px 10px;
+
+    .filter-search {
+      width: 200px;
+      max-width: 100%;
+    }
+
+    .filter-select {
+      width: 108px;
+    }
+  }
+
+  .device-list-section {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+
+    .text-muted {
+      color: $text-disabled;
+      font-size: 13px;
+    }
+  }
+
+  .device-table--readable {
+    flex: 1;
+    min-height: 0;
+
+    ::v-deep .el-table__header th,
+    ::v-deep .el-table__body td {
+      padding: 9px 8px !important;
+    }
+
+    ::v-deep .el-table__header th .cell,
+    ::v-deep .el-table__body td .cell {
+      line-height: 1.45 !important;
+      font-size: 13px !important;
+    }
+
+    ::v-deep .el-table__header th {
+      font-weight: 600;
+    }
+
+    .issue-inline {
+      display: block;
+      font-size: 13px;
+      line-height: 1.45;
+      color: $text-secondary;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: default;
+    }
+
+    .table-action-btn {
+      padding: 0 6px !important;
+      font-size: 13px !important;
+    }
+  }
+
+  .form-panel-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    ::v-deep .el-card__body {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 16px 16px;
+    }
+  }
+
+  .form-content-scroll {
+    overflow-y: auto;
+    padding-right: 6px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .form-placeholder-card {
+    .form-placeholder-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      box-sizing: border-box;
+    }
+  }
+
+  .empty-filter-hint {
+    margin: 12px 0 0;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: $text-secondary;
+    background: rgba(94, 161, 255, 0.06);
+    border-radius: 4px;
+    border-left: 3px solid $accent-color;
+  }
+
   .card-header {
     font-weight: 600;
     color: $text-primary;
@@ -1451,59 +1697,28 @@ export default {
   }
   
   .filter-section {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-  }
-  
-  .device-list-section {
-    margin-bottom: 20px;
-    
-    .section-title {
-      font-weight: 600;
-      color: $text-primary;
-      margin-bottom: 12px;
-      font-size: 14px;
+    gap: 8px 10px;
+    .filter-search {
+      width: 220px;
+      max-width: 100%;
     }
-    
-    .issue-item {
-      font-size: 12px;
-      color: $text-secondary;
-      margin-bottom: 4px;
-    }
-    
-    .more-issues {
-      font-size: 11px;
-      color: $accent-color;
-      margin-left: 4px;
-    }
-    
-    .text-muted {
-      color: $text-disabled;
-      font-style: italic;
+    .filter-select {
+      width: 108px;
     }
   }
   
-  .form-section {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid $border-color;
-    
-    .section-title {
-      font-weight: 600;
-      color: $text-primary;
-      margin-bottom: 12px;
-      font-size: 14px;
+  .form-result-card {
+    .card-header .form-actions-header {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      
-      .form-actions-header {
-        display: flex;
-        gap: 8px;
-      }
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
-    
+
     .form-content {
       // 表单描述列表样式覆盖
       ::v-deep .form-descriptions {
@@ -1721,98 +1936,6 @@ export default {
     }
   }
   
-  .statistics {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    
-    .stat-item {
-      text-align: center;
-      padding: 16px;
-      background: $secondary-bg;
-      border-radius: 8px;
-      border: 1px solid $border-color;
-      transition: all 0.3s;
-      
-      &:hover {
-        background: rgba(94, 161, 255, 0.1);
-        border-color: $accent-color;
-        transform: translateY(-2px);
-      }
-      
-      .stat-value {
-        font-size: 32px;
-        font-weight: 700;
-        color: $accent-color;
-        margin-bottom: 8px;
-        line-height: 1;
-        
-        &.warning {
-          color: #ffc107;
-        }
-        
-        &.danger {
-          color: #f56c6c;
-        }
-        
-        &.info {
-          color: #909399;
-        }
-      }
-      
-      .stat-label {
-        font-size: 13px;
-        color: $text-secondary;
-        font-weight: 500;
-      }
-    }
-  }
-  
-  .tips {
-    margin: 0;
-    padding-left: 20px;
-    line-height: 1.8;
-    color: $text-secondary;
-    
-    li {
-      margin-bottom: 8px;
-    }
-  }
-  
-  .judgment-rules {
-    color: $text-secondary;
-    line-height: 1.8;
-    
-    .rule-section {
-      strong {
-        color: $text-primary;
-        display: block;
-        margin-bottom: 8px;
-        font-size: 14px;
-      }
-      
-      ul {
-        margin: 0;
-        padding-left: 20px;
-        
-        li {
-          margin-bottom: 6px;
-          font-size: 13px;
-          
-          ul {
-            margin-top: 4px;
-            padding-left: 20px;
-            
-            li {
-              margin-bottom: 4px;
-              font-size: 12px;
-            }
-          }
-        }
-      }
-    }
-  }
-  
   .issue-list {
     margin: 0;
     padding-left: 20px;
@@ -1839,11 +1962,6 @@ export default {
         margin-top: 10px;
       }
     }
-  }
-  
-  .empty-filter-tip {
-    margin-top: 20px;
-    padding: 20px;
   }
   
   .loading-tip {

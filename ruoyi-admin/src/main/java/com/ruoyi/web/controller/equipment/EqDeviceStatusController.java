@@ -95,4 +95,16 @@ public class EqDeviceStatusController extends BaseController
     {
         return toAjax(eqDeviceStatusService.deleteEqDeviceStatusByStatusIds(statusIds));
     }
+
+    /**
+     * 按设备重算规则（最新一条状态）：生成告警、抬升运行状态、标记需维护
+     */
+    @PreAuthorize("@ss.hasPermi('equipment:deviceStatus:edit')")
+    @Log(title = "设备运行状态", businessType = BusinessType.UPDATE)
+    @PostMapping("/reevaluateRules/{deviceId}")
+    public AjaxResult reevaluateRules(@PathVariable("deviceId") Long deviceId)
+    {
+        eqDeviceStatusService.reevaluateRulesByDeviceId(deviceId);
+        return success("已触发规则重算");
+    }
 }

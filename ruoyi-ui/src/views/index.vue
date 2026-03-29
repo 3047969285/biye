@@ -1,83 +1,53 @@
 <template>
   <div class="dashboard-container">
-    <!-- 标题 -->
     <div class="dashboard-header">
-      <h2 class="dashboard-title">
-        <i class="el-icon-light-rain"></i>
-        智能电网运维监控中心
-      </h2>
-      <el-button 
-        type="primary" 
-        icon="el-icon-refresh" 
-        size="small" 
+      <h2 class="dashboard-title">设备概览</h2>
+      <el-button
+        type="primary"
+        icon="el-icon-refresh"
+        size="small"
+        plain
         @click="loadData"
         :loading="loading"
-      >
-        刷新数据
-      </el-button>
+      >刷新</el-button>
     </div>
 
-    <!-- 统计卡片 -->
-    <el-row :gutter="20" class="stats-row">
-      <el-col :xs="24" :sm="12" :md="6">
-        <div class="stat-card normal">
-          <div class="stat-icon">
-            <i class="el-icon-success"></i>
-          </div>
-          <div class="stat-content">
-            <div class="stat-value">{{ statistics.normal || 0 }}</div>
-            <div class="stat-label">正常运行</div>
-          </div>
+    <el-row :gutter="16" class="stats-row">
+      <el-col :xs="12" :sm="6" :md="6">
+        <div class="stat-card stat-card--normal">
+          <div class="stat-value">{{ statistics.normal || 0 }}</div>
+          <div class="stat-label">正常</div>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="12" :md="6">
-        <div class="stat-card stopped">
-          <div class="stat-icon">
-            <i class="el-icon-video-pause"></i>
-          </div>
-          <div class="stat-content">
-            <div class="stat-value">{{ statistics.stopped || 0 }}</div>
-            <div class="stat-label">已停用</div>
-          </div>
+      <el-col :xs="12" :sm="6" :md="6">
+        <div class="stat-card stat-card--stopped">
+          <div class="stat-value">{{ statistics.stopped || 0 }}</div>
+          <div class="stat-label">停用</div>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="12" :md="6">
-        <div class="stat-card maintenance">
-          <div class="stat-icon">
-            <i class="el-icon-setting"></i>
-          </div>
-          <div class="stat-content">
-            <div class="stat-value">{{ statistics.maintenance || 0 }}</div>
-            <div class="stat-label">维护中</div>
-          </div>
+      <el-col :xs="12" :sm="6" :md="6">
+        <div class="stat-card stat-card--maintenance">
+          <div class="stat-value">{{ statistics.maintenance || 0 }}</div>
+          <div class="stat-label">维护</div>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="12" :md="6">
-        <div class="stat-card scrapped">
-          <div class="stat-icon">
-            <i class="el-icon-delete"></i>
-          </div>
-          <div class="stat-content">
-            <div class="stat-value">{{ statistics.scrapped || 0 }}</div>
-            <div class="stat-label">已报废</div>
-          </div>
+      <el-col :xs="12" :sm="6" :md="6">
+        <div class="stat-card stat-card--scrapped">
+          <div class="stat-value">{{ statistics.scrapped || 0 }}</div>
+          <div class="stat-label">报废</div>
         </div>
       </el-col>
     </el-row>
 
-    <!-- 设备数据总览 -->
-    <el-card class="device-list-card" shadow="hover">
+    <el-card class="device-list-card" shadow="never">
       <div slot="header" class="card-header">
-        <span class="card-title">
-          <i class="el-icon-data-line"></i>
-          设备数据总览
-        </span>
+        <span class="card-title">设备列表</span>
         <el-input
           v-model="searchKeyword"
-          placeholder="搜索设备名称、编号或类型"
+          placeholder="搜索名称、编号、类型"
           prefix-icon="el-icon-search"
           size="small"
-          style="width: 300px; float: right;"
+          class="device-search-input"
           clearable
           @input="handleSearch"
         />
@@ -85,63 +55,63 @@
       <div class="device-list-container">
         <div v-if="loading" class="loading-data">
           <i class="el-icon-loading"></i>
-          <p>正在加载数据...</p>
+          <span>加载中</span>
         </div>
         <div v-else-if="totalDevices === 0" class="empty-data">
-          <i class="el-icon-info"></i>
-          <p>{{ searchKeyword ? '未找到匹配的设备' : '暂无设备数据' }}</p>
+          <span>{{ searchKeyword ? '无匹配设备' : '暂无设备' }}</span>
         </div>
-        <div v-else class="device-grid">
-          <div 
-            v-for="device in filteredDeviceData" 
-            :key="device.deviceId"
-            class="device-card"
-            :class="{
-              'status-normal': device.status === 1,
-              'status-stopped': device.status === 2,
-              'status-maintenance': device.status === 3,
-              'status-scrapped': device.status === 4
-            }"
-            @click="showDeviceDetail(device.deviceId)"
+        <el-collapse v-else v-model="collapseActiveNames" class="device-type-collapse">
+          <el-collapse-item
+            v-for="grp in groupedPagedDevices"
+            :key="grp.key"
+            :name="grp.key"
           >
-            <div class="device-card-header">
-              <div class="device-name">{{ device.deviceName || '未命名设备' }}</div>
-              <el-tag 
-                :type="getStatusTagType(device.status)" 
-                size="small" 
-                effect="dark"
+            <template slot="title">
+              <span class="collapse-title-text">{{ grp.label }}</span>
+              <span class="collapse-title-count">{{ grp.devices.length }} 台</span>
+            </template>
+            <div class="device-grid">
+              <div
+                v-for="device in grp.devices"
+                :key="device.deviceId"
+                class="device-card"
+                :class="{
+                  'status-normal': device.status === 1,
+                  'status-stopped': device.status === 2,
+                  'status-maintenance': device.status === 3,
+                  'status-scrapped': device.status === 4
+                }"
+                @click="showDeviceDetail(device.deviceId)"
               >
-                {{ device.statusName }}
-              </el-tag>
-            </div>
-            <div class="device-card-body">
-              <div class="device-info-row">
-                <span class="info-label">设备ID:</span>
-                <span class="info-value">{{ device.deviceId }}</span>
-              </div>
-              <div class="device-info-row">
-                <span class="info-label">设备编号:</span>
-                <span class="info-value">{{ device.deviceNo || '-' }}</span>
-              </div>
-              <div class="device-info-row">
-                <span class="info-label">设备类型:</span>
-                <span class="info-value">{{ device.deviceType || '-' }}</span>
-              </div>
-              <div class="device-info-row">
-                <span class="info-label">安装位置:</span>
-                <span class="info-value">{{ device.location || '-' }}</span>
-              </div>
-              <div class="device-info-row" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #EBEEF5;">
-                <span class="info-label">数据维度:</span>
-                <span class="info-value">{{ Object.keys(device.tableCounts || {}).filter(k => device.tableCounts[k] > 0).length }}/15</span>
-              </div>
-              <div class="device-info-row">
-                <span class="info-label">总记录数:</span>
-                <span class="info-value highlight-count">{{ device.totalCount || 0 }}</span>
+                <div class="device-card-header">
+                  <div class="device-name">{{ device.deviceName || '未命名设备' }}</div>
+                  <el-tag :type="getStatusTagType(device.status)" size="mini">
+                    {{ device.statusName }}
+                  </el-tag>
+                </div>
+                <div class="device-card-body">
+                  <div class="device-info-row">
+                    <span class="info-label">编号</span>
+                    <span class="info-value">{{ device.deviceNo || '—' }}</span>
+                  </div>
+                  <div class="device-info-row">
+                    <span class="info-label">类型</span>
+                    <span class="info-value">{{ device.deviceType || '—' }}</span>
+                  </div>
+                  <div class="device-info-row">
+                    <span class="info-label">位置</span>
+                    <span class="info-value">{{ device.location || '—' }}</span>
+                  </div>
+                  <div class="device-info-row device-info-row--foot">
+                    <span class="info-label">记录</span>
+                    <span class="info-value highlight-count">{{ device.totalCount || 0 }}</span>
+                    <span class="info-meta">{{ Object.keys(device.tableCounts || {}).filter(k => device.tableCounts[k] > 0).length }}/15 表</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </el-collapse-item>
+        </el-collapse>
       </div>
       <!-- 分页 -->
       <div v-if="totalDevices > 0" class="pagination-container">
@@ -159,19 +129,16 @@
 
     <!-- 设备详情对话框 -->
     <el-dialog
-      title="设备详细信息"
+      title="设备详情"
       :visible.sync="dialogVisible"
-      width="90%"
+      width="88%"
       :before-close="handleClose"
       class="device-detail-dialog"
     >
       <div v-if="selectedDevice" v-loading="dialogLoading" class="device-detail-content">
         <!-- 设备基本信息卡片 -->
-        <el-card class="device-info-card" shadow="hover">
-          <div slot="header" class="card-header-title">
-            <i class="el-icon-info"></i>
-            <span>设备基本信息</span>
-          </div>
+        <el-card class="device-info-card" shadow="never">
+          <div slot="header" class="card-header-title">基本信息</div>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="12" :md="8">
               <div class="info-item">
@@ -207,7 +174,7 @@
               <div class="info-item">
                 <div class="info-label">运行状态</div>
                 <div class="info-value">
-                  <el-tag :type="getStatusTagType(selectedDevice.status)" size="medium" effect="dark">
+                  <el-tag :type="getStatusTagType(selectedDevice.status)" size="small">
                     {{ selectedDevice.statusName }}
                   </el-tag>
                 </div>
@@ -217,11 +184,8 @@
         </el-card>
 
         <!-- 设备详细数据 - 使用标签页展示所有维度 -->
-        <el-card class="device-data-card">
-          <div slot="header" class="card-header-title">
-            <i class="el-icon-data-line"></i>
-            <span>设备详细数据</span>
-          </div>
+        <el-card class="device-data-card" shadow="never">
+          <div slot="header" class="card-header-title">分项数据</div>
           <el-tabs v-model="activeTab" type="border-card" @tab-click="handleTabClick">
             <el-tab-pane 
               v-for="tab in dataTabs" 
@@ -229,10 +193,9 @@
               :label="tab.label" 
               :name="tab.name"
             >
-              <div style="min-height: 300px; background: #222D42; padding: 20px;">
+              <div class="tab-pane-inner">
                 <div v-if="!tab.data || tab.data.length === 0" class="empty-data-tip">
-                  <i class="el-icon-info"></i>
-                  <p>该维度暂无数据</p>
+                  暂无数据
                 </div>
                 <el-table 
                   v-else
@@ -303,7 +266,37 @@ export default {
       dataTabs: [],
       currentPage: 1,
       pageSize: 24,
-      totalDevices: 0
+      totalDevices: 0,
+      /** 按类型折叠面板：当前页切换或筛选后默认全部展开 */
+      collapseActiveNames: []
+    }
+  },
+  computed: {
+    /** 当前页设备按 deviceType 分组 */
+    groupedPagedDevices() {
+      const list = this.filteredDeviceData || []
+      const map = new Map()
+      for (const d of list) {
+        const t = (d.deviceType && String(d.deviceType).trim()) || ''
+        const key = t || '__uncat__'
+        if (!map.has(key)) {
+          map.set(key, { key, label: t || '未分类', devices: [] })
+        }
+        map.get(key).devices.push(d)
+      }
+      return Array.from(map.values()).sort((a, b) => {
+        if (a.key === '__uncat__') return 1
+        if (b.key === '__uncat__') return -1
+        return a.label.localeCompare(b.label, 'zh-CN')
+      })
+    }
+  },
+  watch: {
+    groupedPagedDevices: {
+      handler(groups) {
+        this.collapseActiveNames = (groups || []).map(g => g.key)
+      },
+      immediate: true
     }
   },
   mounted() {
@@ -377,17 +370,6 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val
       this.applyPagination()
-    },
-    getTopDataCategories(tableCounts) {
-      if (!tableCounts) return []
-      const categories = []
-      for (const [tableName, count] of Object.entries(tableCounts)) {
-        if (count > 0) {
-          categories.push({ tableName, count })
-        }
-      }
-      // 按数量排序，取前5个
-      return categories.sort((a, b) => b.count - a.count).slice(0, 5)
     },
     getTableDisplayName(tableName) {
       const nameMap = {
@@ -767,80 +749,54 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  
+  margin-bottom: 16px;
+
   .dashboard-title {
-    color: #F5F7FB;
-    font-size: 28px;
-    font-weight: bold;
+    color: $text-primary;
+    font-size: 18px;
+    font-weight: 600;
     margin: 0;
-    
-    i {
-      margin-right: 10px;
-      font-size: 32px;
-      color: #5EA1FF;
-    }
   }
 }
 
 .stats-row {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .stat-card {
-  background: #1B2435;
-  border: 1px solid #2E3B55;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  
-  &:hover {
-    background: #242938;
+  background: $primary-bg;
+  border: 1px solid $border-color;
+  border-left: 3px solid $text-disabled;
+  padding: 12px 14px;
+  margin-bottom: 0;
+
+  .stat-value {
+    font-size: 22px;
+    font-weight: 600;
+    color: $text-primary;
+    line-height: 1.2;
+    margin-bottom: 4px;
   }
-  
-  .stat-icon {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 20px;
-    font-size: 30px;
-    color: #fff;
-    
-    &.normal {
-      background: #67C23A;
-    }
-    
-    &.stopped {
-      background: #909399;
-    }
-    
-    &.maintenance {
-      background: #E6A23C;
-    }
-    
-    &.scrapped {
-      background: #F56C6C;
-    }
+
+  .stat-label {
+    font-size: 13px;
+    color: $text-secondary;
   }
-  
-    .stat-content {
-    flex: 1;
-    
-    .stat-value {
-      font-size: 32px;
-      font-weight: bold;
-      color: #F5F7FB;
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-    
-    .stat-label {
-      font-size: 14px;
-      color: #D1D7E6;
-    }
+
+  &--normal {
+    border-left-color: #67c23a;
+  }
+
+  &--stopped {
+    border-left-color: #909399;
+  }
+
+  &--maintenance {
+    border-left-color: #e6a23c;
+  }
+
+  &--scrapped {
+    border-left-color: #f56c6c;
   }
 }
 
@@ -852,16 +808,18 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+    flex-wrap: wrap;
+    gap: 10px;
+
     .card-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #F5F7FB;
-      
-      i {
-        margin-right: 8px;
-        color: #5EA1FF;
-      }
+      font-size: 15px;
+      font-weight: 600;
+      color: $text-primary;
+    }
+
+    .device-search-input {
+      width: 220px;
+      max-width: 100%;
     }
     
     ::v-deep .device-search-input {
@@ -884,64 +842,93 @@ export default {
   }
   
       .device-list-container {
-        min-height: 400px;
+        min-height: 280px;
         
-        .loading-data {
-          text-align: center;
-          padding: 80px 20px;
-          color: #409EFF;
-          
-          i {
-            font-size: 64px;
-            margin-bottom: 20px;
-            display: block;
-          }
-          
-          p {
-            font-size: 16px;
-            margin: 0;
-          }
-        }
-        
+        .loading-data,
         .empty-data {
           text-align: center;
-          padding: 80px 20px;
-          color: #909399;
-          
+          padding: 48px 16px;
+          color: $text-secondary;
+          font-size: 14px;
+
           i {
-            font-size: 64px;
-            margin-bottom: 20px;
+            font-size: 28px;
             display: block;
-            color: #C0C4CC;
-          }
-          
-          p {
-            font-size: 16px;
-            margin: 0;
+            margin-bottom: 8px;
+            color: $text-disabled;
           }
         }
         
+        .device-type-collapse {
+          border: none;
+
+          ::v-deep .el-collapse-item {
+            margin-bottom: 10px;
+            border: 1px solid $border-color;
+            border-radius: 4px;
+            overflow: hidden;
+            background: $primary-bg;
+          }
+
+          ::v-deep .el-collapse-item__header {
+            height: 44px;
+            line-height: 44px;
+            padding: 0 14px;
+            background: $primary-bg;
+            color: $text-primary;
+            font-weight: 500;
+            font-size: 14px;
+            border-bottom: 1px solid transparent;
+          }
+
+          ::v-deep .el-collapse-item__header.is-active {
+            border-bottom-color: $border-color;
+          }
+
+          ::v-deep .el-collapse-item__wrap {
+            background: $secondary-bg;
+            border-bottom: none;
+          }
+
+          ::v-deep .el-collapse-item__content {
+            padding: 10px 12px 12px;
+          }
+
+          ::v-deep .el-collapse-item__arrow {
+            color: $text-secondary;
+          }
+        }
+
+        .collapse-title-text {
+          margin-right: 10px;
+        }
+
+        .collapse-title-count {
+          font-size: 12px;
+          color: $text-disabled;
+          font-weight: 400;
+        }
+
         .device-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-          gap: 20px;
-          padding: 10px 0;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 10px;
+          padding: 0;
         }
     
     .device-card {
-      background: #222D42;
-      padding: 20px;
+      background: $secondary-bg;
+      padding: 10px 12px;
       cursor: pointer;
-      border-left: 4px solid #5EA1FF;
-      border: 1px solid #2E3B55;
-      
+      border: 1px solid $border-color;
+      border-left: 3px solid $accent-color;
+
       &:hover {
-        background: #1B2435;
-        border-left-color: #5EA1FF;
+        background: $primary-bg;
       }
-      
+
       &.status-normal {
-        border-left-color: #67C23A;
+        border-left-color: $accent-color;
       }
       
       &.status-stopped {
@@ -960,14 +947,14 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 15px;
-        padding-bottom: 15px;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
         border-bottom: 1px solid #2E3B55;
         
         .device-name {
-          font-size: 18px;
-          font-weight: bold;
-          color: #F5F7FB;
+          font-size: 14px;
+          font-weight: 600;
+          color: $text-primary;
           flex: 1;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -976,30 +963,49 @@ export default {
       }
       
       .device-card-body {
-        margin-bottom: 15px;
+        margin-bottom: 8px;
         
         .device-info-row {
           display: flex;
-          margin-bottom: 10px;
-          font-size: 14px;
+          margin-bottom: 6px;
+          font-size: 12px;
           
           .info-label {
-            color: #D1D7E6;
-            width: 80px;
+            color: $text-secondary;
+            width: 36px;
             flex-shrink: 0;
+            font-size: 12px;
           }
-          
+
           .info-value {
-            color: #F5F7FB;
+            color: $text-primary;
             flex: 1;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            
+            font-size: 12px;
+
             &.highlight-count {
-              color: #5EA1FF;
-              font-weight: bold;
-              font-size: 16px;
+              color: $accent-color;
+              font-weight: 600;
+            }
+          }
+
+          &.device-info-row--foot {
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid $border-color;
+            align-items: baseline;
+            gap: 6px;
+
+            .info-label {
+              width: 36px;
+            }
+
+            .info-meta {
+              font-size: 11px;
+              color: $text-disabled;
+              flex-shrink: 0;
             }
           }
         }
@@ -1039,6 +1045,30 @@ export default {
             font-style: italic;
           }
         }
+      }
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .device-list-container {
+      .device-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .device-list-container {
+      .device-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .device-list-container {
+      .device-grid {
+        grid-template-columns: 1fr;
       }
     }
   }
@@ -1083,52 +1113,40 @@ export default {
   ::v-deep .el-card__body {
     background: #222D42;
   }
-  
+
   .card-header-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #F5F7FB;
-    display: flex;
-    align-items: center;
-    
-    i {
-      margin-right: 8px;
-      font-size: 20px;
-      color: #5EA1FF;
-    }
+    font-size: 15px;
+    font-weight: 600;
+    color: $text-primary;
   }
-  
+
   .info-item {
-    padding: 15px;
-    margin-bottom: 15px;
-    background: #1B2435;
-    border-left: 4px solid #5EA1FF;
-    
-    &:hover {
-      background: #242938;
-    }
-    
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    background: $primary-bg;
+    border: 1px solid $border-color;
+    border-radius: 2px;
+
     .info-label {
-      font-size: 13px;
-      color: #D1D7E6;
-      margin-bottom: 8px;
-      font-weight: 500;
+      font-size: 12px;
+      color: $text-secondary;
+      margin-bottom: 4px;
     }
-    
+
     .info-value {
-      font-size: 16px;
-      color: #F5F7FB;
+      font-size: 14px;
+      color: $text-primary;
       font-weight: 500;
-      
+
       &.highlight {
-        color: #5EA1FF;
-        font-size: 18px;
-        font-weight: bold;
+        color: $accent-color;
+        font-size: 15px;
+        font-weight: 600;
       }
-      
+
       &.primary {
-        color: #F5F7FB;
-        font-size: 17px;
+        color: $text-primary;
+        font-size: 15px;
         font-weight: 600;
       }
     }
@@ -1146,38 +1164,24 @@ export default {
   }
   
   .card-header-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #F5F7FB;
-    display: flex;
-    align-items: center;
-    
-    i {
-      margin-right: 8px;
-      font-size: 20px;
-      color: #5EA1FF;
-    }
+    font-size: 15px;
+    font-weight: 600;
+    color: $text-primary;
   }
-  
+
+  .tab-pane-inner {
+    min-height: 260px;
+    background: $secondary-bg;
+    padding: 12px;
+  }
+
   .empty-data-tip {
     text-align: center;
-    padding: 60px 20px;
-    color: #D1D7E6;
-    background: #1B2435;
-    border: 1px dashed #2E3B55;
-    
-    i {
-      font-size: 48px;
-      margin-bottom: 15px;
-      display: block;
-      color: #9AA6BF;
-    }
-    
-    p {
-      font-size: 16px;
-      margin: 0;
-      color: #D1D7E6;
-    }
+    padding: 40px 16px;
+    color: $text-disabled;
+    font-size: 13px;
+    background: $primary-bg;
+    border: 1px dashed $border-color;
   }
   
   ::v-deep .el-tabs--border-card {
@@ -1192,11 +1196,11 @@ export default {
       
       .el-tabs__item {
         color: #D1D7E6;
-        font-weight: 500;
-        
+        font-weight: 400;
+
         &.is-active {
-          color: #5EA1FF;
-          font-weight: bold;
+          color: $accent-color;
+          font-weight: 500;
         }
       }
     }
@@ -1225,29 +1229,21 @@ export default {
     
     .el-table__row {
       background-color: #222D42 !important;
-      
-      &:hover {
-        background-color: rgba(94, 161, 255, 0.15) !important;
-        
-        td {
-          background-color: rgba(94, 161, 255, 0.15) !important;
-        }
+
+      &:hover td {
+        background-color: #2a3548 !important;
       }
     }
-    
+
     .el-table__row--striped {
       background-color: #1B2435 !important;
-      
+
       td {
         background-color: #1B2435 !important;
       }
-      
-      &:hover {
-        background-color: rgba(94, 161, 255, 0.2) !important;
-        
-        td {
-          background-color: rgba(94, 161, 255, 0.2) !important;
-        }
+
+      &:hover td {
+        background-color: #2a3548 !important;
       }
     }
   }
@@ -1270,13 +1266,13 @@ export default {
   
   .el-dialog__header {
     background: #1B2435;
-    padding: 25px 30px;
+    padding: 14px 20px;
     border-bottom: 1px solid #2E3B55;
-    
+
     .el-dialog__title {
       color: #F5F7FB;
-      font-weight: bold;
-      font-size: 20px;
+      font-weight: 600;
+      font-size: 16px;
     }
     
     .el-dialog__headerbtn {
@@ -1296,9 +1292,9 @@ export default {
   }
   
   .el-dialog__body {
-    padding: 30px;
+    padding: 16px 20px;
     background: #1B2435;
-    max-height: 70vh;
+    max-height: 72vh;
     overflow-y: auto;
   }
   

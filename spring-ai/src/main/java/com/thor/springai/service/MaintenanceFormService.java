@@ -6,9 +6,15 @@ import com.ruoyi.system.domain.*;
 import com.ruoyi.system.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
+
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -20,6 +26,17 @@ import java.util.*;
 public class MaintenanceFormService {
     
     private static final Logger logger = LoggerFactory.getLogger(MaintenanceFormService.class);
+
+    /** 列表「问题描述」：综合状态表快照、待处理故障表、未恢复告警，压成 1～2 句（仅 HTTP 拉列表时走大模型） */
+    private static final String ISSUE_AI_SYS = "你是电力运维助手。输入为 JSON 数组，每台设备一条上下文，字段含义："
+        + "deviceId、deviceName、statusText（运行状态词）、priority（高/中/低）、needMaintenance（是否提示维护）、"
+        + "statusFaultHint（状态表上的故障说明，可能为空）、faultCode（状态表故障码）、statusTime（状态更新时间）、"
+        + "pendingFaults（待处理故障记录文案数组）、alerts（未恢复告警文案数组）。"
+        + "请综合以上信息，用 1～2 句中文概括当前风险与处理关注点，不要堆砌字段名、不要复述长原文。"
+        + "输出必须是 JSON 数组且仅含数组，元素形如 {\"deviceId\":数字,\"summary\":\"概括\"}，不要 Markdown、不要代码围栏、不要其它说明。";
+
+    private static final DateTimeFormatter STATUS_TIME_FMT =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(ZoneId.systemDefault());
     
     @Autowired
     private EqDeviceStatusMapper deviceStatusMapper;
@@ -35,13 +52,23 @@ public class MaintenanceFormService {
     
     @Autowired
     private AiMaintenanceFormMapper maintenanceFormMapper;
+
+    @Autowired(required = false)
+    private ChatClient chatClient;
     
     /**
-     * 查询需要维护的设备列表
-     * 
-     * @return 设备列表及问题描述
+     * 查询需要维护的设备列表（问题描述：综合状态表、待处理故障、告警；AI 摘要可关以加快首屏）
+     *
+     * @param useAiIssueSummary false 时仅用本地规则压缩，不调用大模型
      */
-    public AjaxResult getDevicesRequiringMaintenance() {
+    public AjaxResult getDevicesRequiringMaintenance(boolean useAiIssueSummary) {
+        return buildDevicesRequiringMaintenance(useAiIssueSummary);
+    }
+
+    /**
+     * 定时任务等：同一套列表逻辑，但不调用大模型，避免每分钟消耗 Token
+     */
+    private AjaxResult buildDevicesRequiringMaintenance(boolean useAiIssueSummary) {
         try {
             // 查询状态不好的设备
             List<EqDeviceStatus> statusList = deviceStatusMapper.selectDevicesRequiringMaintenance();
@@ -76,18 +103,9 @@ public class MaintenanceFormService {
                 deviceInfo.put("faultCode", status.getFaultCode());
                 deviceInfo.put("timestamp", status.getTimestamp());
                 
-                // 收集问题描述
-                List<String> issues = new ArrayList<>();
-                if (status.getStatus() != null && status.getStatus() != 1) {
-                    issues.add("设备状态异常：" + getStatusText(status.getStatus()));
-                }
-                if (status.getFaultDescription() != null && !status.getFaultDescription().isEmpty()) {
-                    issues.add("故障描述：" + status.getFaultDescription());
-                }
-                if (status.getMaintenanceRequired() != null && status.getMaintenanceRequired() == 1) {
-                    issues.add("系统提示需要维护");
-                }
-                deviceInfo.put("issues", issues);
+                // 列表「告警原文」仅 alerts；pendingFaults 为待处理故障表；状态字段供综合摘要
+                deviceInfo.put("issues", new ArrayList<>());
+                deviceInfo.put("pendingFaults", new ArrayList<String>());
                 deviceInfo.put("priority", calculatePriority(status));
             }
             
@@ -100,6 +118,7 @@ public class MaintenanceFormService {
                     deviceMap.get(deviceId).put("deviceNo", fault.getDeviceNo());
                     deviceMap.get(deviceId).put("deviceName", fault.getDeviceName());
                     deviceMap.get(deviceId).put("issues", new ArrayList<>());
+                    deviceMap.get(deviceId).put("pendingFaults", new ArrayList<String>());
                 }
                 Map<String, Object> deviceInfo = deviceMap.get(deviceId);
                 @SuppressWarnings("unchecked")
@@ -108,8 +127,17 @@ public class MaintenanceFormService {
                     issues = new ArrayList<>();
                     deviceInfo.put("issues", issues);
                 }
-                issues.add("故障记录：" + fault.getFaultDescription() + 
-                          " (等级：" + getFaultLevelText(fault.getFaultLevel()) + ")");
+                @SuppressWarnings("unchecked")
+                List<String> pendingFaults = (List<String>) deviceInfo.get("pendingFaults");
+                if (pendingFaults == null) {
+                    pendingFaults = new ArrayList<>();
+                    deviceInfo.put("pendingFaults", pendingFaults);
+                }
+                String fdesc = fault.getFaultDescription();
+                if (fdesc != null && !fdesc.trim().isEmpty()) {
+                    String lv = faultLevelLabel(fault.getFaultLevel());
+                    pendingFaults.add(lv == null ? fdesc.trim() : fdesc.trim() + "（" + lv + "）");
+                }
                 // 更新优先级
                 String currentPriority = (String) deviceInfo.get("priority");
                 String faultPriority = getPriorityFromFaultLevel(fault.getFaultLevel());
@@ -123,10 +151,16 @@ public class MaintenanceFormService {
                 Long deviceId = alert.getDeviceId();
                 if (!deviceMap.containsKey(deviceId)) {
                     deviceMap.put(deviceId, new HashMap<>());
-                    deviceMap.get(deviceId).put("deviceId", deviceId);
-                    deviceMap.get(deviceId).put("deviceNo", alert.getDeviceNo());
-                    deviceMap.get(deviceId).put("deviceName", alert.getDeviceName());
-                    deviceMap.get(deviceId).put("issues", new ArrayList<>());
+                    Map<String, Object> ni = deviceMap.get(deviceId);
+                    ni.put("deviceId", deviceId);
+                    ni.put("deviceNo", alert.getDeviceNo());
+                    ni.put("deviceName", alert.getDeviceName());
+                    ni.put("issues", new ArrayList<>());
+                    ni.put("pendingFaults", new ArrayList<String>());
+                    // 仅有告警、无设备状态行时，列表上给默认状态/优先级
+                    ni.put("status", 2);
+                    ni.put("statusText", "告警");
+                    ni.put("priority", getPriorityFromAlertLevel(alert.getAlertLevel()));
                 }
                 Map<String, Object> deviceInfo = deviceMap.get(deviceId);
                 @SuppressWarnings("unchecked")
@@ -135,8 +169,16 @@ public class MaintenanceFormService {
                     issues = new ArrayList<>();
                     deviceInfo.put("issues", issues);
                 }
-                issues.add("告警信息：" + alert.getAlertMessage() + 
-                          " (级别：" + getAlertLevelText(alert.getAlertLevel()) + ")");
+                deviceInfo.computeIfAbsent("pendingFaults", k -> new ArrayList<String>());
+                String amsg = alert.getAlertMessage();
+                if (amsg != null && !amsg.trim().isEmpty()) {
+                    issues.add(amsg.trim());
+                }
+                String ap = getPriorityFromAlertLevel(alert.getAlertLevel());
+                String cur = (String) deviceInfo.get("priority");
+                if (comparePriority(ap, cur != null ? cur : "中") > 0) {
+                    deviceInfo.put("priority", ap);
+                }
             }
             
             // 转换为列表
@@ -148,6 +190,8 @@ public class MaintenanceFormService {
                 String priorityB = (String) b.get("priority");
                 return comparePriority(priorityB, priorityA); // 降序
             });
+
+            fillIssueAiSummaries(deviceList, useAiIssueSummary);
             
             Map<String, Object> result = new HashMap<>();
             result.put("devices", deviceList);
@@ -167,7 +211,7 @@ public class MaintenanceFormService {
      * @return 查询结果
      */
     public AjaxResult notifyDevicesRequiringMaintenance() {
-        return getDevicesRequiringMaintenance();
+        return buildDevicesRequiringMaintenance(false);
     }
     
     /**
@@ -288,17 +332,17 @@ public class MaintenanceFormService {
         }
         for (EqFaultRecord fault : faultList) {
             if (faultDesc.length() > 0) faultDesc.append("；");
-            faultDesc.append("故障：").append(fault.getFaultDescription());
+            faultDesc.append(fault.getFaultDescription());
             if (fault.getFaultCode() != null) {
-                faultDesc.append(" (代码：").append(fault.getFaultCode()).append(")");
+                faultDesc.append("（").append(fault.getFaultCode()).append("）");
             }
         }
         for (EqAlertRecord alert : alertList) {
             if (faultDesc.length() > 0) faultDesc.append("；");
-            faultDesc.append("告警：").append(alert.getAlertMessage());
+            faultDesc.append(alert.getAlertMessage());
         }
         if (faultDesc.length() == 0) {
-            faultDesc.append("设备状态异常，需要维护检查");
+            faultDesc.append("需维护检查");
         }
         form.setFaultDescription(faultDesc.toString());
         
@@ -555,25 +599,6 @@ public class MaintenanceFormService {
         }
     }
     
-    private String getFaultLevelText(String level) {
-        if (level == null) return "未知";
-        switch (level) {
-            case "1": return "紧急";
-            case "2": return "严重";
-            case "3": return "一般";
-            case "4": return "轻微";
-            default: return "未知";
-        }
-    }
-    
-    private String getAlertLevelText(Integer level) {
-        if (level == null) return "未知";
-        if (level <= 1) return "紧急";
-        if (level <= 2) return "严重";
-        if (level <= 3) return "一般";
-        return "轻微";
-    }
-    
     private String calculatePriority(EqDeviceStatus status) {
         if (status == null) return "中";
         if (status.getStatus() != null) {
@@ -581,6 +606,20 @@ public class MaintenanceFormService {
             if (status.getStatus() == 2) return "中";
         }
         return "中";
+    }
+
+    /** 与 determinePriority 中告警级别逻辑一致，用于列表展示优先级 */
+    private static String getPriorityFromAlertLevel(Integer level) {
+        if (level == null) {
+            return "中";
+        }
+        if (level <= 2) {
+            return "高";
+        }
+        if (level <= 3) {
+            return "中";
+        }
+        return "低";
     }
     
     private String getPriorityFromFaultLevel(String level) {
@@ -603,5 +642,237 @@ public class MaintenanceFormService {
         int p1 = priorityMap.getOrDefault(priority1, 2);
         int p2 = priorityMap.getOrDefault(priority2, 2);
         return Integer.compare(p1, p2);
+    }
+
+    /**
+     * 为列表填充 issueAiSummary：综合状态、待处理故障、告警（仅展示，不写入运维表单）。
+     */
+    private void fillIssueAiSummaries(List<Map<String, Object>> deviceList, boolean useAiIssueSummary) {
+        List<Map<String, Object>> need = new ArrayList<>();
+        for (Map<String, Object> d : deviceList) {
+            if (deviceNeedsCombinedSummary(d)) {
+                need.add(d);
+            } else {
+                d.put("issueAiSummary", "");
+            }
+        }
+        if (need.isEmpty()) {
+            return;
+        }
+        if (!useAiIssueSummary || chatClient == null) {
+            for (Map<String, Object> d : need) {
+                d.put("issueAiSummary", ruleBasedCombinedSummary(d));
+            }
+            return;
+        }
+        try {
+            String payload = buildDeviceContextPayloadForAi(need);
+            String reply = chatClient.prompt()
+                .system(ISSUE_AI_SYS)
+                .user(payload)
+                .call()
+                .content();
+            Map<Long, String> byId = parseIssueAiBatchReply(reply);
+            for (Map<String, Object> d : need) {
+                long id = ((Number) d.get("deviceId")).longValue();
+                String sum = byId.get(id);
+                if (sum == null || sum.isBlank()) {
+                    sum = ruleBasedCombinedSummary(d);
+                }
+                d.put("issueAiSummary", sum.trim());
+            }
+        } catch (Exception e) {
+            logger.warn("设备上下文批量 AI 摘要失败，已改用本地综合压缩", e);
+            for (Map<String, Object> d : need) {
+                d.put("issueAiSummary", ruleBasedCombinedSummary(d));
+            }
+        }
+    }
+
+    private static boolean deviceNeedsCombinedSummary(Map<String, Object> d) {
+        @SuppressWarnings("unchecked")
+        List<String> issues = (List<String>) d.get("issues");
+        if (issues != null && !issues.isEmpty()) {
+            return true;
+        }
+        @SuppressWarnings("unchecked")
+        List<String> pfs = (List<String>) d.get("pendingFaults");
+        if (pfs != null && !pfs.isEmpty()) {
+            return true;
+        }
+        Integer st = (Integer) d.get("status");
+        if (st != null && st != 1) {
+            return true;
+        }
+        Integer m = (Integer) d.get("maintenanceRequired");
+        if (m != null && m == 1) {
+            return true;
+        }
+        String fd = (String) d.get("faultDescription");
+        return fd != null && !fd.isBlank();
+    }
+
+    /** 无大模型时：把状态、状态表说明、待处理故障、告警拼成一段短文案 */
+    private static String ruleBasedCombinedSummary(Map<String, Object> d) {
+        List<String> parts = new ArrayList<>();
+        Integer st = (Integer) d.get("status");
+        if (st != null && st != 1) {
+            String stt = (String) d.get("statusText");
+            parts.add("状态" + (stt != null ? stt : "异常"));
+        }
+        Integer mr = (Integer) d.get("maintenanceRequired");
+        if (mr != null && mr == 1) {
+            parts.add("需维护");
+        }
+        String sfd = (String) d.get("faultDescription");
+        if (sfd != null && !sfd.isBlank()) {
+            parts.add(sfd.trim());
+        }
+        String code = (String) d.get("faultCode");
+        if (code != null && !code.isBlank()) {
+            parts.add("故障码" + code);
+        }
+        @SuppressWarnings("unchecked")
+        List<String> pfs = (List<String>) d.get("pendingFaults");
+        if (pfs != null) {
+            for (String s : pfs) {
+                if (s != null && !s.isBlank()) {
+                    parts.add(s.trim());
+                }
+            }
+        }
+        @SuppressWarnings("unchecked")
+        List<String> issues = (List<String>) d.get("issues");
+        if (issues != null) {
+            for (String s : issues) {
+                if (s != null && !s.isBlank()) {
+                    parts.add(s.trim());
+                }
+            }
+        }
+        if (parts.isEmpty()) {
+            return "";
+        }
+        String j = String.join("；", parts);
+        if (j.length() <= 120) {
+            return j;
+        }
+        return j.substring(0, 117) + "…";
+    }
+
+    private static String faultLevelLabel(String level) {
+        if (level == null) {
+            return null;
+        }
+        switch (level) {
+            case "1":
+                return "紧急";
+            case "2":
+                return "严重";
+            case "3":
+                return "一般";
+            case "4":
+                return "轻微";
+            default:
+                return null;
+        }
+    }
+
+    private static String formatStatusTime(Object ts) {
+        if (!(ts instanceof Date)) {
+            return null;
+        }
+        return STATUS_TIME_FMT.format(((Date) ts).toInstant());
+    }
+
+    private static String trimForAi(String s, int max) {
+        if (s == null) {
+            return "";
+        }
+        String t = s.trim();
+        if (t.length() <= max) {
+            return t;
+        }
+        return t.substring(0, max) + "…";
+    }
+
+    private static List<String> trimStringListForAi(List<String> list, int eachMax) {
+        List<String> out = new ArrayList<>();
+        if (list == null) {
+            return out;
+        }
+        for (String s : list) {
+            if (s == null) {
+                continue;
+            }
+            String t = trimForAi(s, eachMax);
+            if (!t.isEmpty()) {
+                out.add(t);
+            }
+        }
+        return out;
+    }
+
+    private static String buildDeviceContextPayloadForAi(List<Map<String, Object>> need) {
+        List<Map<String, Object>> payload = new ArrayList<>();
+        for (Map<String, Object> d : need) {
+            Map<String, Object> item = new LinkedHashMap<>();
+            item.put("deviceId", d.get("deviceId"));
+            item.put("deviceName", d.get("deviceName"));
+            item.put("statusText", d.get("statusText"));
+            item.put("priority", d.get("priority"));
+            Integer mr = (Integer) d.get("maintenanceRequired");
+            item.put("needMaintenance", mr != null && mr == 1);
+            String hint = (String) d.get("faultDescription");
+            item.put("statusFaultHint", hint != null ? trimForAi(hint, 500) : "");
+            String fc = (String) d.get("faultCode");
+            item.put("faultCode", fc != null ? trimForAi(fc, 80) : "");
+            item.put("statusTime", formatStatusTime(d.get("timestamp")));
+            @SuppressWarnings("unchecked")
+            List<String> pfs = (List<String>) d.get("pendingFaults");
+            item.put("pendingFaults", trimStringListForAi(pfs, 400));
+            @SuppressWarnings("unchecked")
+            List<String> issues = (List<String>) d.get("issues");
+            item.put("alerts", trimStringListForAi(issues, 400));
+            payload.add(item);
+        }
+        return JSON.toJSONString(payload);
+    }
+
+    private static Map<Long, String> parseIssueAiBatchReply(String reply) {
+        Map<Long, String> out = new HashMap<>();
+        if (reply == null) {
+            return out;
+        }
+        String s = reply.trim();
+        if (s.startsWith("```")) {
+            int nl = s.indexOf('\n');
+            if (nl > 0) {
+                s = s.substring(nl + 1);
+            }
+            int fence = s.lastIndexOf("```");
+            if (fence > 0) {
+                s = s.substring(0, fence).trim();
+            }
+        }
+        int lb = s.indexOf('[');
+        int rb = s.lastIndexOf(']');
+        if (lb < 0 || rb <= lb) {
+            return out;
+        }
+        s = s.substring(lb, rb + 1);
+        JSONArray arr = JSON.parseArray(s);
+        for (int i = 0; i < arr.size(); i++) {
+            JSONObject o = arr.getJSONObject(i);
+            if (o == null) {
+                continue;
+            }
+            Long id = o.getLong("deviceId");
+            String summary = o.getString("summary");
+            if (id != null && summary != null && !summary.isBlank()) {
+                out.put(id, summary.trim());
+            }
+        }
+        return out;
     }
 }

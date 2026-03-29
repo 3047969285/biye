@@ -58,4 +58,11 @@ public interface IEqDeviceStatusService
      * @return 结果
      */
     public int deleteEqDeviceStatusByStatusId(Long statusId);
+
+    /**
+     * 按设备对最新一条运行状态重新执行规则（告警补偿 / 手动刷新）
+     *
+     * @param deviceId 设备主键
+     */
+    public void reevaluateRulesByDeviceId(Long deviceId);
 }

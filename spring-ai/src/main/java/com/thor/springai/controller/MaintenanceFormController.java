@@ -36,9 +36,10 @@ public class MaintenanceFormController extends BaseController {
      * @return 设备列表
      */
     @GetMapping("/devices")
-    public AjaxResult getDevicesRequiringMaintenance() {
-        logger.info("查询需要维护的设备列表");
-        return maintenanceFormService.getDevicesRequiringMaintenance();
+    public AjaxResult getDevicesRequiringMaintenance(
+        @RequestParam(value = "aiSummary", defaultValue = "true") boolean aiSummary) {
+        logger.info("查询需要维护的设备列表 aiSummary={}", aiSummary);
+        return maintenanceFormService.getDevicesRequiringMaintenance(aiSummary);
     }
     
     /**

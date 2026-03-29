@@ -29,6 +29,12 @@ service.interceptors.request.use(config => {
   if (getToken() && !isToken) {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
+  // FormData 上传：必须去掉默认的 application/json，否则后端报「not a multipart request」
+  if (typeof FormData !== 'undefined' && config.data instanceof FormData) {
+    delete config.headers['Content-Type']
+    if (config.headers.common) delete config.headers.common['Content-Type']
+    if (config.headers.post) delete config.headers.post['Content-Type']
+  }
   // get请求映射params参数
   if (config.method === 'get' && config.params) {
     let url = config.url + '?' + tansParams(config.params)
@@ -36,7 +42,7 @@ service.interceptors.request.use(config => {
     config.params = {}
     config.url = url
   }
-  if (!isRepeatSubmit && (config.method === 'post' || config.method === 'put')) {
+  if (!isRepeatSubmit && (config.method === 'post' || config.method === 'put') && !(typeof FormData !== 'undefined' && config.data instanceof FormData)) {
     const requestObj = {
       url: config.url,
       data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,

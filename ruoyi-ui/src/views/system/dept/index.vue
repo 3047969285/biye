@@ -1,6 +1,13 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
+  <div class="app-container dept-page">
+    <el-form
+      v-show="showSearch"
+      ref="queryForm"
+      class="dept-query-wrap"
+      :model="queryParams"
+      size="small"
+      :inline="true"
+    >
       <el-form-item label="部门名称" prop="deptName">
         <el-input
           v-model="queryParams.deptName"
@@ -342,9 +349,28 @@ export default {
 <style scoped lang="scss">
 @import "~@/assets/styles/variables.scss";
 
-.app-container {
+.dept-page {
   background: transparent;
   color: $text-primary;
+}
+
+.dept-query-wrap {
+  background: $secondary-bg;
+  border: 1px solid $border-color;
+  padding: 16px 16px 8px;
+  margin-bottom: 12px;
+  border-radius: 0;
+
+  :deep(.el-form-item__label) {
+    color: $text-secondary !important;
+  }
+
+  :deep(.el-input__inner),
+  :deep(.el-select .el-input__inner) {
+    background: $primary-bg !important;
+    color: $text-primary !important;
+    border-color: $border-color !important;
+  }
 }
 
 .head-container {
@@ -394,5 +420,20 @@ export default {
 /* 避免加载遮罩白闪 */
 :deep(.el-loading-mask) {
   background-color: rgba(26, 31, 46, 0.88);
+}
+
+/* Treeselect 弹窗内树选择器 */
+:deep(.vue-treeselect__control) {
+  background: $primary-bg !important;
+  border-color: $border-color !important;
+}
+
+:deep(.vue-treeselect__single-value),
+:deep(.vue-treeselect__placeholder) {
+  color: $text-primary !important;
+}
+
+:deep(.vue-treeselect__input-container) {
+  color: $text-primary !important;
 }
 </style>

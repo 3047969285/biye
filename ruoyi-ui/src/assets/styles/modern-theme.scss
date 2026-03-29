@@ -95,6 +95,7 @@
   }
 
   .el-card__body {
+    background: $secondary-bg !important;
     color: $text-primary;
   }
 }
@@ -502,6 +503,47 @@
 .el-tabs__active-bar {
   background: $accent-color !important;
 }
+
+.el-tabs__content,
+.el-tab-pane {
+  background: $secondary-bg !important;
+  color: $text-primary !important;
+}
+
+/* border-card：内容区默认白底，改为与项目主色一致 */
+.el-tabs--border-card {
+  background: $secondary-bg !important;
+  border: 1px solid $border-color !important;
+  box-shadow: none !important;
+
+  > .el-tabs__header {
+    background: $primary-bg !important;
+    border-bottom: 1px solid $border-color !important;
+    margin: 0 !important;
+  }
+
+  > .el-tabs__header .el-tabs__nav-wrap {
+    background: $primary-bg !important;
+  }
+
+  > .el-tabs__header .el-tabs__item {
+    background: $primary-bg !important;
+    border: 1px solid $border-color !important;
+    color: $text-secondary !important;
+
+    &.is-active {
+      background: $secondary-bg !important;
+      color: $accent-color !important;
+      border-bottom-color: $secondary-bg !important;
+    }
+  }
+
+  > .el-tabs__content {
+    background: $secondary-bg !important;
+    color: $text-primary !important;
+  }
+}
+
 .el-tag {
   background: rgba($accent-color, 0.12) !important;
   color: $text-primary !important;
@@ -814,9 +856,9 @@ a {
     }
 
     &.is-divided {
-      border-top: 1px solid $border-color !important;
-      margin-top: 6px !important;
-      padding-top: 12px !important;
+      border-top: none !important;
+      margin-top: 4px !important;
+      padding-top: 10px !important;
     }
   }
 }
@@ -884,4 +926,26 @@ a {
   .el-alert__description {
     color: $text-secondary;
   }
+}
+
+/* 部门管理等页：Treeselect 下拉挂到 body，需全局暗色 */
+.vue-treeselect__menu {
+  background: $secondary-bg !important;
+  border: 1px solid $border-color !important;
+  color: $text-primary !important;
+}
+
+.vue-treeselect__option {
+  color: $text-primary !important;
+}
+
+.vue-treeselect__option--highlighted,
+.vue-treeselect__option:hover {
+  background: $hover-bg !important;
+  color: $accent-color !important;
+}
+
+.vue-treeselect__option--selected {
+  background: rgba($accent-color, 0.2) !important;
+  color: $accent-color !important;
 }
