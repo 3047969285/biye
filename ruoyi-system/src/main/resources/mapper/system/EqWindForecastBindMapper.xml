@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqWindForecastBindMapper">
+
+    <resultMap type="com.ruoyi.system.domain.EqWindForecastBind" id="BindResult">
+        <result property="deviceId" column="device_id"/>
+        <result property="modelPath" column="model_path"/>
+        <result property="featureExcelPath" column="feature_excel_path"/>
+        <result property="realExcelPath" column="real_excel_path"/>
+        <result property="inlineDataJson" column="inline_data_json"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="selectByDeviceId" resultMap="BindResult">
+        select device_id, model_path, feature_excel_path, real_excel_path, inline_data_json, update_time
+        from eq_wind_forecast_bind
+        where device_id = #{deviceId}
+    </select>
+
+    <insert id="insertEqWindForecastBind" parameterType="com.ruoyi.system.domain.EqWindForecastBind">
+        insert into eq_wind_forecast_bind (device_id, model_path, feature_excel_path, real_excel_path, inline_data_json)
+        values (#{deviceId}, #{modelPath}, #{featureExcelPath}, #{realExcelPath}, #{inlineDataJson})
+    </insert>
+
+    <update id="updateEqWindForecastBind" parameterType="com.ruoyi.system.domain.EqWindForecastBind">
+        update eq_wind_forecast_bind
+        set model_path = #{modelPath},
+            feature_excel_path = #{featureExcelPath},
+            real_excel_path = #{realExcelPath},
+            inline_data_json = #{inlineDataJson}
+        where device_id = #{deviceId}
+    </update>
+</mapper>

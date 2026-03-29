@@ -1,0 +1,94 @@
+{
+  "properties": [
+    {
+      "name": "ruoyi.name",
+      "type": "java.lang.String",
+      "description": "项目名称"
+    },
+    {
+      "name": "ruoyi.version",
+      "type": "java.lang.String",
+      "description": "项目版本"
+    },
+    {
+      "name": "ruoyi.copyrightYear",
+      "type": "java.lang.String",
+      "description": "版权年份"
+    },
+    {
+      "name": "ruoyi.profile",
+      "type": "java.lang.String",
+      "description": "文件上传路径"
+    },
+    {
+      "name": "ruoyi.addressEnabled",
+      "type": "java.lang.Boolean",
+      "description": "是否获取 IP 地址"
+    },
+    {
+      "name": "ruoyi.captchaType",
+      "type": "java.lang.String",
+      "description": "验证码类型 (math-数字计算，char-字符验证)"
+    },
+    {
+      "name": "token.header",
+      "type": "java.lang.String",
+      "description": "Token 自定义标识"
+    },
+    {
+      "name": "token.secret",
+      "type": "java.lang.String",
+      "description": "Token 密钥"
+    },
+    {
+      "name": "token.expireTime",
+      "type": "java.lang.Integer",
+      "description": "Token 有效期（分钟）"
+    },
+    {
+      "name": "user.password.maxRetryCount",
+      "type": "java.lang.Integer",
+      "description": "密码最大错误次数"
+    },
+    {
+      "name": "user.password.lockTime",
+      "type": "java.lang.Integer",
+      "description": "密码锁定时间（分钟）"
+    },
+    {
+      "name": "swagger.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启 Swagger"
+    },
+    {
+      "name": "swagger.pathMapping",
+      "type": "java.lang.String",
+      "description": "Swagger 请求前缀"
+    },
+    {
+      "name": "referer.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启防盗链"
+    },
+    {
+      "name": "referer.allowed-domains",
+      "type": "java.util.List<java.lang.String>",
+      "description": "允许的域名列表"
+    },
+    {
+      "name": "xss.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启 XSS 过滤"
+    },
+    {
+      "name": "xss.excludes",
+      "type": "java.lang.String",
+      "description": "XSS 过滤排除链接"
+    },
+    {
+      "name": "xss.urlPatterns",
+      "type": "java.lang.String",
+      "description": "XSS 过滤匹配链接"
+    }
+  ]
+}
