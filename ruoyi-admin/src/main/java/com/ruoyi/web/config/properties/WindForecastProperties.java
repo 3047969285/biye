@@ -42,8 +42,8 @@ public class WindForecastProperties {
 
     private Double testSize = 0.2;
 
-    /** 自动预测间隔（毫秒），上一次完成后延迟再执行 */
-    private long scheduleIntervalMs = 30000L;
+    /** 自动预测间隔（毫秒），上一次完成后延迟再执行（默认 3 分钟） */
+    private long scheduleIntervalMs = 180000L;
 
     /** 首次自动预测前等待（毫秒），给 Python 子进程启动时间 */
     private long scheduleInitialDelayMs = 15000L;
@@ -204,6 +204,18 @@ public class WindForecastProperties {
 
     public void setBindDeviceId(Long bindDeviceId) {
         this.bindDeviceId = bindDeviceId;
+    }
+
+    /**
+     * 按设备预测时是否允许回退 yml 中的全局模型/Excel。
+     * 仅当配置了 {@link #bindDeviceId} 且与当前设备一致时为 true，避免未绑定设备误用全局演示数据。
+     */
+    public boolean isGlobalYamlFallbackDevice(long deviceId) {
+        if (deviceId <= 0) {
+            return false;
+        }
+        Long bid = this.bindDeviceId;
+        return bid != null && bid > 0 && bid.longValue() == deviceId;
     }
 
     public int getForecastPointIntervalMinutes() {

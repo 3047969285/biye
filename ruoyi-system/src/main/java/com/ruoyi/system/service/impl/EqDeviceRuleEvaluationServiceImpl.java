@@ -10,9 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-/**
- * 设备状态变更后的规则评估编排：拉快照 → 触发规则 → 回写运行状态/需维护。
- */
 @Service
 public class EqDeviceRuleEvaluationServiceImpl implements IEqDeviceRuleEvaluationService {
 
@@ -38,7 +35,6 @@ public class EqDeviceRuleEvaluationServiceImpl implements IEqDeviceRuleEvaluatio
         }
 
         RuleTriggerResult trigger = eqDeviceRuleTriggerService.fireRulesForSnapshot(data);
-        /* 无 statusId 时仍可落告警；运行状态/维护标记仅在有主键时回写 */
         if (data.getStatusId() != null) {
             applyRunningStateFromTrigger(data, trigger);
         }
@@ -71,9 +67,6 @@ public class EqDeviceRuleEvaluationServiceImpl implements IEqDeviceRuleEvaluatio
         return status;
     }
 
-    /**
-     * 规则触发后一次性写回运行状态与需维护标记（避免多次 update）
-     */
     private void applyRunningStateFromTrigger(EqDeviceStatus data, RuleTriggerResult trigger) {
         if (data.getStatusId() == null || trigger == null) {
             return;

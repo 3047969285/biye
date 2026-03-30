@@ -11,9 +11,6 @@ import com.ruoyi.system.mapper.EqDeviceStatusMapper;
 import com.ruoyi.system.service.IEqDeviceRuleEvaluationService;
 import com.ruoyi.system.service.IEqDeviceStatusService;
 
-/**
- * 设备运行状态：CRUD + 入库后触发规则评估（告警与状态联动）。
- */
 @Service
 public class EqDeviceStatusServiceImpl implements IEqDeviceStatusService {
 

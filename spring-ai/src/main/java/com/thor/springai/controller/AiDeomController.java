@@ -17,47 +17,36 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * Spring AI 基础对话控制器
- *
- * @author ruoyi
- */
 @RestController
 @RequestMapping("/springai")
 public class AiDeomController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(AiDeomController.class);
     private static final String SYSTEM_PROMPT = "你是智能电网运维专家，回答时简洁、专业，可给出步骤和风险提示。回答时不要使用Markdown格式，不要使用#、*、**等符号，直接使用纯文本。";
-    
+
     private final ChatClient chatClient;
-    
+
     @Autowired
     private IAiChatRecordService aiChatRecordService;
 
     public AiDeomController(ChatClient.Builder builder) {
         this.chatClient = builder.build();
     }
-    
-    /**
-     * 清理Markdown符号
-     */
+
     private String cleanMarkdown(String text) {
         if (text == null) return "";
         return text
-            .replaceAll("^#+\\s*", "") // 去除标题符号 #
-            .replaceAll("\\*\\*(.*?)\\*\\*", "$1") // 去除粗体 **
-            .replaceAll("\\*(.*?)\\*", "$1") // 去除斜体 *
-            .replaceAll("`([^`]+)`", "$1") // 去除行内代码 `
-            .replaceAll("```[\\s\\S]*?```", "") // 去除代码块
-            .replaceAll("\\[([^\\]]+)\\]\\([^\\)]+\\)", "$1") // 去除链接
-            .replaceAll("^\\s*[-*+]\\s+", "") // 去除无序列表
-            .replaceAll("^\\s*\\d+\\.\\s+", "") // 去除有序列表
+            .replaceAll("^#+\\s*", "")
+            .replaceAll("\\*\\*(.*?)\\*\\*", "$1")
+            .replaceAll("\\*(.*?)\\*", "$1")
+            .replaceAll("`([^`]+)`", "$1")
+            .replaceAll("```[\\s\\S]*?```", "")
+            .replaceAll("\\[([^\\]]+)\\]\\([^\\)]+\\)", "$1")
+            .replaceAll("^\\s*[-*+]\\s+", "")
+            .replaceAll("^\\s*\\d+\\.\\s+", "")
             .trim();
     }
 
-    /**
-     * 安全获取用户ID
-     */
     private Long getUserIdSafely() {
         try {
             return getUserId();
@@ -67,9 +56,6 @@ public class AiDeomController extends BaseController {
         }
     }
 
-    /**
-     * 安全获取用户名
-     */
     private String getUsernameSafely() {
         try {
             return getUsername();
@@ -79,16 +65,9 @@ public class AiDeomController extends BaseController {
         }
     }
 
-    /**
-     * 基础 AI 对话接口
-     * 
-     * @param input 用户输入
-     * @return AI 回复
-     */
     @GetMapping("/chat")
     public AjaxResult chat(@RequestParam(name = "input") String input) {
         try {
-            // 保存用户消息
             AiChatRecord record = new AiChatRecord();
             record.setUserId(getUserIdSafely());
             record.setUserName(getUsernameSafely());
@@ -99,17 +78,15 @@ public class AiDeomController extends BaseController {
             } catch (Exception e) {
                 logger.warn("保存对话记录失败: {}", e.getMessage());
             }
-            
+
             String reply = chatClient.prompt()
                     .system(SYSTEM_PROMPT)
                     .user(input == null ? "" : input)
                     .call()
                     .content();
-            
-            // 清理Markdown符号
+
             String cleanedReply = cleanMarkdown(reply);
-            
-            // 更新AI回复
+
             if (record.getRecordId() != null) {
                 try {
                     aiChatRecordService.updateAiMessage(record.getRecordId(), cleanedReply);
@@ -126,33 +103,28 @@ public class AiDeomController extends BaseController {
         }
     }
 
-    /**
-     * 基础 AI 对话 - 流式输出
-     */
     @GetMapping(value = "/chat/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter chatStream(@RequestParam(name = "input") String input) {
         SseEmitter emitter = new SseEmitter(0L);
-        
-        // 保存用户消息
+
         AiChatRecord record = new AiChatRecord();
         Long recordId = null;
         try {
             Long userId = getUserIdSafely();
             String userName = getUsernameSafely();
-            
-            // 如果用户ID为null，设置为0（匿名用户）
+
             if (userId == null) {
                 userId = 0L;
                 logger.warn("用户ID为null，使用默认值0（匿名用户）");
             }
-            
+
             logger.info("准备保存基础对话记录，用户ID: {}, 用户名: {}, 消息: {}", userId, userName, input != null ? input.substring(0, Math.min(50, input.length())) : "null");
-            
+
             record.setUserId(userId);
             record.setUserName(userName != null ? userName : "匿名用户");
             record.setChatType("basic");
             record.setUserMessage(input);
-            
+
             int result = aiChatRecordService.insertAiChatRecord(record);
             recordId = record.getRecordId();
             logger.info("保存基础对话记录成功，记录ID: {}, 插入结果: {}", recordId, result);
@@ -160,7 +132,7 @@ public class AiDeomController extends BaseController {
             logger.error("保存对话记录失败: ", e);
             recordId = null;
         }
-        
+
         final Long finalRecordId = recordId;
         final AtomicReference<String> fullResponse = new AtomicReference<>("");
 
@@ -181,7 +153,6 @@ public class AiDeomController extends BaseController {
                         },
                         error -> {
                             logger.error("流式输出错误: ", error);
-                            // 保存AI回复
                             if (finalRecordId != null) {
                                 try {
                                     String aiMessage = cleanMarkdown(fullResponse.get());
@@ -197,7 +168,6 @@ public class AiDeomController extends BaseController {
                             emitter.completeWithError(error);
                         },
                         () -> {
-                            // 流式输出完成，保存AI回复
                             if (finalRecordId != null) {
                                 try {
                                     String aiMessage = cleanMarkdown(fullResponse.get());

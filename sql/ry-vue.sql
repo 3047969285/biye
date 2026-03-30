@@ -1,21 +1,4 @@
-/*
- 项目整合库脚本（单文件）：含 RuoYi 基础库、业务表、风力预测绑定表及可选列升级。
- 新库：直接导入本文件。旧库仅补列：可只执行文件末尾「可选升级」段或整文件（注意 DROP 段会删表，勿随意全量执行生产库）。
-
- Navicat Premium Dump SQL
-
- Source Server         : localhost_3306
- Source Server Type    : MySQL
- Source Server Version : 80042 (8.0.42)
- Source Host           : localhost:3306
- Source Schema         : ry-vue
-
- Target Server Type    : MySQL
- Target Server Version : 80042 (8.0.42)
- File Encoding         : 65001
-
- Date: 26/03/2026 20:36:08
-*/
+/* RuoYi + 业务整合库；新库可全量导入。含 DROP，生产勿随意全量执行。2026-03-26 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -3067,6 +3050,7 @@ INSERT INTO `sys_config` VALUES (5, '账号自助-是否开启用户注册功能
 INSERT INTO `sys_config` VALUES (6, '用户登录-黑名单列表', 'sys.login.blackIPList', '', 'Y', 'admin', '2025-10-31 15:23:03', '', NULL, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
 INSERT INTO `sys_config` VALUES (7, '用户管理-初始密码修改策略', 'sys.account.initPasswordModify', '1', 'Y', 'admin', '2025-10-31 15:23:03', '', NULL, '0：初始密码修改策略关闭，没有任何提示，1：提醒用户，如果未修改初始密码，则在登录时就会提醒修改密码对话框');
 INSERT INTO `sys_config` VALUES (8, '用户管理-账号密码更新周期', 'sys.account.passwordValidateDays', '0', 'Y', 'admin', '2025-10-31 15:23:03', '', NULL, '密码更新周期（填写数字，数据初始化值为0不限制，若修改必须为大于0小于365的正整数），如果超过这个周期登录系统时，则在登录时就会提醒修改密码对话框');
+INSERT INTO `sys_config` VALUES (9, '前端统一轮询间隔（秒）', 'client.poll.interval.seconds', '180', 'N', 'admin', '2025-10-31 15:23:03', '', NULL, '发电预测页自动刷新、消息中心未读轮询等；30～3600；发电预测页可写本机 localStorage 覆盖');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -3221,7 +3205,7 @@ CREATE TABLE `sys_job`  (
 INSERT INTO `sys_job` VALUES (1, '系统默认（无参）', 'DEFAULT', 'ryTask.ryNoParams', '0/10 * * * * ?', '3', '1', '1', 'admin', '2025-10-31 15:23:03', '', NULL, '');
 INSERT INTO `sys_job` VALUES (2, '系统默认（有参）', 'DEFAULT', 'ryTask.ryParams(\'ry\')', '0/15 * * * * ?', '3', '1', '1', 'admin', '2025-10-31 15:23:03', '', NULL, '');
 INSERT INTO `sys_job` VALUES (3, '系统默认（多参）', 'DEFAULT', 'ryTask.ryMultipleParams(\'ry\', true, 2000L, 316.50D, 100)', '0/20 * * * * ?', '3', '1', '1', 'admin', '2025-10-31 15:23:03', '', NULL, '');
-INSERT INTO `sys_job` VALUES (100, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '0 0/1 * * * ?', '1', '1', '0', 'admin', '2026-03-13 21:17:37', '', '2026-03-13 21:17:46', '');
+INSERT INTO `sys_job` VALUES (100, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '0 0/1 * * * ?', '1', '1', '0', 'admin', '2026-03-13 21:17:37', '', '2026-03-13 21:17:46', '聚合需维护设备状态；并调用 maintenanceFormNotifyTask 扫描 draft/pending 表单推送站内消息（需 Redis）。可与「运维表单待处理消息推送」二选一或并存（并存时扫描更频，Redis 去重防重复通知）');
 
 -- ----------------------------
 -- Table structure for sys_job_log
@@ -4339,5 +4323,22 @@ SET @sql := IF(
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
+
+-- ----------------------------
+-- 站内消息（与 sql/sys_user_message.sql 一致；单独文件便于旧库增量）
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `sys_user_message` (
+  `msg_id` bigint NOT NULL AUTO_INCREMENT COMMENT '消息ID',
+  `user_id` bigint NOT NULL COMMENT '接收用户ID',
+  `msg_type` varchar(32) NOT NULL DEFAULT 'maintenance_form' COMMENT '消息类型',
+  `title` varchar(200) NOT NULL DEFAULT '' COMMENT '标题',
+  `content` varchar(1000) NOT NULL DEFAULT '' COMMENT '摘要内容',
+  `biz_id` bigint NULL DEFAULT NULL COMMENT '业务主键，如 form_id / device_id',
+  `read_flag` char(1) NOT NULL DEFAULT '0' COMMENT '是否已读 0否 1是',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`msg_id`),
+  KEY `idx_user_read` (`user_id`, `read_flag`),
+  KEY `idx_user_time` (`user_id`, `create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户站内消息';
 
 SET FOREIGN_KEY_CHECKS = 1;

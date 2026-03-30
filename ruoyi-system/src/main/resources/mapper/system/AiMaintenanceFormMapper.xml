@@ -123,4 +123,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{formId}
         </foreach>
     </delete>
+
+    <select id="selectPendingFormsForScheduledNotify" resultMap="AiMaintenanceFormResult">
+        <include refid="selectAiMaintenanceFormVo"/>
+        where lower(form_status) in ('draft', 'pending')
+        order by created_time desc
+        limit 200
+    </select>
 </mapper>

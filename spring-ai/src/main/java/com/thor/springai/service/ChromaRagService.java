@@ -17,16 +17,11 @@ import java.io.File;
 import java.util.*;
 import java.util.Optional;
 
-/**
- * 基于内存向量存储的 RAG 服务
- * 
- * @author ruoyi
- */
 @Service
 public class ChromaRagService {
 
     private static final Logger logger = LoggerFactory.getLogger(ChromaRagService.class);
-    
+
     private final ChatClient chatClient;
     private final VectorStore vectorStore;
     private final TokenTextSplitter textSplitter;
@@ -34,7 +29,7 @@ public class ChromaRagService {
     @Value("${spring.ai.vectorstore.simple.store-file:data/vector-store.json}")
     private String vectorStoreFile;
 
-    public ChromaRagService(ChatClient.Builder builder, 
+    public ChromaRagService(ChatClient.Builder builder,
                            @Autowired(required = false) VectorStore vectorStore,
                            TokenTextSplitter textSplitter) {
         this.chatClient = builder.build();
@@ -42,49 +37,36 @@ public class ChromaRagService {
         this.textSplitter = textSplitter;
     }
 
-    /**
-     * 添加文档到向量数据库
-     * 
-     * @param documentId 文档ID
-     * @param content 文档内容
-     * @param metadata 文档元数据
-     */
     public void addDocument(String documentId, String content, Map<String, String> metadata) {
         if (vectorStore == null) {
             throw new RuntimeException("向量存储未配置，请检查 EmbeddingModel 配置");
         }
-        
+
         try {
-            // 创建文档资源
             ByteArrayResource resource = new ByteArrayResource(content.getBytes()) {
                 @Override
                 public String getFilename() {
-                    return metadata != null && metadata.containsKey("title") ? 
+                    return metadata != null && metadata.containsKey("title") ?
                            metadata.get("title") : "document.txt";
                 }
             };
-            
-            // 读取并分割文档
+
             TextReader reader = new TextReader(resource);
             List<Document> documents = reader.get();
-            
-            // 添加元数据
+
             if (metadata != null) {
                 for (Document doc : documents) {
                     doc.getMetadata().putAll(metadata);
                 }
                 documents.get(0).getMetadata().put("doc_id", documentId);
             }
-            
-            // 分割文档
+
             List<Document> splitDocuments = textSplitter.apply(documents);
-            
-            // 添加到向量存储
+
             vectorStore.add(splitDocuments);
-            
-            // 持久化到文件
+
             saveVectorStore();
-            
+
             logger.info("成功添加 {} 个文档片段到向量存储", splitDocuments.size());
         } catch (Exception e) {
             logger.error("添加文档失败: ", e);
@@ -92,13 +74,6 @@ public class ChromaRagService {
         }
     }
 
-    /**
-     * 基于 RAG 的普通问答
-     * 
-     * @param question 用户问题
-     * @param topK 返回最相关的文档数量
-     * @return AI回答文本
-     */
     public String askWithRag(String question, int topK) {
         String prompt = buildRagPrompt(question, topK);
         String systemPrompt = "你是智能电网运维专家，请基于参考资料回答，先给结论再给步骤和注意事项。";
@@ -119,25 +94,19 @@ public class ChromaRagService {
         }
     }
 
-    /**
-     * 构建 RAG 提示词（可用于流式和普通问答）
-     */
     public String buildRagPrompt(String question, int topK) {
         if (vectorStore == null) {
             logger.warn("向量存储未配置，使用原始问题作为提示词");
             return question;
         }
 
-        // 1. 从向量存储检索相关文档
         List<Document> relevantDocs = Optional.ofNullable(vectorStore.similaritySearch(question))
                 .orElse(Collections.emptyList());
 
-        // 限制返回数量
         if (relevantDocs.size() > topK) {
             relevantDocs = relevantDocs.subList(0, topK);
         }
 
-        // 2. 构建上下文
         StringBuilder context = new StringBuilder();
         if (!relevantDocs.isEmpty()) {
             context.append("基于以下参考资料回答问题：\n\n");
@@ -147,7 +116,6 @@ public class ChromaRagService {
             }
         }
 
-        // 3. 构建提示词
         if (context.length() > 0) {
             return String.format(
                 "%s\n\n用户问题：%s\n\n请基于上述参考资料，提供专业、准确的回答。",
@@ -159,30 +127,20 @@ public class ChromaRagService {
         }
     }
 
-    /**
-     * 基于 RAG 的问答（固定输出格式）
-     * 
-     * @param question 用户问题
-     * @param topK 返回最相关的文档数量
-     * @return 固定格式的回答
-     */
     public MaintenanceFormResponse askWithFixedFormat(String question, int topK) {
         if (vectorStore == null) {
             logger.warn("向量存储未配置，使用默认 AI 回答");
             return generateDefaultResponse(question);
         }
-        
+
         try {
-            // 1. 从向量存储检索相关文档
             List<Document> relevantDocs = Optional.ofNullable(vectorStore.similaritySearch(question))
                     .orElse(Collections.emptyList());
-            
-            // 限制返回数量
+
             if (relevantDocs.size() > topK) {
                 relevantDocs = relevantDocs.subList(0, topK);
             }
-            
-            // 2. 构建上下文
+
             StringBuilder context = new StringBuilder();
             if (!relevantDocs.isEmpty()) {
                 for (int i = 0; i < relevantDocs.size(); i++) {
@@ -190,13 +148,12 @@ public class ChromaRagService {
                     context.append(relevantDocs.get(i).getText()).append("\n\n");
                 }
             }
-            
+
             if (context.length() == 0) {
                 logger.warn("未找到相关文档，使用默认回答");
                 return generateDefaultResponse(question);
             }
-            
-            // 3. 构建固定格式的提示词
+
             String prompt = String.format(
                 "你是一个智能电网运维专家。基于以下参考资料，生成标准化的运维操作表单。\n\n" +
                 "参考资料：\n%s\n\n" +
@@ -218,30 +175,24 @@ public class ChromaRagService {
                 "}",
                 context.toString(), question
             );
-            
-            // 4. 调用 AI 生成回答
+
             String aiResponse = chatClient.prompt()
                     .user(prompt)
                     .call()
                     .content();
-            
+
             logger.info("AI RAG 回答完成 - 问题: {}, 使用了 {} 个相关文档", question, relevantDocs.size());
-            
-            // 5. 解析 JSON 响应
+
             return parseAiResponse(aiResponse);
-            
+
         } catch (Exception e) {
             logger.error("RAG 问答失败: ", e);
             throw new RuntimeException("RAG 问答失败: " + e.getMessage());
         }
     }
 
-    /**
-     * 解析 AI 响应为固定格式
-     */
     private MaintenanceFormResponse parseAiResponse(String aiResponse) {
         try {
-            // 提取 JSON 部分（去除可能的 markdown 代码块标记）
             String jsonStr = aiResponse.trim();
             if (jsonStr.startsWith("```json")) {
                 jsonStr = jsonStr.substring(7);
@@ -253,8 +204,7 @@ public class ChromaRagService {
                 jsonStr = jsonStr.substring(0, jsonStr.length() - 3);
             }
             jsonStr = jsonStr.trim();
-            
-            // 解析 JSON
+
             return JSON.parseObject(jsonStr, MaintenanceFormResponse.class);
         } catch (Exception e) {
             logger.error("解析 AI 响应失败，返回原始文本: ", e);
@@ -264,9 +214,6 @@ public class ChromaRagService {
         }
     }
 
-    /**
-     * 生成默认响应
-     */
     private MaintenanceFormResponse generateDefaultResponse(String question) {
         String defaultPrompt = String.format(
             "用户提问：%s\n\n" +
@@ -284,23 +231,20 @@ public class ChromaRagService {
             "}",
             question
         );
-        
+
         String aiResponse = chatClient.prompt()
                 .user(defaultPrompt)
                 .call()
                 .content();
-        
+
         return parseAiResponse(aiResponse);
     }
 
-    /**
-     * 删除文档
-     */
     public void deleteDocument(String documentId) {
         if (vectorStore == null) {
             throw new RuntimeException("向量存储未配置");
         }
-        
+
         try {
             vectorStore.delete(Collections.singletonList(documentId));
             saveVectorStore();
@@ -311,16 +255,12 @@ public class ChromaRagService {
         }
     }
 
-    /**
-     * 清空知识库
-     */
     public void clearKnowledgeBase() {
         if (vectorStore == null) {
             throw new RuntimeException("向量存储未配置");
         }
-        
+
         try {
-            // SimpleVectorStore 清空方法：删除存储文件并重新创建
             if (vectorStore instanceof org.springframework.ai.vectorstore.SimpleVectorStore) {
                 try {
                     File storeFile = new File(vectorStoreFile);
@@ -328,7 +268,6 @@ public class ChromaRagService {
                         storeFile.delete();
                         logger.info("已删除向量存储文件: {}", vectorStoreFile);
                     }
-                    // 重新创建空的向量存储（通过保存空文件）
                     storeFile.getParentFile().mkdirs();
                     storeFile.createNewFile();
                     logger.info("知识库已清空");
@@ -337,7 +276,6 @@ public class ChromaRagService {
                     throw new RuntimeException("清空知识库失败: " + e.getMessage());
                 }
             } else {
-                // 其他类型的向量存储，尝试通过删除所有文档实现
                 logger.warn("当前向量存储类型不支持直接清空，请手动删除存储文件");
                 throw new RuntimeException("当前向量存储类型不支持清空操作");
             }
@@ -347,9 +285,6 @@ public class ChromaRagService {
         }
     }
 
-    /**
-     * 持久化向量存储到文件
-     */
     private void saveVectorStore() {
         if (vectorStore instanceof org.springframework.ai.vectorstore.SimpleVectorStore) {
             try {
@@ -362,9 +297,6 @@ public class ChromaRagService {
         }
     }
 
-    /**
-     * 固定格式的响应对象
-     */
     public static class MaintenanceFormResponse {
         private String deviceName;
         private String faultDescription;
@@ -376,38 +308,34 @@ public class ChromaRagService {
         private List<MaintenanceStep> steps;
         private String expectedOutcome;
 
-        // Getters and Setters
         public String getDeviceName() { return deviceName; }
         public void setDeviceName(String deviceName) { this.deviceName = deviceName; }
-        
+
         public String getFaultDescription() { return faultDescription; }
         public void setFaultDescription(String faultDescription) { this.faultDescription = faultDescription; }
-        
+
         public String getMaintenanceType() { return maintenanceType; }
         public void setMaintenanceType(String maintenanceType) { this.maintenanceType = maintenanceType; }
-        
+
         public String getPriorityLevel() { return priorityLevel; }
         public void setPriorityLevel(String priorityLevel) { this.priorityLevel = priorityLevel; }
-        
+
         public Integer getEstimatedTime() { return estimatedTime; }
         public void setEstimatedTime(Integer estimatedTime) { this.estimatedTime = estimatedTime; }
-        
+
         public List<String> getRequiredTools() { return requiredTools; }
         public void setRequiredTools(List<String> requiredTools) { this.requiredTools = requiredTools; }
-        
+
         public String getSafetyPrecautions() { return safetyPrecautions; }
         public void setSafetyPrecautions(String safetyPrecautions) { this.safetyPrecautions = safetyPrecautions; }
-        
+
         public List<MaintenanceStep> getSteps() { return steps; }
         public void setSteps(List<MaintenanceStep> steps) { this.steps = steps; }
-        
+
         public String getExpectedOutcome() { return expectedOutcome; }
         public void setExpectedOutcome(String expectedOutcome) { this.expectedOutcome = expectedOutcome; }
     }
 
-    /**
-     * 维护步骤对象
-     */
     public static class MaintenanceStep {
         private Integer step;
         private String action;
@@ -415,10 +343,10 @@ public class ChromaRagService {
 
         public Integer getStep() { return step; }
         public void setStep(Integer step) { this.step = step; }
-        
+
         public String getAction() { return action; }
         public void setAction(String action) { this.action = action; }
-        
+
         public String getDetail() { return detail; }
         public void setDetail(String detail) { this.detail = detail; }
     }

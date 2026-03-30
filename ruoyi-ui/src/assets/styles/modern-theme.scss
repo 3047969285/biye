@@ -855,10 +855,17 @@ a {
       color: inherit !important;
     }
 
-    &.is-divided {
-      border-top: none !important;
-      margin-top: 4px !important;
-      padding-top: 10px !important;
+    &.el-dropdown-menu__item--divided {
+      border-top: 1px solid $border-color !important;
+      margin-top: 0 !important;
+      padding-top: 12px !important;
+    }
+    &.el-dropdown-menu__item--divided:before {
+      content: none !important;
+      display: none !important;
+      height: 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
     }
   }
 }

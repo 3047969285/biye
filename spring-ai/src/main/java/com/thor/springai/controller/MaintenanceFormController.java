@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 智能运维表单生成控制器
- * 
- * @author ruoyi
- */
 @RestController
 @RequestMapping("/ai/maintenance-form")
 public class MaintenanceFormController extends BaseController {
@@ -30,11 +25,6 @@ public class MaintenanceFormController extends BaseController {
     @Autowired
     private AiMaintenanceFormMapper maintenanceFormMapper;
     
-    /**
-     * 查询需要维护的设备列表
-     * 
-     * @return 设备列表
-     */
     @GetMapping("/devices")
     public AjaxResult getDevicesRequiringMaintenance(
         @RequestParam(value = "aiSummary", defaultValue = "true") boolean aiSummary) {
@@ -42,13 +32,6 @@ public class MaintenanceFormController extends BaseController {
         return maintenanceFormService.getDevicesRequiringMaintenance(aiSummary);
     }
     
-    /**
-     * 为指定设备生成运维表单
-     * 
-     * @param deviceId 设备ID
-     * @param saveToDb 是否保存到数据库（默认false）
-     * @return 生成的表单
-     */
     @PostMapping("/generate")
     public AjaxResult generateForm(@RequestParam("deviceId") Long deviceId,
                                    @RequestParam(value = "saveToDb", defaultValue = "false") boolean saveToDb) {
@@ -56,17 +39,9 @@ public class MaintenanceFormController extends BaseController {
         return maintenanceFormService.generateFormForDevice(deviceId, saveToDb);
     }
     
-    /**
-     * 批量生成运维表单
-     * 
-     * @param deviceIdsStr 设备ID列表（逗号分隔的字符串）
-     * @param saveToDb 是否保存到数据库（默认false）
-     * @return 生成结果
-     */
     @PostMapping("/batch-generate")
     public AjaxResult batchGenerateForms(@RequestParam("deviceIds") String deviceIdsStr,
                                         @RequestParam(value = "saveToDb", defaultValue = "false") boolean saveToDb) {
-        // 将逗号分隔的字符串转换为Long列表
         List<Long> deviceIds = new ArrayList<>();
         if (deviceIdsStr != null && !deviceIdsStr.isEmpty()) {
             String[] ids = deviceIdsStr.split(",");
@@ -82,12 +57,6 @@ public class MaintenanceFormController extends BaseController {
         return maintenanceFormService.batchGenerateForms(deviceIds, saveToDb);
     }
     
-    /**
-     * 查询运维表单列表（历史记录）
-     * 
-     * @param form 查询条件
-     * @return 表单列表
-     */
     @GetMapping("/forms")
     public AjaxResult listForms(AiMaintenanceForm form) {
         try {
@@ -101,12 +70,6 @@ public class MaintenanceFormController extends BaseController {
         }
     }
     
-    /**
-     * 根据ID获取运维表单详情
-     * 
-     * @param formId 表单ID
-     * @return 表单详情
-     */
     @GetMapping("/forms/{formId}")
     public AjaxResult getFormById(@PathVariable("formId") Long formId) {
         try {
@@ -122,12 +85,6 @@ public class MaintenanceFormController extends BaseController {
         }
     }
     
-    /**
-     * 更新运维表单
-     * 
-     * @param form 表单数据
-     * @return 操作结果
-     */
     @PutMapping("/forms")
     public AjaxResult updateForm(@RequestBody AiMaintenanceForm form) {
         try {
@@ -144,12 +101,6 @@ public class MaintenanceFormController extends BaseController {
         }
     }
     
-    /**
-     * 删除运维表单
-     * 
-     * @param formId 表单ID
-     * @return 操作结果
-     */
     @DeleteMapping("/forms/{formId}")
     public AjaxResult deleteForm(@PathVariable("formId") Long formId) {
         try {
@@ -166,12 +117,6 @@ public class MaintenanceFormController extends BaseController {
         }
     }
     
-    /**
-     * 批量删除运维表单
-     * 
-     * @param formIds 表单ID数组
-     * @return 操作结果
-     */
     @DeleteMapping("/forms")
     public AjaxResult batchDeleteForms(@RequestBody Long[] formIds) {
         try {

@@ -61,4 +61,9 @@ public interface AiMaintenanceFormMapper {
      * @return 结果
      */
     int deleteAiMaintenanceFormByIds(@Param("formIds") Long[] formIds);
+
+    /**
+     * 待处理状态表单，供定时任务扫描推送消息（draft/pending）
+     */
+    List<AiMaintenanceForm> selectPendingFormsForScheduledNotify();
 }

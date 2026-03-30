@@ -88,6 +88,34 @@ export const constantRoutes = [
       }
     ]
   },
+  // 与 sys_menu 动态路由一致为 /maintenance-form；兼容旧链接 /ai/maintenance-form
+  {
+    path: '/ai/maintenance-form',
+    redirect: (to) => ({ path: '/maintenance-form', query: to.query }),
+    hidden: true
+  },
+  // 电表点表与汇总查询（与后端接口匹配）
+  {
+    path: '/meter',
+    component: Layout,
+    redirect: '/meter/point',
+    name: 'Meter',
+    meta: { title: '电表', icon: 'table', affix: true },
+    children: [
+      {
+        path: 'point',
+        component: () => import('@/views/meter/point/index'),
+        name: 'MeterPoint',
+        meta: { title: '点表维护', icon: 'edit', activeMenu: '/meter/point' }
+      },
+      {
+        path: 'summary',
+        component: () => import('@/views/meter/summary/index'),
+        name: 'MeterSummary',
+        meta: { title: '汇总点表', icon: 'list', activeMenu: '/meter/summary' }
+      }
+    ]
+  }
 ]
 
 // 动态路由，基于用户权限动态去加载

@@ -8,6 +8,7 @@ import com.ruoyi.system.service.IEqDeviceStatService;
 import com.ruoyi.system.service.IEqWindForecastBindService;
 import com.ruoyi.web.config.properties.WindForecastProperties;
 import com.ruoyi.web.service.wind.WindForecastBridgeService;
+import com.ruoyi.web.service.wind.WindForecastExcelFileService;
 import com.ruoyi.web.service.wind.WindForecastInlineExcelWriter;
 import com.ruoyi.web.service.wind.WindForecastPathResolver;
 import org.slf4j.Logger;
@@ -44,6 +45,7 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
     private final HttpClient httpClient;
     private final IEqDeviceStatService eqDeviceStatService;
     private final IEqWindForecastBindService windForecastBindService;
+    private final WindForecastExcelFileService windForecastExcelFileService;
 
     private final AtomicReference<Map<String, Object>> lastPrediction = new AtomicReference<>();
     private final AtomicReference<Long> lastPredictionAt = new AtomicReference<>(0L);
@@ -54,11 +56,13 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
 
     public WindForecastBridgeServiceImpl(WindForecastProperties props, ObjectMapper objectMapper,
                                          IEqDeviceStatService eqDeviceStatService,
-                                         IEqWindForecastBindService windForecastBindService) {
+                                         IEqWindForecastBindService windForecastBindService,
+                                         WindForecastExcelFileService windForecastExcelFileService) {
         this.props = props;
         this.objectMapper = objectMapper;
         this.eqDeviceStatService = eqDeviceStatService;
         this.windForecastBindService = windForecastBindService;
+        this.windForecastExcelFileService = windForecastExcelFileService;
         this.httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .version(HttpClient.Version.HTTP_1_1)
@@ -115,7 +119,13 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
             bindRow = windForecastBindService.selectByDeviceId(deviceId);
         }
 
-        String model = firstNonBlank(modelPath, bindRow != null ? bindRow.getModelPath() : null, props.getModelPath());
+        final boolean yamlFallback =
+            deviceId == null || deviceId <= 0 || props.isGlobalYamlFallbackDevice(deviceId);
+
+        String model = firstNonBlank(
+            modelPath,
+            bindRow != null ? bindRow.getModelPath() : null,
+            yamlFallback ? props.getModelPath() : null);
 
         String feat = null;
         String real = null;
@@ -152,10 +162,30 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
             }
         }
         if (feat == null) {
-            feat = firstNonBlank(featureExcel, bindRow != null ? bindRow.getFeatureExcelPath() : null, props.getFeatureExcel());
+            feat = firstNonBlank(featureExcel, null, null);
+        }
+        if (feat == null && deviceId != null && deviceId > 0) {
+            Path pf = windForecastExcelFileService.resolveExcelPath(deviceId, "feature");
+            feat = pf != null ? pf.toAbsolutePath().toString() : null;
+        }
+        if (feat == null) {
+            feat = firstNonBlank(
+                null,
+                bindRow != null ? bindRow.getFeatureExcelPath() : null,
+                yamlFallback ? props.getFeatureExcel() : null);
         }
         if (real == null) {
-            real = firstNonBlank(realExcel, bindRow != null ? bindRow.getRealExcelPath() : null, props.getRealExcel());
+            real = firstNonBlank(realExcel, null, null);
+        }
+        if (real == null && deviceId != null && deviceId > 0) {
+            Path pr = windForecastExcelFileService.resolveExcelPath(deviceId, "real");
+            real = pr != null ? pr.toAbsolutePath().toString() : null;
+        }
+        if (real == null) {
+            real = firstNonBlank(
+                null,
+                bindRow != null ? bindRow.getRealExcelPath() : null,
+                yamlFallback ? props.getRealExcel() : null);
         }
 
         model = WindForecastPathResolver.toAbsolutePath(model);

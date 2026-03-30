@@ -41,4 +41,12 @@ public class CacheConstants
      * 登录账户密码错误次数 redis key
      */
     public static final String PWD_ERR_CNT_KEY = "pwd_err_cnt:";
+
+    /**
+     * 运维表单定时推送站内消息去重前缀（后缀为 formId）
+     */
+    public static final String MAINTENANCE_FORM_SCHEDULE_NOTIFY_KEY = "maintenance:form:schedule_notify:";
+
+    /** 运维表单推送 Redis 去重 TTL（秒），与定时任务、实时推送共用 */
+    public static final long MAINTENANCE_FORM_NOTIFY_TTL_SECONDS = 86400L;
 }

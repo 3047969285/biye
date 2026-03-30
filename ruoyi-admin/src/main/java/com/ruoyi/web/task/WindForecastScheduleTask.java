@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- * 定时自动调用 Python 预测（默认每 2 分钟，上一次完成后间隔）
+ * 定时自动调用 Python 预测（默认每 3 分钟，上一次完成后间隔）
  */
 @Component
 @ConditionalOnProperty(prefix = "wind.forecast", name = "enabled", havingValue = "true", matchIfMissing = true)
@@ -27,7 +27,7 @@ public class WindForecastScheduleTask {
 
     @Scheduled(
         initialDelayString = "${wind.forecast.schedule-initial-delay-ms:45000}",
-        fixedDelayString = "${wind.forecast.schedule-interval-ms:120000}"
+        fixedDelayString = "${wind.forecast.schedule-interval-ms:180000}"
     )
     public void autoPredict() {
         if (!props.isEnabled()) {

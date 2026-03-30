@@ -31,6 +31,20 @@
           <el-button size="small" icon="el-icon-refresh" :loading="latestLoading" @click="refreshForecastLatest">刷新</el-button>
           <el-button size="small" icon="el-icon-document" :loading="summaryLoading" @click="handleAiSummary">AI</el-button>
           <el-switch v-model="autoRefresh" class="wind-auto-switch" />
+          <span class="wind-poll-interval">
+            <span class="wind-poll-label">刷新间隔</span>
+            <el-input-number
+              v-model="pollSec"
+              :min="30"
+              :max="3600"
+              :step="60"
+              size="small"
+              controls-position="right"
+              class="wind-poll-input"
+              @change="handleClientPollSecChange"
+            />
+            <span class="wind-poll-unit">秒</span>
+          </span>
           <el-select
             v-model="selectedWindDeviceId"
             clearable
@@ -85,8 +99,6 @@
           <div slot="header">AI 总结</div>
           <div class="summary-body">{{ aiSummaryText }}</div>
         </el-card>
-
-        <p v-if="windMeta.lastError" class="wind-err-line">{{ windMeta.lastError }}</p>
 
         <el-card shadow="never" class="chart-card chart-card-plain">
           <div ref="chartRef" class="chart-box" />
@@ -221,6 +233,7 @@ import {
   uploadWindForecastExcel,
   windForecastSummary
 } from '@/api/windForecast'
+import { getClientPollIntervalSec, setClientPollIntervalSec } from '@/utils/clientPoll'
 
 export default {
   name: 'PowerForecast',
@@ -238,13 +251,11 @@ export default {
       excelUploadLoading: { feature: false, real: false },
       aiSummaryText: '',
       autoRefresh: true,
-      /** 与 live 拉取配合：每次轮询都会跑 Python，间隔过短会压垮服务 */
-      pollSec: 60,
+      pollSec: 180,
       pollTimer: null,
       chart: null,
       windMeta: {
         reachable: false,
-        lastError: '',
         lastPredictionAt: 0
       },
       prediction: {},
@@ -259,9 +270,7 @@ export default {
         avgPower: '0.00',
         totalPredictedEnergy: '0.00'
       },
-      /** 与 wind.forecast.bind-device-id 对应，用于统计页默认筛选与文案 */
       windBindDeviceId: null,
-      /** /latest 返回的 config，含 forecastPointIntervalMinutes、predictLength */
       windForecastConfig: {},
       dataStatRows: [],
       dataLoading: false,
@@ -272,7 +281,6 @@ export default {
     }
   },
   computed: {
-    /** 每点间隔（分钟），默认 15，与 application.yml wind.forecast.forecast-point-interval-minutes 一致 */
     pointIntervalMinutes() {
       const c = this.windForecastConfig || {}
       const v = c.forecastPointIntervalMinutes
@@ -283,7 +291,6 @@ export default {
       const p = this.prediction || {}
       return Array.isArray(p.predicted_power) && p.predicted_power.length > 0
     },
-    /** 后端 snake_case / 可能 camelCase */
     pointTimesList() {
       const p = this.prediction || {}
       return Array.isArray(p.point_times)
@@ -294,6 +301,7 @@ export default {
     },
   },
   created() {
+    this.pollSec = getClientPollIntervalSec(180)
     this.initStatTab()
     this.startPoll()
   },
@@ -338,7 +346,6 @@ export default {
       const x = d instanceof Date ? d : new Date(d)
       return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())} ${pad(x.getHours())}:${pad(x.getMinutes())}:${pad(x.getSeconds())}`
     },
-    /** 总分钟数 → 中文时长（用于预测点数换算） */
     formatDurationMinutes(totalMin) {
       const m = Math.round(Number(totalMin))
       if (!Number.isFinite(m) || m <= 0) return '—'
@@ -348,7 +355,6 @@ export default {
       if (r === 0) return `${h}h`
       return `${h}h${r}m`
     },
-    /** 第 i 个点（0-based）结束时刻相对起点的标签，用于横轴 */
     forecastStepLabel(indexZeroBased) {
       const step = this.pointIntervalMinutes
       const cum = (indexZeroBased + 1) * step
@@ -358,7 +364,6 @@ export default {
       if (mm === 0) return `${h}h`
       return `${h}:${String(mm).padStart(2, '0')}`
     },
-    /** Python point_times（ISO）→ 横轴标签（含年份，水平展示） */
     formatAxisShortFromIso(isoStr) {
       if (!isoStr) return ''
       const d = new Date(isoStr)
@@ -367,7 +372,6 @@ export default {
       const pad = (n) => (n < 10 ? '0' + n : '' + n)
       return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
     },
-    /** 曲线横轴：优先用后端 point_times，否则用相对时长 */
     chartAxisLabel(indexZeroBased) {
       const pts = this.pointTimesList
       if (pts && pts[indexZeroBased]) {
@@ -375,7 +379,6 @@ export default {
       }
       return this.forecastStepLabel(indexZeroBased)
     },
-    /** tooltip 顶行：墙钟时间 */
     formatTooltipClock(isoStr) {
       if (!isoStr) return ''
       const d = new Date(isoStr)
@@ -383,12 +386,21 @@ export default {
       if (this.$parseTime) return this.$parseTime(d, '{y}-{m}-{d} {h}:{i}:{s}')
       return this.formatDateTime(d)
     },
+    handleClientPollSecChange(val) {
+      if (val == null) return
+      setClientPollIntervalSec(val)
+      this.pollSec = getClientPollIntervalSec(this.windForecastConfig.clientPollIntervalSec || 180)
+      if (this.autoRefresh) {
+        this.startPoll()
+      }
+    },
     startPoll() {
       this.stopPoll()
       if (!this.autoRefresh) return
+      const sec = Math.max(30, Math.min(3600, Number(this.pollSec) || 180))
       this.pollTimer = setInterval(() => {
         this.loadLatest(true, false)
-      }, this.pollSec * 1000)
+      }, sec * 1000)
     },
     stopPoll() {
       if (this.pollTimer) {
@@ -396,14 +408,9 @@ export default {
         this.pollTimer = null
       }
     },
-    /** 手动刷新：拉 Python 最新预测（较慢） */
     refreshForecastLatest() {
       this.loadLatest(false, true)
     },
-    /**
-     * @param silent 轮询时为 true，不显示 loading
-     * @param live true 时后端先跑 Python 再返回（慢）；进入页面/轮询用 false 只读缓存，首屏快
-     */
     async loadLatest(silent, live) {
       if (live === undefined) live = false
       if (!silent) this.latestLoading = true
@@ -416,11 +423,18 @@ export default {
         if (res.code === 200 && res.data) {
           const d = res.data
           this.windMeta.reachable = !!d.reachable
-          this.windMeta.lastError = d.lastError || ''
           this.windMeta.lastPredictionAt = d.lastPredictionAt || 0
           this.prediction = d.prediction || {}
           const cfg = d.config || {}
           this.windForecastConfig = { ...cfg }
+          const srvPoll = cfg.clientPollIntervalSec != null ? cfg.clientPollIntervalSec : 180
+          const nextPoll = getClientPollIntervalSec(srvPoll)
+          if (nextPoll !== this.pollSec) {
+            this.pollSec = nextPoll
+            if (this.autoRefresh) {
+              this.startPoll()
+            }
+          }
           const bid = cfg.bindDeviceId
           this.windBindDeviceId = bid != null && Number(bid) > 0 ? Number(bid) : null
           if (!this._defaultDeviceApplied && this.selectedWindDeviceId == null && this.windBindDeviceId) {
@@ -867,20 +881,30 @@ export default {
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .wind-auto-switch {
     margin: 0 2px;
   }
+  .wind-poll-interval {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: $text-secondary;
+    .wind-poll-label {
+      white-space: nowrap;
+    }
+    .wind-poll-input {
+      width: 112px;
+    }
+    .wind-poll-unit {
+      white-space: nowrap;
+    }
+  }
   .wind-dev-select {
     width: 220px;
     min-width: 160px;
-  }
-  .wind-err-line {
-    font-size: 12px;
-    color: #e6a23c;
-    margin: 0 0 8px;
-    line-height: 1.4;
   }
   .hidden-file-input {
     position: absolute;

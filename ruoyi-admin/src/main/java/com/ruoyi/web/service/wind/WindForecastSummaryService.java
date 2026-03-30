@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 根据最近一次 GRU 预测结果生成中文运维摘要（依赖 Spring AI，不可用时降级为规则摘要）。
- */
 @Service
 public class WindForecastSummaryService {
 

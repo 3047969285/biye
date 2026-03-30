@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.redis;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +48,18 @@ public class RedisCache
     public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit)
     {
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
+    }
+
+    /**
+     * 仅当 key 不存在时写入并设置过期（SET NX + EX），用于去重。
+     *
+     * @return true 表示本次获得锁（可执行业务）；false 表示已存在（应跳过）
+     */
+    public boolean setCacheObjectIfAbsent(final String key, final Object value, final long timeout, final TimeUnit timeUnit)
+    {
+        Duration duration = Duration.ofMillis(timeUnit.toMillis(timeout));
+        Boolean ok = redisTemplate.opsForValue().setIfAbsent(key, value, duration);
+        return Boolean.TRUE.equals(ok);
     }
 
     /**

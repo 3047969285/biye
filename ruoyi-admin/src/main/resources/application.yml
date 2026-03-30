@@ -18,6 +18,15 @@ ruoyi:
   # 验证码类型 math 数字计算 char 字符验证
   captchaType: math
 
+# 电表 Modbus：网口接收与开放汇总接口（点表见 /meter/point，执行 sql/meter_modbus.sql）
+meter:
+  modbus:
+    tcp-enabled: false
+    tcp-port: 5021
+    tcp-binary: false
+    ingest-api-key: ""
+    summary-include-point-table: true
+
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
@@ -197,7 +206,8 @@ wind:
     time-step: 30
     test-size: 0.2
     schedule-initial-delay-ms: 15000
-    schedule-interval-ms: 30000
+    # 自动预测间隔（毫秒），默认 3 分钟，与前端轮询、运维表单扫描周期对齐
+    schedule-interval-ms: 180000
     http-timeout-seconds: 300
     # 与 sql 中 WIND-FD001 设备 device_id=21 对应；预测成功会更新该设备当日 eq_device_stat.average_power
     bind-device-id: 21

@@ -7,6 +7,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.EqWindForecastBind;
 import com.ruoyi.system.service.IEqWindForecastBindService;
+import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.web.config.properties.WindForecastProperties;
 import com.ruoyi.web.controller.wind.dto.WindForecastBindPayload;
 import com.ruoyi.web.controller.wind.dto.WindForecastRowsPayload;
@@ -52,18 +53,21 @@ public class WindForecastController extends BaseController {
     private final WindForecastSummaryService summaryService;
     private final ObjectMapper objectMapper;
     private final WindForecastExcelFileService excelFileService;
+    private final ISysConfigService configService;
 
     public WindForecastController(WindForecastProperties props, WindForecastBridgeService bridge,
                                   IEqWindForecastBindService windForecastBindService,
                                   WindForecastSummaryService summaryService,
                                   ObjectMapper objectMapper,
-                                  WindForecastExcelFileService excelFileService) {
+                                  WindForecastExcelFileService excelFileService,
+                                  ISysConfigService configService) {
         this.props = props;
         this.bridge = bridge;
         this.windForecastBindService = windForecastBindService;
         this.summaryService = summaryService;
         this.objectMapper = objectMapper;
         this.excelFileService = excelFileService;
+        this.configService = configService;
     }
 
     /**
@@ -112,6 +116,7 @@ public class WindForecastController extends BaseController {
         cfg.put("scheduleIntervalMs", props.getScheduleIntervalMs());
         cfg.put("scheduleInitialDelayMs", props.getScheduleInitialDelayMs());
         cfg.put("bindDeviceId", props.getBindDeviceId() != null ? props.getBindDeviceId() : 0L);
+        cfg.put("clientPollIntervalSec", resolveClientPollIntervalSec());
         out.put("config", cfg);
         return success(out);
     }
@@ -243,9 +248,9 @@ public class WindForecastController extends BaseController {
         if (file == null || file.isEmpty()) {
             return error("请选择要上传的文件");
         }
-        Path path = excelFileService.resolveExcelPath(deviceId, kind);
+        Path path = excelFileService.resolveUploadTargetPath(deviceId, kind);
         if (path == null) {
-            return error("未配置该 Excel 路径，无法确定保存位置（请在设备绑定或 yml 中配置）");
+            return error("未配置该 Excel 路径，无法确定保存位置（请检查 kind 是否为 feature/real）");
         }
         try {
             Path parent = path.getParent();
@@ -253,13 +258,18 @@ public class WindForecastController extends BaseController {
                 Files.createDirectories(parent);
             }
             file.transferTo(path.toFile());
-            // 避免按设备预测仍优先生成「页面行」临时 Excel，忽略刚写入的磁盘文件
-            EqWindForecastBind clearInline = new EqWindForecastBind();
-            clearInline.setDeviceId(deviceId);
-            clearInline.setInlineDataJson("");
-            windForecastBindService.mergeSave(clearInline);
+            EqWindForecastBind patch = new EqWindForecastBind();
+            patch.setDeviceId(deviceId);
+            String absSaved = path.toAbsolutePath().toString();
+            if ("feature".equalsIgnoreCase(kind)) {
+                patch.setFeatureExcelPath(absSaved);
+            } else {
+                patch.setRealExcelPath(absSaved);
+            }
+            patch.setInlineDataJson("");
+            windForecastBindService.mergeSave(patch);
             Map<String, Object> data = new HashMap<>();
-            data.put("savedPath", path.toAbsolutePath().toString());
+            data.put("savedPath", absSaved);
             data.put("kind", kind);
             return success(data);
         } catch (Exception e) {
@@ -299,6 +309,32 @@ public class WindForecastController extends BaseController {
             p = bridge.getLastPrediction();
         }
         return success(summaryService.summarize(p));
+    }
+
+    /**
+     * 与参数键 {@code client.poll.interval.seconds} 一致；缺省或未配置时按自动预测间隔（秒）推算，范围 30～3600。
+     */
+    private int resolveClientPollIntervalSec() {
+        final int min = 30;
+        final int max = 3600;
+        String raw = configService.selectConfigByKey("client.poll.interval.seconds");
+        int sec = parsePositiveInt(raw, -1);
+        if (sec < min || sec > max) {
+            long ms = props.getScheduleIntervalMs();
+            sec = (int) Math.max(min, Math.min(max, ms / 1000L));
+        }
+        return sec;
+    }
+
+    private static int parsePositiveInt(String s, int dflt) {
+        if (StringUtils.isEmpty(s)) {
+            return dflt;
+        }
+        try {
+            return Integer.parseInt(s.trim());
+        } catch (NumberFormatException e) {
+            return dflt;
+        }
     }
 
     private static String nullToEmpty(String s) {

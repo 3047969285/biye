@@ -12,11 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-/**
- * 数据库查询服务 - 为 AI 提供数据库查询能力
- * 
- * @author ruoyi
- */
 @Service
 public class DatabaseQueryService {
 
@@ -33,15 +28,8 @@ public class DatabaseQueryService {
         this.chatClient = chatClientBuilder.build();
     }
 
-    /**
-     * 执行查询 SQL（安全模式，只允许 SELECT）
-     * 
-     * @param sql SQL 查询语句
-     * @return 查询结果（JSON 格式）
-     */
     public Map<String, Object> executeQuery(String sql) {
         try {
-            // 安全检查：只允许 SELECT 语句
             String sqlLower = sql.trim().toLowerCase();
             if (!sqlLower.startsWith("select")) {
                 return Map.of(
@@ -50,17 +38,16 @@ public class DatabaseQueryService {
                 );
             }
 
-            // 执行查询
             List<Map<String, Object>> results = jdbcTemplate.queryForList(sql);
-            
-            logger.info("数据库查询成功，返回 {} 条记录", Optional.of(results.size()));
-            
+
+            logger.info("数据库查询成功，返回 {} 条记录", results.size());
+
             return Map.of(
                 "success", true,
                 "rowCount", results.size(),
                 "data", results
             );
-            
+
         } catch (Exception e) {
             logger.error("数据库查询失败: SQL={}, Error={}", sql, e.getMessage());
             return Map.of(
@@ -70,23 +57,19 @@ public class DatabaseQueryService {
         }
     }
 
-    /**
-     * 获取所有表名
-     */
     public List<String> getAllTables() {
         try {
             String sql = "SHOW TABLES";
             List<Map<String, Object>> results = jdbcTemplate.queryForList(sql);
-            
+
             List<String> tables = new ArrayList<>();
             for (Map<String, Object> row : results) {
-                // 获取第一列的值（表名）
                 Object tableName = row.values().iterator().next();
                 if (tableName != null) {
                     tables.add(tableName.toString());
                 }
             }
-            
+
             return tables;
         } catch (Exception e) {
             logger.error("获取表列表失败: ", e);
@@ -94,20 +77,17 @@ public class DatabaseQueryService {
         }
     }
 
-    /**
-     * 获取表结构信息
-     */
     public String getTableStructure(String tableName) {
         try {
             String sql = "DESC " + tableName;
             List<Map<String, Object>> results = jdbcTemplate.queryForList(sql);
-            
+
             return JSON.toJSONString(Map.of(
                 "success", true,
                 "table", tableName,
                 "structure", results
             ));
-            
+
         } catch (Exception e) {
             logger.error("获取表结构失败: Table={}, Error={}", tableName, e.getMessage());
             return JSON.toJSONString(Map.of(
@@ -117,17 +97,13 @@ public class DatabaseQueryService {
         }
     }
 
-    /**
-     * 查询数据库统计信息（包括所有主要表）
-     */
     public String getMaintenanceFormStats() {
         try {
             StringBuilder stats = new StringBuilder();
             stats.append("=== 数据库统计信息 ===\n\n");
-            
+
             List<String> tables = getAllTables();
-            
-            // 统计设备相关表
+
             stats.append("【设备管理相关表】\n");
             int deviceTableCount = 0;
             for (String table : tables) {
@@ -145,7 +121,7 @@ public class DatabaseQueryService {
             if (deviceTableCount == 0) {
                 stats.append("  暂无设备相关表\n");
             }
-            
+
             stats.append("\n【系统管理相关表】\n");
             String[] systemTables = {"sys_user", "sys_role", "sys_menu", "sys_dept", "sys_post"};
             for (String table : systemTables) {
@@ -159,7 +135,7 @@ public class DatabaseQueryService {
                     }
                 }
             }
-            
+
             stats.append("\n【AI相关表】\n");
             String[] aiTables = {"ai_maintenance_form", "ai_chat_record"};
             for (String table : aiTables) {
@@ -175,16 +151,14 @@ public class DatabaseQueryService {
                     stats.append("  ").append(table).append(": 表不存在\n");
                 }
             }
-            
-            // 如果有ai_maintenance_form表，显示详细统计
+
             if (tables.contains("ai_maintenance_form")) {
                 try {
                     stats.append("\n【运维表单详细统计】\n");
                     Integer total = jdbcTemplate.queryForObject(
                         "SELECT COUNT(*) FROM ai_maintenance_form", Integer.class);
                     stats.append("  总表单数: ").append(total != null ? total : 0).append("\n");
-                    
-                    // 按状态分组统计
+
                     List<Map<String, Object>> statusStats = jdbcTemplate.queryForList(
                         "SELECT form_status, COUNT(*) as count FROM ai_maintenance_form GROUP BY form_status");
                     if (!statusStats.isEmpty()) {
@@ -198,24 +172,22 @@ public class DatabaseQueryService {
                     stats.append("  获取详细统计失败: ").append(e.getMessage()).append("\n");
                 }
             }
-            
-            // 如果有ai_chat_record表，显示对话记录统计
+
             if (tables.contains("ai_chat_record")) {
                 try {
                     stats.append("\n【对话记录统计】\n");
                     Integer total = jdbcTemplate.queryForObject(
                         "SELECT COUNT(*) FROM ai_chat_record", Integer.class);
                     stats.append("  总对话记录数: ").append(total != null ? total : 0).append("\n");
-                    
-                    // 按类型分组统计
+
                     List<Map<String, Object>> typeStats = jdbcTemplate.queryForList(
                         "SELECT chat_type, COUNT(*) as count FROM ai_chat_record GROUP BY chat_type");
                     if (!typeStats.isEmpty()) {
                         stats.append("  按类型统计:\n");
                         for (Map<String, Object> row : typeStats) {
                             String type = (String) row.get("chat_type");
-                            String typeName = "basic".equals(type) ? "基础对话" : 
-                                            "rag".equals(type) ? "知识库问答" : 
+                            String typeName = "basic".equals(type) ? "基础对话" :
+                                            "rag".equals(type) ? "知识库问答" :
                                             "db".equals(type) ? "数据库查询" : type;
                             stats.append("    - ").append(typeName)
                                  .append(": ").append(row.get("count")).append(" 条\n");
@@ -225,32 +197,28 @@ public class DatabaseQueryService {
                     stats.append("  获取对话记录统计失败: ").append(e.getMessage()).append("\n");
                 }
             }
-            
+
             stats.append("\n【数据库总览】\n");
             stats.append("  总表数: ").append(tables.size()).append("\n");
-            
+
             return stats.toString();
-            
+
         } catch (Exception e) {
             logger.error("获取统计信息失败: ", e);
             return "获取统计信息失败: " + e.getMessage();
         }
     }
 
-    /**
-     * 构建数据库上下文信息（供 AI 使用）
-     */
     public String getDatabaseContext() {
         StringBuilder context = new StringBuilder();
         context.append("=== 数据库结构信息 ===\n\n");
-        
+
         List<String> tables = getAllTables();
         context.append("可用的表:\n");
         for (String table : tables) {
             context.append("- ").append(table).append("\n");
         }
-        
-        // 针对 eq_* 相关表和 ai_maintenance_form 提供详细结构，避免模型猜列名
+
         Set<String> detailedTables = new HashSet<>();
         for (String table : tables) {
             if (table.startsWith("eq_") || "ai_maintenance_form".equals(table)) {
@@ -270,13 +238,10 @@ public class DatabaseQueryService {
                 logger.error("获取表结构失败: {}", table, e);
             }
         }
-        
+
         return context.toString();
     }
 
-    /**
-     * 让 AI 对查询结果做简要中文总结
-     */
     @SuppressWarnings({ "DataFlowIssue", "null" })
     public String summarizeResult(String question, String sql, Map<String, Object> result) {
         try {
@@ -316,9 +281,6 @@ public class DatabaseQueryService {
         }
     }
 
-    /**
-     * 生成易读的简短中文摘要（无需再次调用大模型）
-     */
     public String buildReadableSummary(Map<String, Object> result) {
         if (!Boolean.TRUE.equals(result.get("success"))) {
             return "查询失败：" + result.getOrDefault("error", "未知错误");
@@ -339,7 +301,6 @@ public class DatabaseQueryService {
             Map<String, Object> row = rows.get(i);
             sb.append(i + 1).append(". ");
 
-            // 设备名称 / 编号
             String name = firstNonNull(row, "device_name", "deviceName", "name");
             String no = firstNonNull(row, "device_no", "deviceNo", "code", "id");
             if (name != null) sb.append(name);
@@ -347,30 +308,24 @@ public class DatabaseQueryService {
                 sb.append("（").append(no).append("）");
             }
 
-            // 位置
             String loc = firstNonNull(row, "location", "loc");
             if (loc != null) sb.append("，位置：").append(loc);
 
-            // 状态
             String status = humanStatus(firstNonNull(row, "status", "online_status", "onlineStatus"));
             if (status != null) sb.append("，状态：").append(status);
 
-            // 保修到期
             String warranty = firstNonNull(row, "warranty_expiration", "warrantyExpiration");
             if (warranty != null) sb.append("，保修至：").append(warranty);
 
-            // 责任人
             String resp = firstNonNull(row, "responsible_person", "responsiblePerson", "owner");
             if (resp != null) sb.append("，责任人：").append(resp);
 
-            // 备注
             String remark = firstNonNull(row, "remark", "remarks");
             if (remark != null) sb.append("，备注：").append(remark);
 
             sb.append("\n");
         }
 
-        // 简单的维护提示：如果有保修日期，提醒关注最近到期的
         String earliestWarranty = earliestDate(rows, "warranty_expiration", "warrantyExpiration");
         if (earliestWarranty != null) {
             sb.append("提示：关注近期保修到期（最近到期：").append(earliestWarranty).append("）。");

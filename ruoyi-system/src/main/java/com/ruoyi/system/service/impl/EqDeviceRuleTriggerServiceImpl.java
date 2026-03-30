@@ -22,9 +22,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * 规则触发：测点比对 → 告警入库；运行状态回写由 {@link com.ruoyi.system.service.impl.EqDeviceRuleEvaluationServiceImpl} 编排。
- */
 @Service
 public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerService {
 

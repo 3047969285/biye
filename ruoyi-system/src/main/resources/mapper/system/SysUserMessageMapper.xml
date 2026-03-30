@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysUserMessageMapper">
+
+    <resultMap type="com.ruoyi.system.domain.SysUserMessage" id="SysUserMessageResult">
+        <id property="msgId" column="msg_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="msgType" column="msg_type"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="bizId" column="biz_id"/>
+        <result property="readFlag" column="read_flag"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <insert id="batchInsert">
+        insert into sys_user_message (user_id, msg_type, title, content, biz_id, read_flag, create_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.userId}, #{item.msgType}, #{item.title}, #{item.content}, #{item.bizId}, #{item.readFlag}, #{item.createTime})
+        </foreach>
+    </insert>
+
+    <select id="selectSysUserMessageList" resultMap="SysUserMessageResult">
+        select msg_id, user_id, msg_type, title, content, biz_id, read_flag, create_time
+        from sys_user_message
+        <where>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="msgType != null and msgType != ''">and msg_type = #{msgType}</if>
+            <if test="readFlag != null and readFlag != ''">and read_flag = #{readFlag}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="countUnreadByUserId" resultType="int">
+        select count(*) from sys_user_message where user_id = #{userId} and read_flag = '0'
+    </select>
+
+    <update id="updateReadByMsgIdAndUserId">
+        update sys_user_message set read_flag = '1' where msg_id = #{msgId} and user_id = #{userId}
+    </update>
+
+    <update id="updateAllReadByUserId">
+        update sys_user_message set read_flag = '1' where user_id = #{userId} and read_flag = '0'
+    </update>
+
+    <select id="selectNotifyUserIds" resultType="long">
+        select user_id from sys_user where del_flag = '0' and status = '0'
+    </select>
+
+    <delete id="deleteUnreadByMsgType">
+        delete from sys_user_message
+        where msg_type = #{msgType} and read_flag = '0'
+    </delete>
+
+    <select id="countByUserMsgTypeBizId" resultType="int">
+        select count(*) from sys_user_message
+        where user_id = #{userId} and msg_type = #{msgType} and biz_id = #{bizId}
+    </select>
+
+    <delete id="deleteByMsgTypeAndBizIdNotIn">
+        delete from sys_user_message
+        where msg_type = #{msgType}
+        <if test="bizIds != null and bizIds.size() &gt; 0">
+            and biz_id not in
+            <foreach collection="bizIds" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </delete>
+</mapper>

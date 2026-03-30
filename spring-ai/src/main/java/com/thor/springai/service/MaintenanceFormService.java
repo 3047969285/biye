@@ -3,7 +3,10 @@ package com.thor.springai.service;
 import com.alibaba.fastjson2.JSON;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.domain.*;
+import com.ruoyi.system.domain.vo.MaintenanceDevicePendingVo;
 import com.ruoyi.system.mapper.*;
+import com.ruoyi.system.service.ISysUserMessageService;
+import com.ruoyi.system.task.MaintenanceFormNotifyTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -17,17 +20,11 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-/**
- * 智能运维表单生成服务
- * 
- * @author ruoyi
- */
 @Service
 public class MaintenanceFormService {
     
     private static final Logger logger = LoggerFactory.getLogger(MaintenanceFormService.class);
 
-    /** 列表「问题描述」：综合状态表快照、待处理故障表、未恢复告警，压成 1～2 句（仅 HTTP 拉列表时走大模型） */
     private static final String ISSUE_AI_SYS = "你是电力运维助手。输入为 JSON 数组，每台设备一条上下文，字段含义："
         + "deviceId、deviceName、statusText（运行状态词）、priority（高/中/低）、needMaintenance（是否提示维护）、"
         + "statusFaultHint（状态表上的故障说明，可能为空）、faultCode（状态表故障码）、statusTime（状态更新时间）、"
@@ -54,39 +51,32 @@ public class MaintenanceFormService {
     private AiMaintenanceFormMapper maintenanceFormMapper;
 
     @Autowired(required = false)
+    private ISysUserMessageService sysUserMessageService;
+
+    @Autowired(required = false)
+    private MaintenanceFormNotifyTask maintenanceFormNotifyTask;
+
+    @Autowired(required = false)
     private ChatClient chatClient;
     
-    /**
-     * 查询需要维护的设备列表（问题描述：综合状态表、待处理故障、告警；AI 摘要可关以加快首屏）
-     *
-     * @param useAiIssueSummary false 时仅用本地规则压缩，不调用大模型
-     */
     public AjaxResult getDevicesRequiringMaintenance(boolean useAiIssueSummary) {
         return buildDevicesRequiringMaintenance(useAiIssueSummary);
     }
 
-    /**
-     * 定时任务等：同一套列表逻辑，但不调用大模型，避免每分钟消耗 Token
-     */
     private AjaxResult buildDevicesRequiringMaintenance(boolean useAiIssueSummary) {
         try {
-            // 查询状态不好的设备
             List<EqDeviceStatus> statusList = deviceStatusMapper.selectDevicesRequiringMaintenance();
             
-            // 查询未解决的故障记录
             EqFaultRecord faultQuery = new EqFaultRecord();
-            faultQuery.setStatus(1); // 1-待处理
+            faultQuery.setStatus(1);
             List<EqFaultRecord> faultList = faultRecordMapper.selectEqFaultRecordList(faultQuery);
             
-            // 查询未解决的告警记录
             EqAlertRecord alertQuery = new EqAlertRecord();
-            alertQuery.setStatus(1); // 1-已触发（未解决）
+            alertQuery.setStatus(1);
             List<EqAlertRecord> alertList = alertRecordMapper.selectEqAlertRecordList(alertQuery);
             
-            // 合并设备信息
             Map<Long, Map<String, Object>> deviceMap = new HashMap<>();
             
-            // 处理设备状态
             for (EqDeviceStatus status : statusList) {
                 Long deviceId = status.getDeviceId();
                 if (!deviceMap.containsKey(deviceId)) {
@@ -103,13 +93,11 @@ public class MaintenanceFormService {
                 deviceInfo.put("faultCode", status.getFaultCode());
                 deviceInfo.put("timestamp", status.getTimestamp());
                 
-                // 列表「告警原文」仅 alerts；pendingFaults 为待处理故障表；状态字段供综合摘要
                 deviceInfo.put("issues", new ArrayList<>());
                 deviceInfo.put("pendingFaults", new ArrayList<String>());
                 deviceInfo.put("priority", calculatePriority(status));
             }
             
-            // 处理故障记录
             for (EqFaultRecord fault : faultList) {
                 Long deviceId = fault.getDeviceId();
                 if (!deviceMap.containsKey(deviceId)) {
@@ -138,7 +126,6 @@ public class MaintenanceFormService {
                     String lv = faultLevelLabel(fault.getFaultLevel());
                     pendingFaults.add(lv == null ? fdesc.trim() : fdesc.trim() + "（" + lv + "）");
                 }
-                // 更新优先级
                 String currentPriority = (String) deviceInfo.get("priority");
                 String faultPriority = getPriorityFromFaultLevel(fault.getFaultLevel());
                 if (comparePriority(faultPriority, currentPriority) > 0) {
@@ -146,7 +133,6 @@ public class MaintenanceFormService {
                 }
             }
             
-            // 处理告警记录
             for (EqAlertRecord alert : alertList) {
                 Long deviceId = alert.getDeviceId();
                 if (!deviceMap.containsKey(deviceId)) {
@@ -157,7 +143,6 @@ public class MaintenanceFormService {
                     ni.put("deviceName", alert.getDeviceName());
                     ni.put("issues", new ArrayList<>());
                     ni.put("pendingFaults", new ArrayList<String>());
-                    // 仅有告警、无设备状态行时，列表上给默认状态/优先级
                     ni.put("status", 2);
                     ni.put("statusText", "告警");
                     ni.put("priority", getPriorityFromAlertLevel(alert.getAlertLevel()));
@@ -181,14 +166,12 @@ public class MaintenanceFormService {
                 }
             }
             
-            // 转换为列表
             List<Map<String, Object>> deviceList = new ArrayList<>(deviceMap.values());
             
-            // 按优先级排序
             deviceList.sort((a, b) -> {
                 String priorityA = (String) a.get("priority");
                 String priorityB = (String) b.get("priority");
-                return comparePriority(priorityB, priorityA); // 降序
+                return comparePriority(priorityB, priorityA);
             });
 
             fillIssueAiSummaries(deviceList, useAiIssueSummary);
@@ -205,54 +188,101 @@ public class MaintenanceFormService {
     }
     
     /**
-     * 通知需要维护的设备（定时任务调用，别名方法）
-     * 这个方法是为了兼容定时任务配置中的方法名
-     * 
-     * @return 查询结果
+     * 供 Quartz「检查报警」调用：先聚合查询需维护/告警设备（供前端等使用），再扫描 draft/pending 运维表单并推送站内消息。
+     * 与 {@link MaintenanceFormNotifyTask#scanPendingFormsAndNotify()} 共用同一套发消息逻辑；若仅想发消息也可单独配置该 Task。
      */
     public AjaxResult notifyDevicesRequiringMaintenance() {
-        return buildDevicesRequiringMaintenance(false);
+        AjaxResult result = buildDevicesRequiringMaintenance(false);
+        if (sysUserMessageService != null) {
+            try {
+                sysUserMessageService.syncMaintenanceDevicePendingMessages(parseMaintenanceDevicePendingList(result));
+            } catch (Exception e) {
+                logger.warn("同步待维护设备站内消息失败: {}", e.getMessage());
+            }
+        }
+        if (maintenanceFormNotifyTask != null) {
+            try {
+                maintenanceFormNotifyTask.scanPendingFormsAndNotify();
+            } catch (Exception e) {
+                logger.warn("检查报警后扫描运维表单站内消息失败: {}", e.getMessage());
+            }
+        } else {
+            logger.debug("MaintenanceFormNotifyTask 未注入，跳过运维表单草稿扫描");
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<MaintenanceDevicePendingVo> parseMaintenanceDevicePendingList(AjaxResult result) {
+        if (result == null) {
+            return Collections.emptyList();
+        }
+        Object data = result.get(AjaxResult.DATA_TAG);
+        if (!(data instanceof Map)) {
+            return Collections.emptyList();
+        }
+        Map<String, Object> map = (Map<String, Object>) data;
+        Object devices = map.get("devices");
+        if (!(devices instanceof List)) {
+            return Collections.emptyList();
+        }
+        List<MaintenanceDevicePendingVo> out = new ArrayList<>();
+        for (Object o : (List<?>) devices) {
+            if (!(o instanceof Map)) {
+                continue;
+            }
+            Map<String, Object> m = (Map<String, Object>) o;
+            Object id = m.get("deviceId");
+            Long deviceId = null;
+            if (id instanceof Number) {
+                deviceId = ((Number) id).longValue();
+            } else if (id != null) {
+                try {
+                    deviceId = Long.parseLong(String.valueOf(id).trim());
+                } catch (NumberFormatException ignored) {
+                    continue;
+                }
+            }
+            if (deviceId == null || deviceId <= 0) {
+                continue;
+            }
+            String name = m.get("deviceName") != null ? String.valueOf(m.get("deviceName")) : "设备";
+            String pri = m.get("priority") != null ? String.valueOf(m.get("priority")) : "—";
+            out.add(new MaintenanceDevicePendingVo(deviceId, name, pri));
+        }
+        return out;
     }
     
-    /**
-     * 为指定设备生成运维表单
-     * 
-     * @param deviceId 设备ID
-     * @param saveToDb 是否保存到数据库
-     * @return 生成的表单
-     */
     public AjaxResult generateFormForDevice(Long deviceId, boolean saveToDb) {
         try {
-            // 获取设备信息
             EqDevice device = deviceMapper.selectEqDeviceByDeviceId(deviceId);
             if (device == null) {
                 return AjaxResult.error("设备不存在");
             }
             
-            // 获取设备最新状态
             EqDeviceStatus statusQuery = new EqDeviceStatus();
             statusQuery.setDeviceId(deviceId);
             List<EqDeviceStatus> statusList = deviceStatusMapper.selectEqDeviceStatusList(statusQuery);
             EqDeviceStatus latestStatus = statusList.isEmpty() ? null : statusList.get(0);
             
-            // 获取未解决的故障记录
             EqFaultRecord faultQuery = new EqFaultRecord();
             faultQuery.setDeviceId(deviceId);
-            faultQuery.setStatus(1); // 待处理
+            faultQuery.setStatus(1);
             List<EqFaultRecord> faultList = faultRecordMapper.selectEqFaultRecordList(faultQuery);
             
-            // 获取未解决的告警记录
             EqAlertRecord alertQuery = new EqAlertRecord();
             alertQuery.setDeviceId(deviceId);
-            alertQuery.setStatus(1); // 已触发
+            alertQuery.setStatus(1);
             List<EqAlertRecord> alertList = alertRecordMapper.selectEqAlertRecordList(alertQuery);
             
-            // 生成表单
             AiMaintenanceForm form = generateForm(device, latestStatus, faultList, alertList);
             
             if (saveToDb) {
                 maintenanceFormMapper.insertAiMaintenanceForm(form);
                 logger.info("运维表单已保存到数据库，表单ID: {}, 设备ID: {}", form.getFormId(), deviceId);
+                if (sysUserMessageService != null) {
+                    sysUserMessageService.notifyMaintenanceFormPending(form);
+                }
             }
             
             return AjaxResult.success("表单生成成功", form);
@@ -262,13 +292,6 @@ public class MaintenanceFormService {
         }
     }
     
-    /**
-     * 批量生成运维表单
-     * 
-     * @param deviceIds 设备ID列表
-     * @param saveToDb 是否保存到数据库
-     * @return 生成结果
-     */
     public AjaxResult batchGenerateForms(List<Long> deviceIds, boolean saveToDb) {
         List<Map<String, Object>> results = new ArrayList<>();
         int successCount = 0;
@@ -312,9 +335,6 @@ public class MaintenanceFormService {
         return AjaxResult.success("批量生成完成", summary);
     }
     
-    /**
-     * 生成运维表单
-     */
     private AiMaintenanceForm generateForm(EqDevice device, EqDeviceStatus status, 
                                           List<EqFaultRecord> faultList, 
                                           List<EqAlertRecord> alertList) {
@@ -325,115 +345,179 @@ public class MaintenanceFormService {
         form.setCreatedBy("AI系统");
         form.setCreatedTime(new Date());
         
-        // 构建故障描述
-        StringBuilder faultDesc = new StringBuilder();
-        if (status != null && status.getFaultDescription() != null) {
-            faultDesc.append(status.getFaultDescription());
-        }
-        for (EqFaultRecord fault : faultList) {
-            if (faultDesc.length() > 0) faultDesc.append("；");
-            faultDesc.append(fault.getFaultDescription());
-            if (fault.getFaultCode() != null) {
-                faultDesc.append("（").append(fault.getFaultCode()).append("）");
-            }
-        }
-        for (EqAlertRecord alert : alertList) {
-            if (faultDesc.length() > 0) faultDesc.append("；");
-            faultDesc.append(alert.getAlertMessage());
-        }
-        if (faultDesc.length() == 0) {
-            faultDesc.append("需维护检查");
-        }
-        form.setFaultDescription(faultDesc.toString());
+        String compactFacts = buildCompactFaultFacts(status, faultList, alertList);
+        form.setFaultDescription(summarizeFaultDescriptionAi(compactFacts));
         
-        // 确定维护类型
         String maintenanceType = determineMaintenanceType(status, faultList, alertList);
         form.setMaintenanceType(maintenanceType);
         
-        // 确定优先级
         String priority = determinePriority(status, faultList, alertList);
         form.setPriorityLevel(priority);
         
-        // 估算耗时
         Integer estimatedTime = estimateTime(status, faultList, alertList);
         form.setEstimatedTime(estimatedTime);
         
-        // 所需工具
         List<String> tools = determineRequiredTools(device, status, faultList);
         form.setRequiredTools(JSON.toJSONString(tools));
         
-        // 安全注意事项
         String safety = generateSafetyPrecautions(device, status);
         form.setSafetyPrecautions(safety);
         
-        // 操作步骤
         List<Map<String, String>> steps = generateSteps(device, status, faultList);
         form.setStepByStepGuide(JSON.toJSONString(steps));
         
-        // 预期结果
         String expectedOutcome = generateExpectedOutcome(device, status);
         form.setExpectedOutcome(expectedOutcome);
         
         return form;
     }
-    
+
+    /** 去掉状态表里拼接的「关联数据概览」及之后内容，避免把条数统计喂给模型或展示。 */
+    private static String stripDataOverviewBlock(String s) {
+        if (s == null) {
+            return "";
+        }
+        int idx = s.indexOf("【关联数据概览】");
+        if (idx < 0) {
+            idx = s.indexOf("关联数据概览");
+        }
+        if (idx >= 0) {
+            return s.substring(0, idx).trim();
+        }
+        return s.trim();
+    }
+
     /**
-     * 确定维护类型
+     * 生成运维单故障描述的事实输入：优先待处理故障与未恢复告警；若无则使用已剥离概览块的状态说明。
      */
+    private String buildCompactFaultFacts(EqDeviceStatus status, List<EqFaultRecord> faultList,
+        List<EqAlertRecord> alertList) {
+        List<String> facts = new ArrayList<>();
+        if (faultList != null) {
+            for (EqFaultRecord fault : faultList) {
+                if (fault.getFaultDescription() != null && !fault.getFaultDescription().isBlank()) {
+                    String line = fault.getFaultDescription().trim();
+                    if (fault.getFaultCode() != null && !fault.getFaultCode().isBlank()) {
+                        line = line + " 故障码 " + fault.getFaultCode();
+                    }
+                    facts.add(line);
+                }
+            }
+        }
+        if (alertList != null) {
+            for (EqAlertRecord alert : alertList) {
+                if (alert.getAlertMessage() != null && !alert.getAlertMessage().isBlank()) {
+                    facts.add(alert.getAlertMessage().trim());
+                }
+            }
+        }
+        if (facts.isEmpty() && status != null && status.getFaultDescription() != null) {
+            String st = stripDataOverviewBlock(status.getFaultDescription());
+            if (st != null && !st.isBlank()) {
+                facts.add(st);
+            }
+        }
+        if (facts.isEmpty()) {
+            return "需维护检查";
+        }
+        return String.join("；", facts);
+    }
+
+    private String summarizeFaultDescriptionAi(String compactFacts) {
+        if (compactFacts == null || compactFacts.isBlank()) {
+            return "需维护检查";
+        }
+        if (chatClient == null) {
+            return shortenProfessional(compactFacts, 500);
+        }
+        try {
+            String reply = chatClient.prompt()
+                .system("你是电力运维技术专家。根据下列与设备相关的异常要点，用中文写一段故障描述（可作运维单字段）。\n"
+                    + "要求：\n"
+                    + "1）3～6 句，可适度换行，每句简明；\n"
+                    + "2）仅描述现象、影响与处置关注点；\n"
+                    + "3）禁止使用【】、星号、Markdown、括号列举统计；\n"
+                    + "4）不要写「几条数据」「有数据」等与条数统计相关的表述；\n"
+                    + "5）不要使用过多分号或特殊符号，语句专业、通顺。")
+                .user(compactFacts)
+                .call()
+                .content();
+            if (reply != null) {
+                String t = reply.trim();
+                if (t.startsWith("```")) {
+                    int nl = t.indexOf('\n');
+                    if (nl > 0) {
+                        t = t.substring(nl + 1);
+                    }
+                    if (t.endsWith("```")) {
+                        t = t.substring(0, t.length() - 3).trim();
+                    }
+                }
+                if (!t.isBlank()) {
+                    return t;
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("summarizeFaultDescriptionAi failed: {}", e.getMessage());
+        }
+        return shortenProfessional(compactFacts, 500);
+    }
+
+    private static String shortenProfessional(String s, int maxLen) {
+        if (s == null) {
+            return "";
+        }
+        String t = s.replaceAll("\\s+", " ").trim();
+        if (t.length() <= maxLen) {
+            return t;
+        }
+        return t.substring(0, Math.max(0, maxLen - 1)) + "…";
+    }
+    
     private String determineMaintenanceType(EqDeviceStatus status, 
                                           List<EqFaultRecord> faultList, 
                                           List<EqAlertRecord> alertList) {
-        // 如果有故障记录，优先判断为纠正性维护
         if (faultList != null && !faultList.isEmpty()) {
             for (EqFaultRecord fault : faultList) {
-                if ("1".equals(fault.getFaultLevel())) { // 紧急
+                if ("1".equals(fault.getFaultLevel())) {
                     return "紧急";
                 }
             }
             return "纠正性";
         }
         
-        // 如果有告警，可能是预测性维护
         if (alertList != null && !alertList.isEmpty()) {
             return "预测性";
         }
         
-        // 如果状态是警告，可能是预防性维护
         if (status != null && status.getStatus() != null && status.getStatus() == 2) {
             return "预防性";
         }
         
-        // 如果需要维护标志，可能是预防性
         if (status != null && status.getMaintenanceRequired() != null && status.getMaintenanceRequired() == 1) {
             return "预防性";
         }
         
-        return "预防性"; // 默认
+        return "预防性";
     }
     
-    /**
-     * 确定优先级
-     */
     private String determinePriority(EqDeviceStatus status, 
                                      List<EqFaultRecord> faultList, 
                                      List<EqAlertRecord> alertList) {
-        // 检查故障等级
         if (faultList != null && !faultList.isEmpty()) {
             for (EqFaultRecord fault : faultList) {
                 String level = fault.getFaultLevel();
-                if ("1".equals(level)) return "高"; // 紧急
-                if ("2".equals(level)) return "高"; // 严重
+                if ("1".equals(level)) return "高";
+                if ("2".equals(level)) return "高";
             }
         }
         
-        // 检查设备状态
         if (status != null && status.getStatus() != null) {
-            if (status.getStatus() == 3) return "高"; // 错误
-            if (status.getStatus() == 4) return "高"; // 离线
-            if (status.getStatus() == 2) return "中"; // 警告
+            if (status.getStatus() == 3) return "高";
+            if (status.getStatus() == 4) return "高";
+            if (status.getStatus() == 2) return "中";
         }
         
-        // 检查告警级别
         if (alertList != null && !alertList.isEmpty()) {
             for (EqAlertRecord alert : alertList) {
                 if (alert.getAlertLevel() != null && alert.getAlertLevel() <= 2) {
@@ -442,16 +526,13 @@ public class MaintenanceFormService {
             }
         }
         
-        return "中"; // 默认
+        return "中";
     }
     
-    /**
-     * 估算耗时（分钟）
-     */
     private Integer estimateTime(EqDeviceStatus status, 
                                  List<EqFaultRecord> faultList, 
                                  List<EqAlertRecord> alertList) {
-        int baseTime = 30; // 基础30分钟
+        int baseTime = 30;
         
         if (faultList != null && !faultList.isEmpty()) {
             for (EqFaultRecord fault : faultList) {
@@ -462,16 +543,13 @@ public class MaintenanceFormService {
         }
         
         if (status != null && status.getStatus() != null) {
-            if (status.getStatus() == 3) baseTime += 60; // 错误状态增加60分钟
-            if (status.getStatus() == 4) baseTime += 120; // 离线状态增加120分钟
+            if (status.getStatus() == 3) baseTime += 60;
+            if (status.getStatus() == 4) baseTime += 120;
         }
         
         return baseTime;
     }
     
-    /**
-     * 确定所需工具
-     */
     private List<String> determineRequiredTools(EqDevice device, 
                                                 EqDeviceStatus status, 
                                                 List<EqFaultRecord> faultList) {
@@ -499,9 +577,6 @@ public class MaintenanceFormService {
         return tools;
     }
     
-    /**
-     * 生成安全注意事项
-     */
     private String generateSafetyPrecautions(EqDevice device, EqDeviceStatus status) {
         StringBuilder safety = new StringBuilder();
         safety.append("1. 操作前必须切断电源，确保设备完全断电；\n");
@@ -518,9 +593,6 @@ public class MaintenanceFormService {
         return safety.toString();
     }
     
-    /**
-     * 生成操作步骤
-     */
     private List<Map<String, String>> generateSteps(EqDevice device, 
                                                     EqDeviceStatus status, 
                                                     List<EqFaultRecord> faultList) {
@@ -575,9 +647,6 @@ public class MaintenanceFormService {
         return steps;
     }
     
-    /**
-     * 生成预期结果
-     */
     private String generateExpectedOutcome(EqDevice device, EqDeviceStatus status) {
         StringBuilder outcome = new StringBuilder();
         outcome.append("1. 设备故障得到解决，恢复正常运行状态；\n");
@@ -587,7 +656,6 @@ public class MaintenanceFormService {
         return outcome.toString();
     }
     
-    // 辅助方法
     private String getStatusText(Integer status) {
         if (status == null) return "未知";
         switch (status) {
@@ -608,7 +676,6 @@ public class MaintenanceFormService {
         return "中";
     }
 
-    /** 与 determinePriority 中告警级别逻辑一致，用于列表展示优先级 */
     private static String getPriorityFromAlertLevel(Integer level) {
         if (level == null) {
             return "中";
@@ -644,9 +711,6 @@ public class MaintenanceFormService {
         return Integer.compare(p1, p2);
     }
 
-    /**
-     * 为列表填充 issueAiSummary：综合状态、待处理故障、告警（仅展示，不写入运维表单）。
-     */
     private void fillIssueAiSummaries(List<Map<String, Object>> deviceList, boolean useAiIssueSummary) {
         List<Map<String, Object>> need = new ArrayList<>();
         for (Map<String, Object> d : deviceList) {
@@ -712,7 +776,6 @@ public class MaintenanceFormService {
         return fd != null && !fd.isBlank();
     }
 
-    /** 无大模型时：把状态、状态表说明、待处理故障、告警拼成一段短文案 */
     private static String ruleBasedCombinedSummary(Map<String, Object> d) {
         List<String> parts = new ArrayList<>();
         Integer st = (Integer) d.get("status");

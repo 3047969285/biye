@@ -117,25 +117,19 @@
                   </el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="问题描述" min-width="130" show-overflow-tooltip>
+              <el-table-column label="问题描述" min-width="130">
                 <template slot-scope="scope">
                   <div v-if="hasIssueDisplay(scope.row)">
                     <el-tooltip effect="dark" placement="top" :open-delay="300">
                       <div slot="content" class="issues-tooltip">
-                        <div v-if="trimStr(scope.row.issueAiSummary)" class="issue-ai-tooltip">
-                          {{ scope.row.issueAiSummary }}
-                        </div>
                         <template v-if="scope.row.pendingFaults && scope.row.pendingFaults.length">
-                          <div v-if="trimStr(scope.row.issueAiSummary)" class="issues-tooltip-sep" />
                           <div class="issues-tooltip-cap">待处理故障</div>
-                          <div v-for="(line, idx) in scope.row.pendingFaults" :key="'f' + idx">{{ line }}</div>
+                          <div v-for="(line, idx) in scope.row.pendingFaults" :key="'f' + idx">{{ issueDescriptionDisplayText(line) }}</div>
                         </template>
                         <template v-if="scope.row.issues && scope.row.issues.length">
-                          <div v-if="trimStr(scope.row.issueAiSummary) || (scope.row.pendingFaults && scope.row.pendingFaults.length)" class="issues-tooltip-sep" />
+                          <div v-if="scope.row.pendingFaults && scope.row.pendingFaults.length" class="issues-tooltip-sep" />
                           <div class="issues-tooltip-cap">未恢复告警</div>
-                          <div v-for="(issue, index) in scope.row.issues" :key="'a' + index">
-                            {{ issue }}
-                          </div>
+                          <div v-for="(issue, index) in scope.row.issues" :key="'a' + index">{{ issueDescriptionDisplayText(issue) }}</div>
                         </template>
                       </div>
                       <span class="issue-inline">{{ formatIssueDescriptionCell(scope.row) }}</span>
@@ -238,6 +232,29 @@
               </el-button>
             </div>
           </div>
+          <div v-if="batchGeneratedForms.length > 0" class="batch-form-picker">
+            <div class="batch-form-picker__title">本次批量生成（{{ batchGeneratedForms.length }}）</div>
+            <el-collapse
+              accordion
+              v-model="batchCollapseActive"
+              @change="onBatchCollapseChange"
+              class="batch-form-collapse"
+            >
+              <el-collapse-item
+                v-for="(f, i) in batchGeneratedForms"
+                :key="'batch-form-' + i + '-' + (f.deviceId || i)"
+                :name="'batch-' + i"
+              >
+                <template slot="title">
+                  <span class="batch-form-picker__item-title">{{ f.deviceName || "设备" }} · #{{ f.deviceId }}</span>
+                  <el-tag size="mini" :type="getMaintenanceTypeTagType(f.maintenanceType)">{{ f.maintenanceType }}</el-tag>
+                  <el-tag size="mini" type="info">{{ f.priorityLevel }}</el-tag>
+                </template>
+                <div class="batch-form-picker__snippet">{{ truncateText(f.faultDescription, 220) }}</div>
+              </el-collapse-item>
+            </el-collapse>
+          </div>
+
           <div 
             class="form-content form-content-scroll" 
             id="form-content"
@@ -404,13 +421,13 @@
         </el-descriptions-item>
         <el-descriptions-item label="待处理故障" :span="2">
           <ul v-if="selectedDevice.pendingFaults && selectedDevice.pendingFaults.length" class="issue-list">
-            <li v-for="(line, index) in selectedDevice.pendingFaults" :key="'pf' + index">{{ line }}</li>
+            <li v-for="(line, index) in selectedDevice.pendingFaults" :key="'pf' + index">{{ issueDescriptionDisplayText(line) }}</li>
           </ul>
           <span v-else class="text-muted">无</span>
         </el-descriptions-item>
         <el-descriptions-item label="未恢复告警" :span="2">
           <ul v-if="selectedDevice.issues && selectedDevice.issues.length" class="issue-list">
-            <li v-for="(issue, index) in selectedDevice.issues" :key="index">{{ issue }}</li>
+            <li v-for="(issue, index) in selectedDevice.issues" :key="index">{{ issueDescriptionDisplayText(issue) }}</li>
           </ul>
           <span v-else class="text-muted">无</span>
         </el-descriptions-item>
@@ -597,6 +614,9 @@ export default {
       filteredDeviceList: [],
       selectedDevices: [],
       currentForm: null,
+      /** 本次批量生成成功的表单列表，用于展开切换查看 */
+      batchGeneratedForms: [],
+      batchCollapseActive: "",
       searchKeyword: "",
       filterStatus: "",
       filterPriority: "",
@@ -654,17 +674,68 @@ export default {
       }
     },
   },
+  watch: {
+    "$route.query.formId"(val) {
+      if (val) {
+        this.$nextTick(() => this.tryOpenFormFromRoute());
+      }
+    },
+    "$route.query.deviceId"(val) {
+      if (val) {
+        this.$nextTick(() => this.tryOpenDeviceFromRoute());
+      }
+    }
+  },
   mounted() {
-    Promise.all([this.loadDevices(), this.loadFormHistory()]).catch(() => {});
+    Promise.all([this.loadDevices(), this.loadFormHistory()])
+      .then(() => {
+        this.$nextTick(() => {
+          this.initSplitWidth();
+          this.tryOpenFormFromRoute();
+          this.tryOpenDeviceFromRoute();
+        });
+      })
+      .catch(() => {});
     this.onWinResize();
     window.addEventListener("resize", this.onWinResize);
-    this.$nextTick(() => this.initSplitWidth());
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onWinResize);
     this.stopSplitDrag();
   },
   methods: {
+    async tryOpenFormFromRoute() {
+      const fid = this.$route.query.formId;
+      if (fid == null || fid === "") return;
+      const id = parseInt(String(fid), 10);
+      if (!Number.isFinite(id) || id <= 0) return;
+      try {
+        const res = await getAiMaintenanceFormById(id);
+        if (res && res.code === 200 && res.data) {
+          this.clearBatchList();
+          this.currentForm = res.data;
+          this.showFormHistory = false;
+          this.$nextTick(() => {
+            const formSection = document.querySelector(".form-section");
+            if (formSection) {
+              formSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          });
+        }
+      } catch (e) {
+        /* ignore */
+      }
+    },
+    tryOpenDeviceFromRoute() {
+      const did = this.$route.query.deviceId;
+      if (did == null || did === "") return;
+      const id = parseInt(String(did), 10);
+      if (!Number.isFinite(id) || id <= 0) return;
+      const row = (this.deviceList || []).find((d) => d.deviceId === id);
+      if (row) {
+        this.viewDeviceDetail(row);
+      }
+    },
     initSplitWidth() {
       const el = this.$refs.splitWorkspace;
       if (!el || this.splitLayoutNarrow) return;
@@ -718,30 +789,36 @@ export default {
       return s != null && String(s).trim().length > 0;
     },
     hasIssueDisplay(row) {
-      return (
-        this.trimStr(row.issueAiSummary) ||
-        (row.issues && row.issues.length > 0) ||
-        (row.pendingFaults && row.pendingFaults.length > 0)
-      );
+      return (row.issues && row.issues.length > 0) || (row.pendingFaults && row.pendingFaults.length > 0);
     },
-    /** 表格单元格：优先综合摘要；否则待处理故障/告警一行 */
+    /** 去掉英文字母，仅展示中文与数字等内容 */
+    issueDescriptionDisplayText(raw) {
+      if (raw == null || raw === "") return "";
+      let t = String(raw).replace(/[A-Za-z]+/g, "");
+      t = t.replace(/[ \t\u00A0]+/g, " ");
+      t = t.replace(/\s*([,，.:：;；、])\s*/g, "$1");
+      t = t.replace(/\s+/g, " ").trim();
+      t = t.replace(/^[,，.:：;；、\s]+|[,，.:：;；、\s]+$/g, "").trim();
+      return t;
+    },
+    /** 表格单元格：待处理故障 + 未恢复告警，与浮层一致，不显示英文单词 */
     formatIssueDescriptionCell(row) {
-      if (this.trimStr(row.issueAiSummary)) {
-        const t = String(row.issueAiSummary).trim();
-        return t.length > 56 ? t.slice(0, 53) + "…" : t;
+      const parts = [];
+      if (row.pendingFaults && row.pendingFaults.length) {
+        row.pendingFaults.forEach((s) => {
+          const d = this.issueDescriptionDisplayText(s);
+          if (d) parts.push(d);
+        });
       }
       if (row.issues && row.issues.length) {
-        return this.formatIssuesOneLine(row.issues);
+        row.issues.forEach((s) => {
+          const d = this.issueDescriptionDisplayText(s);
+          if (d) parts.push(d);
+        });
       }
-      if (row.pendingFaults && row.pendingFaults.length) {
-        return this.formatIssuesOneLine(row.pendingFaults);
-      }
-      return "";
-    },
-    formatIssuesOneLine(issues) {
-      if (!issues || !issues.length) return "";
-      const s = issues.join("；");
-      return s.length > 56 ? s.slice(0, 53) + "…" : s;
+      if (!parts.length) return "—";
+      const j = parts.join("；");
+      return j.length > 56 ? j.slice(0, 53) + "…" : j;
     },
     // 加载设备列表；首屏 withAi=false 快；手动「刷新」传 true 再走大模型摘要
     async loadDevices(withAiSummary) {
@@ -840,6 +917,7 @@ export default {
           // 处理返回的数据
           let formData = res.data;
           if (formData && typeof formData === 'object') {
+            this.clearBatchList();
             this.currentForm = formData;
             this.$modal.msgSuccess("已生成");
             
@@ -884,16 +962,17 @@ export default {
           const deviceIds = this.selectedDevices.map(d => d.deviceId);
           const res = await batchGenerateForms(deviceIds, false);
           if (res.code === 200) {
-            const summary = res.data;
+            const summary = res.data || {};
+            const results = Array.isArray(summary.results) ? summary.results : [];
+            const forms = results.filter((r) => r && r.success && r.form).map((r) => r.form);
+            this.batchGeneratedForms = forms;
+            this.currentForm = forms.length > 0 ? forms[0] : null;
+            this.$nextTick(() => {
+              this.batchCollapseActive = forms.length > 0 ? "batch-0" : "";
+            });
             this.$modal.msgSuccess(
               `批量生成完成：成功 ${summary.success} 个，失败 ${summary.fail} 个`
             );
-            if (summary.success === 1 && summary.results && summary.results.length > 0) {
-              const result = summary.results.find(r => r.success);
-              if (result && result.form) {
-                this.currentForm = result.form;
-              }
-            }
             this.loadFormHistory();
           } else {
             this.$modal.msgError(res.msg || "批量生成失败");
@@ -919,6 +998,7 @@ export default {
         if (res.code === 200) {
           this.$modal.msgSuccess("已保存");
           this.currentForm = res.data;
+          this.syncCurrentFormIntoBatchList();
           this.loadFormHistory();
         } else {
           this.$modal.msgError(res.msg || "保存失败");
@@ -971,6 +1051,7 @@ export default {
           const detailRes = await getAiMaintenanceFormById(this.currentForm.formId);
           if (detailRes && detailRes.code === 200) {
             this.currentForm = detailRes.data;
+            this.syncCurrentFormIntoBatchList();
           }
           this.loadFormHistory();
         } else {
@@ -1039,6 +1120,7 @@ export default {
             const detailRes = await getAiMaintenanceFormById(this.editForm.formId);
             if (detailRes && detailRes.code === 200) {
               this.currentForm = detailRes.data;
+              this.syncCurrentFormIntoBatchList();
             }
             this.loadFormHistory();
           } else {
@@ -1052,6 +1134,7 @@ export default {
       } else {
         // 如果没有表单ID，只在前端更新
         this.currentForm = { ...this.currentForm, ...this.editForm };
+        this.syncCurrentFormIntoBatchList();
         this.formEditVisible = false;
         this.$modal.msgSuccess("已更新");
       }
@@ -1104,6 +1187,7 @@ export default {
           const detailRes = await getAiMaintenanceFormById(this.statusEditForm.formId);
           if (detailRes && detailRes.code === 200) {
             this.currentForm = detailRes.data;
+            this.syncCurrentFormIntoBatchList();
           }
           this.loadFormHistory();
         } else {
@@ -1237,13 +1321,61 @@ export default {
             type: "warning"
           }
         ).then(() => {
+          this.clearBatchList();
           this.currentForm = null;
           this.$modal.msgSuccess("已清空");
         }).catch(() => {});
       } else {
+        this.clearBatchList();
         this.currentForm = null;
         this.$modal.msgSuccess("已清空");
       }
+    },
+
+    clearBatchList() {
+      this.batchGeneratedForms = [];
+      this.batchCollapseActive = "";
+    },
+
+    /** 保存/更新后当前表单对象已替换时，同步批量列表中同设备项 */
+    syncCurrentFormIntoBatchList() {
+      if (!this.currentForm || !this.batchGeneratedForms.length) {
+        return;
+      }
+      const did = this.currentForm.deviceId;
+      const i = this.batchGeneratedForms.findIndex(
+        (f) => f && (f.deviceId === did || Number(f.deviceId) === Number(did))
+      );
+      if (i >= 0) {
+        this.$set(this.batchGeneratedForms, i, this.currentForm);
+      }
+    },
+
+    onBatchCollapseChange(activeName) {
+      if (activeName == null || activeName === "") {
+        return;
+      }
+      const m = /^batch-(\d+)$/.exec(String(activeName));
+      if (!m) {
+        return;
+      }
+      const i = parseInt(m[1], 10);
+      const f = this.batchGeneratedForms[i];
+      if (f) {
+        this.currentForm = f;
+      }
+    },
+
+    truncateText(text, maxLen) {
+      if (text == null || text === "") {
+        return "—";
+      }
+      const s = String(text).replace(/\s+/g, " ").trim();
+      const n = maxLen != null ? maxLen : 200;
+      if (s.length <= n) {
+        return s;
+      }
+      return s.slice(0, n) + "…";
     },
     
     // 删除历史记录中的表单
@@ -1298,7 +1430,17 @@ export default {
           
           if (res && res.code === 200) {
             this.$modal.msgSuccess("删除成功");
-            this.currentForm = null;
+            const fid = this.currentForm.formId;
+            this.batchGeneratedForms = (this.batchGeneratedForms || []).filter(
+              (f) => !f.formId || Number(f.formId) !== Number(fid)
+            );
+            if (this.batchGeneratedForms.length > 0) {
+              this.currentForm = this.batchGeneratedForms[0];
+              this.batchCollapseActive = "batch-0";
+            } else {
+              this.currentForm = null;
+              this.batchCollapseActive = "";
+            }
             // 重新加载历史记录
             this.loadFormHistory();
           } else {
@@ -1344,6 +1486,7 @@ export default {
     
     // 从历史记录加载表单
     loadFormFromHistory(form) {
+      this.clearBatchList();
       this.currentForm = form;
       this.showFormHistory = false;
       this.$modal.msgSuccess("已加载");
@@ -1351,6 +1494,7 @@ export default {
     
     // 查看表单详情
     viewFormDetail(form) {
+      this.clearBatchList();
       this.currentForm = form;
       this.showFormHistory = false;
       this.$nextTick(() => {
@@ -1719,6 +1863,46 @@ export default {
       justify-content: flex-end;
     }
 
+    .batch-form-picker {
+      margin-bottom: 12px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid $border-color;
+      &__title {
+        font-size: 13px;
+        font-weight: 600;
+        color: $text-primary;
+        margin-bottom: 8px;
+      }
+      &__item-title {
+        margin-right: 8px;
+        font-weight: 500;
+      }
+      &__snippet {
+        font-size: 12px;
+        color: $text-secondary;
+        line-height: 1.55;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+    }
+    .batch-form-collapse {
+      border: none;
+      ::v-deep .el-collapse-item__header {
+        height: auto;
+        min-height: 42px;
+        line-height: 1.45;
+        padding: 8px 10px;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      ::v-deep .el-collapse-item__wrap {
+        border-bottom: none;
+      }
+      ::v-deep .el-collapse-item__content {
+        padding-bottom: 10px;
+      }
+    }
+
     .form-content {
       // 表单描述列表样式覆盖
       ::v-deep .form-descriptions {
@@ -1825,6 +2009,7 @@ export default {
         border-left: 3px solid $accent-color;
         border-radius: 4px;
         font-size: 14px;
+        white-space: pre-line;
       }
       
       .tools-container {

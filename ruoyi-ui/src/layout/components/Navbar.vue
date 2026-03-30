@@ -7,13 +7,25 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <search id="header-search" class="right-menu-item" />
-
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
+        <div class="right-menu-tools">
+          <div class="navbar-tool-slot is-clickable">
+            <message-center id="header-message" />
+          </div>
+          <div class="navbar-tool-slot is-clickable">
+            <search id="header-search" />
+          </div>
+          <div class="navbar-tool-slot is-clickable">
+            <screenfull id="screenfull" />
+          </div>
+        </div>
+      </template>
+      <template v-else>
+        <div class="navbar-tool-slot is-clickable navbar-tool-slot--mobile">
+          <message-center id="header-message-mobile" />
+        </div>
       </template>
 
-      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="hover">
+      <el-dropdown class="avatar-container" trigger="hover">
         <div class="avatar-wrapper">
           <img :src="avatar" class="user-avatar">
           <span class="user-nickname"> {{ nickName }} </span>
@@ -25,7 +37,7 @@
           <el-dropdown-item @click.native="setLayout" v-if="setting">
             <span>布局设置</span>
           </el-dropdown-item>
-          <el-dropdown-item divided @click.native="logout">
+          <el-dropdown-item class="navbar-logout-item" @click.native="logout">
             <span>退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -42,6 +54,7 @@ import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
+import MessageCenter from '@/components/MessageCenter'
 
 export default {
   emits: ['setLayout'],
@@ -51,7 +64,8 @@ export default {
     Hamburger,
     Screenfull,
     SizeSelect,
-    Search
+    Search,
+    MessageCenter
   },
   computed: {
     ...mapGetters([
@@ -140,63 +154,121 @@ export default {
   .right-menu {
     float: right;
     height: 100%;
-    line-height: 50px;
+    display: flex;
+    align-items: center;
+    padding-right: 12px;
 
     &:focus {
       outline: none;
     }
 
-    .right-menu-item {
-      display: inline-block;
-      padding: 0 12px;
+    .right-menu-tools {
+      display: flex;
+      align-items: center;
       height: 100%;
-      font-size: 18px;
-      color: $text-secondary;
-      vertical-align: text-bottom;
-      transition: all 0.2s ease;
+      gap: 2px;
+      margin-right: 4px;
+    }
 
-      &.hover-effect {
+    .navbar-tool-slot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      height: 50px;
+      border-radius: 8px;
+      transition: background 0.2s ease, color 0.2s ease;
+
+      &.is-clickable {
         cursor: pointer;
-        margin: 8px 4px;
+        color: $text-secondary;
 
         &:hover {
           background: $hover-bg;
-          color: $accent-color;
+          ::v-deep .svg-icon {
+            color: $accent-color;
+          }
+          ::v-deep .search-icon {
+            color: $accent-color;
+          }
+          ::v-deep .message-bell-icon {
+            color: $accent-color;
+          }
         }
+      }
+
+      &--mobile {
+        margin-right: 4px;
+      }
+
+      ::v-deep .header-search {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        line-height: 1;
+      }
+
+      ::v-deep .search-icon {
+        color: $text-secondary;
+        font-size: 18px;
+        transition: color 0.2s ease;
+      }
+
+      ::v-deep > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      ::v-deep .svg-icon {
+        color: $text-secondary;
+        font-size: 18px;
+        transition: color 0.2s ease;
       }
     }
 
     .avatar-container {
-      margin-right: 0px;
-      padding-right: 0px;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding-left: 8px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: $hover-bg;
+      }
 
       .avatar-wrapper {
-        margin-top: 10px;
-        right: 8px;
-        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 100%;
+        padding: 0 4px;
 
         .user-avatar {
           cursor: pointer;
-          width: 30px;
-          height: 30px;
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
+          flex-shrink: 0;
         }
 
-        .user-nickname{
-          position: relative;
-          bottom: 10px;
-          left: 2px;
+        .user-nickname {
           font-size: 14px;
           font-weight: 500;
           color: $text-primary;
+          line-height: 1;
+          max-width: 96px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         .el-icon-caret-bottom {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
+          display: none;
         }
       }
     }
