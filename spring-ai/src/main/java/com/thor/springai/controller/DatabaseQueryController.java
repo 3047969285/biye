@@ -21,8 +21,12 @@ public class DatabaseQueryController extends BaseController {
     @Autowired
     private DatabaseQueryService databaseQueryService;
 
+    private final ChatClient chatClient;
+    
     @Autowired
-    private ChatClient chatClient;
+    public DatabaseQueryController(ChatClient.Builder builder) {
+        this.chatClient = builder.build();
+    }
 
     @Autowired
     private IAiChatRecordService aiChatRecordService;

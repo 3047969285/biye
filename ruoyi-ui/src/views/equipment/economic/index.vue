@@ -33,7 +33,7 @@
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="记录时间" align="center" prop="timestamp" width="160" />
+      <el-table-column label="记录时间" align="center" prop="timestamp" width="180" :formatter="formatTableTime" />
       <el-table-column label="维护成本" align="center" prop="maintainanceCost" width="120" />
       <el-table-column label="能耗" align="center" prop="energyConsumption" width="120" />
       <el-table-column label="人工成本" align="center" prop="laborCost" width="120" />
@@ -200,6 +200,21 @@ export default {
     this.getList();
   },
   methods: {
+    // 表格时间字段格式化
+    formatTableTime(row, column, cellValue) {
+      if (!cellValue) {
+        return '-';
+      }
+      try {
+        const dateObj = new Date(cellValue);
+        if (this.parseTime) {
+          return this.parseTime(dateObj, '{y}-{m}-{d} {h}:{i}:{s}');
+        }
+        return dateObj.toLocaleString();
+      } catch (e) {
+        return String(cellValue);
+      }
+    },
     getList() {
       this.loading = true;
       listEconomicData(this.queryParams).then(response => {

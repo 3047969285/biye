@@ -64,9 +64,15 @@ public class ChatHistoryController extends BaseController {
             List<AiChatRecord> records = new java.util.ArrayList<>(recordMap.values());
 
             records.sort((a, b) -> {
-                if (a.getCreateTime() == null && b.getCreateTime() == null) return 0;
-                if (a.getCreateTime() == null) return 1;
-                if (b.getCreateTime() == null) return -1;
+                if (a.getCreateTime() == null && b.getCreateTime() == null) {
+                    return 0;
+                }
+                if (a.getCreateTime() == null) {
+                    return 1;
+                }
+                if (b.getCreateTime() == null) {
+                    return -1;
+                }
                 return b.getCreateTime().compareTo(a.getCreateTime());
             });
 

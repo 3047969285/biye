@@ -255,7 +255,7 @@ public class DatabaseQueryService {
             String json = MAPPER.writeValueAsString(preview);
 
             String prompt = String.format(
-                    "你是数据库分析助手，请用中文简要总结查询结果，最多3条要点，给出关键数据量。\n" +
+                    "你是数据库分析助手，请用中文简要总结查询结果，最多7条要点，给出关键数据量。\n" +
                     "用户问题: %s\n" +
                     "SQL: %s\n" +
                     "结果行数: %d\n" +

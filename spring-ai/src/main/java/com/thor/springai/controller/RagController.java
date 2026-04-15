@@ -47,7 +47,9 @@ public class RagController extends BaseController {
     }
 
     private String cleanMarkdown(String text) {
-        if (text == null) return "";
+        if (text == null) {
+            return "";
+        }
         return text
             .replaceAll("^#+\\s*", "")
             .replaceAll("\\*\\*(.*?)\\*\\*", "$1")
@@ -67,8 +69,12 @@ public class RagController extends BaseController {
         try {
             String documentId = UUID.randomUUID().toString();
             Map<String, String> metadata = new HashMap<>();
-            if (title != null) metadata.put("title", title);
-            if (category != null) metadata.put("category", category);
+            if (title != null) {
+                metadata.put("title", title);
+            }
+            if (category != null) {
+                metadata.put("category", category);
+            }
             metadata.put("timestamp", String.valueOf(System.currentTimeMillis()));
 
             chromaRagService.addDocument(documentId, content, metadata);
@@ -242,7 +248,8 @@ public class RagController extends BaseController {
                 form.setSafetyPrecautions(response.getSafetyPrecautions());
                 form.setStepByStepGuide(JSON.toJSONString(response.getSteps()));
                 form.setExpectedOutcome(response.getExpectedOutcome());
-                form.setFormStatus("draft");
+                // 新生成的表单直接标记为已审批
+                form.setFormStatus("approved");
                 form.setCreatedBy("AI");
 
                 maintenanceFormMapper.insertAiMaintenanceForm(form);

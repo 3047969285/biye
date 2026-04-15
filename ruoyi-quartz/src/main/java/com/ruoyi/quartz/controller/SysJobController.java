@@ -1,18 +1,26 @@
 package com.ruoyi.quartz.controller;
 
+import java.io.File;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ruoyi.common.annotation.Anonymous;
+import com.ruoyi.quartz.dto.FileUploadRequest;
+import com.ruoyi.quartz.thrift.thrift.ThriftClient;
 import jakarta.servlet.http.HttpServletResponse;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.controller.BaseController;
@@ -32,12 +40,17 @@ import com.ruoyi.quartz.util.ScheduleUtils;
  * 
  * @author ruoyi
  */
+@Anonymous
 @RestController
 @RequestMapping("/monitor/job")
 public class SysJobController extends BaseController
 {
+    private static final String DEFAULT_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
     @Autowired
     private ISysJobService jobService;
+    @Autowired
+    private ThriftClient thriftClient;
 
     /**
      * 查询定时任务列表
@@ -182,4 +195,112 @@ public class SysJobController extends BaseController
         jobService.deleteJobByIds(jobIds);
         return success();
     }
+
+    @PostMapping("/upload")
+    public AjaxResult uploadFiles(@RequestBody FileUploadRequest request) throws JsonProcessingException {
+        if (request == null || request.getImgPath() == null || request.getImgPath().isEmpty()) {
+            return error("请选择要上传的文件！");
+        }
+
+        FileUploadRequest req = new FileUploadRequest();
+        req.setType("exImginfo");
+        req.setImgPath(request.getImgPath());
+
+        // 转换为 JSON 字符串
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonParam = mapper.writeValueAsString(req);
+        thriftClient.serverToWeb(jsonParam);
+
+        return AjaxResult.success("上传成功");
+    }
+
+    /**
+     * 按照中文模版格式返回字符串时间
+     */
+    @GetMapping("/time")
+    public static String Time(String chineseTemplate, String timeToConvert) {
+        String outputPattern = chineseTemplateToPattern(chineseTemplate);
+        LocalDateTime dateTime = parseFlexibleToLocalDateTime(timeToConvert);
+        return dateTime.format(DateTimeFormatter.ofPattern(outputPattern));
+    }
+
+    /** 中文占位 → DateTimeFormatter */
+    private static String chineseTemplateToPattern(String chineseTemplate) {
+        String pattern = Objects.toString(chineseTemplate, "").replace("\"", "").trim()
+                .replace("年年年年", "yyyy")
+                .replace("秒秒", "ss")
+                .replace("分分", "mm")
+                .replace("时时", "HH")
+                .replace("日日", "dd")
+                .replace("月月", "MM");
+        if (StringUtils.isEmpty(pattern)) {
+            return DEFAULT_DATE_TIME_PATTERN;
+        }
+        return pattern;
+    }
+
+    /**
+     * 解析为 LocalDateTime；空为当前时间；按照格式转化（含时间戳、ISO、中英文日期时间、纯日期、纯时间）。
+     */
+    private static LocalDateTime parseFlexibleToLocalDateTime(String timeToConvert) {
+        if (StringUtils.isEmpty(timeToConvert)) {
+            return LocalDateTime.now();
+        }
+        String text = timeToConvert.replace("\"", "").trim();
+        if (text.length() == 13 && text.chars().allMatch(Character::isDigit)) {
+            return LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(text)), ZoneId.systemDefault());
+        }
+        if (text.length() == 10 && text.chars().allMatch(Character::isDigit)) {
+            return LocalDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(text)), ZoneId.systemDefault());
+        }
+        String[] dateTimePatterns = {
+                "yyyy-MM-dd HH:mm:ss",
+                "yyyy-MM-dd HH:mm:ss.SSS",
+                "yyyy/MM/dd HH:mm:ss",
+                "yyyy-MM-dd'T'HH:mm:ss",
+                "yyyy-MM-dd'T'HH:mm:ss.SSS",
+                "yyyy-MM-dd HH:mm",
+                "yyyy年/MM月-dd日 HH:mm:ss",
+                "yyyy年/MM月-dd日 HH:mm",
+                "yyyy年/MM月-dd日 HH",
+        };
+        for (String p : dateTimePatterns) {
+            try {
+                return LocalDateTime.parse(text, DateTimeFormatter.ofPattern(p));
+            } catch (DateTimeParseException ignored) {
+            }
+        }
+        String[] datePatterns = {"yyyy-MM-dd", "yyyy/MM/dd", "yyyy年MM月dd日"};
+        for (String p : datePatterns) {
+            try {
+                return LocalDate.parse(text, DateTimeFormatter.ofPattern(p)).atStartOfDay();
+            } catch (DateTimeParseException ignored) {
+            }
+        }
+        String[] timePatterns = {"HH:mm:ss", "HH:mm:ss.SSS", "HH:mm", "HH", "H:mm:ss"};
+        for (String p : timePatterns) {
+            try {
+                return LocalDateTime.of(LocalDate.now(), LocalTime.parse(text, DateTimeFormatter.ofPattern(p)));
+            } catch (DateTimeParseException ignored) {
+            }
+        }
+        return LocalDateTime.now();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

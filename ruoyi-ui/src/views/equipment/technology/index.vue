@@ -53,7 +53,7 @@
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="更新时间" align="center" prop="timestamp" width="160" />
+      <el-table-column label="更新时间" align="center" prop="timestamp" width="180" :formatter="formatTableTime" />
       <el-table-column label="技术等级" align="center" prop="technologyLevel" width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.technologyLevel === 1" type="danger">落后</el-tag>
@@ -257,6 +257,21 @@ export default {
     this.getList();
   },
   methods: {
+    // 表格时间字段格式化
+    formatTableTime(row, column, cellValue) {
+      if (!cellValue) {
+        return '-';
+      }
+      try {
+        const dateObj = new Date(cellValue);
+        if (this.parseTime) {
+          return this.parseTime(dateObj, '{y}-{m}-{d} {h}:{i}:{s}');
+        }
+        return dateObj.toLocaleString();
+      } catch (e) {
+        return String(cellValue);
+      }
+    },
     getList() {
       this.loading = true;
       listTechnologyData(this.queryParams).then(response => {

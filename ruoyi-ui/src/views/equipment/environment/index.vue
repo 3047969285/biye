@@ -53,7 +53,7 @@
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="采集时间" align="center" prop="timestamp" width="160" />
+      <el-table-column label="采集时间" align="center" prop="timestamp" width="180" :formatter="formatTableTime" />
       <el-table-column label="环境温度(°C)" align="center" prop="ambientTemperature" width="120" />
       <el-table-column label="设备温度(°C)" align="center" prop="deviceTemperature" width="120" />
       <el-table-column label="湿度(%)" align="center" prop="humidity" width="100" />
@@ -256,6 +256,21 @@ export default {
     this.getList();
   },
   methods: {
+    // 表格时间字段格式化，兼容 2025-12-27T00:40:52.000+08:00
+    formatTableTime(row, column, cellValue) {
+      if (!cellValue) {
+        return '-';
+      }
+      try {
+        const dateObj = new Date(cellValue);
+        if (this.parseTime) {
+          return this.parseTime(dateObj, '{y}-{m}-{d} {h}:{i}:{s}');
+        }
+        return dateObj.toLocaleString();
+      } catch (e) {
+        return String(cellValue);
+      }
+    },
     getList() {
       this.loading = true;
       listEnvironmentData(this.queryParams).then(response => {

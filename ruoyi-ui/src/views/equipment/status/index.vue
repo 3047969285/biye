@@ -45,7 +45,7 @@
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="采集时间" align="center" prop="timestamp" width="160" />
+      <el-table-column label="采集时间" align="center" prop="timestamp" width="180" :formatter="formatTableTime" />
       <el-table-column label="温度(℃)" align="center" prop="temperature" width="100" />
       <el-table-column label="湿度(%)" align="center" prop="humidity" width="100" />
       <el-table-column label="压力(Pa)" align="center" prop="pressure" width="100" />
@@ -375,6 +375,21 @@ export default {
     }
   },
   methods: {
+    // 表格时间字段格式化，兼容 2025-12-27T00:40:52.000+08:00
+    formatTableTime(row, column, cellValue) {
+      if (!cellValue) {
+        return '-';
+      }
+      try {
+        const dateObj = new Date(cellValue);
+        if (this.parseTime) {
+          return this.parseTime(dateObj, '{y}-{m}-{d} {h}:{i}:{s}');
+        }
+        return dateObj.toLocaleString();
+      } catch (e) {
+        return String(cellValue);
+      }
+    },
     /** 加载设备信息 */
     loadDeviceInfo(deviceId) {
       if (!deviceId) return;
@@ -441,14 +456,14 @@ export default {
       console.log("修改按钮 - 行数据:", row);
       console.log("设备编号:", row.deviceNo);
       console.log("设备名称:", row.deviceName);
-      
+
       // 先从row中获取设备编号和设备名称（列表数据已包含）
       const formData = {
         ...row,
         deviceNo: row.deviceNo || '',
         deviceName: row.deviceName || ''
       };
-      
+
       // 获取完整详情数据（确保所有字段都有值）
       getDeviceStatus(statusId).then(response => {
         console.log("获取详情响应:", response);

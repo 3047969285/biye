@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "RuoYiApplication",
+            "request": "launch",
+            "mainClass": "com.ruoyi.RuoYiApplication",
+            "projectName": "ruoyi-admin"
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "针对 localhost 启动 Chrome",

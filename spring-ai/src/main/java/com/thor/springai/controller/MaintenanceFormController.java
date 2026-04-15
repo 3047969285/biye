@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ai/maintenance-form")
+@RequestMapping("/springai/maintenance-form")
 public class MaintenanceFormController extends BaseController {
     
     private static final Logger logger = LoggerFactory.getLogger(MaintenanceFormController.class);
@@ -35,8 +35,9 @@ public class MaintenanceFormController extends BaseController {
     @PostMapping("/generate")
     public AjaxResult generateForm(@RequestParam("deviceId") Long deviceId,
                                    @RequestParam(value = "saveToDb", defaultValue = "false") boolean saveToDb) {
-        logger.info("为设备生成运维表单，设备ID: {}, 保存到数据库: {}", deviceId, saveToDb);
-        return maintenanceFormService.generateFormForDevice(deviceId, saveToDb);
+        String createdBy = getUsername();
+        logger.info("为设备生成运维表单，设备ID: {}, 保存到数据库: {}, 创建人: {}", deviceId, saveToDb, createdBy);
+        return maintenanceFormService.generateFormForDevice(deviceId, saveToDb, createdBy);
     }
     
     @PostMapping("/batch-generate")
@@ -53,8 +54,9 @@ public class MaintenanceFormController extends BaseController {
                 }
             }
         }
-        logger.info("批量生成运维表单，设备数量: {}, 保存到数据库: {}", deviceIds.size(), saveToDb);
-        return maintenanceFormService.batchGenerateForms(deviceIds, saveToDb);
+        String createdBy = getUsername();
+        logger.info("批量生成运维表单，设备数量: {}, 保存到数据库: {}, 创建人: {}", deviceIds.size(), saveToDb, createdBy);
+        return maintenanceFormService.batchGenerateForms(deviceIds, saveToDb, createdBy);
     }
     
     @GetMapping("/forms")

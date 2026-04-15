@@ -1,4 +1,16 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cSpell.words": [
+        "aiconfig",
+        "Deom",
+        "jdbc",
+        "mybatis",
+        "ruoyi",
+        "springai",
+        "springframework",
+        "vectorstore"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true,
+    "maven.view": "flat"
 }

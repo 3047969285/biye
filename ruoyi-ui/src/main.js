@@ -20,6 +20,7 @@ import './permission' // permission control
 import { getDicts } from "@/api/system/dict/data"
 import { getConfigKey } from "@/api/system/config"
 import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi"
+import wsClient from '@/utils/websocket'
 // 分页组件
 import Pagination from "@/components/Pagination"
 // 自定义表格工具组件
@@ -78,6 +79,29 @@ Vue.config.productionTip = false
 
 // 初始化页面标题
 document.title = defaultSettings.title || '智能电网运维系统'
+
+// 全局初始化 WebSocket，用于系统消息
+try {
+  const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://'
+  const host = window.location.host
+  const url = `${protocol}${host}/websocket/ws`
+  wsClient.connect(url)
+  wsClient.addHandler((data) => {
+    if (!data || !data.type) return
+    if (data.type === 'maintenance_notice') {
+      const record = {
+        id: Date.now(),
+        title: data.title || '智能运维提醒',
+        message: data.message || '有设备需要生成智能运维表单或存在告警，请及时处理。',
+        count: data.count || 0,
+        time: parseTime ? parseTime(new Date(), '{y}-{m}-{d} {h}:{i}:{s}') : new Date().toLocaleString()
+      }
+      store.dispatch('notify/addNotifyMessage', record)
+    }
+  })
+} catch (e) {
+  // 忽略初始化失败
+}
 
 new Vue({
   el: '#app',

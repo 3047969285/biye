@@ -61,7 +61,7 @@
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="操作时间" align="center" prop="timestamp" width="160" />
+      <el-table-column label="操作时间" align="center" prop="timestamp" width="180" :formatter="formatTableTime" />
       <el-table-column label="操作员名称" align="center" prop="operatorName" width="120" />
       <el-table-column label="操作类型" align="center" prop="operationType" width="100">
         <template slot-scope="scope">
@@ -275,6 +275,21 @@ export default {
     this.getList();
   },
   methods: {
+    // 表格时间字段格式化，兼容 2025-12-27T00:40:52.000+08:00
+    formatTableTime(row, column, cellValue) {
+      if (!cellValue) {
+        return '-';
+      }
+      try {
+        const dateObj = new Date(cellValue);
+        if (this.parseTime) {
+          return this.parseTime(dateObj, '{y}-{m}-{d} {h}:{i}:{s}');
+        }
+        return dateObj.toLocaleString();
+      } catch (e) {
+        return String(cellValue);
+      }
+    },
     getList() {
       this.loading = true;
       listOperationalData(this.queryParams).then(response => {
