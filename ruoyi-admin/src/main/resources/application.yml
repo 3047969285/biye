@@ -66,6 +66,9 @@ user:
 
 # Spring配置
 spring:
+  # 允许 Bean 定义覆盖（解决自定义 vectorStore 与 Milvus 自动配置冲突）
+  main:
+    allow-bean-definition-overriding: true
   # 禁用 SQL 初始化（避免与 MyBatis Mapper 冲突）
   sql:
     init:
@@ -131,6 +134,7 @@ spring:
     exclude:
       - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAgentAutoConfiguration
       - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeEmbeddingAutoConfiguration
+      - org.springframework.ai.vectorstore.milvus.autoconfigure.MilvusVectorStoreAutoConfiguration
 # token配置
 token:
   # 令牌自定义标识

@@ -35,9 +35,8 @@ public class MaintenanceFormController extends BaseController {
     @PostMapping("/generate")
     public AjaxResult generateForm(@RequestParam("deviceId") Long deviceId,
                                    @RequestParam(value = "saveToDb", defaultValue = "false") boolean saveToDb) {
-        String createdBy = getUsername();
-        logger.info("为设备生成运维表单，设备ID: {}, 保存到数据库: {}, 创建人: {}", deviceId, saveToDb, createdBy);
-        return maintenanceFormService.generateFormForDevice(deviceId, saveToDb, createdBy);
+        logger.info("为设备生成运维表单，设备ID: {}, 保存到数据库: {}", deviceId, saveToDb);
+        return maintenanceFormService.generateFormForDevice(deviceId, saveToDb);
     }
     
     @PostMapping("/batch-generate")
@@ -54,9 +53,8 @@ public class MaintenanceFormController extends BaseController {
                 }
             }
         }
-        String createdBy = getUsername();
-        logger.info("批量生成运维表单，设备数量: {}, 保存到数据库: {}, 创建人: {}", deviceIds.size(), saveToDb, createdBy);
-        return maintenanceFormService.batchGenerateForms(deviceIds, saveToDb, createdBy);
+        logger.info("批量生成运维表单，设备数量: {}, 保存到数据库: {}", deviceIds.size(), saveToDb);
+        return maintenanceFormService.batchGenerateForms(deviceIds, saveToDb);
     }
     
     @GetMapping("/forms")

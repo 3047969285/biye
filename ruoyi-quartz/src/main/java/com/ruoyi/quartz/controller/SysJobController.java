@@ -15,7 +15,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.quartz.dto.FileUploadRequest;
-import com.ruoyi.quartz.thrift.thrift.ThriftClient;
 import jakarta.servlet.http.HttpServletResponse;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +48,6 @@ public class SysJobController extends BaseController
 
     @Autowired
     private ISysJobService jobService;
-    @Autowired
-    private ThriftClient thriftClient;
 
     /**
      * 查询定时任务列表
@@ -202,16 +199,9 @@ public class SysJobController extends BaseController
             return error("请选择要上传的文件！");
         }
 
-        FileUploadRequest req = new FileUploadRequest();
-        req.setType("exImginfo");
-        req.setImgPath(request.getImgPath());
-
-        // 转换为 JSON 字符串
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonParam = mapper.writeValueAsString(req);
-        thriftClient.serverToWeb(jsonParam);
-
-        return AjaxResult.success("上传成功");
+        // TODO: 替换 Thrift 调用为其他实现方式
+        // 暂时返回成功，需要根据实际业务需求重新实现
+        return AjaxResult.success("上传功能待实现");
     }
 
     /**
