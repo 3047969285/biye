@@ -1,4 +1,18 @@
-/* RuoYi + 业务整合库；新库可全量导入。含 DROP，生产勿随意全量执行。2026-03-26 */
+/*
+ Navicat Premium Dump SQL
+
+ Source Server         : 我的
+ Source Server Type    : MySQL
+ Source Server Version : 80032 (8.0.32)
+ Source Host           : localhost:3306
+ Source Schema         : biye
+
+ Target Server Type    : MySQL
+ Target Server Version : 80032 (8.0.32)
+ File Encoding         : 65001
+
+ Date: 21/04/2026 19:38:12
+*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -19,7 +33,7 @@ CREATE TABLE `ai_chat_record`  (
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
   INDEX `idx_chat_type`(`chat_type` ASC) USING BTREE,
   INDEX `idx_create_time`(`create_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '智能问答对话记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '智能问答对话记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ai_chat_record
@@ -51,6 +65,12 @@ INSERT INTO `ai_chat_record` VALUES (24, 1, 'admin', 'db', '变压器有多少�
 INSERT INTO `ai_chat_record` VALUES (25, 1, 'admin', 'db', '有多少个设备', '查询结果（1 条）\n总结：当前设备总数量为20台。  \n- 关键字段值：COUNT(*) = 20  \n- 建议：设备规模较小，建议核查是否覆盖全部在用设备（如含停用/报废设备），并定期同步更新设备台账以保障数据完整性。', '2026-02-18 14:39:30');
 INSERT INTO `ai_chat_record` VALUES (26, 0, '匿名用户', 'basic', '你好', '你好，请问在智能电网运维方面有什么具体问题需要帮助？', '2026-03-13 19:58:41');
 INSERT INTO `ai_chat_record` VALUES (27, 0, '匿名用户', 'basic', '你能做啥', '我能协助智能电网运维相关工作，包括故障诊断、保护定值校核、SCADA系统异常分析、继电保护动作逻辑判断、负荷预测异常排查、设备状态评估和典型缺陷处理建议。支持依据规程标准给出操作步骤、风险提示及整改建议，例如：如何快速定位10kV线路单相接地故障、主变差动保护误动原因分析、SVG无功调节失灵的检查流程等。需要具体场景时，请提供设备类型、现象描述和相关数据。', '2026-03-13 20:00:41');
+INSERT INTO `ai_chat_record` VALUES (28, 0, '匿名用户', 'basic', '你好', '', '2026-03-29 15:50:01');
+INSERT INTO `ai_chat_record` VALUES (29, 0, '匿名用户', 'basic', '你好', '你好，我是智能电网运维专家。请问您在智能电网运行、设备维护、故障排查或系统升级等方面遇到什么具体问题？我可以提供专业建议和操作步骤。', '2026-03-29 15:53:29');
+INSERT INTO `ai_chat_record` VALUES (30, 0, '匿名用户', 'rag', '你想吃什么', '', '2026-04-21 14:04:00');
+INSERT INTO `ai_chat_record` VALUES (31, 0, '匿名用户', 'rag', '你想吃什么', '我是一个智能电网运维专家，没有食欲。如果你有关于智能电网运维的问题，请告诉我，我会尽力帮助你。', '2026-04-21 14:07:26');
+INSERT INTO `ai_chat_record` VALUES (32, 0, '匿名用户', 'basic', '你想吃什么', '我是一个智能电网运维专家，没有食欲。我可以帮助你解决与智能电网相关的问题，例如设备故障排查、系统优化建议或运行状态分析。请告诉我你的需求。', '2026-04-21 14:08:04');
+INSERT INTO `ai_chat_record` VALUES (33, 0, '匿名用户', 'basic', '220v更nb还是250v更nb', '220V和250V都是常见的电压等级，它们的“nb”（强大、优秀）取决于具体应用场景。220V是大多数国家的标准家庭用电电压，适用性广；250V通常用于特定工业或高功率设备，能承载更大负载。选择时需根据设备需求和电路设计决定，错误使用可能导致设备损坏或安全隐患。', '2026-04-21 14:09:09');
 
 -- ----------------------------
 -- Table structure for ai_maintenance_form
@@ -78,7 +98,7 @@ CREATE TABLE `ai_maintenance_form`  (
   INDEX `idx_device_id`(`device_id` ASC) USING BTREE,
   INDEX `idx_form_status`(`form_status` ASC) USING BTREE,
   INDEX `idx_created_time`(`created_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'AI生成的运维操作表单' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'AI生成的运维操作表单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ai_maintenance_form
@@ -102,7 +122,7 @@ CREATE TABLE `chat_message`  (
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 1代表删除）',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_create_time`(`create_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 735 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '聊天消息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 735 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '聊天消息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of chat_message
@@ -852,7 +872,7 @@ CREATE TABLE `department`  (
   `parent_id` int NULL DEFAULT NULL COMMENT '上级部门ID，用于表示部门层级关系',
   `chairman` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '部门负责人',
   PRIMARY KEY (`department_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '部门信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '部门信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of department
@@ -880,14 +900,14 @@ CREATE TABLE `eq_alert_record`  (
   INDEX `idx_device_time`(`device_id` ASC, `triggered_time` ASC) USING BTREE,
   INDEX `idx_alert_level`(`alert_level` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '告警记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 73 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '告警记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_alert_record
 -- ----------------------------
 INSERT INTO `eq_alert_record` VALUES (1, 1, NULL, 3, '电流波动异常', '2026-01-11 23:01:33', '2026-01-11 19:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
 INSERT INTO `eq_alert_record` VALUES (2, 1, NULL, 3, '温度超过警告阈值', '2026-01-11 00:01:33', '2026-01-11 18:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (3, 1, NULL, 1, '电流波动异常', '2026-01-11 16:01:33', NULL, 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (3, 1, NULL, 1, '电流波动异常', '2026-01-11 16:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
 INSERT INTO `eq_alert_record` VALUES (4, 2, NULL, 1, '振动值偏高', '2026-01-10 15:01:33', '2026-01-11 20:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
 INSERT INTO `eq_alert_record` VALUES (5, 2, NULL, 3, '振动值偏高', '2026-01-10 03:01:33', '2026-01-11 15:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
 INSERT INTO `eq_alert_record` VALUES (6, 2, NULL, 3, '振动值偏高', '2026-01-11 20:01:33', '2026-01-11 03:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
@@ -945,6 +965,18 @@ INSERT INTO `eq_alert_record` VALUES (57, 19, NULL, 3, '振动值偏高', '2026-
 INSERT INTO `eq_alert_record` VALUES (58, 20, NULL, 1, '负载过高', '2026-01-11 10:01:33', '2026-01-11 05:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
 INSERT INTO `eq_alert_record` VALUES (59, 20, NULL, 3, '振动值偏高', '2026-01-11 06:01:33', '2026-01-11 18:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
 INSERT INTO `eq_alert_record` VALUES (60, 20, NULL, 1, '电流波动异常', '2026-01-09 04:01:33', '2026-01-11 21:01:33', 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (61, 1, 63, 2, '规则[电压异常规则]触发：参数[voltage]当前值 112 kV，条件类型=区间外，阈值 110', '2026-03-27 08:33:36', NULL, 1, NULL, NULL, '规则引擎', '2026-03-27 08:33:35');
+INSERT INTO `eq_alert_record` VALUES (62, 1, 1, 2, '规则[温度超限规则]触发：参数[temperature]当前值 188 ℃，条件类型=大于，阈值 85', '2026-03-27 08:33:36', NULL, 1, NULL, NULL, '规则引擎', '2026-03-27 08:33:35');
+INSERT INTO `eq_alert_record` VALUES (63, 2, 64, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.6 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:46', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (64, 7, 69, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.7 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:46', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (65, 8, 70, 2, '规则[电压异常规则]触发：参数[voltage]当前值 112.4 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:46', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (66, 9, 71, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.5 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:46', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (67, 10, 72, 2, '规则[电压异常规则]触发：参数[voltage]当前值 110.8 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:46', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (68, 12, 74, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.4 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:47', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (69, 14, 76, 2, '规则[电压异常规则]触发：参数[voltage]当前值 112.6 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:47', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (70, 16, 78, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.3 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:47', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (71, 17, 79, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.8 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:47', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (72, 19, 81, 2, '规则[电压异常规则]触发：参数[voltage]当前值 112.7 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:47', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
 
 -- ----------------------------
 -- Table structure for eq_alert_rule
@@ -968,7 +1000,7 @@ CREATE TABLE `eq_alert_rule`  (
   PRIMARY KEY (`rule_id`) USING BTREE,
   INDEX `idx_device_rule`(`device_id` ASC, `rule_name` ASC) USING BTREE,
   INDEX `idx_enabled`(`enabled` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '告警规则表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '告警规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_alert_rule
@@ -1005,7 +1037,7 @@ CREATE TABLE `eq_climate_data`  (
   INDEX `idx_device_time`(`device_id` ASC, `timestamp` ASC) USING BTREE,
   INDEX `idx_season`(`season` ASC) USING BTREE,
   INDEX `idx_weather`(`weather_condition` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '气候数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '气候数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_climate_data
@@ -1101,7 +1133,7 @@ CREATE TABLE `eq_device`  (
   INDEX `idx_device_type`(`device_type` ASC) USING BTREE,
   INDEX `idx_location`(`location` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_device
@@ -1126,7 +1158,7 @@ INSERT INTO `eq_device` VALUES (17, 'DEV-017', 'UPS电源1号', 'UPS', 'C3K-3KVA
 INSERT INTO `eq_device` VALUES (18, 'DEV-018', 'UPS电源2号', 'UPS', 'C3K-3KVA', 'UPS-20210802', '山特电子', '监控室B区', '运维部', '2021-10-05 00:00:00', '2026-10-05 00:00:00', 1, 45000.00, 8, '郑工', '备用电源', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
 INSERT INTO `eq_device` VALUES (19, 'DEV-019', '直流屏1号', '直流屏', 'GZDW-50Ah/220V', 'ZLP-20210901', '许继电气', '直流室A区', '运维部', '2021-11-01 00:00:00', '2031-11-01 00:00:00', 1, 68000.00, 15, '冯工', '直流供电设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
 INSERT INTO `eq_device` VALUES (20, 'DEV-020', '直流屏2号', '直流屏', 'GZDW-50Ah/220V', 'ZLP-20210902', '许继电气', '直流室B区', '运维部', '2021-11-10 00:00:00', '2031-11-10 00:00:00', 1, 68000.00, 15, '冯工', '备用直流电源', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (21, 'WIND-FD001', '风力发电机组 FD001', '风力发电', 'FD001-GRU', 'FD001-SN', '风电场', '风电场一期', '运维部', '2024-06-01 00:00:00', '2034-06-01 00:00:00', 1, 3200000.00, 25, '运维', 'GRU 预测数据源设备（与 FD001.xlsx / predict.py 对应）', 'admin', '2026-03-29 00:00:00', '', '2026-03-29 00:00:00');
+INSERT INTO `eq_device` VALUES (21, 'WIND-FD001', '风力发电机组 FD001', '风力发电', 'FD001-GRU', 'FD001-SN', '风电场', '风电场一期', '运维部', '2024-06-01 00:00:00', '2034-06-01 00:00:00', 1, 3200000.00, 25, '运维', 'GRU 预测数据源设备', 'admin', '2026-03-29 11:49:52', '', '2026-03-29 11:49:52');
 
 -- ----------------------------
 -- Table structure for eq_device_param
@@ -1152,7 +1184,7 @@ CREATE TABLE `eq_device_param`  (
   PRIMARY KEY (`param_id`) USING BTREE,
   UNIQUE INDEX `uk_device_parameter`(`device_id` ASC, `parameter_name` ASC) USING BTREE,
   INDEX `idx_device_parameter`(`device_id` ASC, `parameter_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 145 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备参数表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 145 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备参数表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_device_param
@@ -1276,7 +1308,7 @@ CREATE TABLE `eq_device_rule`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`rule_id`) USING BTREE,
   INDEX `idx_device_id`(`device_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 83 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '设备规则表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 83 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '设备规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_device_rule
@@ -1366,7 +1398,7 @@ CREATE TABLE `eq_device_stat`  (
   PRIMARY KEY (`stat_id`) USING BTREE,
   UNIQUE INDEX `uk_device_date`(`device_id` ASC, `stat_date` ASC) USING BTREE,
   INDEX `idx_device_date`(`device_id` ASC, `stat_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 141 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备统计表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 151 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备统计表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_device_stat
@@ -1511,6 +1543,13 @@ INSERT INTO `eq_device_stat` VALUES (137, 20, '2026-01-09', 23.80, 0, 1, 67.30, 
 INSERT INTO `eq_device_stat` VALUES (138, 20, '2026-01-10', 23.40, 0, 1, 70.20, 75.30, 57.10, 18.8000, 96.10, 107, 1831.90, 0.0065, NULL, '2026-01-12 00:01:33');
 INSERT INTO `eq_device_stat` VALUES (139, 20, '2026-01-11', 21.10, 1, 0, 74.60, 72.00, 57.40, 17.4000, 96.10, 61, 1925.21, 0.0003, NULL, '2026-01-12 00:01:33');
 INSERT INTO `eq_device_stat` VALUES (140, 20, '2026-01-12', 20.00, 2, 1, 64.90, 81.50, 58.60, 15.1000, 96.90, 46, 1466.06, 0.0025, NULL, '2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (141, 21, '2026-03-29', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-29 12:01:06');
+INSERT INTO `eq_device_stat` VALUES (142, 14, '2026-03-29', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-29 20:04:52');
+INSERT INTO `eq_device_stat` VALUES (146, 7, '2026-03-29', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-29 21:58:06');
+INSERT INTO `eq_device_stat` VALUES (147, 8, '2026-03-29', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-29 21:58:16');
+INSERT INTO `eq_device_stat` VALUES (148, 5, '2026-03-29', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-29 21:58:22');
+INSERT INTO `eq_device_stat` VALUES (149, 21, '2026-03-30', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-30 22:52:28');
+INSERT INTO `eq_device_stat` VALUES (150, 21, '2026-04-21', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-04-21 13:56:41');
 
 -- ----------------------------
 -- Table structure for eq_device_status
@@ -1551,18 +1590,18 @@ CREATE TABLE `eq_device_status`  (
   INDEX `idx_timestamp`(`timestamp` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE,
   INDEX `idx_fault_code`(`fault_code` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备状态历史表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备状态历史表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_device_status
 -- ----------------------------
 INSERT INTO `eq_device_status` VALUES (1, 1, '2026-01-09 17:01:11', 58.70, 47.30, 101.100, 3.270000, 180.2000, 107.60, 18.2000, 1571.00, 51.3000, 76.60, 1, 26166.00, 169, 4, 2, 90.40, 0.85, 28.00, 38.10, 71.20, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (2, 1, '2026-01-11 23:01:11', 66.30, 44.50, 102.300, 1.430000, 165.7000, 112.00, 16.7000, 1440.00, 60.6000, 73.70, 1, 25708.00, 181, 1, 11, 95.90, 0.93, 24.80, 54.90, 73.80, 95.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (2, 1, '2026-01-11 23:01:11', 188.00, 44.50, 102.300, 1.430000, 165.7000, 112.00, 16.7000, 1440.00, 60.6000, 73.70, 3, 25708.00, 181, 1, 11, 95.90, 0.93, 24.80, 54.90, 73.80, 95.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (3, 1, '2026-01-09 03:01:11', 76.70, 52.10, 101.300, 1.960000, 158.7000, 111.20, 14.7000, 1507.00, 74.1000, 84.00, 1, 24705.00, 126, 1, 2, 91.60, 0.79, 23.70, 54.40, 61.30, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (4, 1, '2026-01-07 23:01:11', 75.50, 53.30, 102.600, 2.070000, 150.3000, 112.50, 18.4000, 1563.00, 88.1000, 71.10, 1, 24688.00, 161, 4, 6, 95.80, 0.92, 24.50, 52.70, 64.50, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (5, 1, '2026-01-09 21:01:11', 60.30, 55.40, 100.600, 3.140000, 197.3000, 111.40, 17.0000, 1524.00, 60.1000, 64.10, 1, 18905.00, 196, 3, 2, 91.40, 0.76, 27.90, 53.80, 65.30, 90.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (6, 2, '2026-01-09 14:01:11', 64.60, 49.20, 100.400, 1.870000, 142.8000, 109.50, 20.8000, 1463.00, 77.3000, 83.30, 1, 20976.00, 188, 4, 2, 96.50, 0.79, 24.70, 48.20, 58.10, 88.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (7, 2, '2026-01-11 09:01:11', 79.00, 48.20, 100.500, 2.790000, 169.5000, 111.60, 22.4000, 1446.00, 81.4000, 73.40, 1, 22076.00, 123, 4, 10, 91.00, 0.92, 22.70, 51.00, 67.80, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (7, 2, '2026-01-11 09:01:11', 79.00, 48.20, 100.500, 2.790000, 169.5000, 111.60, 22.4000, 1446.00, 81.4000, 73.40, 3, 22076.00, 123, 4, 10, 91.00, 0.92, 22.70, 51.00, 67.80, 93.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (8, 2, '2026-01-11 07:01:11', 80.00, 51.20, 102.400, 1.970000, 152.6000, 107.60, 21.9000, 1543.00, 60.1000, 85.70, 1, 26199.00, 181, 1, 3, 90.10, 0.75, 28.80, 50.20, 58.60, 85.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (9, 2, '2026-01-07 01:01:11', 77.60, 50.90, 100.000, 2.290000, 146.7000, 108.90, 14.1000, 1444.00, 54.4000, 83.40, 1, 25585.00, 178, 1, 7, 93.40, 0.76, 22.10, 43.20, 66.30, 92.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (10, 2, '2026-01-11 02:01:11', 63.20, 41.60, 101.300, 3.570000, 141.8000, 111.00, 22.0000, 1449.00, 92.5000, 75.20, 1, 29822.00, 128, 0, 1, 93.90, 0.70, 26.60, 52.40, 66.80, 85.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
@@ -1588,20 +1627,20 @@ INSERT INTO `eq_device_status` VALUES (29, 6, '2026-01-09 19:01:11', 60.00, 53.2
 INSERT INTO `eq_device_status` VALUES (30, 6, '2026-01-07 12:01:11', 61.70, 52.80, 101.200, 1.230000, 151.2000, 111.90, 23.4000, 1516.00, 54.8000, 82.10, 1, 22723.00, 171, 3, 9, 91.90, 0.89, 22.20, 53.30, 64.70, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (31, 7, '2026-01-10 20:01:11', 63.20, 58.60, 102.000, 2.680000, 187.5000, 108.90, 14.0000, 1437.00, 96.3000, 62.20, 1, 25056.00, 166, 4, 11, 93.90, 0.82, 28.80, 52.20, 69.00, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (32, 7, '2026-01-08 08:01:11', 66.50, 42.00, 100.300, 1.840000, 143.4000, 110.10, 14.4000, 1570.00, 58.3000, 68.00, 1, 27955.00, 122, 1, 3, 95.40, 0.82, 24.90, 44.20, 70.80, 94.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (33, 7, '2026-01-11 20:01:11', 60.00, 58.00, 102.700, 3.490000, 166.0000, 111.70, 14.6000, 1461.00, 66.6000, 82.40, 1, 26876.00, 134, 0, 11, 93.70, 0.83, 23.20, 42.20, 71.30, 87.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (33, 7, '2026-01-11 20:01:11', 60.00, 58.00, 102.700, 3.490000, 166.0000, 111.70, 14.6000, 1461.00, 66.6000, 82.40, 3, 26876.00, 134, 0, 11, 93.70, 0.83, 23.20, 42.20, 71.30, 87.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (34, 7, '2026-01-09 10:01:11', 56.80, 56.20, 102.500, 3.080000, 199.4000, 113.10, 18.0000, 1476.00, 85.2000, 71.40, 1, 27441.00, 175, 3, 7, 93.20, 0.72, 23.40, 48.70, 69.00, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (35, 7, '2026-01-08 10:01:11', 70.10, 57.20, 101.500, 3.710000, 141.3000, 109.80, 23.5000, 1504.00, 88.6000, 68.90, 1, 19983.00, 192, 1, 1, 90.50, 0.94, 26.70, 39.50, 69.40, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (36, 8, '2026-01-09 20:01:11', 78.20, 46.20, 102.300, 3.910000, 170.5000, 111.40, 20.4000, 1459.00, 78.0000, 87.40, 1, 28707.00, 166, 5, 4, 92.30, 0.75, 23.60, 44.60, 63.50, 91.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (37, 8, '2026-01-10 16:01:11', 55.20, 44.50, 100.300, 3.660000, 145.2000, 112.40, 20.3000, 1562.00, 58.9000, 73.60, 1, 26720.00, 113, 1, 2, 92.20, 0.91, 24.80, 42.60, 62.90, 94.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (37, 8, '2026-01-10 16:01:11', 55.20, 44.50, 100.300, 3.660000, 145.2000, 112.40, 20.3000, 1562.00, 58.9000, 73.60, 3, 26720.00, 113, 1, 2, 92.20, 0.91, 24.80, 42.60, 62.90, 94.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (38, 8, '2026-01-10 13:01:11', 69.40, 59.90, 100.700, 1.730000, 169.0000, 111.80, 23.7000, 1556.00, 50.6000, 81.30, 1, 24228.00, 135, 4, 4, 96.20, 0.86, 29.40, 49.50, 68.10, 99.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (39, 8, '2026-01-07 01:01:11', 57.50, 50.30, 100.800, 3.410000, 152.7000, 111.50, 20.1000, 1418.00, 82.4000, 88.70, 1, 28153.00, 122, 1, 1, 97.60, 0.79, 22.00, 53.10, 65.50, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (40, 8, '2026-01-10 04:01:11', 60.90, 41.40, 101.900, 3.990000, 143.3000, 109.00, 16.7000, 1498.00, 82.1000, 82.10, 1, 27137.00, 151, 4, 8, 92.20, 0.79, 22.10, 54.30, 70.90, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (41, 9, '2026-01-10 15:01:11', 71.70, 50.10, 101.500, 1.200000, 187.0000, 112.00, 16.5000, 1418.00, 85.5000, 68.20, 1, 20813.00, 122, 0, 3, 90.80, 0.88, 24.80, 47.20, 69.40, 95.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (42, 9, '2026-01-08 20:01:11', 79.80, 41.00, 100.800, 1.710000, 161.3000, 107.40, 16.3000, 1596.00, 60.9000, 64.10, 1, 18439.00, 172, 4, 4, 96.20, 0.86, 29.50, 50.90, 74.40, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (43, 9, '2026-01-07 22:01:11', 66.60, 57.20, 102.800, 1.100000, 163.3000, 112.90, 14.5000, 1544.00, 73.0000, 64.00, 1, 21509.00, 87, 2, 10, 92.20, 0.86, 25.10, 38.10, 72.80, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (44, 9, '2026-01-11 18:01:11', 61.60, 43.20, 100.000, 2.750000, 192.8000, 111.50, 19.9000, 1403.00, 65.5000, 74.90, 1, 24691.00, 115, 4, 2, 93.30, 0.84, 26.10, 53.90, 59.90, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (44, 9, '2026-01-11 18:01:11', 61.60, 43.20, 100.000, 2.750000, 192.8000, 111.50, 19.9000, 1403.00, 65.5000, 74.90, 3, 24691.00, 115, 4, 2, 93.30, 0.84, 26.10, 53.90, 59.90, 96.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (45, 9, '2026-01-09 13:01:11', 59.20, 47.10, 100.800, 1.950000, 185.0000, 112.60, 21.5000, 1469.00, 74.7000, 72.70, 1, 25694.00, 191, 4, 10, 91.90, 0.83, 28.70, 49.10, 71.00, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (46, 10, '2026-01-11 23:01:11', 67.30, 48.20, 101.700, 2.930000, 169.7000, 110.80, 16.2000, 1499.00, 90.3000, 76.30, 1, 21580.00, 183, 2, 5, 91.50, 0.82, 28.80, 51.40, 64.60, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (46, 10, '2026-01-11 23:01:11', 67.30, 48.20, 101.700, 2.930000, 169.7000, 110.80, 16.2000, 1499.00, 90.3000, 76.30, 3, 21580.00, 183, 2, 5, 91.50, 0.82, 28.80, 51.40, 64.60, 93.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (47, 10, '2026-01-08 02:01:11', 59.30, 50.00, 102.900, 2.100000, 195.0000, 110.40, 20.6000, 1567.00, 61.5000, 78.80, 1, 23401.00, 124, 2, 4, 91.70, 0.71, 26.80, 52.80, 67.40, 87.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (48, 10, '2026-01-11 08:01:11', 59.90, 51.40, 100.800, 2.850000, 157.5000, 111.20, 15.6000, 1593.00, 68.3000, 87.70, 1, 24238.00, 179, 3, 5, 94.40, 0.79, 23.80, 38.10, 63.90, 95.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (49, 10, '2026-01-09 05:01:11', 71.00, 50.30, 102.000, 3.310000, 191.1000, 113.70, 16.1000, 1435.00, 63.5000, 84.40, 1, 21011.00, 178, 2, 3, 92.50, 0.89, 28.40, 51.10, 65.70, 99.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
@@ -1615,7 +1654,7 @@ INSERT INTO `eq_device_status` VALUES (56, 12, '2026-01-07 10:01:11', 77.50, 54.
 INSERT INTO `eq_device_status` VALUES (57, 12, '2026-01-08 08:01:11', 72.10, 44.20, 103.000, 1.960000, 177.9000, 108.40, 14.9000, 1574.00, 54.5000, 84.90, 1, 28481.00, 185, 4, 3, 90.40, 0.80, 29.30, 43.30, 72.00, 87.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (58, 12, '2026-01-09 18:01:11', 72.80, 43.90, 102.500, 2.800000, 169.5000, 111.60, 22.3000, 1434.00, 68.0000, 68.70, 1, 22502.00, 80, 5, 4, 92.90, 0.85, 29.20, 50.50, 74.50, 94.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (59, 12, '2026-01-10 13:01:11', 69.00, 58.30, 102.700, 3.080000, 188.4000, 113.70, 17.3000, 1562.00, 53.2000, 86.50, 1, 20766.00, 139, 4, 6, 91.00, 0.73, 24.10, 54.10, 73.80, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (60, 12, '2026-01-10 20:01:11', 74.40, 43.10, 101.400, 3.530000, 190.0000, 111.40, 20.7000, 1493.00, 65.5000, 64.40, 1, 27745.00, 153, 3, 4, 97.40, 0.83, 28.90, 50.10, 74.50, 95.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (60, 12, '2026-01-10 20:01:11', 74.40, 43.10, 101.400, 3.530000, 190.0000, 111.40, 20.7000, 1493.00, 65.5000, 64.40, 3, 27745.00, 153, 3, 4, 97.40, 0.83, 28.90, 50.10, 74.50, 95.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (61, 13, '2026-01-08 08:01:11', 67.70, 46.20, 100.100, 1.820000, 154.6000, 109.80, 16.5000, 1415.00, 80.9000, 85.80, 1, 23455.00, 162, 0, 4, 93.50, 0.74, 25.90, 54.50, 64.80, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (62, 13, '2026-01-11 04:01:11', 71.30, 54.60, 102.100, 1.870000, 161.5000, 113.50, 19.6000, 1402.00, 69.3000, 86.90, 1, 21798.00, 187, 3, 11, 92.40, 0.84, 29.50, 54.70, 59.50, 92.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (63, 13, '2026-01-10 17:01:11', 74.60, 42.80, 101.000, 1.970000, 174.1000, 113.10, 20.7000, 1548.00, 84.7000, 67.10, 1, 19271.00, 178, 4, 4, 95.70, 0.79, 27.30, 41.90, 60.70, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
@@ -1623,7 +1662,7 @@ INSERT INTO `eq_device_status` VALUES (64, 13, '2026-01-12 00:01:11', 73.60, 53.
 INSERT INTO `eq_device_status` VALUES (65, 13, '2026-01-09 01:01:11', 68.10, 56.20, 101.500, 1.100000, 180.9000, 109.20, 19.1000, 1520.00, 74.7000, 79.90, 1, 27982.00, 100, 2, 3, 92.20, 0.85, 22.90, 51.30, 67.80, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (66, 14, '2026-01-07 01:01:11', 63.50, 54.40, 101.700, 3.060000, 183.9000, 111.20, 21.9000, 1434.00, 74.5000, 87.70, 1, 19822.00, 198, 2, 5, 96.50, 0.87, 22.10, 54.60, 72.60, 90.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (67, 14, '2026-01-10 19:01:11', 58.30, 58.40, 100.600, 1.800000, 183.5000, 112.70, 23.2000, 1425.00, 94.3000, 61.40, 1, 25005.00, 172, 0, 3, 90.40, 0.80, 28.40, 52.10, 70.70, 88.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (68, 14, '2026-01-11 20:01:11', 65.50, 59.80, 102.100, 2.380000, 154.1000, 112.60, 17.1000, 1428.00, 89.0000, 74.20, 1, 18347.00, 166, 3, 5, 96.10, 0.80, 28.30, 49.50, 58.30, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (68, 14, '2026-01-11 20:01:11', 65.50, 59.80, 102.100, 2.380000, 154.1000, 112.60, 17.1000, 1428.00, 89.0000, 74.20, 3, 18347.00, 166, 3, 5, 96.10, 0.80, 28.30, 49.50, 58.30, 86.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (69, 14, '2026-01-10 14:01:11', 61.20, 47.40, 100.300, 2.310000, 191.2000, 113.70, 16.2000, 1442.00, 70.9000, 73.60, 1, 18050.00, 159, 1, 7, 97.90, 0.74, 29.40, 39.10, 67.70, 94.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (70, 14, '2026-01-09 01:01:11', 80.00, 44.00, 100.000, 2.230000, 142.9000, 107.10, 23.2000, 1507.00, 97.6000, 64.30, 1, 28282.00, 182, 4, 11, 96.10, 0.92, 22.60, 51.20, 68.90, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (71, 15, '2026-01-09 11:01:11', 77.10, 57.80, 102.400, 1.850000, 143.0000, 109.80, 22.6000, 1417.00, 93.4000, 62.20, 1, 27149.00, 151, 4, 7, 97.30, 0.91, 24.80, 43.20, 66.00, 91.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
@@ -1635,8 +1674,8 @@ INSERT INTO `eq_device_status` VALUES (76, 16, '2026-01-08 19:01:11', 55.40, 42.
 INSERT INTO `eq_device_status` VALUES (77, 16, '2026-01-08 09:01:11', 58.80, 51.30, 101.100, 1.380000, 172.8000, 109.50, 15.3000, 1517.00, 77.3000, 88.90, 1, 20215.00, 83, 3, 11, 96.30, 0.74, 26.30, 40.40, 59.90, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (78, 16, '2026-01-10 17:01:11', 79.30, 41.20, 101.100, 3.110000, 163.4000, 112.90, 14.5000, 1541.00, 69.6000, 85.20, 1, 18281.00, 151, 5, 9, 91.50, 0.84, 23.70, 45.30, 66.20, 87.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (79, 16, '2026-01-10 18:01:11', 76.00, 48.80, 102.000, 1.180000, 156.9000, 108.50, 16.6000, 1525.00, 67.9000, 87.30, 1, 23760.00, 160, 5, 6, 96.60, 0.85, 26.10, 51.40, 64.80, 94.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (80, 16, '2026-01-12 00:01:11', 57.70, 50.50, 100.900, 3.580000, 166.2000, 111.30, 21.4000, 1572.00, 55.1000, 87.50, 1, 21420.00, 160, 2, 5, 97.50, 0.75, 23.70, 45.50, 68.00, 94.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (81, 17, '2026-01-10 07:01:11', 76.20, 44.30, 101.600, 1.100000, 173.4000, 111.80, 21.3000, 1522.00, 93.8000, 76.20, 1, 18781.00, 165, 2, 7, 91.30, 0.92, 29.90, 42.00, 61.80, 91.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (80, 16, '2026-01-12 00:01:11', 57.70, 50.50, 100.900, 3.580000, 166.2000, 111.30, 21.4000, 1572.00, 55.1000, 87.50, 3, 21420.00, 160, 2, 5, 97.50, 0.75, 23.70, 45.50, 68.00, 94.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (81, 17, '2026-01-10 07:01:11', 76.20, 44.30, 101.600, 1.100000, 173.4000, 111.80, 21.3000, 1522.00, 93.8000, 76.20, 3, 18781.00, 165, 2, 7, 91.30, 0.92, 29.90, 42.00, 61.80, 91.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (82, 17, '2026-01-10 04:01:11', 70.80, 40.80, 100.900, 2.360000, 159.5000, 108.80, 17.4000, 1583.00, 78.1000, 61.70, 1, 25125.00, 176, 1, 8, 97.90, 0.89, 28.20, 48.30, 70.20, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (83, 17, '2026-01-08 15:01:11', 57.60, 49.50, 100.200, 3.690000, 157.4000, 112.30, 23.4000, 1486.00, 66.8000, 71.30, 1, 28528.00, 110, 3, 5, 93.20, 0.85, 28.80, 45.10, 67.00, 90.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (84, 17, '2026-01-10 01:01:11', 74.80, 55.50, 101.500, 1.330000, 145.8000, 108.10, 18.6000, 1573.00, 97.1000, 63.30, 1, 26685.00, 114, 1, 6, 95.60, 0.94, 27.80, 50.70, 67.40, 92.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
@@ -1648,7 +1687,7 @@ INSERT INTO `eq_device_status` VALUES (89, 18, '2026-01-07 01:01:11', 59.80, 59.
 INSERT INTO `eq_device_status` VALUES (90, 18, '2026-01-07 01:01:11', 70.10, 40.80, 101.200, 3.430000, 193.4000, 107.10, 18.3000, 1418.00, 58.5000, 77.20, 1, 22344.00, 90, 2, 5, 92.70, 0.76, 24.30, 48.80, 63.50, 95.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (91, 19, '2026-01-09 01:01:11', 76.10, 48.60, 101.900, 3.530000, 159.9000, 107.90, 20.5000, 1576.00, 72.7000, 78.60, 1, 26775.00, 176, 4, 7, 96.40, 0.72, 29.50, 46.50, 69.50, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (92, 19, '2026-01-10 08:01:11', 56.70, 46.50, 101.300, 1.470000, 170.1000, 107.30, 20.9000, 1469.00, 82.9000, 67.50, 1, 21221.00, 151, 1, 1, 97.40, 0.78, 29.10, 45.40, 67.10, 90.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (93, 19, '2026-01-10 22:01:11', 80.00, 46.70, 102.100, 2.240000, 140.6000, 112.70, 14.5000, 1558.00, 90.5000, 80.40, 1, 29612.00, 175, 0, 0, 90.40, 0.72, 23.60, 51.00, 62.20, 99.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (93, 19, '2026-01-10 22:01:11', 80.00, 46.70, 102.100, 2.240000, 140.6000, 112.70, 14.5000, 1558.00, 90.5000, 80.40, 3, 29612.00, 175, 0, 0, 90.40, 0.72, 23.60, 51.00, 62.20, 99.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (94, 19, '2026-01-07 09:01:11', 75.90, 47.80, 101.400, 1.260000, 144.9000, 108.00, 18.7000, 1582.00, 57.5000, 60.50, 1, 25570.00, 92, 3, 10, 94.40, 0.71, 26.80, 52.50, 66.00, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (95, 19, '2026-01-09 03:01:11', 67.80, 56.30, 101.600, 1.760000, 178.9000, 110.40, 18.6000, 1572.00, 96.3000, 61.20, 1, 23160.00, 83, 5, 1, 91.20, 0.78, 23.90, 41.40, 62.60, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
 INSERT INTO `eq_device_status` VALUES (96, 20, '2026-01-11 23:01:11', 73.70, 54.40, 101.000, 2.700000, 187.6000, 108.90, 23.8000, 1414.00, 72.0000, 89.40, 1, 24839.00, 189, 5, 6, 92.30, 0.88, 27.50, 43.70, 68.00, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
@@ -1682,7 +1721,7 @@ CREATE TABLE `eq_economic_data`  (
   PRIMARY KEY (`economic_id`) USING BTREE,
   INDEX `idx_device_time`(`device_id` ASC, `timestamp` ASC) USING BTREE,
   INDEX `idx_cost`(`maintenance_cost` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '经济数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '经济数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_economic_data
@@ -1786,7 +1825,7 @@ CREATE TABLE `eq_electrical_data`  (
   INDEX `idx_device_time`(`device_id` ASC, `timestamp` ASC) USING BTREE,
   INDEX `idx_voltage`(`voltage_l1` ASC) USING BTREE,
   INDEX `idx_current`(`current_l1` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '电气数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '电气数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_electrical_data
@@ -1881,7 +1920,7 @@ CREATE TABLE `eq_environment_data`  (
   INDEX `idx_device_time`(`device_id` ASC, `timestamp` ASC) USING BTREE,
   INDEX `idx_temperature`(`ambient_temperature` ASC) USING BTREE,
   INDEX `idx_humidity`(`humidity` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '环境数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '环境数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_environment_data
@@ -1974,7 +2013,7 @@ CREATE TABLE `eq_fault_record`  (
   INDEX `idx_device_time`(`device_id` ASC, `detected_time` ASC) USING BTREE,
   INDEX `idx_fault_code`(`fault_code` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '故障记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '故障记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_fault_record
@@ -2065,7 +2104,7 @@ CREATE TABLE `eq_maintenance_record`  (
   INDEX `idx_device_date`(`device_id` ASC, `maintenance_date` ASC) USING BTREE,
   INDEX `idx_maintenance_type`(`maintenance_type` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '维护记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '维护记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_maintenance_record
@@ -2162,7 +2201,7 @@ CREATE TABLE `eq_mechanical_data`  (
   INDEX `idx_device_time`(`device_id` ASC, `timestamp` ASC) USING BTREE,
   INDEX `idx_load`(`load_weight` ASC) USING BTREE,
   INDEX `idx_vibration`(`vibration_amplitude` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '机械数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '机械数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_mechanical_data
@@ -2255,7 +2294,7 @@ CREATE TABLE `eq_operational_data`  (
   INDEX `idx_device_time`(`device_id` ASC, `timestamp` ASC) USING BTREE,
   INDEX `idx_operator`(`operator_id` ASC) USING BTREE,
   INDEX `idx_operation`(`operation_type` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '操作数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '操作数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_operational_data
@@ -2346,7 +2385,7 @@ CREATE TABLE `eq_prediction`  (
   INDEX `idx_device_time`(`device_id` ASC, `prediction_time` ASC) USING BTREE,
   INDEX `idx_predicted_status`(`predicted_status` ASC) USING BTREE,
   INDEX `idx_risk_level`(`risk_level` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '预测结果表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '预测结果表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_prediction
@@ -2376,7 +2415,7 @@ CREATE TABLE `eq_sensor`  (
   PRIMARY KEY (`sensor_id`) USING BTREE,
   INDEX `idx_device_sensor`(`device_id` ASC, `sensor_type` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 114 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '传感器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 114 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '传感器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_sensor
@@ -2485,7 +2524,7 @@ CREATE TABLE `eq_technology_data`  (
   PRIMARY KEY (`tech_id`) USING BTREE,
   INDEX `idx_device_time`(`device_id` ASC, `timestamp` ASC) USING BTREE,
   INDEX `idx_tech_level`(`technology_level` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '技术数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '技术数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_technology_data
@@ -2552,6 +2591,25 @@ INSERT INTO `eq_technology_data` VALUES (59, 20, '2025-10-21 00:40:52', 3, 2, '{
 INSERT INTO `eq_technology_data` VALUES (60, 20, '2025-12-11 00:40:52', 4, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V1.3.18', 'FW2.1.4', 12, 3, 4, 4, 2, '2026-01-12 00:40:52');
 
 -- ----------------------------
+-- Table structure for eq_wind_forecast_bind
+-- ----------------------------
+DROP TABLE IF EXISTS `eq_wind_forecast_bind`;
+CREATE TABLE `eq_wind_forecast_bind`  (
+  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `model_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'GRU 模型 .h5 绝对路径',
+  `feature_excel_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '特征 Excel 绝对路径',
+  `real_excel_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '实测功率 Excel 绝对路径',
+  `inline_data_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '页面编辑的风速+功率序列 JSON',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`device_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '风力预测设备数据绑定' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of eq_wind_forecast_bind
+-- ----------------------------
+INSERT INTO `eq_wind_forecast_bind` VALUES (21, NULL, NULL, NULL, '', '2026-03-29 17:02:21');
+
+-- ----------------------------
 -- Table structure for gen_table
 -- ----------------------------
 DROP TABLE IF EXISTS `gen_table`;
@@ -2578,7 +2636,7 @@ CREATE TABLE `gen_table`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '代码生成业务表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table
@@ -2628,7 +2686,7 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 154 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 154 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -2797,7 +2855,7 @@ CREATE TABLE `qcl_user`  (
   `education` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '学历',
   `age` int NULL DEFAULT NULL COMMENT '年龄',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qcl_user
@@ -2815,7 +2873,7 @@ CREATE TABLE `qrtz_blob_triggers`  (
   `blob_data` blob NULL COMMENT '存放持久化Trigger对象',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'Blob类型的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'Blob类型的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_blob_triggers
@@ -2830,7 +2888,7 @@ CREATE TABLE `qrtz_calendars`  (
   `calendar_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '日历名称',
   `calendar` blob NOT NULL COMMENT '存放持久化calendar对象',
   PRIMARY KEY (`sched_name`, `calendar_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '日历信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '日历信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_calendars
@@ -2848,7 +2906,7 @@ CREATE TABLE `qrtz_cron_triggers`  (
   `time_zone_id` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '时区',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'Cron类型的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'Cron类型的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_cron_triggers
@@ -2873,7 +2931,7 @@ CREATE TABLE `qrtz_fired_triggers`  (
   `is_nonconcurrent` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '是否并发',
   `requests_recovery` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '是否接受恢复执行',
   PRIMARY KEY (`sched_name`, `entry_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '已触发的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '已触发的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_fired_triggers
@@ -2895,7 +2953,7 @@ CREATE TABLE `qrtz_job_details`  (
   `requests_recovery` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '是否接受恢复执行',
   `job_data` blob NULL COMMENT '存放持久化job对象',
   PRIMARY KEY (`sched_name`, `job_name`, `job_group`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '任务详细信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '任务详细信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_job_details
@@ -2909,7 +2967,7 @@ CREATE TABLE `qrtz_locks`  (
   `sched_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '调度名称',
   `lock_name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '悲观锁名称',
   PRIMARY KEY (`sched_name`, `lock_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '存储的悲观锁信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '存储的悲观锁信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_locks
@@ -2923,7 +2981,7 @@ CREATE TABLE `qrtz_paused_trigger_grps`  (
   `sched_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '调度名称',
   `trigger_group` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
   PRIMARY KEY (`sched_name`, `trigger_group`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '暂停的触发器表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '暂停的触发器表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_paused_trigger_grps
@@ -2939,7 +2997,7 @@ CREATE TABLE `qrtz_scheduler_state`  (
   `last_checkin_time` bigint NOT NULL COMMENT '上次检查时间',
   `checkin_interval` bigint NOT NULL COMMENT '检查间隔时间',
   PRIMARY KEY (`sched_name`, `instance_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '调度器状态表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '调度器状态表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_scheduler_state
@@ -2958,7 +3016,7 @@ CREATE TABLE `qrtz_simple_triggers`  (
   `times_triggered` bigint NOT NULL COMMENT '已经触发的次数',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '简单触发器的信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '简单触发器的信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_simple_triggers
@@ -2985,7 +3043,7 @@ CREATE TABLE `qrtz_simprop_triggers`  (
   `bool_prop_2` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Boolean类型的trigger的第二个参数',
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '同步机制的行锁表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '同步机制的行锁表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_simprop_triggers
@@ -3015,7 +3073,7 @@ CREATE TABLE `qrtz_triggers`  (
   PRIMARY KEY (`sched_name`, `trigger_name`, `trigger_group`) USING BTREE,
   INDEX `sched_name`(`sched_name` ASC, `job_name` ASC, `job_group` ASC) USING BTREE,
   CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `job_name`, `job_group`) REFERENCES `qrtz_job_details` (`sched_name`, `job_name`, `job_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '触发器详细信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '触发器详细信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_triggers
@@ -3037,7 +3095,7 @@ CREATE TABLE `sys_config`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '参数配置表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_config
@@ -3050,7 +3108,6 @@ INSERT INTO `sys_config` VALUES (5, '账号自助-是否开启用户注册功能
 INSERT INTO `sys_config` VALUES (6, '用户登录-黑名单列表', 'sys.login.blackIPList', '', 'Y', 'admin', '2025-10-31 15:23:03', '', NULL, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
 INSERT INTO `sys_config` VALUES (7, '用户管理-初始密码修改策略', 'sys.account.initPasswordModify', '1', 'Y', 'admin', '2025-10-31 15:23:03', '', NULL, '0：初始密码修改策略关闭，没有任何提示，1：提醒用户，如果未修改初始密码，则在登录时就会提醒修改密码对话框');
 INSERT INTO `sys_config` VALUES (8, '用户管理-账号密码更新周期', 'sys.account.passwordValidateDays', '0', 'Y', 'admin', '2025-10-31 15:23:03', '', NULL, '密码更新周期（填写数字，数据初始化值为0不限制，若修改必须为大于0小于365的正整数），如果超过这个周期登录系统时，则在登录时就会提醒修改密码对话框');
-INSERT INTO `sys_config` VALUES (9, '前端统一轮询间隔（秒）', 'client.poll.interval.seconds', '180', 'N', 'admin', '2025-10-31 15:23:03', '', NULL, '发电预测页自动刷新、消息中心未读轮询等；30～3600；发电预测页可写本机 localStorage 覆盖');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -3072,7 +3129,7 @@ CREATE TABLE `sys_dept`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 200 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 200 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '部门表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -3108,7 +3165,7 @@ CREATE TABLE `sys_dict_data`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 102 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 102 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典数据表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -3161,7 +3218,7 @@ CREATE TABLE `sys_dict_type`  (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_id`) USING BTREE,
   UNIQUE INDEX `dict_type`(`dict_type` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典类型表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -3197,7 +3254,7 @@ CREATE TABLE `sys_job`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '备注信息',
   PRIMARY KEY (`job_id`, `job_name`, `job_group`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '定时任务调度表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '定时任务调度表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job
@@ -3205,7 +3262,7 @@ CREATE TABLE `sys_job`  (
 INSERT INTO `sys_job` VALUES (1, '系统默认（无参）', 'DEFAULT', 'ryTask.ryNoParams', '0/10 * * * * ?', '3', '1', '1', 'admin', '2025-10-31 15:23:03', '', NULL, '');
 INSERT INTO `sys_job` VALUES (2, '系统默认（有参）', 'DEFAULT', 'ryTask.ryParams(\'ry\')', '0/15 * * * * ?', '3', '1', '1', 'admin', '2025-10-31 15:23:03', '', NULL, '');
 INSERT INTO `sys_job` VALUES (3, '系统默认（多参）', 'DEFAULT', 'ryTask.ryMultipleParams(\'ry\', true, 2000L, 316.50D, 100)', '0/20 * * * * ?', '3', '1', '1', 'admin', '2025-10-31 15:23:03', '', NULL, '');
-INSERT INTO `sys_job` VALUES (100, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '0 0/1 * * * ?', '1', '1', '0', 'admin', '2026-03-13 21:17:37', '', '2026-03-13 21:17:46', '聚合需维护设备状态；并调用 maintenanceFormNotifyTask 扫描 draft/pending 表单推送站内消息（需 Redis）。可与「运维表单待处理消息推送」二选一或并存（并存时扫描更频，Redis 去重防重复通知）');
+INSERT INTO `sys_job` VALUES (100, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '0 0/1 * * * ?', '1', '1', '0', 'admin', '2026-03-13 21:17:37', '', '2026-03-13 21:17:46', '聚合需维护设备状态；并扫描 draft/pending 表单推送站内消息（需 Redis）。可与「运维表单待处理消息推送」二选一或并存。');
 
 -- ----------------------------
 -- Table structure for sys_job_log
@@ -3221,7 +3278,7 @@ CREATE TABLE `sys_job_log`  (
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '异常信息',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 227 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1176 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job_log
@@ -3452,6 +3509,955 @@ INSERT INTO `sys_job_log` VALUES (223, '检查报警', 'DEFAULT', 'maintenanceFo
 INSERT INTO `sys_job_log` VALUES (224, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-24 13:06:00');
 INSERT INTO `sys_job_log` VALUES (225, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-24 13:07:00');
 INSERT INTO `sys_job_log` VALUES (226, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-24 13:08:00');
+INSERT INTO `sys_job_log` VALUES (227, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-26 22:02:00');
+INSERT INTO `sys_job_log` VALUES (228, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:03:00');
+INSERT INTO `sys_job_log` VALUES (229, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：11毫秒', '0', '', '2026-03-26 22:08:00');
+INSERT INTO `sys_job_log` VALUES (230, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-26 22:09:00');
+INSERT INTO `sys_job_log` VALUES (231, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-26 22:10:00');
+INSERT INTO `sys_job_log` VALUES (232, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-26 22:11:00');
+INSERT INTO `sys_job_log` VALUES (233, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-26 22:12:00');
+INSERT INTO `sys_job_log` VALUES (234, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:13:00');
+INSERT INTO `sys_job_log` VALUES (235, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-26 22:14:00');
+INSERT INTO `sys_job_log` VALUES (236, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-26 22:15:00');
+INSERT INTO `sys_job_log` VALUES (237, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-26 22:16:00');
+INSERT INTO `sys_job_log` VALUES (238, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-26 22:17:00');
+INSERT INTO `sys_job_log` VALUES (239, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:18:00');
+INSERT INTO `sys_job_log` VALUES (240, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:19:00');
+INSERT INTO `sys_job_log` VALUES (241, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-26 22:20:00');
+INSERT INTO `sys_job_log` VALUES (242, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：17毫秒', '0', '', '2026-03-26 22:26:00');
+INSERT INTO `sys_job_log` VALUES (243, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:27:00');
+INSERT INTO `sys_job_log` VALUES (244, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-26 22:28:00');
+INSERT INTO `sys_job_log` VALUES (245, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:29:00');
+INSERT INTO `sys_job_log` VALUES (246, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:30:00');
+INSERT INTO `sys_job_log` VALUES (247, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:31:00');
+INSERT INTO `sys_job_log` VALUES (248, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-26 22:32:00');
+INSERT INTO `sys_job_log` VALUES (249, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:33:00');
+INSERT INTO `sys_job_log` VALUES (250, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-26 22:34:00');
+INSERT INTO `sys_job_log` VALUES (251, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-26 22:35:00');
+INSERT INTO `sys_job_log` VALUES (252, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:36:00');
+INSERT INTO `sys_job_log` VALUES (253, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-26 22:37:00');
+INSERT INTO `sys_job_log` VALUES (254, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：92毫秒', '0', '', '2026-03-27 00:07:00');
+INSERT INTO `sys_job_log` VALUES (255, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 00:08:00');
+INSERT INTO `sys_job_log` VALUES (256, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:09:00');
+INSERT INTO `sys_job_log` VALUES (257, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:10:00');
+INSERT INTO `sys_job_log` VALUES (258, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 00:11:00');
+INSERT INTO `sys_job_log` VALUES (259, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:12:00');
+INSERT INTO `sys_job_log` VALUES (260, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 00:13:00');
+INSERT INTO `sys_job_log` VALUES (261, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:14:00');
+INSERT INTO `sys_job_log` VALUES (262, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:15:00');
+INSERT INTO `sys_job_log` VALUES (263, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-27 00:16:00');
+INSERT INTO `sys_job_log` VALUES (264, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:17:00');
+INSERT INTO `sys_job_log` VALUES (265, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:18:00');
+INSERT INTO `sys_job_log` VALUES (266, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:19:00');
+INSERT INTO `sys_job_log` VALUES (267, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:20:00');
+INSERT INTO `sys_job_log` VALUES (268, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:21:00');
+INSERT INTO `sys_job_log` VALUES (269, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:22:00');
+INSERT INTO `sys_job_log` VALUES (270, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 00:23:00');
+INSERT INTO `sys_job_log` VALUES (271, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:24:00');
+INSERT INTO `sys_job_log` VALUES (272, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 00:25:00');
+INSERT INTO `sys_job_log` VALUES (273, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 00:26:00');
+INSERT INTO `sys_job_log` VALUES (274, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:27:00');
+INSERT INTO `sys_job_log` VALUES (275, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:28:00');
+INSERT INTO `sys_job_log` VALUES (276, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 00:29:00');
+INSERT INTO `sys_job_log` VALUES (277, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:30:00');
+INSERT INTO `sys_job_log` VALUES (278, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:31:00');
+INSERT INTO `sys_job_log` VALUES (279, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 00:32:00');
+INSERT INTO `sys_job_log` VALUES (280, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:33:00');
+INSERT INTO `sys_job_log` VALUES (281, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 00:34:00');
+INSERT INTO `sys_job_log` VALUES (282, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:35:00');
+INSERT INTO `sys_job_log` VALUES (283, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 00:36:00');
+INSERT INTO `sys_job_log` VALUES (284, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:37:00');
+INSERT INTO `sys_job_log` VALUES (285, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 00:38:00');
+INSERT INTO `sys_job_log` VALUES (286, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 00:39:00');
+INSERT INTO `sys_job_log` VALUES (287, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 00:40:00');
+INSERT INTO `sys_job_log` VALUES (288, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:14:00');
+INSERT INTO `sys_job_log` VALUES (289, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 08:15:00');
+INSERT INTO `sys_job_log` VALUES (290, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:16:00');
+INSERT INTO `sys_job_log` VALUES (291, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:17:00');
+INSERT INTO `sys_job_log` VALUES (292, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：10毫秒', '0', '', '2026-03-27 08:18:00');
+INSERT INTO `sys_job_log` VALUES (293, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 08:19:00');
+INSERT INTO `sys_job_log` VALUES (294, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 08:20:00');
+INSERT INTO `sys_job_log` VALUES (295, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:21:00');
+INSERT INTO `sys_job_log` VALUES (296, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:22:00');
+INSERT INTO `sys_job_log` VALUES (297, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 08:23:00');
+INSERT INTO `sys_job_log` VALUES (298, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:24:00');
+INSERT INTO `sys_job_log` VALUES (299, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 08:25:00');
+INSERT INTO `sys_job_log` VALUES (300, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 08:26:00');
+INSERT INTO `sys_job_log` VALUES (301, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 08:27:00');
+INSERT INTO `sys_job_log` VALUES (302, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：47毫秒', '0', '', '2026-03-27 08:28:00');
+INSERT INTO `sys_job_log` VALUES (303, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-27 08:34:00');
+INSERT INTO `sys_job_log` VALUES (304, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:35:00');
+INSERT INTO `sys_job_log` VALUES (305, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:36:00');
+INSERT INTO `sys_job_log` VALUES (306, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:37:00');
+INSERT INTO `sys_job_log` VALUES (307, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:38:00');
+INSERT INTO `sys_job_log` VALUES (308, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：16毫秒', '0', '', '2026-03-27 08:39:00');
+INSERT INTO `sys_job_log` VALUES (309, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:40:00');
+INSERT INTO `sys_job_log` VALUES (310, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:41:00');
+INSERT INTO `sys_job_log` VALUES (311, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:42:00');
+INSERT INTO `sys_job_log` VALUES (312, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:43:00');
+INSERT INTO `sys_job_log` VALUES (313, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:44:00');
+INSERT INTO `sys_job_log` VALUES (314, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:45:00');
+INSERT INTO `sys_job_log` VALUES (315, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:46:00');
+INSERT INTO `sys_job_log` VALUES (316, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:47:00');
+INSERT INTO `sys_job_log` VALUES (317, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:48:00');
+INSERT INTO `sys_job_log` VALUES (318, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:49:00');
+INSERT INTO `sys_job_log` VALUES (319, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:50:00');
+INSERT INTO `sys_job_log` VALUES (320, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:51:00');
+INSERT INTO `sys_job_log` VALUES (321, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:52:00');
+INSERT INTO `sys_job_log` VALUES (322, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:53:00');
+INSERT INTO `sys_job_log` VALUES (323, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:54:00');
+INSERT INTO `sys_job_log` VALUES (324, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:55:00');
+INSERT INTO `sys_job_log` VALUES (325, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 08:56:00');
+INSERT INTO `sys_job_log` VALUES (326, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:57:00');
+INSERT INTO `sys_job_log` VALUES (327, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 08:58:00');
+INSERT INTO `sys_job_log` VALUES (328, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 08:59:00');
+INSERT INTO `sys_job_log` VALUES (329, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:00:00');
+INSERT INTO `sys_job_log` VALUES (330, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:01:00');
+INSERT INTO `sys_job_log` VALUES (331, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:02:00');
+INSERT INTO `sys_job_log` VALUES (332, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:03:00');
+INSERT INTO `sys_job_log` VALUES (333, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:04:00');
+INSERT INTO `sys_job_log` VALUES (334, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:05:00');
+INSERT INTO `sys_job_log` VALUES (335, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:06:00');
+INSERT INTO `sys_job_log` VALUES (336, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:07:00');
+INSERT INTO `sys_job_log` VALUES (337, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:08:00');
+INSERT INTO `sys_job_log` VALUES (338, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:09:00');
+INSERT INTO `sys_job_log` VALUES (339, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-27 09:10:00');
+INSERT INTO `sys_job_log` VALUES (340, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:11:00');
+INSERT INTO `sys_job_log` VALUES (341, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-27 09:12:00');
+INSERT INTO `sys_job_log` VALUES (342, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:13:00');
+INSERT INTO `sys_job_log` VALUES (343, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:14:00');
+INSERT INTO `sys_job_log` VALUES (344, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:15:00');
+INSERT INTO `sys_job_log` VALUES (345, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:16:00');
+INSERT INTO `sys_job_log` VALUES (346, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:17:00');
+INSERT INTO `sys_job_log` VALUES (347, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:18:00');
+INSERT INTO `sys_job_log` VALUES (348, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:19:00');
+INSERT INTO `sys_job_log` VALUES (349, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:20:00');
+INSERT INTO `sys_job_log` VALUES (350, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:21:00');
+INSERT INTO `sys_job_log` VALUES (351, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:22:00');
+INSERT INTO `sys_job_log` VALUES (352, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:23:00');
+INSERT INTO `sys_job_log` VALUES (353, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:24:00');
+INSERT INTO `sys_job_log` VALUES (354, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:25:00');
+INSERT INTO `sys_job_log` VALUES (355, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:26:00');
+INSERT INTO `sys_job_log` VALUES (356, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:27:00');
+INSERT INTO `sys_job_log` VALUES (357, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:28:00');
+INSERT INTO `sys_job_log` VALUES (358, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:29:00');
+INSERT INTO `sys_job_log` VALUES (359, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:30:00');
+INSERT INTO `sys_job_log` VALUES (360, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:31:00');
+INSERT INTO `sys_job_log` VALUES (361, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:32:00');
+INSERT INTO `sys_job_log` VALUES (362, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:33:00');
+INSERT INTO `sys_job_log` VALUES (363, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:34:00');
+INSERT INTO `sys_job_log` VALUES (364, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:35:00');
+INSERT INTO `sys_job_log` VALUES (365, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:36:00');
+INSERT INTO `sys_job_log` VALUES (366, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:37:00');
+INSERT INTO `sys_job_log` VALUES (367, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:38:00');
+INSERT INTO `sys_job_log` VALUES (368, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:39:00');
+INSERT INTO `sys_job_log` VALUES (369, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:40:00');
+INSERT INTO `sys_job_log` VALUES (370, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:41:00');
+INSERT INTO `sys_job_log` VALUES (371, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:42:00');
+INSERT INTO `sys_job_log` VALUES (372, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:43:00');
+INSERT INTO `sys_job_log` VALUES (373, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:44:00');
+INSERT INTO `sys_job_log` VALUES (374, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:45:00');
+INSERT INTO `sys_job_log` VALUES (375, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:46:00');
+INSERT INTO `sys_job_log` VALUES (376, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:47:00');
+INSERT INTO `sys_job_log` VALUES (377, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:48:00');
+INSERT INTO `sys_job_log` VALUES (378, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:49:00');
+INSERT INTO `sys_job_log` VALUES (379, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 09:50:00');
+INSERT INTO `sys_job_log` VALUES (380, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:51:00');
+INSERT INTO `sys_job_log` VALUES (381, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:52:00');
+INSERT INTO `sys_job_log` VALUES (382, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:53:00');
+INSERT INTO `sys_job_log` VALUES (383, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 09:54:00');
+INSERT INTO `sys_job_log` VALUES (384, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:55:00');
+INSERT INTO `sys_job_log` VALUES (385, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:56:00');
+INSERT INTO `sys_job_log` VALUES (386, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:57:00');
+INSERT INTO `sys_job_log` VALUES (387, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 09:58:00');
+INSERT INTO `sys_job_log` VALUES (388, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 09:59:00');
+INSERT INTO `sys_job_log` VALUES (389, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:00:00');
+INSERT INTO `sys_job_log` VALUES (390, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:01:00');
+INSERT INTO `sys_job_log` VALUES (391, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:02:00');
+INSERT INTO `sys_job_log` VALUES (392, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:03:00');
+INSERT INTO `sys_job_log` VALUES (393, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:04:00');
+INSERT INTO `sys_job_log` VALUES (394, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:05:00');
+INSERT INTO `sys_job_log` VALUES (395, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:06:00');
+INSERT INTO `sys_job_log` VALUES (396, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:07:00');
+INSERT INTO `sys_job_log` VALUES (397, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:08:00');
+INSERT INTO `sys_job_log` VALUES (398, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:09:00');
+INSERT INTO `sys_job_log` VALUES (399, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:10:00');
+INSERT INTO `sys_job_log` VALUES (400, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:11:00');
+INSERT INTO `sys_job_log` VALUES (401, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:12:00');
+INSERT INTO `sys_job_log` VALUES (402, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:13:00');
+INSERT INTO `sys_job_log` VALUES (403, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:14:00');
+INSERT INTO `sys_job_log` VALUES (404, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:15:00');
+INSERT INTO `sys_job_log` VALUES (405, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:16:00');
+INSERT INTO `sys_job_log` VALUES (406, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:17:00');
+INSERT INTO `sys_job_log` VALUES (407, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:18:00');
+INSERT INTO `sys_job_log` VALUES (408, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:19:00');
+INSERT INTO `sys_job_log` VALUES (409, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:20:00');
+INSERT INTO `sys_job_log` VALUES (410, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:21:00');
+INSERT INTO `sys_job_log` VALUES (411, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:22:00');
+INSERT INTO `sys_job_log` VALUES (412, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:23:00');
+INSERT INTO `sys_job_log` VALUES (413, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:24:00');
+INSERT INTO `sys_job_log` VALUES (414, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:25:00');
+INSERT INTO `sys_job_log` VALUES (415, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:26:00');
+INSERT INTO `sys_job_log` VALUES (416, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-27 10:27:00');
+INSERT INTO `sys_job_log` VALUES (417, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:28:00');
+INSERT INTO `sys_job_log` VALUES (418, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:29:00');
+INSERT INTO `sys_job_log` VALUES (419, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:30:00');
+INSERT INTO `sys_job_log` VALUES (420, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:31:00');
+INSERT INTO `sys_job_log` VALUES (421, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:32:00');
+INSERT INTO `sys_job_log` VALUES (422, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:33:00');
+INSERT INTO `sys_job_log` VALUES (423, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:34:00');
+INSERT INTO `sys_job_log` VALUES (424, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:35:00');
+INSERT INTO `sys_job_log` VALUES (425, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:36:00');
+INSERT INTO `sys_job_log` VALUES (426, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:37:00');
+INSERT INTO `sys_job_log` VALUES (427, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:38:00');
+INSERT INTO `sys_job_log` VALUES (428, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:39:00');
+INSERT INTO `sys_job_log` VALUES (429, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:40:00');
+INSERT INTO `sys_job_log` VALUES (430, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:41:00');
+INSERT INTO `sys_job_log` VALUES (431, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:42:00');
+INSERT INTO `sys_job_log` VALUES (432, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:43:00');
+INSERT INTO `sys_job_log` VALUES (433, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:44:00');
+INSERT INTO `sys_job_log` VALUES (434, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:45:00');
+INSERT INTO `sys_job_log` VALUES (435, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:46:00');
+INSERT INTO `sys_job_log` VALUES (436, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:47:00');
+INSERT INTO `sys_job_log` VALUES (437, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:48:00');
+INSERT INTO `sys_job_log` VALUES (438, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 10:49:00');
+INSERT INTO `sys_job_log` VALUES (439, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:50:00');
+INSERT INTO `sys_job_log` VALUES (440, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:51:00');
+INSERT INTO `sys_job_log` VALUES (441, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:52:00');
+INSERT INTO `sys_job_log` VALUES (442, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:53:00');
+INSERT INTO `sys_job_log` VALUES (443, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:54:00');
+INSERT INTO `sys_job_log` VALUES (444, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:55:00');
+INSERT INTO `sys_job_log` VALUES (445, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:56:00');
+INSERT INTO `sys_job_log` VALUES (446, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:57:00');
+INSERT INTO `sys_job_log` VALUES (447, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:58:00');
+INSERT INTO `sys_job_log` VALUES (448, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 10:59:00');
+INSERT INTO `sys_job_log` VALUES (449, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:00:00');
+INSERT INTO `sys_job_log` VALUES (450, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:01:00');
+INSERT INTO `sys_job_log` VALUES (451, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:02:00');
+INSERT INTO `sys_job_log` VALUES (452, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 11:03:00');
+INSERT INTO `sys_job_log` VALUES (453, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:04:00');
+INSERT INTO `sys_job_log` VALUES (454, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:05:00');
+INSERT INTO `sys_job_log` VALUES (455, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:06:00');
+INSERT INTO `sys_job_log` VALUES (456, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:07:00');
+INSERT INTO `sys_job_log` VALUES (457, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 11:08:00');
+INSERT INTO `sys_job_log` VALUES (458, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 11:09:00');
+INSERT INTO `sys_job_log` VALUES (459, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:10:00');
+INSERT INTO `sys_job_log` VALUES (460, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:11:00');
+INSERT INTO `sys_job_log` VALUES (461, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:12:00');
+INSERT INTO `sys_job_log` VALUES (462, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 11:13:00');
+INSERT INTO `sys_job_log` VALUES (463, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:14:00');
+INSERT INTO `sys_job_log` VALUES (464, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:15:00');
+INSERT INTO `sys_job_log` VALUES (465, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:16:00');
+INSERT INTO `sys_job_log` VALUES (466, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:17:00');
+INSERT INTO `sys_job_log` VALUES (467, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 11:18:00');
+INSERT INTO `sys_job_log` VALUES (468, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:19:00');
+INSERT INTO `sys_job_log` VALUES (469, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:20:00');
+INSERT INTO `sys_job_log` VALUES (470, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:21:00');
+INSERT INTO `sys_job_log` VALUES (471, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 11:22:00');
+INSERT INTO `sys_job_log` VALUES (472, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 11:23:00');
+INSERT INTO `sys_job_log` VALUES (473, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-27 11:24:00');
+INSERT INTO `sys_job_log` VALUES (474, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-27 11:25:00');
+INSERT INTO `sys_job_log` VALUES (475, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：90毫秒', '0', '', '2026-03-29 11:40:00');
+INSERT INTO `sys_job_log` VALUES (476, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 11:41:00');
+INSERT INTO `sys_job_log` VALUES (477, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：14毫秒', '0', '', '2026-03-29 11:42:00');
+INSERT INTO `sys_job_log` VALUES (478, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 11:43:00');
+INSERT INTO `sys_job_log` VALUES (479, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 11:44:00');
+INSERT INTO `sys_job_log` VALUES (480, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 11:45:00');
+INSERT INTO `sys_job_log` VALUES (481, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 11:46:00');
+INSERT INTO `sys_job_log` VALUES (482, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 11:47:00');
+INSERT INTO `sys_job_log` VALUES (483, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 11:48:00');
+INSERT INTO `sys_job_log` VALUES (484, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 11:49:00');
+INSERT INTO `sys_job_log` VALUES (485, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：12毫秒', '0', '', '2026-03-29 11:51:00');
+INSERT INTO `sys_job_log` VALUES (486, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 11:52:00');
+INSERT INTO `sys_job_log` VALUES (487, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 11:53:00');
+INSERT INTO `sys_job_log` VALUES (488, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 11:54:00');
+INSERT INTO `sys_job_log` VALUES (489, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 11:55:00');
+INSERT INTO `sys_job_log` VALUES (490, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 11:56:00');
+INSERT INTO `sys_job_log` VALUES (491, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 11:57:00');
+INSERT INTO `sys_job_log` VALUES (492, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 11:58:00');
+INSERT INTO `sys_job_log` VALUES (493, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 11:59:00');
+INSERT INTO `sys_job_log` VALUES (494, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:00:00');
+INSERT INTO `sys_job_log` VALUES (495, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：11毫秒', '0', '', '2026-03-29 12:01:00');
+INSERT INTO `sys_job_log` VALUES (496, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:02:00');
+INSERT INTO `sys_job_log` VALUES (497, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:03:00');
+INSERT INTO `sys_job_log` VALUES (498, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:04:00');
+INSERT INTO `sys_job_log` VALUES (499, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 12:05:00');
+INSERT INTO `sys_job_log` VALUES (500, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:06:00');
+INSERT INTO `sys_job_log` VALUES (501, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:07:00');
+INSERT INTO `sys_job_log` VALUES (502, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:08:00');
+INSERT INTO `sys_job_log` VALUES (503, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:09:00');
+INSERT INTO `sys_job_log` VALUES (504, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:10:00');
+INSERT INTO `sys_job_log` VALUES (505, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:11:00');
+INSERT INTO `sys_job_log` VALUES (506, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 12:12:00');
+INSERT INTO `sys_job_log` VALUES (507, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 12:13:00');
+INSERT INTO `sys_job_log` VALUES (508, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:14:00');
+INSERT INTO `sys_job_log` VALUES (509, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:15:00');
+INSERT INTO `sys_job_log` VALUES (510, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:16:00');
+INSERT INTO `sys_job_log` VALUES (511, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:17:00');
+INSERT INTO `sys_job_log` VALUES (512, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:18:00');
+INSERT INTO `sys_job_log` VALUES (513, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:19:00');
+INSERT INTO `sys_job_log` VALUES (514, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 12:20:00');
+INSERT INTO `sys_job_log` VALUES (515, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:21:00');
+INSERT INTO `sys_job_log` VALUES (516, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:22:00');
+INSERT INTO `sys_job_log` VALUES (517, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:23:00');
+INSERT INTO `sys_job_log` VALUES (518, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 12:24:00');
+INSERT INTO `sys_job_log` VALUES (519, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:25:00');
+INSERT INTO `sys_job_log` VALUES (520, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:26:00');
+INSERT INTO `sys_job_log` VALUES (521, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:27:00');
+INSERT INTO `sys_job_log` VALUES (522, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:28:00');
+INSERT INTO `sys_job_log` VALUES (523, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:29:00');
+INSERT INTO `sys_job_log` VALUES (524, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:30:00');
+INSERT INTO `sys_job_log` VALUES (525, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:31:00');
+INSERT INTO `sys_job_log` VALUES (526, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:32:00');
+INSERT INTO `sys_job_log` VALUES (527, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:33:00');
+INSERT INTO `sys_job_log` VALUES (528, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:34:00');
+INSERT INTO `sys_job_log` VALUES (529, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:35:00');
+INSERT INTO `sys_job_log` VALUES (530, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:36:00');
+INSERT INTO `sys_job_log` VALUES (531, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:37:00');
+INSERT INTO `sys_job_log` VALUES (532, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:38:00');
+INSERT INTO `sys_job_log` VALUES (533, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:39:00');
+INSERT INTO `sys_job_log` VALUES (534, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:40:00');
+INSERT INTO `sys_job_log` VALUES (535, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 12:41:00');
+INSERT INTO `sys_job_log` VALUES (536, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:42:00');
+INSERT INTO `sys_job_log` VALUES (537, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:43:00');
+INSERT INTO `sys_job_log` VALUES (538, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:44:00');
+INSERT INTO `sys_job_log` VALUES (539, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:45:00');
+INSERT INTO `sys_job_log` VALUES (540, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:46:00');
+INSERT INTO `sys_job_log` VALUES (541, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:47:00');
+INSERT INTO `sys_job_log` VALUES (542, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:48:00');
+INSERT INTO `sys_job_log` VALUES (543, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:49:00');
+INSERT INTO `sys_job_log` VALUES (544, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 12:50:00');
+INSERT INTO `sys_job_log` VALUES (545, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:51:00');
+INSERT INTO `sys_job_log` VALUES (546, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:52:00');
+INSERT INTO `sys_job_log` VALUES (547, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:53:00');
+INSERT INTO `sys_job_log` VALUES (548, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:54:00');
+INSERT INTO `sys_job_log` VALUES (549, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:55:00');
+INSERT INTO `sys_job_log` VALUES (550, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:56:00');
+INSERT INTO `sys_job_log` VALUES (551, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:57:00');
+INSERT INTO `sys_job_log` VALUES (552, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:58:00');
+INSERT INTO `sys_job_log` VALUES (553, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 12:59:00');
+INSERT INTO `sys_job_log` VALUES (554, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:00:00');
+INSERT INTO `sys_job_log` VALUES (555, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:01:00');
+INSERT INTO `sys_job_log` VALUES (556, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:02:00');
+INSERT INTO `sys_job_log` VALUES (557, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:03:00');
+INSERT INTO `sys_job_log` VALUES (558, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:04:00');
+INSERT INTO `sys_job_log` VALUES (559, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:05:00');
+INSERT INTO `sys_job_log` VALUES (560, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:06:00');
+INSERT INTO `sys_job_log` VALUES (561, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:07:00');
+INSERT INTO `sys_job_log` VALUES (562, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:08:00');
+INSERT INTO `sys_job_log` VALUES (563, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:09:00');
+INSERT INTO `sys_job_log` VALUES (564, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:10:00');
+INSERT INTO `sys_job_log` VALUES (565, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:11:00');
+INSERT INTO `sys_job_log` VALUES (566, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:12:00');
+INSERT INTO `sys_job_log` VALUES (567, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:13:00');
+INSERT INTO `sys_job_log` VALUES (568, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:14:00');
+INSERT INTO `sys_job_log` VALUES (569, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:15:00');
+INSERT INTO `sys_job_log` VALUES (570, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:16:00');
+INSERT INTO `sys_job_log` VALUES (571, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:17:00');
+INSERT INTO `sys_job_log` VALUES (572, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:18:00');
+INSERT INTO `sys_job_log` VALUES (573, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:19:00');
+INSERT INTO `sys_job_log` VALUES (574, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:20:00');
+INSERT INTO `sys_job_log` VALUES (575, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:21:00');
+INSERT INTO `sys_job_log` VALUES (576, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:22:00');
+INSERT INTO `sys_job_log` VALUES (577, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:23:00');
+INSERT INTO `sys_job_log` VALUES (578, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:24:00');
+INSERT INTO `sys_job_log` VALUES (579, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:25:00');
+INSERT INTO `sys_job_log` VALUES (580, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:26:00');
+INSERT INTO `sys_job_log` VALUES (581, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:27:00');
+INSERT INTO `sys_job_log` VALUES (582, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:28:00');
+INSERT INTO `sys_job_log` VALUES (583, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:29:00');
+INSERT INTO `sys_job_log` VALUES (584, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:30:00');
+INSERT INTO `sys_job_log` VALUES (585, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:31:00');
+INSERT INTO `sys_job_log` VALUES (586, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 13:32:00');
+INSERT INTO `sys_job_log` VALUES (587, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:33:00');
+INSERT INTO `sys_job_log` VALUES (588, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:34:00');
+INSERT INTO `sys_job_log` VALUES (589, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:35:00');
+INSERT INTO `sys_job_log` VALUES (590, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:36:00');
+INSERT INTO `sys_job_log` VALUES (591, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:37:00');
+INSERT INTO `sys_job_log` VALUES (592, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:38:00');
+INSERT INTO `sys_job_log` VALUES (593, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:39:00');
+INSERT INTO `sys_job_log` VALUES (594, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:40:00');
+INSERT INTO `sys_job_log` VALUES (595, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:41:00');
+INSERT INTO `sys_job_log` VALUES (596, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:42:00');
+INSERT INTO `sys_job_log` VALUES (597, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:43:00');
+INSERT INTO `sys_job_log` VALUES (598, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:44:00');
+INSERT INTO `sys_job_log` VALUES (599, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:45:00');
+INSERT INTO `sys_job_log` VALUES (600, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:46:00');
+INSERT INTO `sys_job_log` VALUES (601, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:47:00');
+INSERT INTO `sys_job_log` VALUES (602, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:48:00');
+INSERT INTO `sys_job_log` VALUES (603, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:49:00');
+INSERT INTO `sys_job_log` VALUES (604, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:50:00');
+INSERT INTO `sys_job_log` VALUES (605, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:51:00');
+INSERT INTO `sys_job_log` VALUES (606, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:52:00');
+INSERT INTO `sys_job_log` VALUES (607, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:53:00');
+INSERT INTO `sys_job_log` VALUES (608, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:54:00');
+INSERT INTO `sys_job_log` VALUES (609, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:55:00');
+INSERT INTO `sys_job_log` VALUES (610, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:56:00');
+INSERT INTO `sys_job_log` VALUES (611, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:57:00');
+INSERT INTO `sys_job_log` VALUES (612, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 13:58:00');
+INSERT INTO `sys_job_log` VALUES (613, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 13:59:00');
+INSERT INTO `sys_job_log` VALUES (614, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:00:00');
+INSERT INTO `sys_job_log` VALUES (615, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:01:00');
+INSERT INTO `sys_job_log` VALUES (616, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:02:00');
+INSERT INTO `sys_job_log` VALUES (617, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:03:00');
+INSERT INTO `sys_job_log` VALUES (618, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:04:00');
+INSERT INTO `sys_job_log` VALUES (619, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:05:00');
+INSERT INTO `sys_job_log` VALUES (620, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:06:00');
+INSERT INTO `sys_job_log` VALUES (621, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:07:00');
+INSERT INTO `sys_job_log` VALUES (622, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:08:00');
+INSERT INTO `sys_job_log` VALUES (623, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:09:00');
+INSERT INTO `sys_job_log` VALUES (624, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:10:00');
+INSERT INTO `sys_job_log` VALUES (625, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:11:00');
+INSERT INTO `sys_job_log` VALUES (626, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:12:00');
+INSERT INTO `sys_job_log` VALUES (627, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:13:00');
+INSERT INTO `sys_job_log` VALUES (628, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:14:00');
+INSERT INTO `sys_job_log` VALUES (629, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:15:00');
+INSERT INTO `sys_job_log` VALUES (630, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:16:00');
+INSERT INTO `sys_job_log` VALUES (631, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:17:00');
+INSERT INTO `sys_job_log` VALUES (632, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:18:00');
+INSERT INTO `sys_job_log` VALUES (633, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:19:00');
+INSERT INTO `sys_job_log` VALUES (634, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:20:00');
+INSERT INTO `sys_job_log` VALUES (635, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:21:00');
+INSERT INTO `sys_job_log` VALUES (636, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 14:22:00');
+INSERT INTO `sys_job_log` VALUES (637, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:23:00');
+INSERT INTO `sys_job_log` VALUES (638, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:24:00');
+INSERT INTO `sys_job_log` VALUES (639, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:25:00');
+INSERT INTO `sys_job_log` VALUES (640, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:26:00');
+INSERT INTO `sys_job_log` VALUES (641, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:27:00');
+INSERT INTO `sys_job_log` VALUES (642, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:28:00');
+INSERT INTO `sys_job_log` VALUES (643, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:29:00');
+INSERT INTO `sys_job_log` VALUES (644, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:30:00');
+INSERT INTO `sys_job_log` VALUES (645, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:31:00');
+INSERT INTO `sys_job_log` VALUES (646, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:32:00');
+INSERT INTO `sys_job_log` VALUES (647, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:33:00');
+INSERT INTO `sys_job_log` VALUES (648, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:34:00');
+INSERT INTO `sys_job_log` VALUES (649, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:35:00');
+INSERT INTO `sys_job_log` VALUES (650, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:36:00');
+INSERT INTO `sys_job_log` VALUES (651, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:37:00');
+INSERT INTO `sys_job_log` VALUES (652, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:38:00');
+INSERT INTO `sys_job_log` VALUES (653, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:39:00');
+INSERT INTO `sys_job_log` VALUES (654, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:40:00');
+INSERT INTO `sys_job_log` VALUES (655, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:41:00');
+INSERT INTO `sys_job_log` VALUES (656, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:42:00');
+INSERT INTO `sys_job_log` VALUES (657, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:43:00');
+INSERT INTO `sys_job_log` VALUES (658, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:44:00');
+INSERT INTO `sys_job_log` VALUES (659, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：1毫秒', '0', '', '2026-03-29 14:45:00');
+INSERT INTO `sys_job_log` VALUES (660, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:46:00');
+INSERT INTO `sys_job_log` VALUES (661, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:47:00');
+INSERT INTO `sys_job_log` VALUES (662, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:48:00');
+INSERT INTO `sys_job_log` VALUES (663, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:49:00');
+INSERT INTO `sys_job_log` VALUES (664, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:50:00');
+INSERT INTO `sys_job_log` VALUES (665, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:51:00');
+INSERT INTO `sys_job_log` VALUES (666, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:52:00');
+INSERT INTO `sys_job_log` VALUES (667, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 14:53:00');
+INSERT INTO `sys_job_log` VALUES (668, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:54:00');
+INSERT INTO `sys_job_log` VALUES (669, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:55:00');
+INSERT INTO `sys_job_log` VALUES (670, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:56:00');
+INSERT INTO `sys_job_log` VALUES (671, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:57:00');
+INSERT INTO `sys_job_log` VALUES (672, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 14:58:00');
+INSERT INTO `sys_job_log` VALUES (673, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 14:59:00');
+INSERT INTO `sys_job_log` VALUES (674, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:00:00');
+INSERT INTO `sys_job_log` VALUES (675, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:01:00');
+INSERT INTO `sys_job_log` VALUES (676, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:02:00');
+INSERT INTO `sys_job_log` VALUES (677, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:03:00');
+INSERT INTO `sys_job_log` VALUES (678, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:04:00');
+INSERT INTO `sys_job_log` VALUES (679, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:05:00');
+INSERT INTO `sys_job_log` VALUES (680, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:06:00');
+INSERT INTO `sys_job_log` VALUES (681, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:07:00');
+INSERT INTO `sys_job_log` VALUES (682, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:08:00');
+INSERT INTO `sys_job_log` VALUES (683, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:09:00');
+INSERT INTO `sys_job_log` VALUES (684, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:10:00');
+INSERT INTO `sys_job_log` VALUES (685, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:11:00');
+INSERT INTO `sys_job_log` VALUES (686, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:12:00');
+INSERT INTO `sys_job_log` VALUES (687, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:13:00');
+INSERT INTO `sys_job_log` VALUES (688, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:14:00');
+INSERT INTO `sys_job_log` VALUES (689, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:15:00');
+INSERT INTO `sys_job_log` VALUES (690, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 15:16:00');
+INSERT INTO `sys_job_log` VALUES (691, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:17:00');
+INSERT INTO `sys_job_log` VALUES (692, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:18:00');
+INSERT INTO `sys_job_log` VALUES (693, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:19:00');
+INSERT INTO `sys_job_log` VALUES (694, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:20:00');
+INSERT INTO `sys_job_log` VALUES (695, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:21:00');
+INSERT INTO `sys_job_log` VALUES (696, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:22:00');
+INSERT INTO `sys_job_log` VALUES (697, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:23:00');
+INSERT INTO `sys_job_log` VALUES (698, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:24:00');
+INSERT INTO `sys_job_log` VALUES (699, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:25:00');
+INSERT INTO `sys_job_log` VALUES (700, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：13毫秒', '0', '', '2026-03-29 15:26:00');
+INSERT INTO `sys_job_log` VALUES (701, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:27:00');
+INSERT INTO `sys_job_log` VALUES (702, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 15:28:00');
+INSERT INTO `sys_job_log` VALUES (703, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:29:00');
+INSERT INTO `sys_job_log` VALUES (704, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:30:00');
+INSERT INTO `sys_job_log` VALUES (705, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:31:00');
+INSERT INTO `sys_job_log` VALUES (706, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 15:32:00');
+INSERT INTO `sys_job_log` VALUES (707, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 15:33:00');
+INSERT INTO `sys_job_log` VALUES (708, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:34:00');
+INSERT INTO `sys_job_log` VALUES (709, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 15:35:00');
+INSERT INTO `sys_job_log` VALUES (710, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:36:00');
+INSERT INTO `sys_job_log` VALUES (711, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:37:00');
+INSERT INTO `sys_job_log` VALUES (712, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:38:00');
+INSERT INTO `sys_job_log` VALUES (713, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 15:39:00');
+INSERT INTO `sys_job_log` VALUES (714, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 15:40:00');
+INSERT INTO `sys_job_log` VALUES (715, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:41:00');
+INSERT INTO `sys_job_log` VALUES (716, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:42:00');
+INSERT INTO `sys_job_log` VALUES (717, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:43:00');
+INSERT INTO `sys_job_log` VALUES (718, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 15:44:00');
+INSERT INTO `sys_job_log` VALUES (719, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:45:00');
+INSERT INTO `sys_job_log` VALUES (720, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:46:00');
+INSERT INTO `sys_job_log` VALUES (721, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:47:00');
+INSERT INTO `sys_job_log` VALUES (722, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：106毫秒', '0', '', '2026-03-29 15:48:00');
+INSERT INTO `sys_job_log` VALUES (723, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 15:49:00');
+INSERT INTO `sys_job_log` VALUES (724, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:50:00');
+INSERT INTO `sys_job_log` VALUES (725, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:51:00');
+INSERT INTO `sys_job_log` VALUES (726, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:52:00');
+INSERT INTO `sys_job_log` VALUES (727, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:53:00');
+INSERT INTO `sys_job_log` VALUES (728, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 15:54:00');
+INSERT INTO `sys_job_log` VALUES (729, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 15:55:00');
+INSERT INTO `sys_job_log` VALUES (730, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 15:56:00');
+INSERT INTO `sys_job_log` VALUES (731, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：9毫秒', '0', '', '2026-03-29 15:57:00');
+INSERT INTO `sys_job_log` VALUES (732, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 15:58:00');
+INSERT INTO `sys_job_log` VALUES (733, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：9毫秒', '0', '', '2026-03-29 15:59:00');
+INSERT INTO `sys_job_log` VALUES (734, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 16:00:00');
+INSERT INTO `sys_job_log` VALUES (735, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 16:01:00');
+INSERT INTO `sys_job_log` VALUES (736, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:02:00');
+INSERT INTO `sys_job_log` VALUES (737, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:03:00');
+INSERT INTO `sys_job_log` VALUES (738, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 16:04:00');
+INSERT INTO `sys_job_log` VALUES (739, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:05:00');
+INSERT INTO `sys_job_log` VALUES (740, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 16:06:00');
+INSERT INTO `sys_job_log` VALUES (741, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 16:07:00');
+INSERT INTO `sys_job_log` VALUES (742, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 16:08:00');
+INSERT INTO `sys_job_log` VALUES (743, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:09:00');
+INSERT INTO `sys_job_log` VALUES (744, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:10:00');
+INSERT INTO `sys_job_log` VALUES (745, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:11:00');
+INSERT INTO `sys_job_log` VALUES (746, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:12:00');
+INSERT INTO `sys_job_log` VALUES (747, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:13:00');
+INSERT INTO `sys_job_log` VALUES (748, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:14:00');
+INSERT INTO `sys_job_log` VALUES (749, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:15:00');
+INSERT INTO `sys_job_log` VALUES (750, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:16:00');
+INSERT INTO `sys_job_log` VALUES (751, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:17:00');
+INSERT INTO `sys_job_log` VALUES (752, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:18:00');
+INSERT INTO `sys_job_log` VALUES (753, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:19:00');
+INSERT INTO `sys_job_log` VALUES (754, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:20:00');
+INSERT INTO `sys_job_log` VALUES (755, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:21:00');
+INSERT INTO `sys_job_log` VALUES (756, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:22:00');
+INSERT INTO `sys_job_log` VALUES (757, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:23:00');
+INSERT INTO `sys_job_log` VALUES (758, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:24:00');
+INSERT INTO `sys_job_log` VALUES (759, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:25:00');
+INSERT INTO `sys_job_log` VALUES (760, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:26:00');
+INSERT INTO `sys_job_log` VALUES (761, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 16:27:00');
+INSERT INTO `sys_job_log` VALUES (762, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:28:00');
+INSERT INTO `sys_job_log` VALUES (763, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:29:00');
+INSERT INTO `sys_job_log` VALUES (764, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:30:00');
+INSERT INTO `sys_job_log` VALUES (765, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:31:00');
+INSERT INTO `sys_job_log` VALUES (766, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:32:00');
+INSERT INTO `sys_job_log` VALUES (767, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:33:00');
+INSERT INTO `sys_job_log` VALUES (768, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 16:34:00');
+INSERT INTO `sys_job_log` VALUES (769, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 16:35:00');
+INSERT INTO `sys_job_log` VALUES (770, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 16:36:00');
+INSERT INTO `sys_job_log` VALUES (771, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:37:00');
+INSERT INTO `sys_job_log` VALUES (772, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 16:38:00');
+INSERT INTO `sys_job_log` VALUES (773, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 16:39:00');
+INSERT INTO `sys_job_log` VALUES (774, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:40:00');
+INSERT INTO `sys_job_log` VALUES (775, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:41:00');
+INSERT INTO `sys_job_log` VALUES (776, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:42:00');
+INSERT INTO `sys_job_log` VALUES (777, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:43:00');
+INSERT INTO `sys_job_log` VALUES (778, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 16:44:00');
+INSERT INTO `sys_job_log` VALUES (779, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:45:00');
+INSERT INTO `sys_job_log` VALUES (780, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:46:00');
+INSERT INTO `sys_job_log` VALUES (781, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:47:00');
+INSERT INTO `sys_job_log` VALUES (782, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:48:00');
+INSERT INTO `sys_job_log` VALUES (783, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：56毫秒', '0', '', '2026-03-29 16:49:00');
+INSERT INTO `sys_job_log` VALUES (784, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:50:00');
+INSERT INTO `sys_job_log` VALUES (785, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:51:00');
+INSERT INTO `sys_job_log` VALUES (786, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 16:52:00');
+INSERT INTO `sys_job_log` VALUES (787, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 16:53:00');
+INSERT INTO `sys_job_log` VALUES (788, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：18毫秒', '0', '', '2026-03-29 16:54:00');
+INSERT INTO `sys_job_log` VALUES (789, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 16:55:00');
+INSERT INTO `sys_job_log` VALUES (790, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 16:56:00');
+INSERT INTO `sys_job_log` VALUES (791, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：11毫秒', '0', '', '2026-03-29 16:58:00');
+INSERT INTO `sys_job_log` VALUES (792, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 16:59:00');
+INSERT INTO `sys_job_log` VALUES (793, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:00:00');
+INSERT INTO `sys_job_log` VALUES (794, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 17:01:00');
+INSERT INTO `sys_job_log` VALUES (795, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:02:00');
+INSERT INTO `sys_job_log` VALUES (796, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：8毫秒', '0', '', '2026-03-29 17:03:00');
+INSERT INTO `sys_job_log` VALUES (797, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:04:00');
+INSERT INTO `sys_job_log` VALUES (798, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:05:00');
+INSERT INTO `sys_job_log` VALUES (799, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:06:00');
+INSERT INTO `sys_job_log` VALUES (800, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：9毫秒', '0', '', '2026-03-29 17:07:00');
+INSERT INTO `sys_job_log` VALUES (801, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 17:08:00');
+INSERT INTO `sys_job_log` VALUES (802, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 17:09:00');
+INSERT INTO `sys_job_log` VALUES (803, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:10:00');
+INSERT INTO `sys_job_log` VALUES (804, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:11:00');
+INSERT INTO `sys_job_log` VALUES (805, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 17:12:00');
+INSERT INTO `sys_job_log` VALUES (806, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:13:00');
+INSERT INTO `sys_job_log` VALUES (807, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 17:14:00');
+INSERT INTO `sys_job_log` VALUES (808, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:15:00');
+INSERT INTO `sys_job_log` VALUES (809, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 17:16:00');
+INSERT INTO `sys_job_log` VALUES (810, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:17:00');
+INSERT INTO `sys_job_log` VALUES (811, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:18:00');
+INSERT INTO `sys_job_log` VALUES (812, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:19:00');
+INSERT INTO `sys_job_log` VALUES (813, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：12毫秒', '0', '', '2026-03-29 17:20:00');
+INSERT INTO `sys_job_log` VALUES (814, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:21:00');
+INSERT INTO `sys_job_log` VALUES (815, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：34毫秒', '0', '', '2026-03-29 17:22:00');
+INSERT INTO `sys_job_log` VALUES (816, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:23:00');
+INSERT INTO `sys_job_log` VALUES (817, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:24:00');
+INSERT INTO `sys_job_log` VALUES (818, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:25:00');
+INSERT INTO `sys_job_log` VALUES (819, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:26:00');
+INSERT INTO `sys_job_log` VALUES (820, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:27:00');
+INSERT INTO `sys_job_log` VALUES (821, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:28:00');
+INSERT INTO `sys_job_log` VALUES (822, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:29:00');
+INSERT INTO `sys_job_log` VALUES (823, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:30:00');
+INSERT INTO `sys_job_log` VALUES (824, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 17:31:00');
+INSERT INTO `sys_job_log` VALUES (825, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:32:00');
+INSERT INTO `sys_job_log` VALUES (826, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:33:00');
+INSERT INTO `sys_job_log` VALUES (827, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：12毫秒', '0', '', '2026-03-29 17:34:00');
+INSERT INTO `sys_job_log` VALUES (828, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 17:35:00');
+INSERT INTO `sys_job_log` VALUES (829, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:36:00');
+INSERT INTO `sys_job_log` VALUES (830, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:37:00');
+INSERT INTO `sys_job_log` VALUES (831, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 17:38:00');
+INSERT INTO `sys_job_log` VALUES (832, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:39:00');
+INSERT INTO `sys_job_log` VALUES (833, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:40:00');
+INSERT INTO `sys_job_log` VALUES (834, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:41:00');
+INSERT INTO `sys_job_log` VALUES (835, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:42:00');
+INSERT INTO `sys_job_log` VALUES (836, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:43:00');
+INSERT INTO `sys_job_log` VALUES (837, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:44:00');
+INSERT INTO `sys_job_log` VALUES (838, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：9毫秒', '0', '', '2026-03-29 17:46:00');
+INSERT INTO `sys_job_log` VALUES (839, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:47:00');
+INSERT INTO `sys_job_log` VALUES (840, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:48:00');
+INSERT INTO `sys_job_log` VALUES (841, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:49:00');
+INSERT INTO `sys_job_log` VALUES (842, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:50:00');
+INSERT INTO `sys_job_log` VALUES (843, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：13毫秒', '0', '', '2026-03-29 17:51:00');
+INSERT INTO `sys_job_log` VALUES (844, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 17:52:00');
+INSERT INTO `sys_job_log` VALUES (845, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:53:00');
+INSERT INTO `sys_job_log` VALUES (846, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：13毫秒', '0', '', '2026-03-29 17:54:00');
+INSERT INTO `sys_job_log` VALUES (847, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 17:55:00');
+INSERT INTO `sys_job_log` VALUES (848, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 17:56:00');
+INSERT INTO `sys_job_log` VALUES (849, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 17:57:00');
+INSERT INTO `sys_job_log` VALUES (850, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 17:58:00');
+INSERT INTO `sys_job_log` VALUES (851, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 17:59:00');
+INSERT INTO `sys_job_log` VALUES (852, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:00:00');
+INSERT INTO `sys_job_log` VALUES (853, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:01:00');
+INSERT INTO `sys_job_log` VALUES (854, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:02:00');
+INSERT INTO `sys_job_log` VALUES (855, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:03:00');
+INSERT INTO `sys_job_log` VALUES (856, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:04:00');
+INSERT INTO `sys_job_log` VALUES (857, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:05:00');
+INSERT INTO `sys_job_log` VALUES (858, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:06:00');
+INSERT INTO `sys_job_log` VALUES (859, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 18:07:00');
+INSERT INTO `sys_job_log` VALUES (860, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:08:00');
+INSERT INTO `sys_job_log` VALUES (861, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:09:00');
+INSERT INTO `sys_job_log` VALUES (862, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:10:00');
+INSERT INTO `sys_job_log` VALUES (863, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:11:00');
+INSERT INTO `sys_job_log` VALUES (864, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:12:00');
+INSERT INTO `sys_job_log` VALUES (865, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:13:00');
+INSERT INTO `sys_job_log` VALUES (866, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:14:00');
+INSERT INTO `sys_job_log` VALUES (867, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:15:00');
+INSERT INTO `sys_job_log` VALUES (868, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:16:00');
+INSERT INTO `sys_job_log` VALUES (869, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:17:00');
+INSERT INTO `sys_job_log` VALUES (870, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:18:00');
+INSERT INTO `sys_job_log` VALUES (871, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:19:00');
+INSERT INTO `sys_job_log` VALUES (872, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:20:00');
+INSERT INTO `sys_job_log` VALUES (873, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:21:00');
+INSERT INTO `sys_job_log` VALUES (874, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:22:00');
+INSERT INTO `sys_job_log` VALUES (875, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：9毫秒', '0', '', '2026-03-29 18:23:00');
+INSERT INTO `sys_job_log` VALUES (876, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 18:24:00');
+INSERT INTO `sys_job_log` VALUES (877, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:25:00');
+INSERT INTO `sys_job_log` VALUES (878, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:26:00');
+INSERT INTO `sys_job_log` VALUES (879, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：9毫秒', '0', '', '2026-03-29 18:27:00');
+INSERT INTO `sys_job_log` VALUES (880, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:28:00');
+INSERT INTO `sys_job_log` VALUES (881, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:29:00');
+INSERT INTO `sys_job_log` VALUES (882, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:30:00');
+INSERT INTO `sys_job_log` VALUES (883, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:31:00');
+INSERT INTO `sys_job_log` VALUES (884, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:32:00');
+INSERT INTO `sys_job_log` VALUES (885, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:33:00');
+INSERT INTO `sys_job_log` VALUES (886, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：11毫秒', '0', '', '2026-03-29 18:34:00');
+INSERT INTO `sys_job_log` VALUES (887, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 18:35:00');
+INSERT INTO `sys_job_log` VALUES (888, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:36:00');
+INSERT INTO `sys_job_log` VALUES (889, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:37:00');
+INSERT INTO `sys_job_log` VALUES (890, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:38:00');
+INSERT INTO `sys_job_log` VALUES (891, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 18:39:00');
+INSERT INTO `sys_job_log` VALUES (892, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 18:40:00');
+INSERT INTO `sys_job_log` VALUES (893, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:41:00');
+INSERT INTO `sys_job_log` VALUES (894, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:42:00');
+INSERT INTO `sys_job_log` VALUES (895, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：11毫秒', '0', '', '2026-03-29 18:43:00');
+INSERT INTO `sys_job_log` VALUES (896, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 18:44:00');
+INSERT INTO `sys_job_log` VALUES (897, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:45:00');
+INSERT INTO `sys_job_log` VALUES (898, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：9毫秒', '0', '', '2026-03-29 18:46:00');
+INSERT INTO `sys_job_log` VALUES (899, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 18:47:00');
+INSERT INTO `sys_job_log` VALUES (900, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:48:00');
+INSERT INTO `sys_job_log` VALUES (901, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:49:00');
+INSERT INTO `sys_job_log` VALUES (902, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:50:00');
+INSERT INTO `sys_job_log` VALUES (903, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:51:00');
+INSERT INTO `sys_job_log` VALUES (904, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:52:00');
+INSERT INTO `sys_job_log` VALUES (905, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:53:00');
+INSERT INTO `sys_job_log` VALUES (906, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 18:54:00');
+INSERT INTO `sys_job_log` VALUES (907, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 18:55:00');
+INSERT INTO `sys_job_log` VALUES (908, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：8毫秒', '0', '', '2026-03-29 18:56:00');
+INSERT INTO `sys_job_log` VALUES (909, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 18:57:00');
+INSERT INTO `sys_job_log` VALUES (910, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 18:58:00');
+INSERT INTO `sys_job_log` VALUES (911, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 18:59:00');
+INSERT INTO `sys_job_log` VALUES (912, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:00:00');
+INSERT INTO `sys_job_log` VALUES (913, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:01:00');
+INSERT INTO `sys_job_log` VALUES (914, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:02:00');
+INSERT INTO `sys_job_log` VALUES (915, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:03:00');
+INSERT INTO `sys_job_log` VALUES (916, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:04:00');
+INSERT INTO `sys_job_log` VALUES (917, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:05:00');
+INSERT INTO `sys_job_log` VALUES (918, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 19:06:00');
+INSERT INTO `sys_job_log` VALUES (919, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 19:07:00');
+INSERT INTO `sys_job_log` VALUES (920, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:08:00');
+INSERT INTO `sys_job_log` VALUES (921, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:09:00');
+INSERT INTO `sys_job_log` VALUES (922, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：8毫秒', '0', '', '2026-03-29 19:10:00');
+INSERT INTO `sys_job_log` VALUES (923, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 19:11:00');
+INSERT INTO `sys_job_log` VALUES (924, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:12:00');
+INSERT INTO `sys_job_log` VALUES (925, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:13:00');
+INSERT INTO `sys_job_log` VALUES (926, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：12毫秒', '0', '', '2026-03-29 19:14:00');
+INSERT INTO `sys_job_log` VALUES (927, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 19:15:00');
+INSERT INTO `sys_job_log` VALUES (928, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 19:16:00');
+INSERT INTO `sys_job_log` VALUES (929, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:17:00');
+INSERT INTO `sys_job_log` VALUES (930, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:18:00');
+INSERT INTO `sys_job_log` VALUES (931, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:19:00');
+INSERT INTO `sys_job_log` VALUES (932, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 19:20:00');
+INSERT INTO `sys_job_log` VALUES (933, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:21:00');
+INSERT INTO `sys_job_log` VALUES (934, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:23:00');
+INSERT INTO `sys_job_log` VALUES (935, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:24:00');
+INSERT INTO `sys_job_log` VALUES (936, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:25:00');
+INSERT INTO `sys_job_log` VALUES (937, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 19:26:00');
+INSERT INTO `sys_job_log` VALUES (938, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:27:00');
+INSERT INTO `sys_job_log` VALUES (939, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:28:00');
+INSERT INTO `sys_job_log` VALUES (940, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 19:29:00');
+INSERT INTO `sys_job_log` VALUES (941, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：16毫秒', '0', '', '2026-03-29 19:30:01');
+INSERT INTO `sys_job_log` VALUES (942, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 19:31:00');
+INSERT INTO `sys_job_log` VALUES (943, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:32:00');
+INSERT INTO `sys_job_log` VALUES (944, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 19:33:00');
+INSERT INTO `sys_job_log` VALUES (945, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:34:00');
+INSERT INTO `sys_job_log` VALUES (946, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:35:00');
+INSERT INTO `sys_job_log` VALUES (947, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:36:00');
+INSERT INTO `sys_job_log` VALUES (948, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：13毫秒', '0', '', '2026-03-29 19:37:00');
+INSERT INTO `sys_job_log` VALUES (949, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:38:00');
+INSERT INTO `sys_job_log` VALUES (950, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:39:00');
+INSERT INTO `sys_job_log` VALUES (951, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：43毫秒', '0', '', '2026-03-29 19:40:00');
+INSERT INTO `sys_job_log` VALUES (952, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 19:41:00');
+INSERT INTO `sys_job_log` VALUES (953, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:42:00');
+INSERT INTO `sys_job_log` VALUES (954, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:43:00');
+INSERT INTO `sys_job_log` VALUES (955, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:44:00');
+INSERT INTO `sys_job_log` VALUES (956, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 19:45:00');
+INSERT INTO `sys_job_log` VALUES (957, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:46:00');
+INSERT INTO `sys_job_log` VALUES (958, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:47:00');
+INSERT INTO `sys_job_log` VALUES (959, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:48:00');
+INSERT INTO `sys_job_log` VALUES (960, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:49:00');
+INSERT INTO `sys_job_log` VALUES (961, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:50:00');
+INSERT INTO `sys_job_log` VALUES (962, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:51:00');
+INSERT INTO `sys_job_log` VALUES (963, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:52:00');
+INSERT INTO `sys_job_log` VALUES (964, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:53:00');
+INSERT INTO `sys_job_log` VALUES (965, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 19:54:00');
+INSERT INTO `sys_job_log` VALUES (966, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:55:00');
+INSERT INTO `sys_job_log` VALUES (967, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:56:00');
+INSERT INTO `sys_job_log` VALUES (968, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:57:00');
+INSERT INTO `sys_job_log` VALUES (969, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 19:58:00');
+INSERT INTO `sys_job_log` VALUES (970, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 19:59:00');
+INSERT INTO `sys_job_log` VALUES (971, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 20:00:00');
+INSERT INTO `sys_job_log` VALUES (972, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:01:00');
+INSERT INTO `sys_job_log` VALUES (973, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:02:00');
+INSERT INTO `sys_job_log` VALUES (974, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:03:00');
+INSERT INTO `sys_job_log` VALUES (975, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:04:00');
+INSERT INTO `sys_job_log` VALUES (976, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:05:00');
+INSERT INTO `sys_job_log` VALUES (977, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 20:06:00');
+INSERT INTO `sys_job_log` VALUES (978, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:07:00');
+INSERT INTO `sys_job_log` VALUES (979, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 20:08:00');
+INSERT INTO `sys_job_log` VALUES (980, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 20:09:00');
+INSERT INTO `sys_job_log` VALUES (981, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 20:10:00');
+INSERT INTO `sys_job_log` VALUES (982, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:11:00');
+INSERT INTO `sys_job_log` VALUES (983, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:12:00');
+INSERT INTO `sys_job_log` VALUES (984, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:13:00');
+INSERT INTO `sys_job_log` VALUES (985, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:14:00');
+INSERT INTO `sys_job_log` VALUES (986, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 20:15:00');
+INSERT INTO `sys_job_log` VALUES (987, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:16:00');
+INSERT INTO `sys_job_log` VALUES (988, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 20:17:00');
+INSERT INTO `sys_job_log` VALUES (989, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:18:00');
+INSERT INTO `sys_job_log` VALUES (990, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 20:19:00');
+INSERT INTO `sys_job_log` VALUES (991, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 20:20:00');
+INSERT INTO `sys_job_log` VALUES (992, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 20:21:00');
+INSERT INTO `sys_job_log` VALUES (993, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:22:00');
+INSERT INTO `sys_job_log` VALUES (994, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：51毫秒', '0', '', '2026-03-29 20:23:00');
+INSERT INTO `sys_job_log` VALUES (995, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:24:00');
+INSERT INTO `sys_job_log` VALUES (996, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:25:00');
+INSERT INTO `sys_job_log` VALUES (997, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：2毫秒', '0', '', '2026-03-29 20:26:00');
+INSERT INTO `sys_job_log` VALUES (998, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:27:00');
+INSERT INTO `sys_job_log` VALUES (999, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:28:00');
+INSERT INTO `sys_job_log` VALUES (1000, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 20:29:00');
+INSERT INTO `sys_job_log` VALUES (1001, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-03-29 21:00:00');
+INSERT INTO `sys_job_log` VALUES (1002, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 21:01:00');
+INSERT INTO `sys_job_log` VALUES (1003, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 21:02:00');
+INSERT INTO `sys_job_log` VALUES (1004, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 21:03:00');
+INSERT INTO `sys_job_log` VALUES (1005, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 21:04:00');
+INSERT INTO `sys_job_log` VALUES (1006, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 21:05:00');
+INSERT INTO `sys_job_log` VALUES (1007, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:06:00');
+INSERT INTO `sys_job_log` VALUES (1008, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:07:00');
+INSERT INTO `sys_job_log` VALUES (1009, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-03-29 21:08:00');
+INSERT INTO `sys_job_log` VALUES (1010, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：101毫秒', '0', '', '2026-03-29 21:09:00');
+INSERT INTO `sys_job_log` VALUES (1011, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 21:10:00');
+INSERT INTO `sys_job_log` VALUES (1012, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 21:11:00');
+INSERT INTO `sys_job_log` VALUES (1013, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:12:00');
+INSERT INTO `sys_job_log` VALUES (1014, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:13:00');
+INSERT INTO `sys_job_log` VALUES (1015, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:14:00');
+INSERT INTO `sys_job_log` VALUES (1016, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 21:15:00');
+INSERT INTO `sys_job_log` VALUES (1017, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:16:00');
+INSERT INTO `sys_job_log` VALUES (1018, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:17:00');
+INSERT INTO `sys_job_log` VALUES (1019, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:18:00');
+INSERT INTO `sys_job_log` VALUES (1020, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:19:00');
+INSERT INTO `sys_job_log` VALUES (1021, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:20:00');
+INSERT INTO `sys_job_log` VALUES (1022, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:21:00');
+INSERT INTO `sys_job_log` VALUES (1023, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:22:00');
+INSERT INTO `sys_job_log` VALUES (1024, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:23:00');
+INSERT INTO `sys_job_log` VALUES (1025, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:24:00');
+INSERT INTO `sys_job_log` VALUES (1026, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:25:00');
+INSERT INTO `sys_job_log` VALUES (1027, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 21:26:00');
+INSERT INTO `sys_job_log` VALUES (1028, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 21:27:00');
+INSERT INTO `sys_job_log` VALUES (1029, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 21:28:00');
+INSERT INTO `sys_job_log` VALUES (1030, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 21:29:00');
+INSERT INTO `sys_job_log` VALUES (1031, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 21:30:00');
+INSERT INTO `sys_job_log` VALUES (1032, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：11毫秒', '0', '', '2026-03-29 21:31:00');
+INSERT INTO `sys_job_log` VALUES (1033, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：11毫秒', '0', '', '2026-03-29 21:32:00');
+INSERT INTO `sys_job_log` VALUES (1034, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：5毫秒', '0', '', '2026-03-29 21:33:00');
+INSERT INTO `sys_job_log` VALUES (1035, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:34:00');
+INSERT INTO `sys_job_log` VALUES (1036, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 21:35:00');
+INSERT INTO `sys_job_log` VALUES (1037, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 21:36:00');
+INSERT INTO `sys_job_log` VALUES (1038, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 21:37:00');
+INSERT INTO `sys_job_log` VALUES (1039, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:38:00');
+INSERT INTO `sys_job_log` VALUES (1040, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：4毫秒', '0', '', '2026-03-29 21:39:00');
+INSERT INTO `sys_job_log` VALUES (1041, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 21:40:00');
+INSERT INTO `sys_job_log` VALUES (1042, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：3毫秒', '0', '', '2026-03-29 21:41:00');
+INSERT INTO `sys_job_log` VALUES (1043, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：35毫秒', '0', '', '2026-03-29 21:43:00');
+INSERT INTO `sys_job_log` VALUES (1044, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：11毫秒', '0', '', '2026-03-29 21:44:00');
+INSERT INTO `sys_job_log` VALUES (1045, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：8毫秒', '0', '', '2026-03-29 21:45:00');
+INSERT INTO `sys_job_log` VALUES (1046, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：6毫秒', '0', '', '2026-03-29 21:46:00');
+INSERT INTO `sys_job_log` VALUES (1047, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：8毫秒', '0', '', '2026-03-29 21:47:00');
+INSERT INTO `sys_job_log` VALUES (1048, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：12毫秒', '0', '', '2026-03-29 21:48:00');
+INSERT INTO `sys_job_log` VALUES (1049, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 21:49:00');
+INSERT INTO `sys_job_log` VALUES (1050, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：7毫秒', '0', '', '2026-03-29 21:50:00');
+INSERT INTO `sys_job_log` VALUES (1051, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：8毫秒', '0', '', '2026-03-29 21:51:00');
+INSERT INTO `sys_job_log` VALUES (1052, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：8毫秒', '0', '', '2026-03-29 21:52:00');
+INSERT INTO `sys_job_log` VALUES (1053, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：12毫秒', '0', '', '2026-03-29 21:53:00');
+INSERT INTO `sys_job_log` VALUES (1054, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：37毫秒', '0', '', '2026-03-29 21:54:00');
+INSERT INTO `sys_job_log` VALUES (1055, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：20毫秒', '0', '', '2026-03-29 21:55:00');
+INSERT INTO `sys_job_log` VALUES (1056, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：19毫秒', '0', '', '2026-03-29 21:56:00');
+INSERT INTO `sys_job_log` VALUES (1057, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：20毫秒', '0', '', '2026-03-29 21:57:00');
+INSERT INTO `sys_job_log` VALUES (1058, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：13毫秒', '0', '', '2026-03-29 21:58:00');
+INSERT INTO `sys_job_log` VALUES (1059, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：31毫秒', '0', '', '2026-03-29 22:00:00');
+INSERT INTO `sys_job_log` VALUES (1060, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：19毫秒', '0', '', '2026-03-29 22:01:00');
+INSERT INTO `sys_job_log` VALUES (1061, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：14毫秒', '0', '', '2026-03-29 22:02:00');
+INSERT INTO `sys_job_log` VALUES (1062, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-03-29 22:03:00');
+INSERT INTO `sys_job_log` VALUES (1063, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：15毫秒', '0', '', '2026-03-29 22:04:00');
+INSERT INTO `sys_job_log` VALUES (1064, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-03-29 22:06:00');
+INSERT INTO `sys_job_log` VALUES (1065, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：18毫秒', '0', '', '2026-03-29 22:07:00');
+INSERT INTO `sys_job_log` VALUES (1066, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：16毫秒', '0', '', '2026-03-29 22:08:00');
+INSERT INTO `sys_job_log` VALUES (1067, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-03-29 22:09:00');
+INSERT INTO `sys_job_log` VALUES (1068, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：12毫秒', '0', '', '2026-03-29 22:10:00');
+INSERT INTO `sys_job_log` VALUES (1069, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：100毫秒', '0', '', '2026-03-29 22:11:00');
+INSERT INTO `sys_job_log` VALUES (1070, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：15毫秒', '0', '', '2026-03-29 22:12:00');
+INSERT INTO `sys_job_log` VALUES (1071, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：14毫秒', '0', '', '2026-03-29 22:13:00');
+INSERT INTO `sys_job_log` VALUES (1072, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：13毫秒', '0', '', '2026-03-29 22:14:00');
+INSERT INTO `sys_job_log` VALUES (1073, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-03-29 22:16:00');
+INSERT INTO `sys_job_log` VALUES (1074, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：18毫秒', '0', '', '2026-03-29 22:17:00');
+INSERT INTO `sys_job_log` VALUES (1075, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：17毫秒', '0', '', '2026-03-29 22:18:00');
+INSERT INTO `sys_job_log` VALUES (1076, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：18毫秒', '0', '', '2026-03-29 22:19:00');
+INSERT INTO `sys_job_log` VALUES (1077, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：28毫秒', '0', '', '2026-03-29 22:20:00');
+INSERT INTO `sys_job_log` VALUES (1078, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-03-29 22:21:00');
+INSERT INTO `sys_job_log` VALUES (1079, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：16毫秒', '0', '', '2026-03-29 22:22:00');
+INSERT INTO `sys_job_log` VALUES (1080, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：14毫秒', '0', '', '2026-03-29 22:23:00');
+INSERT INTO `sys_job_log` VALUES (1081, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：49毫秒', '0', '', '2026-03-29 22:24:00');
+INSERT INTO `sys_job_log` VALUES (1082, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：41毫秒', '0', '', '2026-03-29 22:25:00');
+INSERT INTO `sys_job_log` VALUES (1083, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：32毫秒', '0', '', '2026-03-29 22:26:00');
+INSERT INTO `sys_job_log` VALUES (1084, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：30毫秒', '0', '', '2026-03-29 22:27:00');
+INSERT INTO `sys_job_log` VALUES (1085, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：29毫秒', '0', '', '2026-03-29 22:28:00');
+INSERT INTO `sys_job_log` VALUES (1086, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-03-29 22:29:00');
+INSERT INTO `sys_job_log` VALUES (1087, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-03-29 22:30:00');
+INSERT INTO `sys_job_log` VALUES (1088, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：25毫秒', '0', '', '2026-03-29 22:31:00');
+INSERT INTO `sys_job_log` VALUES (1089, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：132毫秒', '0', '', '2026-03-29 22:32:00');
+INSERT INTO `sys_job_log` VALUES (1090, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-03-29 22:33:00');
+INSERT INTO `sys_job_log` VALUES (1091, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：29毫秒', '0', '', '2026-03-29 22:34:00');
+INSERT INTO `sys_job_log` VALUES (1092, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-03-29 22:35:00');
+INSERT INTO `sys_job_log` VALUES (1093, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-03-29 22:36:00');
+INSERT INTO `sys_job_log` VALUES (1094, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-03-29 22:37:00');
+INSERT INTO `sys_job_log` VALUES (1095, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-03-29 22:38:00');
+INSERT INTO `sys_job_log` VALUES (1096, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：28毫秒', '0', '', '2026-03-29 22:39:00');
+INSERT INTO `sys_job_log` VALUES (1097, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-03-29 22:40:00');
+INSERT INTO `sys_job_log` VALUES (1098, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：27毫秒', '0', '', '2026-03-29 22:41:00');
+INSERT INTO `sys_job_log` VALUES (1099, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-03-29 22:42:00');
+INSERT INTO `sys_job_log` VALUES (1100, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-03-29 22:43:00');
+INSERT INTO `sys_job_log` VALUES (1101, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-03-29 22:44:00');
+INSERT INTO `sys_job_log` VALUES (1102, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：25毫秒', '0', '', '2026-03-29 22:45:00');
+INSERT INTO `sys_job_log` VALUES (1103, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-03-29 22:46:00');
+INSERT INTO `sys_job_log` VALUES (1104, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-03-29 22:47:00');
+INSERT INTO `sys_job_log` VALUES (1105, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-03-29 22:48:00');
+INSERT INTO `sys_job_log` VALUES (1106, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-03-29 22:49:00');
+INSERT INTO `sys_job_log` VALUES (1107, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-03-29 22:50:00');
+INSERT INTO `sys_job_log` VALUES (1108, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-03-29 22:51:00');
+INSERT INTO `sys_job_log` VALUES (1109, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-03-29 22:52:00');
+INSERT INTO `sys_job_log` VALUES (1110, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-03-29 22:53:00');
+INSERT INTO `sys_job_log` VALUES (1111, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-03-29 22:54:00');
+INSERT INTO `sys_job_log` VALUES (1112, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-03-29 22:55:00');
+INSERT INTO `sys_job_log` VALUES (1113, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：189毫秒', '0', '', '2026-03-30 22:53:00');
+INSERT INTO `sys_job_log` VALUES (1114, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：29毫秒', '0', '', '2026-03-30 22:54:00');
+INSERT INTO `sys_job_log` VALUES (1115, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：31毫秒', '0', '', '2026-03-30 22:55:00');
+INSERT INTO `sys_job_log` VALUES (1116, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-03-30 22:56:00');
+INSERT INTO `sys_job_log` VALUES (1117, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：27毫秒', '0', '', '2026-03-30 22:57:00');
+INSERT INTO `sys_job_log` VALUES (1118, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：87毫秒', '0', '', '2026-04-21 13:57:00');
+INSERT INTO `sys_job_log` VALUES (1119, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：35毫秒', '0', '', '2026-04-21 13:58:00');
+INSERT INTO `sys_job_log` VALUES (1120, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：28毫秒', '0', '', '2026-04-21 13:59:00');
+INSERT INTO `sys_job_log` VALUES (1121, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：57毫秒', '0', '', '2026-04-21 14:00:00');
+INSERT INTO `sys_job_log` VALUES (1122, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：37毫秒', '0', '', '2026-04-21 14:01:00');
+INSERT INTO `sys_job_log` VALUES (1123, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：27毫秒', '0', '', '2026-04-21 14:02:00');
+INSERT INTO `sys_job_log` VALUES (1124, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：29毫秒', '0', '', '2026-04-21 14:03:00');
+INSERT INTO `sys_job_log` VALUES (1125, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：31毫秒', '0', '', '2026-04-21 14:04:00');
+INSERT INTO `sys_job_log` VALUES (1126, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-04-21 14:05:00');
+INSERT INTO `sys_job_log` VALUES (1127, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-04-21 14:06:00');
+INSERT INTO `sys_job_log` VALUES (1128, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-04-21 14:07:00');
+INSERT INTO `sys_job_log` VALUES (1129, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：37毫秒', '0', '', '2026-04-21 14:08:00');
+INSERT INTO `sys_job_log` VALUES (1130, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-04-21 14:09:00');
+INSERT INTO `sys_job_log` VALUES (1131, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：25毫秒', '0', '', '2026-04-21 14:10:00');
+INSERT INTO `sys_job_log` VALUES (1132, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-04-21 14:11:00');
+INSERT INTO `sys_job_log` VALUES (1133, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-04-21 14:12:00');
+INSERT INTO `sys_job_log` VALUES (1134, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-04-21 14:13:00');
+INSERT INTO `sys_job_log` VALUES (1135, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：25毫秒', '0', '', '2026-04-21 14:14:00');
+INSERT INTO `sys_job_log` VALUES (1136, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：28毫秒', '0', '', '2026-04-21 14:15:00');
+INSERT INTO `sys_job_log` VALUES (1137, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：25毫秒', '0', '', '2026-04-21 14:16:00');
+INSERT INTO `sys_job_log` VALUES (1138, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-04-21 14:17:00');
+INSERT INTO `sys_job_log` VALUES (1139, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-04-21 14:18:00');
+INSERT INTO `sys_job_log` VALUES (1140, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：29毫秒', '0', '', '2026-04-21 14:19:00');
+INSERT INTO `sys_job_log` VALUES (1141, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：27毫秒', '0', '', '2026-04-21 14:20:00');
+INSERT INTO `sys_job_log` VALUES (1142, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-04-21 14:21:00');
+INSERT INTO `sys_job_log` VALUES (1143, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：20毫秒', '0', '', '2026-04-21 14:22:00');
+INSERT INTO `sys_job_log` VALUES (1144, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-04-21 14:23:00');
+INSERT INTO `sys_job_log` VALUES (1145, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-04-21 14:24:00');
+INSERT INTO `sys_job_log` VALUES (1146, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-04-21 14:25:00');
+INSERT INTO `sys_job_log` VALUES (1147, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-04-21 14:26:00');
+INSERT INTO `sys_job_log` VALUES (1148, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：53毫秒', '0', '', '2026-04-21 14:27:00');
+INSERT INTO `sys_job_log` VALUES (1149, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：44毫秒', '0', '', '2026-04-21 14:28:00');
+INSERT INTO `sys_job_log` VALUES (1150, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：33毫秒', '0', '', '2026-04-21 14:29:00');
+INSERT INTO `sys_job_log` VALUES (1151, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：32毫秒', '0', '', '2026-04-21 14:30:00');
+INSERT INTO `sys_job_log` VALUES (1152, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：30毫秒', '0', '', '2026-04-21 14:31:00');
+INSERT INTO `sys_job_log` VALUES (1153, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-04-21 14:32:00');
+INSERT INTO `sys_job_log` VALUES (1154, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：28毫秒', '0', '', '2026-04-21 14:33:00');
+INSERT INTO `sys_job_log` VALUES (1155, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：24毫秒', '0', '', '2026-04-21 14:34:00');
+INSERT INTO `sys_job_log` VALUES (1156, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：29毫秒', '0', '', '2026-04-21 14:35:00');
+INSERT INTO `sys_job_log` VALUES (1157, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：30毫秒', '0', '', '2026-04-21 14:36:00');
+INSERT INTO `sys_job_log` VALUES (1158, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：35毫秒', '0', '', '2026-04-21 14:37:00');
+INSERT INTO `sys_job_log` VALUES (1159, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：26毫秒', '0', '', '2026-04-21 14:38:00');
+INSERT INTO `sys_job_log` VALUES (1160, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：23毫秒', '0', '', '2026-04-21 14:39:00');
+INSERT INTO `sys_job_log` VALUES (1161, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-04-21 14:40:00');
+INSERT INTO `sys_job_log` VALUES (1162, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-04-21 14:41:00');
+INSERT INTO `sys_job_log` VALUES (1163, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-04-21 14:42:00');
+INSERT INTO `sys_job_log` VALUES (1164, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-04-21 14:43:00');
+INSERT INTO `sys_job_log` VALUES (1165, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-04-21 14:44:00');
+INSERT INTO `sys_job_log` VALUES (1166, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：22毫秒', '0', '', '2026-04-21 14:45:00');
+INSERT INTO `sys_job_log` VALUES (1167, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-04-21 14:46:00');
+INSERT INTO `sys_job_log` VALUES (1168, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-04-21 14:47:00');
+INSERT INTO `sys_job_log` VALUES (1169, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-04-21 14:48:00');
+INSERT INTO `sys_job_log` VALUES (1170, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-04-21 14:49:00');
+INSERT INTO `sys_job_log` VALUES (1171, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：21毫秒', '0', '', '2026-04-21 14:50:00');
+INSERT INTO `sys_job_log` VALUES (1172, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：51毫秒', '0', '', '2026-04-21 18:27:00');
+INSERT INTO `sys_job_log` VALUES (1173, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：42毫秒', '0', '', '2026-04-21 18:28:00');
+INSERT INTO `sys_job_log` VALUES (1174, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：34毫秒', '0', '', '2026-04-21 18:29:00');
+INSERT INTO `sys_job_log` VALUES (1175, '检查报警', 'DEFAULT', 'maintenanceFormService.notifyDevicesRequiringMaintenance', '检查报警 总共耗时：28毫秒', '0', '', '2026-04-21 18:30:00');
 
 -- ----------------------------
 -- Table structure for sys_logininfor
@@ -3470,7 +4476,7 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`login_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 249 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 257 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统访问记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -3624,6 +4630,14 @@ INSERT INTO `sys_logininfor` VALUES (245, 'admin', '127.0.0.1', '内网IP', 'Chr
 INSERT INTO `sys_logininfor` VALUES (246, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '1', '用户不存在/密码错误', '2026-03-18 16:49:06');
 INSERT INTO `sys_logininfor` VALUES (247, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '1', '用户不存在/密码错误', '2026-03-18 16:49:07');
 INSERT INTO `sys_logininfor` VALUES (248, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-18 16:49:10');
+INSERT INTO `sys_logininfor` VALUES (249, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-27 00:07:07');
+INSERT INTO `sys_logininfor` VALUES (250, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-27 08:13:43');
+INSERT INTO `sys_logininfor` VALUES (251, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-27 09:19:42');
+INSERT INTO `sys_logininfor` VALUES (252, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-29 11:42:18');
+INSERT INTO `sys_logininfor` VALUES (253, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-29 15:15:55');
+INSERT INTO `sys_logininfor` VALUES (254, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-29 21:08:05');
+INSERT INTO `sys_logininfor` VALUES (255, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-03-30 22:52:23');
+INSERT INTO `sys_logininfor` VALUES (256, 'admin', '127.0.0.1', '内网IP', 'Chrome 14', 'Windows 10', '0', '登录成功', '2026-04-21 13:57:37');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -3651,7 +4665,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2144 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2144 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '菜单权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -3676,7 +4690,6 @@ INSERT INTO `sys_menu` VALUES (112, '服务监控', 2, 4, 'server', 'monitor/ser
 INSERT INTO `sys_menu` VALUES (113, '缓存监控', 2, 5, 'cache', 'monitor/cache/index', '', '', 1, 0, 'C', '0', '0', 'monitor:cache:list', 'redis', 'admin', '2025-10-31 15:23:03', '', NULL, '缓存监控菜单');
 INSERT INTO `sys_menu` VALUES (114, '缓存列表', 2, 6, 'cacheList', 'monitor/cache/list', '', '', 1, 0, 'C', '0', '0', 'monitor:cache:list', 'redis-list', 'admin', '2025-10-31 15:23:03', '', NULL, '缓存列表菜单');
 INSERT INTO `sys_menu` VALUES (115, '表单构建', 3, 1, 'build', 'tool/build/index', '', '', 1, 0, 'C', '1', '0', 'tool:build:list', 'build', 'admin', '2025-10-31 15:23:03', '', NULL, '表单构建菜单');
-INSERT INTO `sys_menu` VALUES (116, '代码生成', 3, 2, 'gen', 'tool/gen/index', '', '', 1, 0, 'C', '1', '0', 'tool:gen:list', 'code', 'admin', '2025-10-31 15:23:03', '', NULL, '代码生成菜单');
 INSERT INTO `sys_menu` VALUES (117, '系统接口', 3, 3, 'swagger', 'tool/swagger/index', '', '', 1, 0, 'C', '1', '0', 'tool:swagger:list', 'swagger', 'admin', '2025-10-31 15:23:03', '', NULL, '系统接口菜单');
 INSERT INTO `sys_menu` VALUES (200, '发电预测', 0, 3, 'power-forecast', 'powerForecast/index', '', '', 1, 0, 'C', '0', '0', 'power:forecast:list', 'chart', 'admin', '2026-01-06 19:25:04', '', NULL, '发电预测菜单');
 INSERT INTO `sys_menu` VALUES (201, '智能运维表单生成', 0, 4, 'maintenance-form', 'ai/maintenance-form/index', '', '', 1, 0, 'C', '0', '0', 'ai:maintenance:form', 'form', 'admin', '2026-01-15 21:48:02', '', NULL, '智能运维表单生成菜单');
@@ -3756,12 +4769,6 @@ INSERT INTO `sys_menu` VALUES (1051, '任务修改', 110, 3, '#', '', '', '', 1,
 INSERT INTO `sys_menu` VALUES (1052, '任务删除', 110, 4, '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:remove', '#', 'admin', '2025-10-31 15:23:03', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1053, '状态修改', 110, 5, '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:changeStatus', '#', 'admin', '2025-10-31 15:23:03', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1054, '任务导出', 110, 6, '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:export', '#', 'admin', '2025-10-31 15:23:03', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (1055, '生成查询', 116, 1, '#', '', '', '', 1, 0, 'F', '1', '0', 'tool:gen:query', '#', 'admin', '2025-10-31 15:23:03', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (1056, '生成修改', 116, 2, '#', '', '', '', 1, 0, 'F', '1', '0', 'tool:gen:edit', '#', 'admin', '2025-10-31 15:23:03', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (1057, '生成删除', 116, 3, '#', '', '', '', 1, 0, 'F', '1', '0', 'tool:gen:remove', '#', 'admin', '2025-10-31 15:23:03', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (1058, '导入代码', 116, 4, '#', '', '', '', 1, 0, 'F', '1', '0', 'tool:gen:import', '#', 'admin', '2025-10-31 15:23:03', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (1059, '预览代码', 116, 5, '#', '', '', '', 1, 0, 'F', '1', '0', 'tool:gen:preview', '#', 'admin', '2025-10-31 15:23:03', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (1060, '生成代码', 116, 6, '#', '', '', '', 1, 0, 'F', '1', '0', 'tool:gen:code', '#', 'admin', '2025-10-31 15:23:03', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2000, '设备状态查询', 211, 1, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'equipment:status:query', '#', 'admin', '2026-01-08 22:43:56', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2001, '设备状态新增', 211, 2, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'equipment:status:add', '#', 'admin', '2026-01-08 22:43:56', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2002, '设备状态修改', 211, 3, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'equipment:status:edit', '#', 'admin', '2026-01-08 22:43:56', '', NULL, '');
@@ -3839,7 +4846,7 @@ CREATE TABLE `sys_notice`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`notice_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '通知公告表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '通知公告表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_notice
@@ -3873,12 +4880,11 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 235 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 244 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '操作日志记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
-INSERT INTO `sys_oper_log` VALUES (100, '代码生成', 6, 'com.ruoyi.generator.controller.GenController.importTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/importTable', '127.0.0.1', '内网IP', '{\"tables\":\"sys_config\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 15:55:05', 57);
 INSERT INTO `sys_oper_log` VALUES (101, '菜单管理', 1, 'com.ruoyi.web.controller.system.SysMenuController.add()', 'POST', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"icon\":\"email\",\"isCache\":\"0\",\"isFrame\":\"0\",\"menuName\":\"邮件\",\"menuType\":\"M\",\"orderNum\":9,\"params\":{},\"parentId\":0,\"path\":\"email\",\"status\":\"0\",\"visible\":\"0\"}', '{\"msg\":\"新增菜单\'邮件\'失败，地址必须以http(s)://开头\",\"code\":500}', 0, NULL, '2025-10-31 16:20:05', 8);
 INSERT INTO `sys_oper_log` VALUES (102, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"system/menu/index\",\"createTime\":\"2025-10-31 15:23:03\",\"icon\":\"tree-table\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":102,\"menuName\":\"菜单管理\",\"menuType\":\"M\",\"orderNum\":3,\"params\":{},\"parentId\":1,\"path\":\"menu\",\"perms\":\"system:menu:list\",\"query\":\"\",\"routeName\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 16:26:30', 8);
 INSERT INTO `sys_oper_log` VALUES (103, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"system/menu/index\",\"createTime\":\"2025-10-31 15:23:03\",\"icon\":\"tree-table\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":102,\"menuName\":\"菜单管理\",\"menuType\":\"M\",\"orderNum\":3,\"params\":{},\"parentId\":0,\"path\":\"menu\",\"perms\":\"system:menu:list\",\"query\":\"\",\"routeName\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 16:26:55', 7);
@@ -3887,18 +4893,12 @@ INSERT INTO `sys_oper_log` VALUES (105, '用户管理', 1, 'com.ruoyi.web.contro
 INSERT INTO `sys_oper_log` VALUES (106, '角色管理', 4, 'com.ruoyi.web.controller.system.SysRoleController.selectAuthUserAll()', 'PUT', 1, 'admin', '研发部门', '/system/role/authUser/selectAll', '127.0.0.1', '内网IP', '{\"roleId\":\"100\",\"userIds\":\"100\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 16:31:04', 4);
 INSERT INTO `sys_oper_log` VALUES (107, '字典类型', 1, 'com.ruoyi.web.controller.system.SysDictTypeController.add()', 'POST', 1, 'admin', '研发部门', '/system/dict/type', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"dictName\":\"课程学科\",\"dictType\":\"course_subject\",\"params\":{},\"remark\":\"课程学科\",\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 16:37:20', 9);
 INSERT INTO `sys_oper_log` VALUES (108, '字典类型', 5, 'com.ruoyi.web.controller.system.SysDictTypeController.export()', 'POST', 1, 'admin', '研发部门', '/system/dict/type/export', '127.0.0.1', '内网IP', '{\"pageSize\":\"10\",\"dictName\":\"课程学科\",\"pageNum\":\"2\"}', NULL, 0, NULL, '2025-10-31 16:41:30', 660);
-INSERT INTO `sys_oper_log` VALUES (109, '代码生成', 8, 'com.ruoyi.generator.controller.GenController.batchGenCode()', 'GET', 1, 'admin', '研发部门', '/tool/gen/batchGenCode', '127.0.0.1', '内网IP', '{\"tables\":\"sys_config\"}', NULL, 0, NULL, '2025-10-31 16:42:46', 176);
-INSERT INTO `sys_oper_log` VALUES (110, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"config\",\"className\":\"SysConfig\",\"columns\":[{\"capJavaField\":\"ConfigId\",\"columnComment\":\"参数主键\",\"columnId\":1,\"columnName\":\"config_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-10-31 15:55:05\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"configId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":1,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"ConfigName\",\"columnComment\":\"参数名称\",\"columnId\":2,\"columnName\":\"config_name\",\"columnType\":\"varchar(100)\",\"createBy\":\"admin\",\"createTime\":\"2025-10-31 15:55:05\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"configName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":1,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"ConfigKey\",\"columnComment\":\"参数键名\",\"columnId\":3,\"columnName\":\"config_key\",\"columnType\":\"varchar(100)\",\"createBy\":\"admin\",\"createTime\":\"2025-10-31 15:55:05\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"configKey\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":1,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"ConfigValue\",\"columnComment\":\"参数键值\",\"columnId\":4,\"columnName\":\"config_value\",\"columnType\":\"varchar(500)\",\"createBy\":\"admin\",\"createTime\":\"2025-10-31 15:55:05\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"textarea\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"is', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 16:44:40', 34);
-INSERT INTO `sys_oper_log` VALUES (111, '创建表', 0, 'com.ruoyi.generator.controller.GenController.createTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/createTable', '127.0.0.1', '内网IP', '{\"sql\":\"111\"}', '{\"msg\":\"创建表结构异常\",\"code\":500}', 0, NULL, '2025-10-31 16:45:53', 3);
 INSERT INTO `sys_oper_log` VALUES (112, '字典类型', 9, 'com.ruoyi.web.controller.system.SysDictTypeController.refreshCache()', 'DELETE', 1, 'admin', '研发部门', '/system/dict/type/refreshCache', '127.0.0.1', '内网IP', '', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 16:46:32', 9);
 INSERT INTO `sys_oper_log` VALUES (113, '字典数据', 1, 'com.ruoyi.web.controller.system.SysDictDataController.add()', 'POST', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"cssClass\":\"11\",\"default\":false,\"dictLabel\":\"int\",\"dictSort\":5,\"dictType\":\"course_subject\",\"dictValue\":\"www\",\"listClass\":\"default\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 16:48:07', 7);
 INSERT INTO `sys_oper_log` VALUES (114, '字典数据', 2, 'com.ruoyi.web.controller.system.SysDictDataController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2025-10-31 16:48:07\",\"cssClass\":\"11\",\"default\":false,\"dictCode\":100,\"dictLabel\":\"int\",\"dictSort\":5,\"dictType\":\"course_subject\",\"dictValue\":\"www\",\"isDefault\":\"N\",\"listClass\":\"default\",\"params\":{},\"remark\":\"你好\\n\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 16:48:22', 8);
 INSERT INTO `sys_oper_log` VALUES (115, '字典数据', 5, 'com.ruoyi.web.controller.system.SysDictDataController.export()', 'POST', 1, 'admin', '研发部门', '/system/dict/data/export', '127.0.0.1', '内网IP', '{\"pageSize\":\"10\",\"pageNum\":\"1\",\"dictType\":\"course_subject\"}', NULL, 0, NULL, '2025-10-31 16:49:22', 29);
 INSERT INTO `sys_oper_log` VALUES (116, '字典数据', 5, 'com.ruoyi.web.controller.system.SysDictDataController.export()', 'POST', 1, 'admin', '研发部门', '/system/dict/data/export', '127.0.0.1', '内网IP', '{\"pageSize\":\"10\",\"pageNum\":\"1\",\"dictType\":\"course_subject\"}', NULL, 0, NULL, '2025-10-31 16:49:25', 24);
 INSERT INTO `sys_oper_log` VALUES (117, '字典数据', 1, 'com.ruoyi.web.controller.system.SysDictDataController.add()', 'POST', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"cssClass\":\"22\",\"default\":false,\"dictLabel\":\"一样\",\"dictSort\":4,\"dictType\":\"course_subject\",\"dictValue\":\"22\",\"listClass\":\"default\",\"params\":{},\"remark\":\"我好\",\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 16:50:32', 8);
-INSERT INTO `sys_oper_log` VALUES (118, '代码生成', 6, 'com.ruoyi.generator.controller.GenController.importTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/importTable', '127.0.0.1', '内网IP', '{\"tables\":\"sys_dept,sys_dict_data,sys_dict_type,sys_job,sys_job_log,sys_logininfor,sys_menu,sys_notice,sys_oper_log,sys_post\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 16:51:53', 270);
-INSERT INTO `sys_oper_log` VALUES (119, '创建表', 0, 'com.ruoyi.generator.controller.GenController.createTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/createTable', '127.0.0.1', '内网IP', '{\"sql\":\"create table \\\"课程管理\\\"\"}', '{\"msg\":\"创建表结构异常\",\"code\":500}', 0, NULL, '2025-10-31 17:04:08', 50);
-INSERT INTO `sys_oper_log` VALUES (120, '创建表', 0, 'com.ruoyi.generator.controller.GenController.createTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/createTable', '127.0.0.1', '内网IP', '{\"sql\":\"create table \\\"课程管理\\\"\"}', '{\"msg\":\"创建表结构异常\",\"code\":500}', 0, NULL, '2025-10-31 17:04:09', 3);
 INSERT INTO `sys_oper_log` VALUES (121, '字典数据', 2, 'com.ruoyi.web.controller.system.SysDictDataController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2025-10-31 16:50:32\",\"cssClass\":\"1\",\"default\":false,\"dictCode\":101,\"dictLabel\":\"一样\",\"dictSort\":4,\"dictType\":\"course_subject\",\"dictValue\":\"1\",\"isDefault\":\"N\",\"listClass\":\"default\",\"params\":{},\"remark\":\"我好\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:13:05', 6);
 INSERT INTO `sys_oper_log` VALUES (122, '字典数据', 2, 'com.ruoyi.web.controller.system.SysDictDataController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2025-10-31 16:48:07\",\"cssClass\":\"1\",\"default\":false,\"dictCode\":100,\"dictLabel\":\"1\",\"dictSort\":5,\"dictType\":\"course_subject\",\"dictValue\":\"1\",\"isDefault\":\"N\",\"listClass\":\"default\",\"params\":{},\"remark\":\"你好\\n\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:13:13', 6);
 INSERT INTO `sys_oper_log` VALUES (123, '字典数据', 2, 'com.ruoyi.web.controller.system.SysDictDataController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2025-10-31 16:50:32\",\"cssClass\":\"2\",\"default\":false,\"dictCode\":101,\"dictLabel\":\"2\",\"dictSort\":4,\"dictType\":\"course_subject\",\"dictValue\":\"2\",\"isDefault\":\"N\",\"listClass\":\"default\",\"params\":{},\"remark\":\"我好\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:13:20', 6);
@@ -3906,37 +4906,15 @@ INSERT INTO `sys_oper_log` VALUES (124, '字典数据', 2, 'com.ruoyi.web.contro
 INSERT INTO `sys_oper_log` VALUES (125, '字典数据', 2, 'com.ruoyi.web.controller.system.SysDictDataController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2025-10-31 16:50:32\",\"cssClass\":\"2\",\"default\":false,\"dictCode\":101,\"dictLabel\":\"2\",\"dictSort\":10,\"dictType\":\"course_subject\",\"dictValue\":\"2\",\"isDefault\":\"N\",\"listClass\":\"default\",\"params\":{},\"remark\":\"我好\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:13:33', 6);
 INSERT INTO `sys_oper_log` VALUES (126, '字典数据', 5, 'com.ruoyi.web.controller.system.SysDictDataController.export()', 'POST', 1, 'admin', '研发部门', '/system/dict/data/export', '127.0.0.1', '内网IP', '{\"pageSize\":\"10\",\"pageNum\":\"1\",\"dictType\":\"course_subject\"}', NULL, 0, NULL, '2025-10-31 17:13:52', 22);
 INSERT INTO `sys_oper_log` VALUES (127, '字典类型', 9, 'com.ruoyi.web.controller.system.SysDictTypeController.refreshCache()', 'DELETE', 1, 'admin', '研发部门', '/system/dict/type/refreshCache', '127.0.0.1', '内网IP', '', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:14:00', 9);
-INSERT INTO `sys_oper_log` VALUES (128, '创建表', 0, 'com.ruoyi.generator.controller.GenController.createTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/createTable', '127.0.0.1', '内网IP', '{\"sql\":\"CREATE TABLE `t_user` (\\n  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT \'主键ID\',\\n  `name` varchar(30) NOT NULL DEFAULT \'\' COMMENT \'姓名\',\\n  `age` int(11) NULL DEFAULT NULL COMMENT \'年龄\',\\n  `gender` tinyint(2) NOT NULL DEFAULT 0 COMMENT \'性别，0：女 1：男\',\\n  PRIMARY KEY (`id`)\\n) COMMENT = \'用户表\';\\n\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:15:49', 41);
-INSERT INTO `sys_oper_log` VALUES (129, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"user\",\"className\":\"TUser\",\"columns\":[{\"capJavaField\":\"Id\",\"columnComment\":\"主键ID\",\"columnId\":135,\"columnName\":\"id\",\"columnType\":\"bigint unsigned\",\"createBy\":\"admin\",\"createTime\":\"2025-10-31 17:15:49\",\"dictType\":\"\",\"edit\":false,\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"id\",\"javaType\":\"String\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":12,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"Name\",\"columnComment\":\"姓名\",\"columnId\":136,\"columnName\":\"name\",\"columnType\":\"varchar(30)\",\"createBy\":\"admin\",\"createTime\":\"2025-10-31 17:15:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"name\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":12,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"Age\",\"columnComment\":\"年龄\",\"columnId\":137,\"columnName\":\"age\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-10-31 17:15:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"age\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":12,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"Gender\",\"columnComment\":\"性别，0：女 1：男\",\"columnId\":138,\"columnName\":\"gender\",\"columnType\":\"tinyint\",\"createBy\":\"admin\",\"createTime\":\"2025-10-31 17:15:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"gender\",\"javaType\":\"Long\",\"list\":true,\"params\"', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:17:20', 14);
-INSERT INTO `sys_oper_log` VALUES (130, '代码生成', 8, 'com.ruoyi.generator.controller.GenController.batchGenCode()', 'GET', 1, 'admin', '研发部门', '/tool/gen/batchGenCode', '127.0.0.1', '内网IP', '{\"tables\":\"t_user\"}', NULL, 0, NULL, '2025-10-31 17:17:29', 35);
 INSERT INTO `sys_oper_log` VALUES (131, '用户', 1, 'com.ruoyi.system.controller.TUserController.add()', 'POST', 1, 'admin', '研发部门', '/jingyes/user', '127.0.0.1', '内网IP', '{\"age\":22,\"gender\":1,\"id\":\"1\",\"name\":\"俄格\",\"params\":{}}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:39:28', 132);
 INSERT INTO `sys_oper_log` VALUES (132, '用户', 2, 'com.ruoyi.system.controller.TUserController.edit()', 'PUT', 1, 'admin', '研发部门', '/jingyes/user', '127.0.0.1', '内网IP', '{\"age\":22,\"gender\":0,\"id\":\"1\",\"name\":\"俄格\",\"params\":{}}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:39:33', 6);
 INSERT INTO `sys_oper_log` VALUES (133, '用户', 1, 'com.ruoyi.system.controller.TUserController.add()', 'POST', 1, 'admin', '研发部门', '/jingyes/user', '127.0.0.1', '内网IP', '{\"age\":22,\"gender\":1,\"id\":\"2\",\"name\":\"买买买\",\"params\":{}}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:39:46', 5);
 INSERT INTO `sys_oper_log` VALUES (134, '用户', 3, 'com.ruoyi.system.controller.TUserController.remove()', 'DELETE', 1, 'admin', '研发部门', '/jingyes/user/1', '127.0.0.1', '内网IP', '[\"1\"]', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-10-31 17:40:10', 6);
 INSERT INTO `sys_oper_log` VALUES (135, '字典类型', 2, 'com.ruoyi.web.controller.system.SysDictTypeController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dict/type', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2025-10-31 16:37:20\",\"dictId\":100,\"dictName\":\"课程学科\",\"dictType\":\"course_subject\",\"params\":{},\"remark\":\"课程学科\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 08:30:14', 22);
-INSERT INTO `sys_oper_log` VALUES (136, '创建表', 0, 'com.ruoyi.generator.controller.GenController.createTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/createTable', '127.0.0.1', '内网IP', '{\"sql\":\"create table qcl_user\\n(\\n    id        int(11) auto_increment comment \'编号\',\\n    name      varchar(20) null comment \'姓名\',\\n    education varchar(20) null comment \'学历\',\\n    age       int         null comment \'年龄\',\\n    primary key (id)\\n) comment \'用户表\';\\n\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 08:57:15', 214);
-INSERT INTO `sys_oper_log` VALUES (137, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"qcluser\",\"className\":\"QclUser\",\"columns\":[{\"capJavaField\":\"Id\",\"columnComment\":\"编号\",\"columnId\":139,\"columnName\":\"id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 08:57:15\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"1\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"id\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":true,\"query\":true,\"queryType\":\"LIKE\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":13,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"Name\",\"columnComment\":\"姓名\",\"columnId\":140,\"columnName\":\"name\",\"columnType\":\"varchar(20)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 08:57:15\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"name\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":13,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"Education\",\"columnComment\":\"学历\",\"columnId\":141,\"columnName\":\"education\",\"columnType\":\"varchar(20)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 08:57:15\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"education\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":13,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"Age\",\"columnComment\":\"年龄\",\"columnId\":142,\"columnName\":\"age\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 08:57:15\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"ja', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 08:59:53', 21);
-INSERT INTO `sys_oper_log` VALUES (138, '代码生成', 8, 'com.ruoyi.generator.controller.GenController.batchGenCode()', 'GET', 1, 'admin', '研发部门', '/tool/gen/batchGenCode', '127.0.0.1', '内网IP', '{\"tables\":\"qcl_user\"}', NULL, 0, NULL, '2025-11-03 09:00:24', 122);
 INSERT INTO `sys_oper_log` VALUES (139, '用户', 1, 'com.ruoyi.qcluser.controller.QclUserController.add()', 'POST', 1, 'admin', '研发部门', '/qcluser/qcluser', '127.0.0.1', '内网IP', '{\"age\":22,\"education\":\"本科\",\"id\":1,\"name\":\"王对\",\"params\":{}}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 09:14:09', 10);
-INSERT INTO `sys_oper_log` VALUES (140, '创建表', 0, 'com.ruoyi.generator.controller.GenController.createTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/createTable', '127.0.0.1', '内网IP', '{\"sql\":\"-- 商品类型表\\nCREATE TABLE `good_type` (\\n    `type_id` INT AUTO_INCREMENT COMMENT \'自增ID\',\\n    `type_name` VARCHAR(255) NOT NULL COMMENT \'类型名称\',\\n    PRIMARY KEY (`type_id`) -- 主键\\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=\'商品类型\';\\n\\n-- 商品表\\nCREATE TABLE `good` (\\n    `good_id` INT AUTO_INCREMENT COMMENT \'自增ID\',\\n    `good_name` VARCHAR(255) NOT NULL COMMENT \'商品名称\',\\n    `price` DECIMAL(10, 2) NOT NULL COMMENT \'价格\',\\n    `image_url` VARCHAR(255) COMMENT \'图片链接\',\\n    `type_id` INT COMMENT \'类型ID\',\\n    FOREIGN KEY (`type_id`) REFERENCES `good_type`(`type_id`) \\n        ON DELETE CASCADE ON UPDATE CASCADE, -- 级联操作\\n    PRIMARY KEY (`good_id`) -- 主键\\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=\'商品信息\';\\n\"}', '{\"msg\":\"创建表结构异常\",\"code\":500}', 0, NULL, '2025-11-03 09:15:44', 7);
-INSERT INTO `sys_oper_log` VALUES (141, '创建表', 0, 'com.ruoyi.generator.controller.GenController.createTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/createTable', '127.0.0.1', '内网IP', '{\"sql\":\"-- 商品类型表\\nCREATE TABLE `good_type` (\\n    `type_id` INT AUTO_INCREMENT COMMENT \'自增ID\',\\n    `type_name` VARCHAR(255) NOT NULL COMMENT \'类型名称\',\\n    PRIMARY KEY (`type_id`) -- 主键\\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=\'商品类型\';\\n\\n\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 09:16:23', 41);
-INSERT INTO `sys_oper_log` VALUES (142, '创建表', 0, 'com.ruoyi.generator.controller.GenController.createTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/createTable', '127.0.0.1', '内网IP', '{\"sql\":\"-- 商品表\\nCREATE TABLE `good` (\\n    `good_id` INT AUTO_INCREMENT COMMENT \'自增ID\',\\n    `good_name` VARCHAR(255) NOT NULL COMMENT \'商品名称\',\\n    `price` DECIMAL(10, 2) NOT NULL COMMENT \'价格\',\\n    `image_url` VARCHAR(255) COMMENT \'图片链接\',\\n    `type_id` INT COMMENT \'类型ID\',\\n    FOREIGN KEY (`type_id`) REFERENCES `good_type`(`type_id`) \\n        ON DELETE CASCADE ON UPDATE CASCADE, -- 级联操作\\n    PRIMARY KEY (`good_id`) -- 主键\\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=\'商品信息\';\"}', '{\"msg\":\"创建表结构异常\",\"code\":500}', 0, NULL, '2025-11-03 09:16:35', 1);
-INSERT INTO `sys_oper_log` VALUES (143, '创建表', 0, 'com.ruoyi.generator.controller.GenController.createTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/createTable', '127.0.0.1', '内网IP', '{\"sql\":\"-- 商品表\\nCREATE TABLE `good` (\\n    `good_id` INT AUTO_INCREMENT COMMENT \'自增ID\',\\n    `good_name` VARCHAR(255) NOT NULL COMMENT \'商品名称\',\\n    `price` DECIMAL(10, 2) NOT NULL COMMENT \'价格\',\\n    `image_url` VARCHAR(255) COMMENT \'图片链接\',\\n    `type_id` INT COMMENT \'类型ID\',\\n    FOREIGN KEY (`type_id`) REFERENCES `good_type`(`type_id`) \\n        ON DELETE CASCADE ON UPDATE CASCADE, -- 级联操作\\n    PRIMARY KEY (`good_id`) -- 主键\\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=\'商品信息\';\"}', '{\"msg\":\"创建表结构异常\",\"code\":500}', 0, NULL, '2025-11-03 09:16:56', 2);
 INSERT INTO `sys_oper_log` VALUES (144, '菜单管理', 1, 'com.ruoyi.web.controller.system.SysMenuController.add()', 'POST', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"createBy\":\"admin\",\"icon\":\"chart\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuName\":\"商品管理\",\"menuType\":\"M\",\"orderNum\":1,\"params\":{},\"parentId\":0,\"path\":\"good\",\"status\":\"0\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 09:20:11', 9);
-INSERT INTO `sys_oper_log` VALUES (145, '代码生成', 6, 'com.ruoyi.generator.controller.GenController.importTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/importTable', '127.0.0.1', '内网IP', '{\"tables\":\"good\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 09:20:57', 20);
-INSERT INTO `sys_oper_log` VALUES (146, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"good\",\"className\":\"Good\",\"columns\":[{\"capJavaField\":\"GoodId\",\"columnComment\":\"自增ID\",\"columnId\":145,\"columnName\":\"good_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:20:57\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"goodId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":15,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"GoodName\",\"columnComment\":\"商品名称\",\"columnId\":146,\"columnName\":\"good_name\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:20:57\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"goodName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":15,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"Price\",\"columnComment\":\"价格\",\"columnId\":147,\"columnName\":\"price\",\"columnType\":\"decimal(10,2)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:20:57\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"price\",\"javaType\":\"BigDecimal\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":15,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"ImageUrl\",\"columnComment\":\"图片链接\",\"columnId\":148,\"columnName\":\"image_url\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:20:57\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 09:21:31', 20);
-INSERT INTO `sys_oper_log` VALUES (147, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"good\",\"className\":\"Good\",\"columns\":[{\"capJavaField\":\"GoodId\",\"columnComment\":\"自增ID\",\"columnId\":145,\"columnName\":\"good_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:20:57\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"1\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"goodId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":true,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":15,\"updateBy\":\"\",\"updateTime\":\"2025-11-03 09:21:31\",\"usableColumn\":false},{\"capJavaField\":\"GoodName\",\"columnComment\":\"商品名称\",\"columnId\":146,\"columnName\":\"good_name\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:20:57\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"goodName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":15,\"updateBy\":\"\",\"updateTime\":\"2025-11-03 09:21:31\",\"usableColumn\":false},{\"capJavaField\":\"Price\",\"columnComment\":\"价格\",\"columnId\":147,\"columnName\":\"price\",\"columnType\":\"decimal(10,2)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:20:57\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"price\",\"javaType\":\"BigDecimal\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":15,\"updateBy\":\"\",\"updateTime\":\"2025-11-03 09:21:31\",\"usableColumn\":false},{\"capJavaField\":\"ImageUrl\",\"columnComment\":\"图片链接\",\"columnId\":148,\"columnName\":\"image_url\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:20:57\",\"dictType\":\"\",\"edit\":true,\"htmlType\":', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 09:22:59', 13);
-INSERT INTO `sys_oper_log` VALUES (148, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"type\",\"className\":\"GoodType\",\"columns\":[{\"capJavaField\":\"TypeId\",\"columnComment\":\"自增ID\",\"columnId\":143,\"columnName\":\"type_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:16:23\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"typeId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":14,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"TypeName\",\"columnComment\":\"类型名称\",\"columnId\":144,\"columnName\":\"type_name\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:16:23\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"typeName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":14,\"updateBy\":\"\",\"usableColumn\":false}],\"crud\":false,\"functionAuthor\":\"风格\",\"functionName\":\"分类管理\",\"genPath\":\"/\",\"genType\":\"0\",\"moduleName\":\"good\",\"options\":\"{\\\"parentMenuId\\\":2012}\",\"packageName\":\"com.qcl.good\",\"params\":{\"parentMenuId\":2012},\"parentMenuId\":2012,\"sub\":true,\"subTableFkName\":\"type_id\",\"subTableName\":\"good\",\"tableComment\":\"商品分类表\",\"tableId\":14,\"tableName\":\"good_type\",\"tplCategory\":\"sub\",\"tplWebType\":\"element-plus\",\"tree\":false}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 09:24:54', 8);
-INSERT INTO `sys_oper_log` VALUES (149, '代码生成', 8, 'com.ruoyi.generator.controller.GenController.batchGenCode()', 'GET', 1, 'admin', '研发部门', '/tool/gen/batchGenCode', '127.0.0.1', '内网IP', '{\"tables\":\"good,good_type\"}', NULL, 0, NULL, '2025-11-03 09:25:18', 82);
 INSERT INTO `sys_oper_log` VALUES (150, '用户', 1, 'com.ruoyi.system.controller.TUserController.add()', 'POST', 1, 'admin', '研发部门', '/jingyes/user', '127.0.0.1', '内网IP', '{\"age\":1,\"gender\":0,\"id\":\"3\",\"name\":\"55\",\"params\":{}}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 10:58:17', 13);
-INSERT INTO `sys_oper_log` VALUES (151, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"type\",\"className\":\"GoodType\",\"columns\":[{\"capJavaField\":\"TypeId\",\"columnComment\":\"自增ID\",\"columnId\":143,\"columnName\":\"type_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:16:23\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"1\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"typeId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":true,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":14,\"updateBy\":\"\",\"updateTime\":\"2025-11-03 09:24:54\",\"usableColumn\":false},{\"capJavaField\":\"TypeName\",\"columnComment\":\"类型名称\",\"columnId\":144,\"columnName\":\"type_name\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 09:16:23\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"typeName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":14,\"updateBy\":\"\",\"updateTime\":\"2025-11-03 09:24:54\",\"usableColumn\":false}],\"crud\":false,\"functionAuthor\":\"风格\",\"functionName\":\"分类管理\",\"genPath\":\"/\",\"genType\":\"0\",\"moduleName\":\"good\",\"options\":\"{\\\"parentMenuId\\\":2012}\",\"packageName\":\"com.qcl.good\",\"params\":{\"parentMenuId\":2012},\"parentMenuId\":2012,\"sub\":true,\"subTableFkName\":\"type_id\",\"subTableName\":\"good\",\"tableComment\":\"商品分类表\",\"tableId\":14,\"tableName\":\"good_type\",\"tplCategory\":\"sub\",\"tplWebType\":\"element-plus\",\"tree\":false}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 15:55:02', 30);
-INSERT INTO `sys_oper_log` VALUES (152, '代码生成', 6, 'com.ruoyi.generator.controller.GenController.importTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/importTable', '127.0.0.1', '内网IP', '{\"tables\":\"department\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 16:01:44', 30);
-INSERT INTO `sys_oper_log` VALUES (153, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"department\",\"className\":\"Department\",\"columns\":[{\"capJavaField\":\"DepartmentId\",\"columnComment\":\"部门ID\",\"columnId\":150,\"columnName\":\"department_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 16:01:44\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"1\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"departmentId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":true,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":16,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"DepartmentName\",\"columnComment\":\"部门名称\",\"columnId\":151,\"columnName\":\"department_name\",\"columnType\":\"varchar(100)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 16:01:44\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"departmentName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":16,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"ParentId\",\"columnComment\":\"上级部门ID，用于表示部门层级关系\",\"columnId\":152,\"columnName\":\"parent_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 16:01:44\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"parentId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":true,\"tableId\":16,\"updateBy\":\"\",\"usableColumn\":true},{\"capJavaField\":\"Chairman\",\"columnComment\":\"部门负责人\",\"columnId\":153,\"columnName\":\"chairman\",\"columnType\":\"varchar(100)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 16:01:44\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 16:03:13', 12);
-INSERT INTO `sys_oper_log` VALUES (154, '代码生成', 8, 'com.ruoyi.generator.controller.GenController.batchGenCode()', 'GET', 1, 'admin', '研发部门', '/tool/gen/batchGenCode', '127.0.0.1', '内网IP', '{\"tables\":\"department\"}', NULL, 0, NULL, '2025-11-03 16:03:25', 146);
 INSERT INTO `sys_oper_log` VALUES (155, '字典类型', 9, 'com.ruoyi.web.controller.system.SysDictTypeController.refreshCache()', 'DELETE', 1, 'admin', '研发部门', '/system/dict/type/refreshCache', '127.0.0.1', '内网IP', '', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 16:13:49', 15);
-INSERT INTO `sys_oper_log` VALUES (156, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.synchDb()', 'GET', 1, 'admin', '研发部门', '/tool/gen/synchDb/department', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 16:20:19', 54);
-INSERT INTO `sys_oper_log` VALUES (157, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"department\",\"className\":\"Department\",\"columns\":[{\"capJavaField\":\"DepartmentId\",\"columnComment\":\"部门ID\",\"columnId\":150,\"columnName\":\"department_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 16:01:44\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"1\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"departmentId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":true,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":16,\"updateBy\":\"\",\"updateTime\":\"2025-11-03 16:20:19\",\"usableColumn\":false},{\"capJavaField\":\"DepartmentName\",\"columnComment\":\"部门名称\",\"columnId\":151,\"columnName\":\"department_name\",\"columnType\":\"varchar(100)\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 16:01:44\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"departmentName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":16,\"updateBy\":\"\",\"updateTime\":\"2025-11-03 16:20:19\",\"usableColumn\":false},{\"capJavaField\":\"ParentId\",\"columnComment\":\"上级部门ID，用于表示部门层级关系\",\"columnId\":152,\"columnName\":\"parent_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2025-11-03 16:01:44\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"0\",\"javaField\":\"parentId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":true,\"tableId\":16,\"updateBy\":\"\",\"updateTime\":\"2025-11-03 16:20:19\",\"usableColumn\":true},{\"capJavaField\":\"Chairman\",\"columnComment\":\"部门负责人\",\"columnId\":153,\"columnName\":\"chairman\",\"columnType\":\"varchar(100)\",\"createBy\":\"admin\",\"createTime\":\"20', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 16:21:01', 28);
-INSERT INTO `sys_oper_log` VALUES (158, '代码生成', 8, 'com.ruoyi.generator.controller.GenController.batchGenCode()', 'GET', 1, 'admin', '研发部门', '/tool/gen/batchGenCode', '127.0.0.1', '内网IP', '{\"tables\":\"department\"}', NULL, 0, NULL, '2025-11-03 16:21:05', 151);
 INSERT INTO `sys_oper_log` VALUES (159, '部门信息', 1, 'com.ruoyi.deparment.controller.DepartmentController.add()', 'POST', 1, 'admin', '研发部门', '/deparment/department', '127.0.0.1', '内网IP', '{\"chairman\":\"发我\",\"children\":[],\"departmentId\":1,\"departmentName\":\"uuu\",\"params\":{},\"parentId\":0}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 16:24:02', 110);
 INSERT INTO `sys_oper_log` VALUES (160, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'DELETE', 1, 'admin', '研发部门', '/system/menu/2012', '127.0.0.1', '内网IP', '2012', '{\"msg\":\"存在子菜单,不允许删除\",\"code\":601}', 0, NULL, '2025-12-18 17:41:39', 7);
 INSERT INTO `sys_oper_log` VALUES (161, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'DELETE', 1, 'admin', '研发部门', '/system/menu/2018', '127.0.0.1', '内网IP', '2018', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-12-18 17:41:48', 26);
@@ -4013,6 +4991,15 @@ INSERT INTO `sys_oper_log` VALUES (231, '部门管理', 2, 'com.ruoyi.web.contro
 INSERT INTO `sys_oper_log` VALUES (232, '部门管理', 2, 'com.ruoyi.web.controller.system.SysDeptController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dept', '127.0.0.1', '内网IP', '{\"ancestors\":\"0,100\",\"children\":[],\"deptId\":101,\"deptName\":\"深圳总公司\",\"email\":\"ry@qq.com\",\"leader\":\"若依\",\"orderNum\":1,\"params\":{},\"parentId\":100,\"parentName\":\"大风车科技\",\"phone\":\"15888888888\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-03-13 22:56:01', 10);
 INSERT INTO `sys_oper_log` VALUES (233, '部门管理', 2, 'com.ruoyi.web.controller.system.SysDeptController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dept', '127.0.0.1', '内网IP', '{\"ancestors\":\"0,100\",\"children\":[],\"deptId\":101,\"deptName\":\"烟台总公司\",\"email\":\"ry@qq.com\",\"leader\":\"若依\",\"orderNum\":1,\"params\":{},\"parentId\":100,\"parentName\":\"大风车科技\",\"phone\":\"15888888888\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-03-13 22:56:17', 9);
 INSERT INTO `sys_oper_log` VALUES (234, '部门管理', 2, 'com.ruoyi.web.controller.system.SysDeptController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dept', '127.0.0.1', '内网IP', '{\"ancestors\":\"0,100\",\"children\":[],\"deptId\":102,\"deptName\":\"济南分公司\",\"email\":\"ry@qq.com\",\"leader\":\"若依\",\"orderNum\":2,\"params\":{},\"parentId\":100,\"parentName\":\"大风车科技\",\"phone\":\"15888888888\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-03-13 22:56:25', 9);
+INSERT INTO `sys_oper_log` VALUES (235, '告警记录', 2, 'com.ruoyi.web.controller.equipment.EqAlertRecordController.edit()', 'PUT', 1, 'admin', '研发部门', '/equipment/alertRecord', '127.0.0.1', '内网IP', '{\"alertId\":3,\"alertLevel\":1,\"alertMessage\":\"电流波动异常\",\"deviceId\":1,\"deviceName\":\"主变压器1号\",\"deviceNo\":\"DEV-001\",\"params\":{},\"remark\":\"常规告警\",\"resolutionNotes\":\"已检查并确认，恢复正常\",\"resolvedBy\":0,\"status\":2,\"triggeredTime\":\"2026-01-11 16:01:33\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-03-27 08:18:20', 13);
+INSERT INTO `sys_oper_log` VALUES (236, '设备运行状态', 2, 'com.ruoyi.web.controller.equipment.EqDeviceStatusController.edit()', 'PUT', 1, 'admin', '研发部门', '/equipment/deviceStatus', '127.0.0.1', '内网IP', '{\"airQuality\":95,\"alarmCount\":11,\"ambientHumidity\":54.9,\"ambientTemp\":24.8,\"current\":0,\"deviceId\":1,\"deviceName\":\"主变压器1号\",\"deviceNo\":\"DEV-001\",\"efficiency\":95.9,\"faultCount\":1,\"flowRate\":60.6,\"humidity\":44.5,\"liquidLevel\":73.7,\"loadFactor\":0.93,\"maintenanceRequired\":0,\"noiseLevel\":73.8,\"params\":{},\"power\":16.7,\"pressure\":102.3,\"remark\":\"运行正常\",\"rpm\":1440,\"runtimeHours\":25708,\"startCount\":181,\"status\":1,\"statusId\":2,\"temperature\":80,\"timestamp\":\"2026-01-11 23:01:11\",\"vibration\":1.43,\"voltage\":112}', NULL, 1, '\r\n### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: Unknown column \'current_val\' in \'field list\'\r\n### The error may exist in file [D:\\项目\\biye\\ruoyi-system\\target\\classes\\mapper\\system\\EqDeviceStatusMapper.xml]\r\n### The error may involve com.ruoyi.system.mapper.EqDeviceStatusMapper.updateEqDeviceStatus-Inline\r\n### The error occurred while setting parameters\r\n### SQL: update eq_device_status          SET device_id = ?,             timestamp = ?,             temperature = ?,             humidity = ?,             pressure = ?,             vibration = ?,             current_val = ?,             voltage = ?,             power = ?,             rpm = ?,             flow_rate = ?,             liquid_level = ?,             status = ?,             runtime_hours = ?,             start_count = ?,             fault_count = ?,             alarm_count = ?,             efficiency = ?,             load_factor = ?,             ambient_temp = ?,             ambient_humidity = ?,             noise_level = ?,             air_quality = ?,                                       maintenance_required = ?,             remark = ?          where status_id = ?\r\n### Cause: java.sql.SQLSyntaxErrorException: Unknown column \'current_val\' in \'field list\'\n; bad SQL grammar []', '2026-03-27 08:27:15', 96);
+INSERT INTO `sys_oper_log` VALUES (237, '设备运行状态', 2, 'com.ruoyi.web.controller.equipment.EqDeviceStatusController.edit()', 'PUT', 1, 'admin', '研发部门', '/equipment/deviceStatus', '127.0.0.1', '内网IP', '{\"airQuality\":95,\"alarmCount\":11,\"ambientHumidity\":54.9,\"ambientTemp\":24.8,\"current\":165.7,\"deviceId\":1,\"deviceName\":\"主变压器1号\",\"deviceNo\":\"DEV-001\",\"efficiency\":95.9,\"faultCount\":1,\"flowRate\":60.6,\"humidity\":44.5,\"liquidLevel\":73.7,\"loadFactor\":0.93,\"maintenanceRequired\":0,\"noiseLevel\":73.8,\"params\":{},\"power\":16.7,\"pressure\":102.3,\"remark\":\"运行正常\",\"rpm\":1440,\"runtimeHours\":25708,\"startCount\":181,\"status\":1,\"statusId\":2,\"temperature\":188,\"timestamp\":\"2026-01-11 23:01:11\",\"vibration\":1.43,\"voltage\":112}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-03-27 08:33:35', 36);
+INSERT INTO `sys_oper_log` VALUES (238, '用户头像', 2, 'com.ruoyi.web.controller.system.SysProfileController.avatar()', 'POST', 1, 'admin', '研发部门', '/system/user/profile/avatar', '127.0.0.1', '内网IP', '', '{\"msg\":\"操作成功\",\"imgUrl\":\"/profile/avatar/2026/03/29/3ead25acb8024d36b5696f32fb99d4b6.jpg\",\"code\":200}', 0, NULL, '2026-03-29 19:16:13', 50);
+INSERT INTO `sys_oper_log` VALUES (239, '定时任务', 2, 'com.ruoyi.quartz.controller.SysJobController.edit()', 'PUT', 1, 'admin', '研发部门', '/monitor/job', '127.0.0.1', '内网IP', '', '{\"msg\":\"修改任务\'检查报警\'失败，Cron表达式不正确\",\"code\":500}', 0, NULL, '2026-03-29 21:35:19', 7);
+INSERT INTO `sys_oper_log` VALUES (240, '设备统计', 3, 'com.ruoyi.web.controller.equipment.EqDeviceStatController.remove()', 'DELETE', 1, 'admin', '研发部门', '/equipment/deviceStat/143', '127.0.0.1', '内网IP', '[143]', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-03-29 21:37:26', 9);
+INSERT INTO `sys_oper_log` VALUES (241, '设备统计', 3, 'com.ruoyi.web.controller.equipment.EqDeviceStatController.remove()', 'DELETE', 1, 'admin', '研发部门', '/equipment/deviceStat/145', '127.0.0.1', '内网IP', '[145]', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-03-29 21:57:49', 8);
+INSERT INTO `sys_oper_log` VALUES (242, '设备统计', 3, 'com.ruoyi.web.controller.equipment.EqDeviceStatController.remove()', 'DELETE', 1, 'admin', '研发部门', '/equipment/deviceStat/144', '127.0.0.1', '内网IP', '[144]', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-03-29 21:57:53', 3);
+INSERT INTO `sys_oper_log` VALUES (243, '个人信息', 2, 'com.ruoyi.web.controller.system.SysProfileController.updateProfile()', 'PUT', 1, 'admin', '研发部门', '/system/user/profile', '127.0.0.1', '内网IP', '{\"admin\":false,\"email\":\"3047969285@qq.com\",\"nickName\":\"王昌振\",\"params\":{},\"phonenumber\":\"18853471291\",\"sex\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2026-04-21 14:41:45', 9);
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -4030,7 +5017,7 @@ CREATE TABLE `sys_post`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`post_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '岗位信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '岗位信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_post
@@ -4060,7 +5047,7 @@ CREATE TABLE `sys_role`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -4077,7 +5064,7 @@ CREATE TABLE `sys_role_dept`  (
   `role_id` bigint NOT NULL COMMENT '角色ID',
   `dept_id` bigint NOT NULL COMMENT '部门ID',
   PRIMARY KEY (`role_id`, `dept_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色和部门关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色和部门关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_dept
@@ -4094,13 +5081,13 @@ CREATE TABLE `sys_role_menu`  (
   `role_id` bigint NOT NULL COMMENT '角色ID',
   `menu_id` bigint NOT NULL COMMENT '菜单ID',
   PRIMARY KEY (`role_id`, `menu_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES (1, 201);
 INSERT INTO `sys_role_menu` VALUES (1, 200);
+INSERT INTO `sys_role_menu` VALUES (1, 201);
 INSERT INTO `sys_role_menu` VALUES (1, 206);
 INSERT INTO `sys_role_menu` VALUES (1, 2011);
 INSERT INTO `sys_role_menu` VALUES (1, 2012);
@@ -4128,7 +5115,6 @@ INSERT INTO `sys_role_menu` VALUES (2, 112);
 INSERT INTO `sys_role_menu` VALUES (2, 113);
 INSERT INTO `sys_role_menu` VALUES (2, 114);
 INSERT INTO `sys_role_menu` VALUES (2, 115);
-INSERT INTO `sys_role_menu` VALUES (2, 116);
 INSERT INTO `sys_role_menu` VALUES (2, 117);
 INSERT INTO `sys_role_menu` VALUES (2, 201);
 INSERT INTO `sys_role_menu` VALUES (2, 206);
@@ -4189,12 +5175,6 @@ INSERT INTO `sys_role_menu` VALUES (2, 1051);
 INSERT INTO `sys_role_menu` VALUES (2, 1052);
 INSERT INTO `sys_role_menu` VALUES (2, 1053);
 INSERT INTO `sys_role_menu` VALUES (2, 1054);
-INSERT INTO `sys_role_menu` VALUES (2, 1055);
-INSERT INTO `sys_role_menu` VALUES (2, 1056);
-INSERT INTO `sys_role_menu` VALUES (2, 1057);
-INSERT INTO `sys_role_menu` VALUES (2, 1058);
-INSERT INTO `sys_role_menu` VALUES (2, 1059);
-INSERT INTO `sys_role_menu` VALUES (2, 1060);
 INSERT INTO `sys_role_menu` VALUES (2, 2011);
 INSERT INTO `sys_role_menu` VALUES (2, 2012);
 INSERT INTO `sys_role_menu` VALUES (2, 2013);
@@ -4233,14 +5213,189 @@ CREATE TABLE `sys_user`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 103, 'admin', '王昌振', '00', '3047969285@qq.com', '18853471291', '0', '/profile/avatar/2026/01/06/014bc547f6e341f0b3715005c7ad4c71.png', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2026-03-18 16:49:11', '2025-10-31 15:23:03', 'admin', '2025-10-31 15:23:03', '', '2026-01-06 20:41:24', '管理员');
+INSERT INTO `sys_user` VALUES (1, 103, 'admin', '王昌振', '00', '3047969285@qq.com', '18853471291', '0', '/profile/avatar/2026/03/29/3ead25acb8024d36b5696f32fb99d4b6.jpg', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2026-03-30 22:52:24', '2025-10-31 15:23:03', 'admin', '2025-10-31 15:23:03', '', '2026-04-21 14:41:45', '管理员');
 INSERT INTO `sys_user` VALUES (2, 105, 'ry', '若依', '00', '504204693@qq.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2025-10-31 15:23:03', '2025-10-31 15:23:03', 'admin', '2025-10-31 15:23:03', 'admin', '2026-01-08 01:44:50', '测试员');
 INSERT INTO `sys_user` VALUES (100, NULL, 'xb', '小板', '00', '', '', '0', '', '$2a$10$pAzOgZkw25WiXECl0AXJeOaibPlYbXTMrHkTg04Ydys6vN2MCcmkC', '0', '0', '127.0.0.1', '2025-10-31 16:31:15', NULL, 'admin', '2025-10-31 16:29:38', '', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for sys_user_message
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_message`;
+CREATE TABLE `sys_user_message`  (
+  `msg_id` bigint NOT NULL AUTO_INCREMENT COMMENT '消息ID',
+  `user_id` bigint NOT NULL COMMENT '接收用户ID',
+  `msg_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'maintenance_form' COMMENT '消息类型',
+  `title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '标题',
+  `content` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '摘要内容',
+  `biz_id` bigint NULL DEFAULT NULL COMMENT '业务主键，如运维表单 form_id',
+  `read_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0' COMMENT '是否已读 0否 1是',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`msg_id`) USING BTREE,
+  INDEX `idx_user_read`(`user_id` ASC, `read_flag` ASC) USING BTREE,
+  INDEX `idx_user_time`(`user_id` ASC, `create_time` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1234 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户站内消息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_user_message
+-- ----------------------------
+INSERT INTO `sys_user_message` VALUES (1, 1, 'maintenance_form', '运维表单待处理', '设备「电容器组2号」已生成运维表单（#7），优先级：高，请及时处理。', 7, '1', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (2, 2, 'maintenance_form', '运维表单待处理', '设备「电容器组2号」已生成运维表单（#7），优先级：高，请及时处理。', 7, '0', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (3, 100, 'maintenance_form', '运维表单待处理', '设备「电容器组2号」已生成运维表单（#7），优先级：高，请及时处理。', 7, '0', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (4, 1, 'maintenance_form', '运维表单待处理', '设备「配电柜2号」已生成运维表单（#6），优先级：高，请及时处理。', 6, '1', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (5, 2, 'maintenance_form', '运维表单待处理', '设备「配电柜2号」已生成运维表单（#6），优先级：高，请及时处理。', 6, '0', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (6, 100, 'maintenance_form', '运维表单待处理', '设备「配电柜2号」已生成运维表单（#6），优先级：高，请及时处理。', 6, '0', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (7, 1, 'maintenance_form', '运维表单待处理', '设备「主变压器1号」已生成运维表单（#5），优先级：高，请及时处理。', 5, '1', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (8, 2, 'maintenance_form', '运维表单待处理', '设备「主变压器1号」已生成运维表单（#5），优先级：高，请及时处理。', 5, '0', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (9, 100, 'maintenance_form', '运维表单待处理', '设备「主变压器1号」已生成运维表单（#5），优先级：高，请及时处理。', 5, '0', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (10, 1, 'maintenance_form', '运维表单待处理', '设备「配电柜1号」已生成运维表单（#4），优先级：高，请及时处理。', 4, '1', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (11, 2, 'maintenance_form', '运维表单待处理', '设备「配电柜1号」已生成运维表单（#4），优先级：高，请及时处理。', 4, '0', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (12, 100, 'maintenance_form', '运维表单待处理', '设备「配电柜1号」已生成运维表单（#4），优先级：高，请及时处理。', 4, '0', '2026-03-29 21:43:00');
+INSERT INTO `sys_user_message` VALUES (103, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器1号」当前需维护（优先级：高），请到运维表单页处理。', 1, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (104, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器2号」当前需维护（优先级：高），请到运维表单页处理。', 2, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (105, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机1号」当前需维护（优先级：高），请到运维表单页处理。', 7, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (106, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机2号」当前需维护（优先级：高），请到运维表单页处理。', 8, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (107, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组1号」当前需维护（优先级：高），请到运维表单页处理。', 9, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (108, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组2号」当前需维护（优先级：高），请到运维表单页处理。', 10, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (109, 1, 'maintenance_device_pending', '设备待维护', '设备「互感器2号」当前需维护（优先级：高），请到运维表单页处理。', 12, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (110, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器2号」当前需维护（优先级：高），请到运维表单页处理。', 14, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (111, 1, 'maintenance_device_pending', '设备待维护', '设备「隔离开关2号」当前需维护（优先级：高），请到运维表单页处理。', 16, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (112, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源1号」当前需维护（优先级：高），请到运维表单页处理。', 17, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (113, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源2号」当前需维护（优先级：高），请到运维表单页处理。', 18, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (114, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏1号」当前需维护（优先级：高），请到运维表单页处理。', 19, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (115, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏2号」当前需维护（优先级：高），请到运维表单页处理。', 20, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (116, 1, 'maintenance_device_pending', '设备待维护', '设备「配电柜2号」当前需维护（优先级：中），请到运维表单页处理。', 4, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (117, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器1号」当前需维护（优先级：中），请到运维表单页处理。', 13, '1', '2026-03-29 21:56:00');
+INSERT INTO `sys_user_message` VALUES (193, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器1号」当前需维护（优先级：高），请到运维表单页处理。', 1, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (194, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器2号」当前需维护（优先级：高），请到运维表单页处理。', 2, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (195, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机1号」当前需维护（优先级：高），请到运维表单页处理。', 7, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (196, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机2号」当前需维护（优先级：高），请到运维表单页处理。', 8, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (197, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组1号」当前需维护（优先级：高），请到运维表单页处理。', 9, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (198, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组2号」当前需维护（优先级：高），请到运维表单页处理。', 10, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (199, 1, 'maintenance_device_pending', '设备待维护', '设备「互感器2号」当前需维护（优先级：高），请到运维表单页处理。', 12, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (200, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器2号」当前需维护（优先级：高），请到运维表单页处理。', 14, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (201, 1, 'maintenance_device_pending', '设备待维护', '设备「隔离开关2号」当前需维护（优先级：高），请到运维表单页处理。', 16, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (202, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源1号」当前需维护（优先级：高），请到运维表单页处理。', 17, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (203, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源2号」当前需维护（优先级：高），请到运维表单页处理。', 18, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (204, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏1号」当前需维护（优先级：高），请到运维表单页处理。', 19, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (205, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏2号」当前需维护（优先级：高），请到运维表单页处理。', 20, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (206, 1, 'maintenance_device_pending', '设备待维护', '设备「配电柜2号」当前需维护（优先级：中），请到运维表单页处理。', 4, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (207, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器1号」当前需维护（优先级：中），请到运维表单页处理。', 13, '1', '2026-03-29 21:58:00');
+INSERT INTO `sys_user_message` VALUES (373, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器1号」当前需维护（优先级：高），请到运维表单页处理。', 1, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (374, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器2号」当前需维护（优先级：高），请到运维表单页处理。', 2, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (375, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机1号」当前需维护（优先级：高），请到运维表单页处理。', 7, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (376, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机2号」当前需维护（优先级：高），请到运维表单页处理。', 8, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (377, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组1号」当前需维护（优先级：高），请到运维表单页处理。', 9, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (378, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组2号」当前需维护（优先级：高），请到运维表单页处理。', 10, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (379, 1, 'maintenance_device_pending', '设备待维护', '设备「互感器2号」当前需维护（优先级：高），请到运维表单页处理。', 12, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (380, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器2号」当前需维护（优先级：高），请到运维表单页处理。', 14, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (381, 1, 'maintenance_device_pending', '设备待维护', '设备「隔离开关2号」当前需维护（优先级：高），请到运维表单页处理。', 16, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (382, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源1号」当前需维护（优先级：高），请到运维表单页处理。', 17, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (383, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源2号」当前需维护（优先级：高），请到运维表单页处理。', 18, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (384, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏1号」当前需维护（优先级：高），请到运维表单页处理。', 19, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (385, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏2号」当前需维护（优先级：高），请到运维表单页处理。', 20, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (386, 1, 'maintenance_device_pending', '设备待维护', '设备「配电柜2号」当前需维护（优先级：中），请到运维表单页处理。', 4, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (387, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器1号」当前需维护（优先级：中），请到运维表单页处理。', 13, '1', '2026-03-29 22:03:00');
+INSERT INTO `sys_user_message` VALUES (418, 1, 'maintenance_form', '运维表单待处理', '设备「主变压器1号」已生成运维表单（#8），优先级：高，请及时处理。', 8, '1', '2026-03-29 22:03:25');
+INSERT INTO `sys_user_message` VALUES (419, 2, 'maintenance_form', '运维表单待处理', '设备「主变压器1号」已生成运维表单（#8），优先级：高，请及时处理。', 8, '0', '2026-03-29 22:03:25');
+INSERT INTO `sys_user_message` VALUES (420, 100, 'maintenance_form', '运维表单待处理', '设备「主变压器1号」已生成运维表单（#8），优先级：高，请及时处理。', 8, '0', '2026-03-29 22:03:25');
+INSERT INTO `sys_user_message` VALUES (466, 1, 'maintenance_form', '运维表单待处理', '设备「电容器组1号」已生成运维表单（#9），优先级：高，请及时处理。', 9, '1', '2026-03-29 22:05:50');
+INSERT INTO `sys_user_message` VALUES (467, 2, 'maintenance_form', '运维表单待处理', '设备「电容器组1号」已生成运维表单（#9），优先级：高，请及时处理。', 9, '0', '2026-03-29 22:05:50');
+INSERT INTO `sys_user_message` VALUES (468, 100, 'maintenance_form', '运维表单待处理', '设备「电容器组1号」已生成运维表单（#9），优先级：高，请及时处理。', 9, '0', '2026-03-29 22:05:50');
+INSERT INTO `sys_user_message` VALUES (469, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器1号」当前需维护（优先级：高），请到运维表单页处理。', 1, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (470, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器2号」当前需维护（优先级：高），请到运维表单页处理。', 2, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (471, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机1号」当前需维护（优先级：高），请到运维表单页处理。', 7, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (472, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机2号」当前需维护（优先级：高），请到运维表单页处理。', 8, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (473, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组1号」当前需维护（优先级：高），请到运维表单页处理。', 9, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (474, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组2号」当前需维护（优先级：高），请到运维表单页处理。', 10, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (475, 1, 'maintenance_device_pending', '设备待维护', '设备「互感器2号」当前需维护（优先级：高），请到运维表单页处理。', 12, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (476, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器2号」当前需维护（优先级：高），请到运维表单页处理。', 14, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (477, 1, 'maintenance_device_pending', '设备待维护', '设备「隔离开关2号」当前需维护（优先级：高），请到运维表单页处理。', 16, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (478, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源1号」当前需维护（优先级：高），请到运维表单页处理。', 17, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (479, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源2号」当前需维护（优先级：高），请到运维表单页处理。', 18, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (480, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏1号」当前需维护（优先级：高），请到运维表单页处理。', 19, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (481, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏2号」当前需维护（优先级：高），请到运维表单页处理。', 20, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (482, 1, 'maintenance_device_pending', '设备待维护', '设备「配电柜2号」当前需维护（优先级：中），请到运维表单页处理。', 4, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (483, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器1号」当前需维护（优先级：中），请到运维表单页处理。', 13, '1', '2026-03-29 22:06:00');
+INSERT INTO `sys_user_message` VALUES (559, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器1号」当前需维护（优先级：高），请到运维表单页处理。', 1, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (560, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器2号」当前需维护（优先级：高），请到运维表单页处理。', 2, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (561, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机1号」当前需维护（优先级：高），请到运维表单页处理。', 7, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (562, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机2号」当前需维护（优先级：高），请到运维表单页处理。', 8, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (563, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组1号」当前需维护（优先级：高），请到运维表单页处理。', 9, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (564, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组2号」当前需维护（优先级：高），请到运维表单页处理。', 10, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (565, 1, 'maintenance_device_pending', '设备待维护', '设备「互感器2号」当前需维护（优先级：高），请到运维表单页处理。', 12, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (566, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器2号」当前需维护（优先级：高），请到运维表单页处理。', 14, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (567, 1, 'maintenance_device_pending', '设备待维护', '设备「隔离开关2号」当前需维护（优先级：高），请到运维表单页处理。', 16, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (568, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源1号」当前需维护（优先级：高），请到运维表单页处理。', 17, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (569, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源2号」当前需维护（优先级：高），请到运维表单页处理。', 18, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (570, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏1号」当前需维护（优先级：高），请到运维表单页处理。', 19, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (571, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏2号」当前需维护（优先级：高），请到运维表单页处理。', 20, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (572, 1, 'maintenance_device_pending', '设备待维护', '设备「配电柜2号」当前需维护（优先级：中），请到运维表单页处理。', 4, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (573, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器1号」当前需维护（优先级：中），请到运维表单页处理。', 13, '1', '2026-03-29 22:08:00');
+INSERT INTO `sys_user_message` VALUES (1054, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器1号」当前需维护（优先级：高），请到运维表单页处理。', 1, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1055, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器2号」当前需维护（优先级：高），请到运维表单页处理。', 2, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1056, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机1号」当前需维护（优先级：高），请到运维表单页处理。', 7, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1057, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机2号」当前需维护（优先级：高），请到运维表单页处理。', 8, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1058, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组1号」当前需维护（优先级：高），请到运维表单页处理。', 9, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1059, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组2号」当前需维护（优先级：高），请到运维表单页处理。', 10, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1060, 1, 'maintenance_device_pending', '设备待维护', '设备「互感器2号」当前需维护（优先级：高），请到运维表单页处理。', 12, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1061, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器2号」当前需维护（优先级：高），请到运维表单页处理。', 14, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1062, 1, 'maintenance_device_pending', '设备待维护', '设备「隔离开关2号」当前需维护（优先级：高），请到运维表单页处理。', 16, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1063, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源1号」当前需维护（优先级：高），请到运维表单页处理。', 17, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1064, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源2号」当前需维护（优先级：高），请到运维表单页处理。', 18, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1065, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏1号」当前需维护（优先级：高），请到运维表单页处理。', 19, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1066, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏2号」当前需维护（优先级：高），请到运维表单页处理。', 20, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1067, 1, 'maintenance_device_pending', '设备待维护', '设备「配电柜2号」当前需维护（优先级：中），请到运维表单页处理。', 4, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1068, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器1号」当前需维护（优先级：中），请到运维表单页处理。', 13, '1', '2026-03-29 22:20:00');
+INSERT INTO `sys_user_message` VALUES (1189, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器1号」当前需维护（优先级：高），请到运维表单页处理。', 1, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1190, 1, 'maintenance_device_pending', '设备待维护', '设备「主变压器2号」当前需维护（优先级：高），请到运维表单页处理。', 2, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1191, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机1号」当前需维护（优先级：高），请到运维表单页处理。', 7, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1192, 1, 'maintenance_device_pending', '设备待维护', '设备「发电机2号」当前需维护（优先级：高），请到运维表单页处理。', 8, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1193, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组1号」当前需维护（优先级：高），请到运维表单页处理。', 9, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1194, 1, 'maintenance_device_pending', '设备待维护', '设备「电容器组2号」当前需维护（优先级：高），请到运维表单页处理。', 10, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1195, 1, 'maintenance_device_pending', '设备待维护', '设备「互感器2号」当前需维护（优先级：高），请到运维表单页处理。', 12, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1196, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器2号」当前需维护（优先级：高），请到运维表单页处理。', 14, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1197, 1, 'maintenance_device_pending', '设备待维护', '设备「隔离开关2号」当前需维护（优先级：高），请到运维表单页处理。', 16, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1198, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源1号」当前需维护（优先级：高），请到运维表单页处理。', 17, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1199, 1, 'maintenance_device_pending', '设备待维护', '设备「UPS电源2号」当前需维护（优先级：高），请到运维表单页处理。', 18, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1200, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏1号」当前需维护（优先级：高），请到运维表单页处理。', 19, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1201, 1, 'maintenance_device_pending', '设备待维护', '设备「直流屏2号」当前需维护（优先级：高），请到运维表单页处理。', 20, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1202, 1, 'maintenance_device_pending', '设备待维护', '设备「配电柜2号」当前需维护（优先级：中），请到运维表单页处理。', 4, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1203, 1, 'maintenance_device_pending', '设备待维护', '设备「避雷器1号」当前需维护（优先级：中），请到运维表单页处理。', 13, '1', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1204, 2, 'maintenance_device_pending', '设备待维护', '设备「主变压器1号」当前需维护（优先级：高），请到运维表单页处理。', 1, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1205, 2, 'maintenance_device_pending', '设备待维护', '设备「主变压器2号」当前需维护（优先级：高），请到运维表单页处理。', 2, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1206, 2, 'maintenance_device_pending', '设备待维护', '设备「发电机1号」当前需维护（优先级：高），请到运维表单页处理。', 7, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1207, 2, 'maintenance_device_pending', '设备待维护', '设备「发电机2号」当前需维护（优先级：高），请到运维表单页处理。', 8, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1208, 2, 'maintenance_device_pending', '设备待维护', '设备「电容器组1号」当前需维护（优先级：高），请到运维表单页处理。', 9, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1209, 2, 'maintenance_device_pending', '设备待维护', '设备「电容器组2号」当前需维护（优先级：高），请到运维表单页处理。', 10, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1210, 2, 'maintenance_device_pending', '设备待维护', '设备「互感器2号」当前需维护（优先级：高），请到运维表单页处理。', 12, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1211, 2, 'maintenance_device_pending', '设备待维护', '设备「避雷器2号」当前需维护（优先级：高），请到运维表单页处理。', 14, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1212, 2, 'maintenance_device_pending', '设备待维护', '设备「隔离开关2号」当前需维护（优先级：高），请到运维表单页处理。', 16, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1213, 2, 'maintenance_device_pending', '设备待维护', '设备「UPS电源1号」当前需维护（优先级：高），请到运维表单页处理。', 17, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1214, 2, 'maintenance_device_pending', '设备待维护', '设备「UPS电源2号」当前需维护（优先级：高），请到运维表单页处理。', 18, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1215, 2, 'maintenance_device_pending', '设备待维护', '设备「直流屏1号」当前需维护（优先级：高），请到运维表单页处理。', 19, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1216, 2, 'maintenance_device_pending', '设备待维护', '设备「直流屏2号」当前需维护（优先级：高），请到运维表单页处理。', 20, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1217, 2, 'maintenance_device_pending', '设备待维护', '设备「配电柜2号」当前需维护（优先级：中），请到运维表单页处理。', 4, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1218, 2, 'maintenance_device_pending', '设备待维护', '设备「避雷器1号」当前需维护（优先级：中），请到运维表单页处理。', 13, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1219, 100, 'maintenance_device_pending', '设备待维护', '设备「主变压器1号」当前需维护（优先级：高），请到运维表单页处理。', 1, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1220, 100, 'maintenance_device_pending', '设备待维护', '设备「主变压器2号」当前需维护（优先级：高），请到运维表单页处理。', 2, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1221, 100, 'maintenance_device_pending', '设备待维护', '设备「发电机1号」当前需维护（优先级：高），请到运维表单页处理。', 7, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1222, 100, 'maintenance_device_pending', '设备待维护', '设备「发电机2号」当前需维护（优先级：高），请到运维表单页处理。', 8, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1223, 100, 'maintenance_device_pending', '设备待维护', '设备「电容器组1号」当前需维护（优先级：高），请到运维表单页处理。', 9, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1224, 100, 'maintenance_device_pending', '设备待维护', '设备「电容器组2号」当前需维护（优先级：高），请到运维表单页处理。', 10, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1225, 100, 'maintenance_device_pending', '设备待维护', '设备「互感器2号」当前需维护（优先级：高），请到运维表单页处理。', 12, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1226, 100, 'maintenance_device_pending', '设备待维护', '设备「避雷器2号」当前需维护（优先级：高），请到运维表单页处理。', 14, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1227, 100, 'maintenance_device_pending', '设备待维护', '设备「隔离开关2号」当前需维护（优先级：高），请到运维表单页处理。', 16, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1228, 100, 'maintenance_device_pending', '设备待维护', '设备「UPS电源1号」当前需维护（优先级：高），请到运维表单页处理。', 17, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1229, 100, 'maintenance_device_pending', '设备待维护', '设备「UPS电源2号」当前需维护（优先级：高），请到运维表单页处理。', 18, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1230, 100, 'maintenance_device_pending', '设备待维护', '设备「直流屏1号」当前需维护（优先级：高），请到运维表单页处理。', 19, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1231, 100, 'maintenance_device_pending', '设备待维护', '设备「直流屏2号」当前需维护（优先级：高），请到运维表单页处理。', 20, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1232, 100, 'maintenance_device_pending', '设备待维护', '设备「配电柜2号」当前需维护（优先级：中），请到运维表单页处理。', 4, '0', '2026-03-29 22:23:00');
+INSERT INTO `sys_user_message` VALUES (1233, 100, 'maintenance_device_pending', '设备待维护', '设备「避雷器1号」当前需维护（优先级：中），请到运维表单页处理。', 13, '0', '2026-03-29 22:23:00');
 
 -- ----------------------------
 -- Table structure for sys_user_post
@@ -4250,7 +5405,7 @@ CREATE TABLE `sys_user_post`  (
   `user_id` bigint NOT NULL COMMENT '用户ID',
   `post_id` bigint NOT NULL COMMENT '岗位ID',
   PRIMARY KEY (`user_id`, `post_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户与岗位关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户与岗位关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_post
@@ -4266,7 +5421,7 @@ CREATE TABLE `sys_user_role`  (
   `user_id` bigint NOT NULL COMMENT '用户ID',
   `role_id` bigint NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户和角色关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户和角色关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_role
@@ -4285,60 +5440,12 @@ CREATE TABLE `t_user`  (
   `age` int NULL DEFAULT NULL COMMENT '年龄',
   `gender` tinyint NOT NULL DEFAULT 0 COMMENT '性别，0：女 1：男',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
 INSERT INTO `t_user` VALUES (2, '买买买', 22, 1);
 INSERT INTO `t_user` VALUES (3, '55', 1, 0);
-
--- ----------------------------
--- 风力预测：每台设备绑定的模型与 Excel 路径（绝对路径或 /profile 相对上传路径）
--- ----------------------------
-DROP TABLE IF EXISTS `eq_wind_forecast_bind`;
-CREATE TABLE `eq_wind_forecast_bind`  (
-  `device_id` bigint NOT NULL COMMENT '设备ID',
-  `model_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'GRU 模型 .h5 绝对路径',
-  `feature_excel_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '特征 Excel 绝对路径',
-  `real_excel_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '实测功率 Excel 绝对路径',
-  `inline_data_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '页面编辑的风速+功率序列 JSON，预测时生成临时 Excel',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`device_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '风力预测设备数据绑定' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- 可选升级：旧库已存在 eq_wind_forecast_bind 但缺少 inline_data_json 时补齐（可重复执行）
--- ----------------------------
-SET @db := DATABASE();
-SET @exists := (
-  SELECT COUNT(*) FROM information_schema.COLUMNS
-  WHERE TABLE_SCHEMA = @db AND TABLE_NAME = 'eq_wind_forecast_bind' AND COLUMN_NAME = 'inline_data_json'
-);
-SET @sql := IF(
-  @exists = 0,
-  'ALTER TABLE `eq_wind_forecast_bind` ADD COLUMN `inline_data_json` longtext NULL COMMENT ''页面编辑的风速+功率序列 JSON'' AFTER `real_excel_path`',
-  'SELECT 1'
-);
-PREPARE stmt FROM @sql;
-EXECUTE stmt;
-DEALLOCATE PREPARE stmt;
-
--- ----------------------------
--- 站内消息（与 sql/sys_user_message.sql 一致；单独文件便于旧库增量）
--- ----------------------------
-CREATE TABLE IF NOT EXISTS `sys_user_message` (
-  `msg_id` bigint NOT NULL AUTO_INCREMENT COMMENT '消息ID',
-  `user_id` bigint NOT NULL COMMENT '接收用户ID',
-  `msg_type` varchar(32) NOT NULL DEFAULT 'maintenance_form' COMMENT '消息类型',
-  `title` varchar(200) NOT NULL DEFAULT '' COMMENT '标题',
-  `content` varchar(1000) NOT NULL DEFAULT '' COMMENT '摘要内容',
-  `biz_id` bigint NULL DEFAULT NULL COMMENT '业务主键，如 form_id / device_id',
-  `read_flag` char(1) NOT NULL DEFAULT '0' COMMENT '是否已读 0否 1是',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`msg_id`),
-  KEY `idx_user_read` (`user_id`, `read_flag`),
-  KEY `idx_user_time` (`user_id`, `create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户站内消息';
 
 SET FOREIGN_KEY_CHECKS = 1;

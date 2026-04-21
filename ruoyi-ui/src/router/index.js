@@ -113,6 +113,12 @@ export const constantRoutes = [
         component: () => import('@/views/meter/summary/index'),
         name: 'MeterSummary',
         meta: { title: '汇总点表', icon: 'list', activeMenu: '/meter/summary' }
+      },
+      {
+        path: 'dl645',
+        component: () => import('@/views/meter/dl645/index'),
+        name: 'MeterDl645',
+        meta: { title: 'DL645采集', icon: 'form', activeMenu: '/meter/dl645' }
       }
     ]
   }
@@ -176,20 +182,7 @@ export const dynamicRoutes = [
       }
     ]
   },
-  {
-    path: '/tool/gen-edit',
-    component: Layout,
-    hidden: true,
-    permissions: ['tool:gen:edit'],
-    children: [
-      {
-        path: 'index/:tableId(\\d+)',
-        component: () => import('@/views/tool/gen/editTable'),
-        name: 'GenEdit',
-        meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
-      }
-    ]
-  }
+  
 ]
 
 // 防止连续点击多次路由报错

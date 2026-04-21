@@ -3,14 +3,12 @@ package com.thor.springai.controller;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.domain.AiMaintenanceForm;
-import com.ruoyi.system.mapper.AiMaintenanceFormMapper;
 import com.thor.springai.service.MaintenanceFormService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,9 +19,6 @@ public class MaintenanceFormController extends BaseController {
     
     @Autowired
     private MaintenanceFormService maintenanceFormService;
-    
-    @Autowired
-    private AiMaintenanceFormMapper maintenanceFormMapper;
     
     @GetMapping("/devices")
     public AjaxResult getDevicesRequiringMaintenance(
@@ -42,94 +37,40 @@ public class MaintenanceFormController extends BaseController {
     @PostMapping("/batch-generate")
     public AjaxResult batchGenerateForms(@RequestParam("deviceIds") String deviceIdsStr,
                                         @RequestParam(value = "saveToDb", defaultValue = "false") boolean saveToDb) {
-        List<Long> deviceIds = new ArrayList<>();
-        if (deviceIdsStr != null && !deviceIdsStr.isEmpty()) {
-            String[] ids = deviceIdsStr.split(",");
-            for (String id : ids) {
-                try {
-                    deviceIds.add(Long.parseLong(id.trim()));
-                } catch (NumberFormatException e) {
-                    logger.warn("无效的设备ID: {}", id);
-                }
-            }
-        }
+        List<Long> deviceIds = maintenanceFormService.parseDeviceIds(deviceIdsStr);
         logger.info("批量生成运维表单，设备数量: {}, 保存到数据库: {}", deviceIds.size(), saveToDb);
         return maintenanceFormService.batchGenerateForms(deviceIds, saveToDb);
     }
     
     @GetMapping("/forms")
     public AjaxResult listForms(AiMaintenanceForm form) {
-        try {
-            logger.info("查询运维表单列表，条件: {}", form);
-            startPage();
-            List<AiMaintenanceForm> list = maintenanceFormMapper.selectAiMaintenanceFormList(form);
-            return AjaxResult.success(getDataTable(list));
-        } catch (Exception e) {
-            logger.error("查询运维表单列表失败", e);
-            return AjaxResult.error("查询失败: " + e.getMessage());
-        }
+        logger.info("查询运维表单列表，条件: {}", form);
+        startPage();
+        List<AiMaintenanceForm> list = maintenanceFormService.selectFormList(form);
+        return AjaxResult.success(getDataTable(list));
     }
     
     @GetMapping("/forms/{formId}")
     public AjaxResult getFormById(@PathVariable("formId") Long formId) {
-        try {
-            logger.info("查询运维表单详情，表单ID: {}", formId);
-            AiMaintenanceForm form = maintenanceFormMapper.selectAiMaintenanceFormById(formId);
-            if (form == null) {
-                return AjaxResult.error("表单不存在");
-            }
-            return AjaxResult.success(form);
-        } catch (Exception e) {
-            logger.error("查询运维表单详情失败", e);
-            return AjaxResult.error("查询失败: " + e.getMessage());
-        }
+        logger.info("查询运维表单详情，表单ID: {}", formId);
+        return maintenanceFormService.getFormById(formId);
     }
     
     @PutMapping("/forms")
     public AjaxResult updateForm(@RequestBody AiMaintenanceForm form) {
-        try {
-            logger.info("更新运维表单，表单ID: {}", form.getFormId());
-            int result = maintenanceFormMapper.updateAiMaintenanceForm(form);
-            if (result > 0) {
-                return AjaxResult.success("更新成功");
-            } else {
-                return AjaxResult.error("更新失败");
-            }
-        } catch (Exception e) {
-            logger.error("更新运维表单失败", e);
-            return AjaxResult.error("更新失败: " + e.getMessage());
-        }
+        logger.info("更新运维表单，表单ID: {}", form.getFormId());
+        return maintenanceFormService.updateForm(form);
     }
     
     @DeleteMapping("/forms/{formId}")
     public AjaxResult deleteForm(@PathVariable("formId") Long formId) {
-        try {
-            logger.info("删除运维表单，表单ID: {}", formId);
-            int result = maintenanceFormMapper.deleteAiMaintenanceFormById(formId);
-            if (result > 0) {
-                return AjaxResult.success("删除成功");
-            } else {
-                return AjaxResult.error("删除失败，表单不存在");
-            }
-        } catch (Exception e) {
-            logger.error("删除运维表单失败", e);
-            return AjaxResult.error("删除失败: " + e.getMessage());
-        }
+        logger.info("删除运维表单，表单ID: {}", formId);
+        return maintenanceFormService.deleteForm(formId);
     }
     
     @DeleteMapping("/forms")
     public AjaxResult batchDeleteForms(@RequestBody Long[] formIds) {
-        try {
-            logger.info("批量删除运维表单，数量: {}", formIds.length);
-            int result = maintenanceFormMapper.deleteAiMaintenanceFormByIds(formIds);
-            if (result > 0) {
-                return AjaxResult.success("删除成功，共删除 " + result + " 条记录");
-            } else {
-                return AjaxResult.error("删除失败");
-            }
-        } catch (Exception e) {
-            logger.error("批量删除运维表单失败", e);
-            return AjaxResult.error("删除失败: " + e.getMessage());
-        }
+        logger.info("批量删除运维表单，数量: {}", formIds == null ? 0 : formIds.length);
+        return maintenanceFormService.batchDeleteForms(formIds);
     }
 }

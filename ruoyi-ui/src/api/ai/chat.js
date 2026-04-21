@@ -97,7 +97,7 @@ export function getDevicesRequiringMaintenance(options) {
     params.aiSummary = false
   }
   return request({
-    url: '/ai/maintenance-form/devices',
+    url: '/springai/maintenance-form/devices',
     method: 'get',
     params
   })
@@ -105,7 +105,7 @@ export function getDevicesRequiringMaintenance(options) {
 
 export function generateFormForDevice(deviceId, saveToDb = false) {
   return request({
-    url: '/ai/maintenance-form/generate',
+    url: '/springai/maintenance-form/generate',
     method: 'post',
     params: { deviceId, saveToDb }
   })
@@ -113,7 +113,7 @@ export function generateFormForDevice(deviceId, saveToDb = false) {
 
 export function batchGenerateForms(deviceIds, saveToDb = false) {
   return request({
-    url: '/ai/maintenance-form/batch-generate',
+    url: '/springai/maintenance-form/batch-generate',
     method: 'post',
     params: { deviceIds: deviceIds.join(','), saveToDb }
   })
@@ -121,7 +121,7 @@ export function batchGenerateForms(deviceIds, saveToDb = false) {
 
 export function listAiMaintenanceForm(query) {
   return request({
-    url: '/ai/maintenance-form/forms',
+    url: '/springai/maintenance-form/forms',
     method: 'get',
     params: query
   })
@@ -129,14 +129,14 @@ export function listAiMaintenanceForm(query) {
 
 export function getAiMaintenanceFormById(formId) {
   return request({
-    url: '/ai/maintenance-form/forms/' + formId,
+    url: '/springai/maintenance-form/forms/' + formId,
     method: 'get'
   })
 }
 
 export function updateMaintenanceForm(data) {
   return request({
-    url: '/ai/maintenance-form/forms',
+    url: '/springai/maintenance-form/forms',
     method: 'put',
     data: data
   })
@@ -144,14 +144,14 @@ export function updateMaintenanceForm(data) {
 
 export function deleteMaintenanceForm(formId) {
   return request({
-    url: '/ai/maintenance-form/forms/' + formId,
+    url: '/springai/maintenance-form/forms/' + formId,
     method: 'delete'
   })
 }
 
 export function batchDeleteMaintenanceForms(formIds) {
   return request({
-    url: '/ai/maintenance-form/forms',
+    url: '/springai/maintenance-form/forms',
     method: 'delete',
     data: formIds
   })

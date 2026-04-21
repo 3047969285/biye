@@ -58,6 +58,84 @@ public class MaintenanceFormService {
 
     @Autowired(required = false)
     private ChatClient chatClient;
+
+    public List<Long> parseDeviceIds(String deviceIdsStr) {
+        List<Long> deviceIds = new ArrayList<>();
+        if (deviceIdsStr == null || deviceIdsStr.trim().isEmpty()) {
+            return deviceIds;
+        }
+        String[] ids = deviceIdsStr.split(",");
+        for (String id : ids) {
+            if (id == null || id.trim().isEmpty()) {
+                continue;
+            }
+            try {
+                deviceIds.add(Long.parseLong(id.trim()));
+            } catch (NumberFormatException e) {
+                logger.warn("无效的设备ID: {}", id);
+            }
+        }
+        return deviceIds;
+    }
+
+    public List<AiMaintenanceForm> selectFormList(AiMaintenanceForm form) {
+        return maintenanceFormMapper.selectAiMaintenanceFormList(form);
+    }
+
+    public AjaxResult getFormById(Long formId) {
+        try {
+            AiMaintenanceForm form = maintenanceFormMapper.selectAiMaintenanceFormById(formId);
+            if (form == null) {
+                return AjaxResult.error("表单不存在");
+            }
+            return AjaxResult.success(form);
+        } catch (Exception e) {
+            logger.error("查询运维表单详情失败，表单ID: {}", formId, e);
+            return AjaxResult.error("查询失败: " + e.getMessage());
+        }
+    }
+
+    public AjaxResult updateForm(AiMaintenanceForm form) {
+        try {
+            int result = maintenanceFormMapper.updateAiMaintenanceForm(form);
+            if (result > 0) {
+                return AjaxResult.success("更新成功");
+            }
+            return AjaxResult.error("更新失败");
+        } catch (Exception e) {
+            logger.error("更新运维表单失败，表单ID: {}", form == null ? null : form.getFormId(), e);
+            return AjaxResult.error("更新失败: " + e.getMessage());
+        }
+    }
+
+    public AjaxResult deleteForm(Long formId) {
+        try {
+            int result = maintenanceFormMapper.deleteAiMaintenanceFormById(formId);
+            if (result > 0) {
+                return AjaxResult.success("删除成功");
+            }
+            return AjaxResult.error("删除失败，表单不存在");
+        } catch (Exception e) {
+            logger.error("删除运维表单失败，表单ID: {}", formId, e);
+            return AjaxResult.error("删除失败: " + e.getMessage());
+        }
+    }
+
+    public AjaxResult batchDeleteForms(Long[] formIds) {
+        try {
+            if (formIds == null || formIds.length == 0) {
+                return AjaxResult.error("请选择要删除的表单");
+            }
+            int result = maintenanceFormMapper.deleteAiMaintenanceFormByIds(formIds);
+            if (result > 0) {
+                return AjaxResult.success("删除成功，共删除 " + result + " 条记录");
+            }
+            return AjaxResult.error("删除失败");
+        } catch (Exception e) {
+            logger.error("批量删除运维表单失败", e);
+            return AjaxResult.error("删除失败: " + e.getMessage());
+        }
+    }
     
     public AjaxResult getDevicesRequiringMaintenance(boolean useAiIssueSummary) {
         return buildDevicesRequiringMaintenance(useAiIssueSummary);
