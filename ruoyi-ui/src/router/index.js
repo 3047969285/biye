@@ -93,34 +93,6 @@ export const constantRoutes = [
     path: '/ai/maintenance-form',
     redirect: (to) => ({ path: '/maintenance-form', query: to.query }),
     hidden: true
-  },
-  // 电表点表与汇总查询（与后端接口匹配）
-  {
-    path: '/meter',
-    component: Layout,
-    redirect: '/meter/point',
-    name: 'Meter',
-    meta: { title: '电表', icon: 'table', affix: true },
-    children: [
-      {
-        path: 'point',
-        component: () => import('@/views/meter/point/index'),
-        name: 'MeterPoint',
-        meta: { title: '点表维护', icon: 'edit', activeMenu: '/meter/point' }
-      },
-      {
-        path: 'summary',
-        component: () => import('@/views/meter/summary/index'),
-        name: 'MeterSummary',
-        meta: { title: '汇总点表', icon: 'list', activeMenu: '/meter/summary' }
-      },
-      {
-        path: 'dl645',
-        component: () => import('@/views/meter/dl645/index'),
-        name: 'MeterDl645',
-        meta: { title: 'DL645采集', icon: 'form', activeMenu: '/meter/dl645' }
-      }
-    ]
   }
 ]
 
