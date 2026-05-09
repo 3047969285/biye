@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * 设备参数对象 eq_device_param
  *
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-07
  */
 @Data
@@ -27,7 +27,7 @@ public class EqDeviceParam extends BaseEntity {
     private Long paramId;
 
     /** 设备ID */
-    private Long deviceId;
+    private String deviceId;
 
     /** 设备编号（关联查询） */
     private String deviceNo;

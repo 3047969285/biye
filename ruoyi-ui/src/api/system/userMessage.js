@@ -28,3 +28,10 @@ export function markAllMessagesRead() {
     method: 'put'
   })
 }
+
+export function deleteUserMessage(msgId) {
+  return request({
+    url: '/system/user-message/' + msgId,
+    method: 'delete'
+  })
+}

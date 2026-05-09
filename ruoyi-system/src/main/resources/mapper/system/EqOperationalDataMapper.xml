@@ -38,8 +38,9 @@
             <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
             <if test="timestamp != null"> and o.timestamp = #{timestamp}</if>
             <if test="operatorId != null"> and o.operator_id = #{operatorId}</if>
+            <if test="operatorName != null and operatorName != ''"> and o.operator_name like concat('%', #{operatorName}, '%')</if>
         </where>
-        order by o.device_id, o.operational_id desc
+        order by o.timestamp desc
     </select>
     
     <select id="selectEqOperationalDataByOperationalId" parameterType="Long" resultMap="EqOperationalDataResult">
@@ -47,10 +48,10 @@
         where o.operational_id = #{operationalId}
     </select>
 
-    <select id="selectEqOperationalDataListByDeviceId" parameterType="Long" resultMap="EqOperationalDataResult">
+    <select id="selectEqOperationalDataListByDeviceId" parameterType="String" resultMap="EqOperationalDataResult">
         <include refid="selectEqOperationalDataVo"/>
         where o.device_id = #{deviceId}
-        order by o.device_id, o.operational_id desc
+        order by o.timestamp desc
     </select>
         
     <insert id="insertEqOperationalData" parameterType="com.ruoyi.system.domain.EqOperationalData">
@@ -129,7 +130,7 @@
         </foreach>
     </delete>
 
-    <delete id="deleteEqOperationalDataByDeviceId" parameterType="Long">
+    <delete id="deleteEqOperationalDataByDeviceId" parameterType="String">
         delete from eq_operational_data where device_id = #{deviceId}
     </delete>
 

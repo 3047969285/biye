@@ -2,6 +2,15 @@
   <div class="app-container">
     <!-- 搜索区域 -->
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="80px">
+      <el-form-item label="设备" prop="deviceId">
+        <device-select
+          :value="queryParams.deviceId"
+          placeholder="请选择设备（数据获取共用）"
+          clearable
+          style="width: 260px"
+          @input="handleDataAcquisitionDeviceChange"
+        />
+      </el-form-item>
       <el-form-item label="设备编号" prop="deviceNo">
         <el-input
           v-model="queryParams.deviceNo"
@@ -27,34 +36,33 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <!-- 数据表格 -->
     <el-table v-loading="loading" :data="statusList" border>
-      <el-table-column label="设备ID" align="center" prop="deviceId" width="80" />
-      <el-table-column label="设备编号" align="center" prop="deviceNo" width="140" show-overflow-tooltip>
+      <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceNo || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="设备名称" align="center" prop="deviceName" width="140" show-overflow-tooltip>
+      <el-table-column label="设备名称" align="center" prop="deviceName" min-width="128" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="采集时间" align="center" prop="timestamp" width="180" :formatter="formatTableTime" />
-      <el-table-column label="温度(℃)" align="center" prop="temperature" width="100" />
-      <el-table-column label="湿度(%)" align="center" prop="humidity" width="100" />
-      <el-table-column label="压力(Pa)" align="center" prop="pressure" width="100" />
-      <el-table-column label="振动(mm/s)" align="center" prop="vibration" width="110" />
-      <el-table-column label="电流(A)" align="center" prop="current" width="100" />
-      <el-table-column label="电压(V)" align="center" prop="voltage" width="100" />
-      <el-table-column label="功率(kW)" align="center" prop="power" width="100" />
-      <el-table-column label="转速(rpm)" align="center" prop="rpm" width="110" />
-      <el-table-column label="运行状态" align="center" prop="status" width="100">
+      <el-table-column label="采集时间" align="center" prop="timestamp" min-width="180" :formatter="formatTableTime" />
+      <el-table-column label="温度(℃)" align="center" prop="temperature" min-width="100" />
+      <el-table-column label="湿度(%)" align="center" prop="humidity" min-width="100" />
+      <el-table-column label="压力(Pa)" align="center" prop="pressure" min-width="100" />
+      <el-table-column label="振动(mm/s)" align="center" prop="vibration" min-width="110" />
+      <el-table-column label="电流(A)" align="center" prop="current" min-width="100" />
+      <el-table-column label="电压(V)" align="center" prop="voltage" min-width="100" />
+      <el-table-column label="功率(kW)" align="center" prop="power" min-width="100" />
+      <el-table-column label="转速(rpm)" align="center" prop="rpm" min-width="110" />
+      <el-table-column label="运行状态" align="center" prop="status" min-width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === 1" type="success">正常</el-tag>
           <el-tag v-else-if="scope.row.status === 2" type="warning">警告</el-tag>
@@ -64,9 +72,9 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-view" @click="handleDetail(scope.row)">详情</el-button>
+          <el-button size="small" type="text" icon="el-icon-view" @click="handleDetail(scope.row)">详情</el-button>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
@@ -90,8 +98,8 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="140px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="设备ID" prop="deviceId">
-              <el-input-number v-model="form.deviceId" placeholder="请输入设备ID" style="width: 100%" :disabled="form.statusId != null" />
+            <el-form-item label="设备" prop="deviceId">
+              <device-select v-model="form.deviceId" :disabled="form.statusId != null" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -284,7 +292,6 @@
     <!-- 详情对话框 -->
     <el-dialog title="设备状态详情" :visible.sync="detailVisible" width="800px" append-to-body class="dark-dialog">
       <el-descriptions :column="2" border v-if="currentStatus">
-        <el-descriptions-item label="设备ID">{{ currentStatus.deviceId }}</el-descriptions-item>
         <el-descriptions-item label="设备编号">{{ currentStatus.deviceNo || '-' }}</el-descriptions-item>
         <el-descriptions-item label="设备名称" :span="2">{{ currentStatus.deviceName || '-' }}</el-descriptions-item>
         <el-descriptions-item label="采集时间" :span="2">{{ currentStatus.timestamp }}</el-descriptions-item>
@@ -326,9 +333,11 @@
 <script>
 import { listDeviceStatus, getDeviceStatus, updateDeviceStatus } from "@/api/equipment/deviceStatus";
 import { getDevice } from "@/api/equipment/device";
+import dataAcquisitionDevice from '@/mixins/dataAcquisitionDevice'
 
 export default {
   name: "EquipmentStatus",
+  mixins: [dataAcquisitionDevice],
   data() {
     return {
       // 遮罩层
@@ -349,13 +358,14 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        deviceId: null,
         deviceNo: null,
         deviceName: null,
         status: null
       },
       rules: {
         deviceId: [
-          { required: true, message: "设备ID不能为空", trigger: "blur" }
+          { required: true, message: "请选择设备", trigger: "blur" }
         ],
         timestamp: [
           { required: true, message: "采集时间不能为空", trigger: "change" }
@@ -442,6 +452,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.clearDataAcquisitionDeviceFilter();
       this.handleQuery();
     },
     /** 查看详情 */

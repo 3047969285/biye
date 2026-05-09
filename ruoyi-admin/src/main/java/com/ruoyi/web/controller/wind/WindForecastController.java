@@ -14,6 +14,8 @@ import com.ruoyi.web.controller.wind.dto.WindForecastRowsPayload;
 import com.ruoyi.web.controller.wind.dto.WindForecastRunRequest;
 import com.ruoyi.web.controller.wind.dto.WindForecastSummaryRequest;
 import com.ruoyi.web.service.wind.WindForecastBridgeService;
+import com.ruoyi.web.service.wind.WindForecastDeviceDataPaths;
+import com.ruoyi.web.service.wind.WindForecastEmptyExcelTemplate;
 import com.ruoyi.web.service.wind.WindForecastExcelFileService;
 import com.ruoyi.web.service.wind.WindForecastPathResolver;
 import com.ruoyi.web.service.wind.WindForecastSummaryService;
@@ -79,21 +81,21 @@ public class WindForecastController extends BaseController {
     @PreAuthorize("@ss.hasPermi('power:forecast:list')")
     @GetMapping("/latest")
     public AjaxResult latest(
-        @RequestParam(required = false) Long deviceId,
+        @RequestParam(required = false) String deviceId,
         @RequestParam(defaultValue = "false") boolean live) {
         if (live && props.isEnabled() && bridge.isPythonReachable()) {
-            Long runId = deviceId != null && deviceId > 0 ? deviceId : props.getBindDeviceId();
-            if (runId != null && runId > 0) {
+            String runId = StringUtils.isNotEmpty(deviceId) ? deviceId.trim() : props.getBindDeviceId();
+            if (StringUtils.isNotEmpty(runId)) {
                 bridge.runPredict(runId, null, null, null, null);
             } else {
                 bridge.runPredict();
             }
         }
-        Map<String, Object> prediction = deviceId != null && deviceId > 0
-            ? bridge.getLastPrediction(deviceId)
+        Map<String, Object> prediction = StringUtils.isNotEmpty(deviceId)
+            ? bridge.getLastPrediction(deviceId.trim())
             : bridge.getLastPrediction();
-        long at = deviceId != null && deviceId > 0
-            ? bridge.getLastPredictionAtMillis(deviceId)
+        long at = StringUtils.isNotEmpty(deviceId)
+            ? bridge.getLastPredictionAtMillis(deviceId.trim())
             : bridge.getLastPredictionAtMillis();
         Map<String, Object> out = new HashMap<>();
         out.put("enabled", props.isEnabled());
@@ -103,7 +105,7 @@ public class WindForecastController extends BaseController {
         out.put("lastPredictionAt", at);
         out.put("prediction", prediction);
         out.put("lastError", bridge.getLastError());
-        out.put("queryDeviceId", deviceId != null ? deviceId : 0L);
+        out.put("queryDeviceId", deviceId != null ? deviceId : "");
         Map<String, Object> cfg = new HashMap<>();
         cfg.put("modelPath", nullToEmpty(props.getModelPath()));
         cfg.put("featureExcel", nullToEmpty(props.getFeatureExcel()));
@@ -115,7 +117,7 @@ public class WindForecastController extends BaseController {
         cfg.put("beyondDataPoints", props.getBeyondDataPoints());
         cfg.put("scheduleIntervalMs", props.getScheduleIntervalMs());
         cfg.put("scheduleInitialDelayMs", props.getScheduleInitialDelayMs());
-        cfg.put("bindDeviceId", props.getBindDeviceId() != null ? props.getBindDeviceId() : 0L);
+        cfg.put("bindDeviceId", props.getBindDeviceId() != null ? props.getBindDeviceId() : "");
         cfg.put("clientPollIntervalSec", resolveClientPollIntervalSec());
         out.put("config", cfg);
         return success(out);
@@ -141,8 +143,8 @@ public class WindForecastController extends BaseController {
         if (req == null) {
             req = new WindForecastRunRequest();
         }
-        Long deviceId = req.getDeviceId();
-        if (deviceId == null || deviceId <= 0) {
+        String deviceId = req.getDeviceId();
+        if (StringUtils.isEmpty(deviceId)) {
             return error("请选择有效的设备 deviceId");
         }
         String model = emptyToNull(req.getModelPath());
@@ -153,22 +155,22 @@ public class WindForecastController extends BaseController {
 
     @PreAuthorize("@ss.hasPermi('power:forecast:list')")
     @GetMapping("/bind/{deviceId}")
-    public AjaxResult getBind(@PathVariable Long deviceId) {
-        if (deviceId == null || deviceId <= 0) {
+    public AjaxResult getBind(@PathVariable String deviceId) {
+        if (StringUtils.isEmpty(deviceId)) {
             return error("设备 ID 无效");
         }
-        EqWindForecastBind row = windForecastBindService.selectByDeviceId(deviceId);
+        EqWindForecastBind row = windForecastBindService.selectByDeviceId(deviceId.trim());
         return success(row != null ? row : new EqWindForecastBind());
     }
 
     /** 读取设备在页面维护的风速+功率序列 */
     @PreAuthorize("@ss.hasPermi('power:forecast:list')")
     @GetMapping("/rows/{deviceId}")
-    public AjaxResult getRows(@PathVariable Long deviceId) {
-        if (deviceId == null || deviceId <= 0) {
+    public AjaxResult getRows(@PathVariable String deviceId) {
+        if (StringUtils.isEmpty(deviceId)) {
             return error("设备 ID 无效");
         }
-        EqWindForecastBind row = windForecastBindService.selectByDeviceId(deviceId);
+        EqWindForecastBind row = windForecastBindService.selectByDeviceId(deviceId.trim());
         String json = row != null ? row.getInlineDataJson() : null;
         if (StringUtils.isEmpty(json)) {
             return success(Collections.singletonMap("rows", Collections.emptyList()));
@@ -188,14 +190,14 @@ public class WindForecastController extends BaseController {
     @PreAuthorize("@ss.hasPermi('power:forecast:list')")
     @PostMapping("/rows")
     public AjaxResult saveRows(@RequestBody WindForecastRowsPayload body) {
-        if (body == null || body.getDeviceId() == null || body.getDeviceId() <= 0) {
+        if (body == null || StringUtils.isEmpty(body.getDeviceId())) {
             return error("请选择有效的设备 deviceId");
         }
         try {
             List<Map<String, Object>> rows = body.getRows() != null ? body.getRows() : Collections.emptyList();
             String json = objectMapper.writeValueAsString(rows);
             EqWindForecastBind patch = new EqWindForecastBind();
-            patch.setDeviceId(body.getDeviceId());
+            patch.setDeviceId(body.getDeviceId().trim());
             patch.setInlineDataJson(json);
             windForecastBindService.mergeSave(patch);
             return success();
@@ -207,9 +209,9 @@ public class WindForecastController extends BaseController {
     /** 下载服务器上当前设备解析到的特征/真值 Excel（路径规则与按设备预测一致） */
     @PreAuthorize("@ss.hasPermi('power:forecast:list')")
     @GetMapping("/excel/{deviceId}")
-    public void downloadExcel(@PathVariable Long deviceId, @RequestParam String kind,
+    public void downloadExcel(@PathVariable String deviceId, @RequestParam String kind,
                               HttpServletResponse response) throws IOException {
-        if (deviceId == null || deviceId <= 0) {
+        if (StringUtils.isEmpty(deviceId)) {
             writeJsonError(response, HttpServletResponse.SC_BAD_REQUEST, "设备 ID 无效");
             return;
         }
@@ -217,29 +219,30 @@ public class WindForecastController extends BaseController {
             writeJsonError(response, HttpServletResponse.SC_BAD_REQUEST, "请指定 kind=feature 或 real");
             return;
         }
-        Path path = excelFileService.resolveExcelPath(deviceId, kind);
-        if (path == null) {
-            writeJsonError(response, HttpServletResponse.SC_NOT_FOUND, "未配置该 Excel 路径（请在设备绑定或 yml 中配置）");
-            return;
-        }
-        if (!Files.isRegularFile(path)) {
-            writeJsonError(response, HttpServletResponse.SC_NOT_FOUND, "服务器上文件不存在：" + path);
-            return;
-        }
-        String fn = path.getFileName().toString();
-        String encoded = URLEncoder.encode(fn, StandardCharsets.UTF_8).replace("+", "%20");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encoded + "\"");
+        String did = deviceId.trim();
+        Path path = excelFileService.resolveExcelPathForDownload(did, kind);
+        String suffix = "feature".equalsIgnoreCase(kind) ? "feature" : "realPower";
+        String defaultFn = suffix + "_device_" + did + ".xlsx";
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        Files.copy(path, response.getOutputStream());
+        if (path != null && Files.isRegularFile(path)) {
+            String fn = path.getFileName().toString();
+            String encoded = URLEncoder.encode(fn, StandardCharsets.UTF_8).replace("+", "%20");
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encoded + "\"");
+            Files.copy(path, response.getOutputStream());
+        } else {
+            String encoded = URLEncoder.encode(defaultFn, StandardCharsets.UTF_8).replace("+", "%20");
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encoded + "\"");
+            WindForecastEmptyExcelTemplate.write(kind, response.getOutputStream());
+        }
         response.flushBuffer();
     }
 
     /** 上传并覆盖服务器上该设备解析到的特征/真值 Excel */
     @PreAuthorize("@ss.hasPermi('power:forecast:list')")
     @PostMapping("/excel/{deviceId}")
-    public AjaxResult uploadExcel(@PathVariable Long deviceId, @RequestParam String kind,
+    public AjaxResult uploadExcel(@PathVariable String deviceId, @RequestParam String kind,
                                   @RequestParam("file") MultipartFile file) {
-        if (deviceId == null || deviceId <= 0) {
+        if (StringUtils.isEmpty(deviceId)) {
             return error("设备 ID 无效");
         }
         if (StringUtils.isEmpty(kind)) {
@@ -248,7 +251,8 @@ public class WindForecastController extends BaseController {
         if (file == null || file.isEmpty()) {
             return error("请选择要上传的文件");
         }
-        Path path = excelFileService.resolveUploadTargetPath(deviceId, kind);
+        String did = deviceId.trim();
+        Path path = excelFileService.resolveUploadTargetPath(did, kind);
         if (path == null) {
             return error("未配置该 Excel 路径，无法确定保存位置（请检查 kind 是否为 feature/real）");
         }
@@ -259,7 +263,7 @@ public class WindForecastController extends BaseController {
             }
             file.transferTo(path.toFile());
             EqWindForecastBind patch = new EqWindForecastBind();
-            patch.setDeviceId(deviceId);
+            patch.setDeviceId(did);
             String absSaved = path.toAbsolutePath().toString();
             if ("feature".equalsIgnoreCase(kind)) {
                 patch.setFeatureExcelPath(absSaved);
@@ -277,14 +281,48 @@ public class WindForecastController extends BaseController {
         }
     }
 
+    /** 上传并覆盖该设备专属 GRU 模型（保存为 profile/wind-device-data/{deviceId}/gru_FD.h5） */
+    @PreAuthorize("@ss.hasPermi('power:forecast:list')")
+    @PostMapping("/model/{deviceId}")
+    public AjaxResult uploadModel(@PathVariable String deviceId, @RequestParam("file") MultipartFile file) {
+        if (StringUtils.isEmpty(deviceId)) {
+            return error("设备 ID 无效");
+        }
+        if (file == null || file.isEmpty()) {
+            return error("请选择 .h5 模型文件");
+        }
+        String fn = file.getOriginalFilename();
+        if (fn == null || !fn.toLowerCase().endsWith(".h5")) {
+            return error("模型文件须为 .h5 格式");
+        }
+        String did = deviceId.trim();
+        Path path = WindForecastDeviceDataPaths.modelFile(did);
+        try {
+            Path parent = path.getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            }
+            file.transferTo(path.toFile());
+            EqWindForecastBind patch = new EqWindForecastBind();
+            patch.setDeviceId(did);
+            patch.setModelPath(path.toAbsolutePath().toString());
+            windForecastBindService.mergeSave(patch);
+            Map<String, Object> data = new HashMap<>();
+            data.put("savedPath", path.toAbsolutePath().toString());
+            return success(data);
+        } catch (Exception e) {
+            return error("写入模型失败：" + e.getMessage());
+        }
+    }
+
     @PreAuthorize("@ss.hasPermi('power:forecast:list')")
     @PostMapping("/bind")
     public AjaxResult saveBind(@RequestBody WindForecastBindPayload body) {
-        if (body == null || body.getDeviceId() == null || body.getDeviceId() <= 0) {
+        if (body == null || StringUtils.isEmpty(body.getDeviceId())) {
             return error("请选择有效的设备 deviceId");
         }
         EqWindForecastBind patch = new EqWindForecastBind();
-        patch.setDeviceId(body.getDeviceId());
+        patch.setDeviceId(body.getDeviceId().trim());
         if (StringUtils.isNotEmpty(body.getModelPath())) {
             patch.setModelPath(WindForecastPathResolver.toAbsolutePath(body.getModelPath().trim()));
         }
@@ -295,7 +333,7 @@ public class WindForecastController extends BaseController {
             patch.setRealExcelPath(WindForecastPathResolver.toAbsolutePath(body.getRealExcel().trim()));
         }
         windForecastBindService.mergeSave(patch);
-        return success(windForecastBindService.selectByDeviceId(body.getDeviceId()));
+        return success(windForecastBindService.selectByDeviceId(body.getDeviceId().trim()));
     }
 
     /** 根据最近一次预测 JSON 生成中文总结 */
@@ -303,8 +341,8 @@ public class WindForecastController extends BaseController {
     @PostMapping("/summary")
     public AjaxResult summary(@RequestBody(required = false) WindForecastSummaryRequest req) {
         Map<String, Object> p;
-        if (req != null && req.getDeviceId() != null && req.getDeviceId() > 0) {
-            p = bridge.getLastPrediction(req.getDeviceId());
+        if (req != null && StringUtils.isNotEmpty(req.getDeviceId())) {
+            p = bridge.getLastPrediction(req.getDeviceId().trim());
         } else {
             p = bridge.getLastPrediction();
         }

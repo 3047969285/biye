@@ -42,7 +42,7 @@
             <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
             <if test="timestamp != null"> and m.timestamp = #{timestamp}</if>
         </where>
-        order by m.device_id, m.mechanical_id desc
+        order by m.timestamp desc
     </select>
     
     <select id="selectEqMechanicalDataByMechanicalId" parameterType="Long" resultMap="EqMechanicalDataResult">
@@ -50,10 +50,10 @@
         where m.mechanical_id = #{mechanicalId}
     </select>
 
-    <select id="selectEqMechanicalDataListByDeviceId" parameterType="Long" resultMap="EqMechanicalDataResult">
+    <select id="selectEqMechanicalDataListByDeviceId" parameterType="String" resultMap="EqMechanicalDataResult">
         <include refid="selectEqMechanicalDataVo"/>
         where m.device_id = #{deviceId}
-        order by m.device_id, m.mechanical_id desc
+        order by m.timestamp desc
     </select>
         
     <insert id="insertEqMechanicalData" parameterType="com.ruoyi.system.domain.EqMechanicalData">
@@ -144,7 +144,7 @@
         </foreach>
     </delete>
 
-    <delete id="deleteEqMechanicalDataByDeviceId" parameterType="Long">
+    <delete id="deleteEqMechanicalDataByDeviceId" parameterType="String">
         delete from eq_mechanical_data where device_id = #{deviceId}
     </delete>
 

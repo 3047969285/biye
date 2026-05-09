@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * 设备操作数据 eq_operational_data
  *
- * @author wcz
+ * @author wangchangzhen
  * @date 2025-12-19
  */
 @Data
@@ -21,7 +21,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class EqOperationalData extends BaseEntity {
     private Long operationalId; //操作数据ID
-    private Long deviceId;      //设备ID
+    private String deviceId;      //设备ID
     
     /** 设备编号（关联查询） */
     private String deviceNo;

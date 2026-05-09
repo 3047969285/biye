@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
             <if test="parameterName != null and parameterName != ''"> and p.parameter_name like concat('%', #{parameterName}, '%')</if>
         </where>
-        order by p.device_id, p.param_id desc
+        order by p.last_updated desc, p.param_id desc
     </select>
     
     <select id="selectEqDeviceParamByParamId" parameterType="Long" resultMap="EqDeviceParamResult">
@@ -44,10 +44,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where p.param_id = #{paramId}
     </select>
 
-    <select id="selectEqDeviceParamListByDeviceId" parameterType="Long" resultMap="EqDeviceParamResult">
+    <select id="selectEqDeviceParamListByDeviceId" parameterType="String" resultMap="EqDeviceParamResult">
         <include refid="selectEqDeviceParamVo"/>
         where p.device_id = #{deviceId}
-        order by p.device_id, p.param_id desc
+        order by p.last_updated desc, p.param_id desc
     </select>
         
     <insert id="insertEqDeviceParam" parameterType="com.ruoyi.system.domain.EqDeviceParam">
@@ -111,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <delete id="deleteEqDeviceParamByDeviceId" parameterType="Long">
+    <delete id="deleteEqDeviceParamByDeviceId" parameterType="String">
         delete from eq_device_param where device_id = #{deviceId}
     </delete>
 

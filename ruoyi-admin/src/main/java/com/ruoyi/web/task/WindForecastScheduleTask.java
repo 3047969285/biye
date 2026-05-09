@@ -1,5 +1,6 @@
 package com.ruoyi.web.task;
 
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.web.config.properties.WindForecastProperties;
 import com.ruoyi.web.service.wind.WindForecastBridgeService;
 import org.slf4j.Logger;
@@ -43,15 +44,15 @@ public class WindForecastScheduleTask {
              * 只会用 yml 默认 Excel，却仍会把结果写入 lastPredictionByDevice(bindDeviceId)，
              * 导致前端选中该设备时曲线被定时任务用「旧默认文件」反复覆盖，与库中路径/上传文件不一致。
              */
-            Long bindId = props.getBindDeviceId();
+            String bindId = props.getBindDeviceId();
             var r =
-                bindId != null && bindId > 0
-                    ? bridge.runPredict(bindId, null, null, null, null)
+                StringUtils.isNotEmpty(bindId)
+                    ? bridge.runPredict(bindId.trim(), null, null, null, null)
                     : bridge.runPredict();
             if (Boolean.TRUE.equals(r.get("success"))) {
                 log.debug(
                     "自动预测完成 deviceId={} predict_length={}",
-                    bindId != null && bindId > 0 ? bindId : "global",
+                    StringUtils.isNotEmpty(bindId) ? bindId.trim() : "global",
                     r.get("predict_length")
                 );
             } else {

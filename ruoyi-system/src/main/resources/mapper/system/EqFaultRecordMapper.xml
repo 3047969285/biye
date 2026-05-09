@@ -37,7 +37,7 @@
             <if test="faultLevel != null and faultLevel != ''"> and f.fault_level = #{faultLevel}</if>
             <if test="status != null"> and f.status = #{status}</if>
         </where>
-        order by f.device_id, f.fault_id desc
+        order by f.detected_time desc
     </select>
     
     <select id="selectEqFaultRecordByFaultId" parameterType="Long" resultMap="EqFaultRecordResult">
@@ -45,10 +45,10 @@
         where f.fault_id = #{faultId}
     </select>
 
-    <select id="selectEqFaultRecordListByDeviceId" parameterType="Long" resultMap="EqFaultRecordResult">
+    <select id="selectEqFaultRecordListByDeviceId" parameterType="String" resultMap="EqFaultRecordResult">
         <include refid="selectEqFaultRecordVo"/>
         where f.device_id = #{deviceId}
-        order by f.device_id, f.fault_id desc
+        order by f.detected_time desc
     </select>
         
     <insert id="insertEqFaultRecord" parameterType="com.ruoyi.system.domain.EqFaultRecord">
@@ -118,7 +118,7 @@
         </foreach>
     </delete>
 
-    <delete id="deleteEqFaultRecordByDeviceId" parameterType="Long">
+    <delete id="deleteEqFaultRecordByDeviceId" parameterType="String">
         delete from eq_fault_record where device_id = #{deviceId}
     </delete>
 

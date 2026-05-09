@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 /**
  * 设备规则  eq_device_rule
  *
- * @author wcz
+ * @author wangchangzhen
  * @date 2025-12-19
  */
 @Data
@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = false)
 public class EqDeviceRule extends BaseEntity {
     private Long ruleId;  //规则 ID
-    private Long deviceId; //设备 ID
+    private String deviceId; //设备 ID
     
     /** 设备编号（关联查询） */
     private String deviceNo;

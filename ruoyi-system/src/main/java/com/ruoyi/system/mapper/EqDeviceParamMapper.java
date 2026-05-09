@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 设备参数Mapper接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-07
  */
 @Mapper
@@ -37,7 +37,7 @@ public interface EqDeviceParamMapper
      * @param deviceId 设备ID
      * @return 设备参数集合
      */
-    public List<EqDeviceParam> selectEqDeviceParamListByDeviceId(@Param("deviceId") Long deviceId);
+    public List<EqDeviceParam> selectEqDeviceParamListByDeviceId(@Param("deviceId") String deviceId);
 
     /**
      * 新增设备参数
@@ -77,7 +77,7 @@ public interface EqDeviceParamMapper
      * @param deviceId 设备ID
      * @return 结果
      */
-    public int deleteEqDeviceParamByDeviceId(@Param("deviceId") Long deviceId);
+    public int deleteEqDeviceParamByDeviceId(@Param("deviceId") String deviceId);
 
     /**
      * 批量根据设备ID删除设备参数
@@ -85,5 +85,5 @@ public interface EqDeviceParamMapper
      * @param deviceIds 设备ID数组
      * @return 结果
      */
-    public int deleteEqDeviceParamByDeviceIds(@Param("deviceIds") Long[] deviceIds);
+    public int deleteEqDeviceParamByDeviceIds(@Param("deviceIds") String[] deviceIds);
 }

@@ -78,7 +78,7 @@ INSERT INTO `ai_chat_record` VALUES (33, 0, '匿名用户', 'basic', '220v更nb�
 DROP TABLE IF EXISTS `ai_maintenance_form`;
 CREATE TABLE `ai_maintenance_form`  (
   `form_id` bigint NOT NULL AUTO_INCREMENT COMMENT '表单ID',
-  `device_id` bigint NULL DEFAULT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '设备ID',
   `device_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '设备名称',
   `fault_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '故障描述',
   `maintenance_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '维护类型（预防性/纠正性/预测性）',
@@ -103,10 +103,10 @@ CREATE TABLE `ai_maintenance_form`  (
 -- ----------------------------
 -- Records of ai_maintenance_form
 -- ----------------------------
-INSERT INTO `ai_maintenance_form` VALUES (4, 3, '配电柜1号', '告警：电流波动异常', '预测性', '高', 30, '[\"万用表\",\"螺丝刀套装\",\"绝缘手套\",\"安全帽\"]', '1. 操作前必须切断电源，确保设备完全断电；\n2. 佩戴个人防护用品（安全帽、绝缘手套、防护眼镜）；\n3. 使用绝缘工具，避免直接接触带电部件；\n4. 操作时应有专人监护，确保安全；\n5. 操作完成后检查设备接地是否良好；\n6. 如遇异常情况立即停止操作，上报处理。', '[{\"description\":\"检查工具是否齐全，确认安全措施已到位，切断设备电源\",\"step\":\"1\",\"title\":\"准备工作\"},{\"description\":\"检查设备外观，查看是否有明显损坏或异常现象\",\"step\":\"2\",\"title\":\"设备检查\"},{\"description\":\"恢复设备供电，进行功能测试，确认设备运行正常\",\"step\":\"3\",\"title\":\"测试验证\"},{\"description\":\"清理工作现场，整理工具，填写维护记录\",\"step\":\"4\",\"title\":\"清理收尾\"}]', '1. 设备故障得到解决，恢复正常运行状态；\n2. 设备各项参数指标恢复正常范围；\n3. 设备安全性能符合要求；\n4. 维护记录完整，可追溯。', 'draft', 'AI系统', '2026-01-22 18:32:56', NULL, '2026-01-22 18:32:56', NULL);
-INSERT INTO `ai_maintenance_form` VALUES (5, 1, '主变压器1号', '告警：电流波动异常；告警：电流波动异常；告警：温度超过警告阈值', '预测性', '高', 30, '[\"万用表\",\"螺丝刀套装\",\"绝缘手套\",\"安全帽\"]', '1. 操作前必须切断电源，确保设备完全断电；\n2. 佩戴个人防护用品（安全帽、绝缘手套、防护眼镜）；\n3. 使用绝缘工具，避免直接接触带电部件；\n4. 操作时应有专人监护，确保安全；\n5. 操作完成后检查设备接地是否良好；\n6. 如遇异常情况立即停止操作，上报处理。', '[{\"description\":\"检查工具是否齐全，确认安全措施已到位，切断设备电源\",\"step\":\"1\",\"title\":\"准备工作\"},{\"description\":\"检查设备外观，查看是否有明显损坏或异常现象\",\"step\":\"2\",\"title\":\"设备检查\"},{\"description\":\"恢复设备供电，进行功能测试，确认设备运行正常\",\"step\":\"3\",\"title\":\"测试验证\"},{\"description\":\"清理工作现场，整理工具，填写维护记录\",\"step\":\"4\",\"title\":\"清理收尾\"}]', '1. 设备故障得到解决，恢复正常运行状态；\n2. 设备各项参数指标恢复正常范围；\n3. 设备安全性能符合要求；\n4. 维护记录完整，可追溯。', 'draft', 'AI系统', '2026-01-26 22:04:18', NULL, '2026-01-26 22:04:18', NULL);
-INSERT INTO `ai_maintenance_form` VALUES (6, 4, '配电柜2号', '告警：振动值偏高；告警：电流波动异常', '预测性', '高', 30, '[\"万用表\",\"螺丝刀套装\",\"绝缘手套\",\"安全帽\"]', '1. 操作前必须切断电源，确保设备完全断电；\n2. 佩戴个人防护用品（安全帽、绝缘手套、防护眼镜）；\n3. 使用绝缘工具，避免直接接触带电部件；\n4. 操作时应有专人监护，确保安全；\n5. 操作完成后检查设备接地是否良好；\n6. 如遇异常情况立即停止操作，上报处理。', '[{\"description\":\"检查工具是否齐全，确认安全措施已到位，切断设备电源\",\"step\":\"1\",\"title\":\"准备工作\"},{\"description\":\"检查设备外观，查看是否有明显损坏或异常现象\",\"step\":\"2\",\"title\":\"设备检查\"},{\"description\":\"恢复设备供电，进行功能测试，确认设备运行正常\",\"step\":\"3\",\"title\":\"测试验证\"},{\"description\":\"清理工作现场，整理工具，填写维护记录\",\"step\":\"4\",\"title\":\"清理收尾\"}]', '1. 设备故障得到解决，恢复正常运行状态；\n2. 设备各项参数指标恢复正常范围；\n3. 设备安全性能符合要求；\n4. 维护记录完整，可追溯。', 'draft', 'AI系统', '2026-02-18 14:28:23', NULL, '2026-02-18 14:28:37', NULL);
-INSERT INTO `ai_maintenance_form` VALUES (7, 10, '电容器组2号', '设备名称：电容器组2号\n设备编号：DEV-010\n设备类型：电容器\n安装位置：无功补偿室2号\n当前状态：正常\n状态时间：Sun Jan 11 23:01:11 CST 2026\n未处理告警：振动值偏高（级别：紧急）\n【关联数据概览】\n机械数据：有数据（3 条）\n运行数据：有数据（3 条）\n技术数据：有数据（3 条）\n电气数据：有数据（3 条）\n经济数据：有数据（3 条）\n环境数据：有数据（3 条）\n气候数据：有数据（3 条）\n维护记录：有数据（3 条）\n历史故障记录：有数据（3 条）\n状态历史记录：有数据（5 条）\n\n\n振动值偏高，紧急告警，需立即处理。', '紧急', '高', 60, '[\"振动分析仪\",\"绝缘测试仪\"]', '断电操作，确保设备完全隔离，防止触电。', '[{\"description\":\"切断电源，确认设备无电。\",\"step\":1,\"title\":\"断电检查\"},{\"description\":\"使用振动分析仪测量振动值。\",\"step\":2,\"title\":\"振动检测\"},{\"description\":\"检查电容器机械部件是否松动或损坏。\",\"step\":3,\"title\":\"部件检查\"},{\"description\":\"记录当前振动值和运行状态。\",\"step\":4,\"title\":\"数据记录\"}]', '消除振动异常，恢复设备正常运行状态。', 'draft', 'admin', '2026-03-13 20:35:44', NULL, '2026-03-13 20:35:44', NULL);
+INSERT INTO `ai_maintenance_form` VALUES (4,'37464ae6-85a6-5ce3-9add-965f746ec79a','配电柜1号','告警：电流波动异常','预测性','高',30,'[\"万用表\",\"螺丝刀套装\",\"绝缘手套\",\"安全帽\"]','1. 操作前必须切断电源，确保设备完全断电；\n2. 佩戴个人防护用品（安全帽、绝缘手套、防护眼镜）；\n3. 使用绝缘工具，避免直接接触带电部件；\n4. 操作时应有专人监护，确保安全；\n5. 操作完成后检查设备接地是否良好；\n6. 如遇异常情况立即停止操作，上报处理。','[{\"description\":\"检查工具是否齐全，确认安全措施已到位，切断设备电源\",\"step\":\"1\",\"title\":\"准备工作\"},{\"description\":\"检查设备外观，查看是否有明显损坏或异常现象\",\"step\":\"2\",\"title\":\"设备检查\"},{\"description\":\"恢复设备供电，进行功能测试，确认设备运行正常\",\"step\":\"3\",\"title\":\"测试验证\"},{\"description\":\"清理工作现场，整理工具，填写维护记录\",\"step\":\"4\",\"title\":\"清理收尾\"}]','1. 设备故障得到解决，恢复正常运行状态；\n2. 设备各项参数指标恢复正常范围；\n3. 设备安全性能符合要求；\n4. 维护记录完整，可追溯。','draft','AI系统','2026-01-22 18:32:56',NULL,'2026-01-22 18:32:56',NULL);
+INSERT INTO `ai_maintenance_form` VALUES (5,'7beaf415-6c5b-5e16-abd7-04c21500858d','主变压器1号','告警：电流波动异常；告警：电流波动异常；告警：温度超过警告阈值','预测性','高',30,'[\"万用表\",\"螺丝刀套装\",\"绝缘手套\",\"安全帽\"]','1. 操作前必须切断电源，确保设备完全断电；\n2. 佩戴个人防护用品（安全帽、绝缘手套、防护眼镜）；\n3. 使用绝缘工具，避免直接接触带电部件；\n4. 操作时应有专人监护，确保安全；\n5. 操作完成后检查设备接地是否良好；\n6. 如遇异常情况立即停止操作，上报处理。','[{\"description\":\"检查工具是否齐全，确认安全措施已到位，切断设备电源\",\"step\":\"1\",\"title\":\"准备工作\"},{\"description\":\"检查设备外观，查看是否有明显损坏或异常现象\",\"step\":\"2\",\"title\":\"设备检查\"},{\"description\":\"恢复设备供电，进行功能测试，确认设备运行正常\",\"step\":\"3\",\"title\":\"测试验证\"},{\"description\":\"清理工作现场，整理工具，填写维护记录\",\"step\":\"4\",\"title\":\"清理收尾\"}]','1. 设备故障得到解决，恢复正常运行状态；\n2. 设备各项参数指标恢复正常范围；\n3. 设备安全性能符合要求；\n4. 维护记录完整，可追溯。','draft','AI系统','2026-01-26 22:04:18',NULL,'2026-01-26 22:04:18',NULL);
+INSERT INTO `ai_maintenance_form` VALUES (6,'cca074a5-c046-5921-82b1-bc414f2340ea','配电柜2号','告警：振动值偏高；告警：电流波动异常','预测性','高',30,'[\"万用表\",\"螺丝刀套装\",\"绝缘手套\",\"安全帽\"]','1. 操作前必须切断电源，确保设备完全断电；\n2. 佩戴个人防护用品（安全帽、绝缘手套、防护眼镜）；\n3. 使用绝缘工具，避免直接接触带电部件；\n4. 操作时应有专人监护，确保安全；\n5. 操作完成后检查设备接地是否良好；\n6. 如遇异常情况立即停止操作，上报处理。','[{\"description\":\"检查工具是否齐全，确认安全措施已到位，切断设备电源\",\"step\":\"1\",\"title\":\"准备工作\"},{\"description\":\"检查设备外观，查看是否有明显损坏或异常现象\",\"step\":\"2\",\"title\":\"设备检查\"},{\"description\":\"恢复设备供电，进行功能测试，确认设备运行正常\",\"step\":\"3\",\"title\":\"测试验证\"},{\"description\":\"清理工作现场，整理工具，填写维护记录\",\"step\":\"4\",\"title\":\"清理收尾\"}]','1. 设备故障得到解决，恢复正常运行状态；\n2. 设备各项参数指标恢复正常范围；\n3. 设备安全性能符合要求；\n4. 维护记录完整，可追溯。','draft','AI系统','2026-02-18 14:28:23',NULL,'2026-02-18 14:28:37',NULL);
+INSERT INTO `ai_maintenance_form` VALUES (7,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','电容器组2号','设备名称：电容器组2号\n设备编号：DEV-010\n设备类型：电容器\n安装位置：无功补偿室2号\n当前状态：正常\n状态时间：Sun Jan 11 23:01:11 CST 2026\n未处理告警：振动值偏高（级别：紧急）\n【关联数据概览】\n机械数据：有数据（3 条）\n运行数据：有数据（3 条）\n技术数据：有数据（3 条）\n电气数据：有数据（3 条）\n经济数据：有数据（3 条）\n环境数据：有数据（3 条）\n气候数据：有数据（3 条）\n维护记录：有数据（3 条）\n历史故障记录：有数据（3 条）\n状态历史记录：有数据（5 条）\n\n\n振动值偏高，紧急告警，需立即处理。','紧急','高',60,'[\"振动分析仪\",\"绝缘测试仪\"]','断电操作，确保设备完全隔离，防止触电。','[{\"description\":\"切断电源，确认设备无电。\",\"step\":1,\"title\":\"断电检查\"},{\"description\":\"使用振动分析仪测量振动值。\",\"step\":2,\"title\":\"振动检测\"},{\"description\":\"检查电容器机械部件是否松动或损坏。\",\"step\":3,\"title\":\"部件检查\"},{\"description\":\"记录当前振动值和运行状态。\",\"step\":4,\"title\":\"数据记录\"}]','消除振动异常，恢复设备正常运行状态。','draft','admin','2026-03-13 20:35:44',NULL,'2026-03-13 20:35:44',NULL);
 
 -- ----------------------------
 -- Table structure for chat_message
@@ -885,9 +885,10 @@ INSERT INTO `department` VALUES (1, 'uuu', 0, '发我');
 DROP TABLE IF EXISTS `eq_alert_record`;
 CREATE TABLE `eq_alert_record`  (
   `alert_id` bigint NOT NULL AUTO_INCREMENT COMMENT '告警ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `rule_id` bigint NULL DEFAULT NULL COMMENT '规则ID',
   `alert_level` tinyint NULL DEFAULT NULL COMMENT '告警级别 1-警告 2-严重 3-紧急',
+  `alert_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '告警类型',
   `alert_message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '告警消息',
   `triggered_time` datetime NOT NULL COMMENT '触发时间',
   `resolved_time` datetime NULL DEFAULT NULL COMMENT '解决时间',
@@ -905,110 +906,78 @@ CREATE TABLE `eq_alert_record`  (
 -- ----------------------------
 -- Records of eq_alert_record
 -- ----------------------------
-INSERT INTO `eq_alert_record` VALUES (1, 1, NULL, 3, '电流波动异常', '2026-01-11 23:01:33', '2026-01-11 19:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (2, 1, NULL, 3, '温度超过警告阈值', '2026-01-11 00:01:33', '2026-01-11 18:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (3, 1, NULL, 1, '电流波动异常', '2026-01-11 16:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (4, 2, NULL, 1, '振动值偏高', '2026-01-10 15:01:33', '2026-01-11 20:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (5, 2, NULL, 3, '振动值偏高', '2026-01-10 03:01:33', '2026-01-11 15:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (6, 2, NULL, 3, '振动值偏高', '2026-01-11 20:01:33', '2026-01-11 03:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (7, 3, NULL, 1, '电流波动异常', '2026-01-11 15:01:33', '2026-01-11 06:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (8, 3, NULL, 1, '负载过高', '2026-01-11 12:01:33', '2026-01-11 06:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (9, 3, NULL, 3, '电压不稳定', '2026-01-09 18:01:33', '2026-01-11 04:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (10, 4, NULL, 3, '电流波动异常', '2026-01-11 17:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (11, 4, NULL, 1, '振动值偏高', '2026-01-10 09:01:33', '2026-01-11 10:01:33', 3, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (12, 4, NULL, 3, '电流波动异常', '2026-01-11 01:01:33', '2026-01-11 11:01:33', 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (13, 5, NULL, 1, '电流波动异常', '2026-01-09 04:01:33', '2026-01-11 05:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (14, 5, NULL, 1, '温度超过警告阈值', '2026-01-09 03:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (15, 5, NULL, 1, '电压不稳定', '2026-01-10 07:01:33', '2026-01-11 16:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (16, 6, NULL, 2, '电流波动异常', '2026-01-11 05:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (17, 6, NULL, 2, '温度超过警告阈值', '2026-01-11 04:01:33', '2026-01-11 08:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (18, 6, NULL, 1, '振动值偏高', '2026-01-09 14:01:33', '2026-01-11 02:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (19, 7, NULL, 2, '电流波动异常', '2026-01-09 22:01:33', '2026-01-11 09:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (20, 7, NULL, 3, '电流波动异常', '2026-01-09 07:01:33', '2026-01-11 22:01:33', 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (21, 7, NULL, 2, '负载过高', '2026-01-09 10:01:33', '2026-01-11 20:01:33', 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (22, 8, NULL, 2, '电压不稳定', '2026-01-11 16:01:33', '2026-01-11 06:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (23, 8, NULL, 2, '温度超过警告阈值', '2026-01-09 01:01:33', '2026-01-11 17:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (24, 8, NULL, 1, '温度超过警告阈值', '2026-01-09 14:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (25, 9, NULL, 3, '振动值偏高', '2026-01-11 16:01:33', '2026-01-11 01:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (26, 9, NULL, 1, '电流波动异常', '2026-01-10 01:01:33', '2026-01-11 19:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (27, 9, NULL, 3, '电压不稳定', '2026-01-09 05:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (28, 10, NULL, 1, '振动值偏高', '2026-01-09 10:01:33', '2026-01-11 10:01:33', 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (29, 10, NULL, 2, '振动值偏高', '2026-01-11 01:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (30, 10, NULL, 3, '温度超过警告阈值', '2026-01-12 00:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (31, 11, NULL, 2, '电压不稳定', '2026-01-10 11:01:33', '2026-01-11 17:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (32, 11, NULL, 3, '振动值偏高', '2026-01-09 03:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (33, 11, NULL, 1, '电流波动异常', '2026-01-10 14:01:33', '2026-01-11 14:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (34, 12, NULL, 2, '电流波动异常', '2026-01-11 21:01:33', '2026-01-11 13:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (35, 12, NULL, 1, '负载过高', '2026-01-10 00:01:33', NULL, 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (36, 12, NULL, 2, '电压不稳定', '2026-01-09 02:01:33', '2026-01-11 12:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (37, 13, NULL, 2, '温度超过警告阈值', '2026-01-10 23:01:33', '2026-01-11 17:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (38, 13, NULL, 3, '电压不稳定', '2026-01-11 06:01:33', '2026-01-11 18:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (39, 13, NULL, 3, '振动值偏高', '2026-01-11 18:01:33', '2026-01-11 05:01:33', 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (40, 14, NULL, 1, '电流波动异常', '2026-01-10 13:01:33', '2026-01-11 02:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (41, 14, NULL, 3, '电流波动异常', '2026-01-10 14:01:33', '2026-01-11 06:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (42, 14, NULL, 2, '电流波动异常', '2026-01-10 00:01:33', '2026-01-11 02:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (43, 15, NULL, 3, '电流波动异常', '2026-01-10 02:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (44, 15, NULL, 3, '电压不稳定', '2026-01-09 04:01:33', NULL, 3, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (45, 15, NULL, 2, '温度超过警告阈值', '2026-01-11 05:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (46, 16, NULL, 2, '电流波动异常', '2026-01-10 17:01:33', NULL, 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (47, 16, NULL, 2, '电流波动异常', '2026-01-09 15:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (48, 16, NULL, 1, '电流波动异常', '2026-01-10 03:01:33', '2026-01-11 02:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (49, 17, NULL, 3, '温度超过警告阈值', '2026-01-10 18:01:33', '2026-01-11 04:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (50, 17, NULL, 1, '负载过高', '2026-01-10 00:01:33', '2026-01-11 15:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (51, 17, NULL, 3, '振动值偏高', '2026-01-09 17:01:33', '2026-01-12 00:01:33', 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (52, 18, NULL, 3, '电流波动异常', '2026-01-10 10:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (53, 18, NULL, 2, '电压不稳定', '2026-01-09 17:01:33', '2026-01-11 04:01:33', 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (54, 18, NULL, 3, '电流波动异常', '2026-01-09 09:01:33', NULL, 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (55, 19, NULL, 1, '电压不稳定', '2026-01-09 01:01:33', NULL, 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (56, 19, NULL, 1, '电压不稳定', '2026-01-10 13:01:33', '2026-01-11 05:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (57, 19, NULL, 3, '振动值偏高', '2026-01-09 12:01:33', '2026-01-11 01:01:33', 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (58, 20, NULL, 1, '负载过高', '2026-01-11 10:01:33', '2026-01-11 05:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (59, 20, NULL, 3, '振动值偏高', '2026-01-11 06:01:33', '2026-01-11 18:01:33', 2, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (60, 20, NULL, 1, '电流波动异常', '2026-01-09 04:01:33', '2026-01-11 21:01:33', 1, 0, '已检查并确认，恢复正常', '常规告警', '2026-01-12 00:01:33');
-INSERT INTO `eq_alert_record` VALUES (61, 1, 63, 2, '规则[电压异常规则]触发：参数[voltage]当前值 112 kV，条件类型=区间外，阈值 110', '2026-03-27 08:33:36', NULL, 1, NULL, NULL, '规则引擎', '2026-03-27 08:33:35');
-INSERT INTO `eq_alert_record` VALUES (62, 1, 1, 2, '规则[温度超限规则]触发：参数[temperature]当前值 188 ℃，条件类型=大于，阈值 85', '2026-03-27 08:33:36', NULL, 1, NULL, NULL, '规则引擎', '2026-03-27 08:33:35');
-INSERT INTO `eq_alert_record` VALUES (63, 2, 64, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.6 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:46', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
-INSERT INTO `eq_alert_record` VALUES (64, 7, 69, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.7 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:46', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
-INSERT INTO `eq_alert_record` VALUES (65, 8, 70, 2, '规则[电压异常规则]触发：参数[voltage]当前值 112.4 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:46', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
-INSERT INTO `eq_alert_record` VALUES (66, 9, 71, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.5 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:46', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
-INSERT INTO `eq_alert_record` VALUES (67, 10, 72, 2, '规则[电压异常规则]触发：参数[voltage]当前值 110.8 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:46', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
-INSERT INTO `eq_alert_record` VALUES (68, 12, 74, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.4 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:47', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
-INSERT INTO `eq_alert_record` VALUES (69, 14, 76, 2, '规则[电压异常规则]触发：参数[voltage]当前值 112.6 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:47', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
-INSERT INTO `eq_alert_record` VALUES (70, 16, 78, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.3 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:47', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
-INSERT INTO `eq_alert_record` VALUES (71, 17, 79, 2, '规则[电压异常规则]触发：参数[voltage]当前值 111.8 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:47', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
-INSERT INTO `eq_alert_record` VALUES (72, 19, 81, 2, '规则[电压异常规则]触发：参数[voltage]当前值 112.7 kV，条件类型=区间外，阈值 110', '2026-03-29 15:36:47', NULL, 1, NULL, NULL, '规则引擎', '2026-03-29 15:36:46');
-
--- ----------------------------
--- Table structure for eq_alert_rule
--- ----------------------------
-DROP TABLE IF EXISTS `eq_alert_rule`;
-CREATE TABLE `eq_alert_rule`  (
-  `rule_id` bigint NOT NULL AUTO_INCREMENT COMMENT '规则ID',
-  `device_id` bigint NULL DEFAULT NULL COMMENT '设备ID',
-  `rule_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '规则名称',
-  `parameter_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '参数名称',
-  `condition_type` tinyint NULL DEFAULT NULL COMMENT '条件类型 1-大于 2-小于 3-等于 4-区间',
-  `threshold_value` decimal(10, 4) NULL DEFAULT NULL COMMENT '阈值',
-  `threshold_unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '阈值单位',
-  `alert_level` tinyint NULL DEFAULT NULL COMMENT '告警级别 1-警告 2-严重 3-紧急',
-  `enabled` tinyint NULL DEFAULT 1 COMMENT '是否启用 1-启用 0-禁用',
-  `notification_channels` json NULL COMMENT '通知渠道',
-  `created_by` bigint NULL DEFAULT NULL COMMENT '创建人',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '备注',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`rule_id`) USING BTREE,
-  INDEX `idx_device_rule`(`device_id` ASC, `rule_name` ASC) USING BTREE,
-  INDEX `idx_enabled`(`enabled` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '告警规则表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of eq_alert_rule
--- ----------------------------
-INSERT INTO `eq_alert_rule` VALUES (1, 1, '出口压力过低', 'pressure', 2, 0.3000, 'MPa', 2, 1, NULL, NULL, NULL, '2025-12-18 13:53:20', '2025-12-18 13:53:20');
-INSERT INTO `eq_alert_rule` VALUES (2, 1, '温度过高', 'temperature', 1, 80.0000, '°C', 3, 1, NULL, NULL, NULL, '2025-12-18 13:53:20', '2025-12-18 13:53:20');
-INSERT INTO `eq_alert_rule` VALUES (3, 2, '电机电流过大', 'current', 1, 90.0000, 'A', 2, 1, NULL, NULL, NULL, '2025-12-18 13:53:20', '2025-12-18 13:53:20');
-INSERT INTO `eq_alert_rule` VALUES (4, 2, '振动超标', 'vibration', 1, 5.0000, 'mm/s', 2, 1, NULL, NULL, NULL, '2025-12-18 13:53:20', '2025-12-18 13:53:20');
+INSERT INTO `eq_alert_record` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d',NULL,3,NULL,'电流波动异常','2026-01-11 23:01:33','2026-01-11 19:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d',NULL,3,NULL,'温度超过警告阈值','2026-01-11 00:01:33','2026-01-11 18:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d',NULL,1,NULL,'电流波动异常','2026-01-11 16:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (4,'fecc074d-88bb-5010-b639-e7db3c22481d',NULL,1,NULL,'振动值偏高','2026-01-10 15:01:33','2026-01-11 20:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (5,'fecc074d-88bb-5010-b639-e7db3c22481d',NULL,3,NULL,'振动值偏高','2026-01-10 03:01:33','2026-01-11 15:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d',NULL,3,NULL,'振动值偏高','2026-01-11 20:01:33','2026-01-11 03:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (7,'37464ae6-85a6-5ce3-9add-965f746ec79a',NULL,1,NULL,'电流波动异常','2026-01-11 15:01:33','2026-01-11 06:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (8,'37464ae6-85a6-5ce3-9add-965f746ec79a',NULL,1,NULL,'负载过高','2026-01-11 12:01:33','2026-01-11 06:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (9,'37464ae6-85a6-5ce3-9add-965f746ec79a',NULL,3,NULL,'电压不稳定','2026-01-09 18:01:33','2026-01-11 04:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (10,'cca074a5-c046-5921-82b1-bc414f2340ea',NULL,3,NULL,'电流波动异常','2026-01-11 17:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (11,'cca074a5-c046-5921-82b1-bc414f2340ea',NULL,1,NULL,'振动值偏高','2026-01-10 09:01:33','2026-01-11 10:01:33',3,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (12,'cca074a5-c046-5921-82b1-bc414f2340ea',NULL,3,NULL,'电流波动异常','2026-01-11 01:01:33','2026-01-11 11:01:33',1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (13,'b98cd60e-fac1-50b3-a1b7-fe7208017d18',NULL,1,NULL,'电流波动异常','2026-01-09 04:01:33','2026-01-11 05:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (14,'b98cd60e-fac1-50b3-a1b7-fe7208017d18',NULL,1,NULL,'温度超过警告阈值','2026-01-09 03:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (15,'b98cd60e-fac1-50b3-a1b7-fe7208017d18',NULL,1,NULL,'电压不稳定','2026-01-10 07:01:33','2026-01-11 16:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (16,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd',NULL,2,NULL,'电流波动异常','2026-01-11 05:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (17,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd',NULL,2,NULL,'温度超过警告阈值','2026-01-11 04:01:33','2026-01-11 08:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (18,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd',NULL,1,NULL,'振动值偏高','2026-01-09 14:01:33','2026-01-11 02:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (19,'57330e93-592e-5318-b0c2-6d3ff8846bb6',NULL,2,NULL,'电流波动异常','2026-01-09 22:01:33','2026-01-11 09:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (20,'57330e93-592e-5318-b0c2-6d3ff8846bb6',NULL,3,NULL,'电流波动异常','2026-01-09 07:01:33','2026-01-11 22:01:33',1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (21,'57330e93-592e-5318-b0c2-6d3ff8846bb6',NULL,2,NULL,'负载过高','2026-01-09 10:01:33','2026-01-11 20:01:33',1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (22,'d3e9f772-bcc2-5f46-871d-4765ef174569',NULL,2,NULL,'电压不稳定','2026-01-11 16:01:33','2026-01-11 06:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (23,'d3e9f772-bcc2-5f46-871d-4765ef174569',NULL,2,NULL,'温度超过警告阈值','2026-01-09 01:01:33','2026-01-11 17:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (24,'d3e9f772-bcc2-5f46-871d-4765ef174569',NULL,1,NULL,'温度超过警告阈值','2026-01-09 14:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (25,'50c5eac4-1e56-5756-be8d-aa8c73a42deb',NULL,3,NULL,'振动值偏高','2026-01-11 16:01:33','2026-01-11 01:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (26,'50c5eac4-1e56-5756-be8d-aa8c73a42deb',NULL,1,NULL,'电流波动异常','2026-01-10 01:01:33','2026-01-11 19:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (27,'50c5eac4-1e56-5756-be8d-aa8c73a42deb',NULL,3,NULL,'电压不稳定','2026-01-09 05:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (28,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8',NULL,1,NULL,'振动值偏高','2026-01-09 10:01:33','2026-01-11 10:01:33',1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (29,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8',NULL,2,NULL,'振动值偏高','2026-01-11 01:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (30,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8',NULL,3,NULL,'温度超过警告阈值','2026-01-12 00:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (31,'4154482d-78ec-54ae-b4d4-6fe1d3719d47',NULL,2,NULL,'电压不稳定','2026-01-10 11:01:33','2026-01-11 17:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (32,'4154482d-78ec-54ae-b4d4-6fe1d3719d47',NULL,3,NULL,'振动值偏高','2026-01-09 03:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (33,'4154482d-78ec-54ae-b4d4-6fe1d3719d47',NULL,1,NULL,'电流波动异常','2026-01-10 14:01:33','2026-01-11 14:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (34,'2a3ca038-96b0-55ca-b21c-01751b03464b',NULL,2,NULL,'电流波动异常','2026-01-11 21:01:33','2026-01-11 13:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (35,'2a3ca038-96b0-55ca-b21c-01751b03464b',NULL,1,NULL,'负载过高','2026-01-10 00:01:33',NULL,1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (36,'2a3ca038-96b0-55ca-b21c-01751b03464b',NULL,2,NULL,'电压不稳定','2026-01-09 02:01:33','2026-01-11 12:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (37,'1555fe67-2a6c-50e4-870b-fa4fc876a13e',NULL,2,NULL,'温度超过警告阈值','2026-01-10 23:01:33','2026-01-11 17:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (38,'1555fe67-2a6c-50e4-870b-fa4fc876a13e',NULL,3,NULL,'电压不稳定','2026-01-11 06:01:33','2026-01-11 18:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (39,'1555fe67-2a6c-50e4-870b-fa4fc876a13e',NULL,3,NULL,'振动值偏高','2026-01-11 18:01:33','2026-01-11 05:01:33',1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (40,'bb046d14-328a-5267-8b28-c4faed37de82',NULL,1,NULL,'电流波动异常','2026-01-10 13:01:33','2026-01-11 02:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (41,'bb046d14-328a-5267-8b28-c4faed37de82',NULL,3,NULL,'电流波动异常','2026-01-10 14:01:33','2026-01-11 06:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (42,'bb046d14-328a-5267-8b28-c4faed37de82',NULL,2,NULL,'电流波动异常','2026-01-10 00:01:33','2026-01-11 02:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (43,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a',NULL,3,NULL,'电流波动异常','2026-01-10 02:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (44,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a',NULL,3,NULL,'电压不稳定','2026-01-09 04:01:33',NULL,3,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (45,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a',NULL,2,NULL,'温度超过警告阈值','2026-01-11 05:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (46,'da59851e-ab46-5335-aaba-31e636e34c47',NULL,2,NULL,'电流波动异常','2026-01-10 17:01:33',NULL,1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47',NULL,2,NULL,'电流波动异常','2026-01-09 15:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (48,'da59851e-ab46-5335-aaba-31e636e34c47',NULL,1,NULL,'电流波动异常','2026-01-10 03:01:33','2026-01-11 02:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (49,'2ee4b07d-4d84-51dd-b1ce-ba978142b461',NULL,3,NULL,'温度超过警告阈值','2026-01-10 18:01:33','2026-01-11 04:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (50,'2ee4b07d-4d84-51dd-b1ce-ba978142b461',NULL,1,NULL,'负载过高','2026-01-10 00:01:33','2026-01-11 15:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (51,'2ee4b07d-4d84-51dd-b1ce-ba978142b461',NULL,3,NULL,'振动值偏高','2026-01-09 17:01:33','2026-01-12 00:01:33',1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (52,'becc564c-15ec-5a6e-b975-5cde2f62633b',NULL,3,NULL,'电流波动异常','2026-01-10 10:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (53,'becc564c-15ec-5a6e-b975-5cde2f62633b',NULL,2,NULL,'电压不稳定','2026-01-09 17:01:33','2026-01-11 04:01:33',1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (54,'becc564c-15ec-5a6e-b975-5cde2f62633b',NULL,3,NULL,'电流波动异常','2026-01-09 09:01:33',NULL,1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (55,'5e3c871f-6afd-5c47-95a0-2e48214a47c8',NULL,1,NULL,'电压不稳定','2026-01-09 01:01:33',NULL,2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (56,'5e3c871f-6afd-5c47-95a0-2e48214a47c8',NULL,1,NULL,'电压不稳定','2026-01-10 13:01:33','2026-01-11 05:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (57,'5e3c871f-6afd-5c47-95a0-2e48214a47c8',NULL,3,NULL,'振动值偏高','2026-01-09 12:01:33','2026-01-11 01:01:33',1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (58,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff',NULL,1,NULL,'负载过高','2026-01-11 10:01:33','2026-01-11 05:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (59,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff',NULL,3,NULL,'振动值偏高','2026-01-11 06:01:33','2026-01-11 18:01:33',2,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (60,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff',NULL,1,NULL,'电流波动异常','2026-01-09 04:01:33','2026-01-11 21:01:33',1,0,'已检查并确认，恢复正常','常规告警','2026-01-12 00:01:33');
+INSERT INTO `eq_alert_record` VALUES (61,'7beaf415-6c5b-5e16-abd7-04c21500858d',63,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 112 kV，条件类型=区间外，阈值 110','2026-03-27 08:33:36',NULL,1,NULL,NULL,'规则引擎','2026-03-27 08:33:35');
+INSERT INTO `eq_alert_record` VALUES (62,'7beaf415-6c5b-5e16-abd7-04c21500858d',1,2,NULL,'规则[温度超限规则]触发：参数[temperature]当前值 188 ℃，条件类型=大于，阈值 85','2026-03-27 08:33:36',NULL,1,NULL,NULL,'规则引擎','2026-03-27 08:33:35');
+INSERT INTO `eq_alert_record` VALUES (63,'fecc074d-88bb-5010-b639-e7db3c22481d',64,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 111.6 kV，条件类型=区间外，阈值 110','2026-03-29 15:36:46',NULL,1,NULL,NULL,'规则引擎','2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (64,'57330e93-592e-5318-b0c2-6d3ff8846bb6',69,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 111.7 kV，条件类型=区间外，阈值 110','2026-03-29 15:36:46',NULL,1,NULL,NULL,'规则引擎','2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (65,'d3e9f772-bcc2-5f46-871d-4765ef174569',70,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 112.4 kV，条件类型=区间外，阈值 110','2026-03-29 15:36:46',NULL,1,NULL,NULL,'规则引擎','2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (66,'50c5eac4-1e56-5756-be8d-aa8c73a42deb',71,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 111.5 kV，条件类型=区间外，阈值 110','2026-03-29 15:36:46',NULL,1,NULL,NULL,'规则引擎','2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (67,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8',72,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 110.8 kV，条件类型=区间外，阈值 110','2026-03-29 15:36:46',NULL,1,NULL,NULL,'规则引擎','2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (68,'2a3ca038-96b0-55ca-b21c-01751b03464b',74,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 111.4 kV，条件类型=区间外，阈值 110','2026-03-29 15:36:47',NULL,1,NULL,NULL,'规则引擎','2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (69,'bb046d14-328a-5267-8b28-c4faed37de82',76,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 112.6 kV，条件类型=区间外，阈值 110','2026-03-29 15:36:47',NULL,1,NULL,NULL,'规则引擎','2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (70,'da59851e-ab46-5335-aaba-31e636e34c47',78,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 111.3 kV，条件类型=区间外，阈值 110','2026-03-29 15:36:47',NULL,1,NULL,NULL,'规则引擎','2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (71,'2ee4b07d-4d84-51dd-b1ce-ba978142b461',79,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 111.8 kV，条件类型=区间外，阈值 110','2026-03-29 15:36:47',NULL,1,NULL,NULL,'规则引擎','2026-03-29 15:36:46');
+INSERT INTO `eq_alert_record` VALUES (72,'5e3c871f-6afd-5c47-95a0-2e48214a47c8',81,2,NULL,'规则[电压异常规则]触发：参数[voltage]当前值 112.7 kV，条件类型=区间外，阈值 110','2026-03-29 15:36:47',NULL,1,NULL,NULL,'规则引擎','2026-03-29 15:36:46');
 
 -- ----------------------------
 -- Table structure for eq_climate_data
@@ -1016,7 +985,7 @@ INSERT INTO `eq_alert_rule` VALUES (4, 2, '振动超标', 'vibration', 1, 5.0000
 DROP TABLE IF EXISTS `eq_climate_data`;
 CREATE TABLE `eq_climate_data`  (
   `climate_id` bigint NOT NULL AUTO_INCREMENT COMMENT '气候数据ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `timestamp` datetime NOT NULL COMMENT '采集时间',
   `season` tinyint NULL DEFAULT NULL COMMENT '季节 1-春季 2-夏季 3-秋季 4-冬季',
   `weather_condition` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '天气状况',
@@ -1042,73 +1011,73 @@ CREATE TABLE `eq_climate_data`  (
 -- ----------------------------
 -- Records of eq_climate_data
 -- ----------------------------
-INSERT INTO `eq_climate_data` VALUES (1, 1, '2026-01-11 23:01:40', 4, '晴天', 2.80, 8.10, '西南风', 0, 6, 17, 1, 3, 47, 154, 1, 0.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (2, 1, '2026-01-10 06:01:40', 2, '多云', 2.90, 17.30, '南风', 0, 7, 6, 1, 1, 36, 176, 3, 8.90, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (3, 1, '2026-01-11 18:01:40', 2, '阴天', 9.50, 16.80, '西风', 1, 3, -11, 1, 0, 11, 137, 5, 10.60, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (4, 2, '2026-01-12 00:01:40', 2, '多云', 1.40, 7.00, '西南风', 1, 6, 27, 1, 3, 18, 142, 3, 4.50, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (5, 2, '2026-01-11 09:01:40', 2, '阴天', 7.10, 16.40, '西北风', 0, 1, 35, 0, 3, 25, 99, 4, 1.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (6, 2, '2026-01-11 01:01:40', 1, '晴天', 17.60, 15.60, '西南风', 0, 23, -1, 0, 2, 39, 117, 3, 4.90, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (7, 3, '2026-01-10 12:01:40', 3, '阴天', 10.80, 3.50, '西南风', 1, 11, 26, 0, 4, 35, 151, 5, 7.50, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (8, 3, '2026-01-10 15:01:40', 3, '小雨', 12.30, 16.60, '西风', 0, 22, 15, 1, 4, 25, 162, 4, 2.20, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (9, 3, '2026-01-10 17:01:40', 3, '小雨', 16.10, 4.90, '南风', 1, 14, 4, 1, 0, 8, 98, 4, 6.70, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (10, 4, '2026-01-11 03:01:40', 3, '多云', 5.80, 16.10, '东南风', 0, 19, 33, 1, 1, 35, 171, 2, 1.80, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (11, 4, '2026-01-10 19:01:40', 3, '晴天', 6.40, 16.60, '东南风', 0, 17, 12, 0, 4, 16, 181, 5, 8.60, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (12, 4, '2026-01-10 12:01:40', 3, '晴天', 5.40, 6.80, '西风', 1, 2, 17, 0, 2, 4, 30, 5, 1.50, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (13, 5, '2026-01-11 20:01:40', 1, '小雨', 12.30, 18.80, '西北风', 0, 17, 15, 0, 0, 19, 158, 5, 3.50, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (14, 5, '2026-01-10 21:01:40', 4, '晴天', 8.50, 3.40, '东北风', 0, 17, 27, 0, 3, 33, 52, 4, 1.60, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (15, 5, '2026-01-11 01:01:40', 1, '多云', 12.70, 8.40, '西南风', 1, 23, -1, 0, 4, 23, 149, 3, 9.80, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (16, 6, '2026-01-10 10:01:40', 3, '阴天', 14.10, 5.50, '南风', 0, 11, -1, 1, 3, 42, 30, 3, 2.00, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (17, 6, '2026-01-11 01:01:40', 4, '多云', 1.70, 8.60, '东南风', 0, 13, 23, 1, 4, 47, 42, 3, 4.10, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (18, 6, '2026-01-11 19:01:40', 3, '多云', 7.50, 7.30, '东南风', 0, 16, 37, 0, 0, 10, 179, 2, 2.00, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (19, 7, '2026-01-11 17:01:40', 2, '晴天', 9.00, 5.20, '南风', 0, 22, 19, 0, 4, 33, 42, 2, 6.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (20, 7, '2026-01-10 21:01:40', 2, '阴天', 8.70, 0.10, '西北风', 1, 8, -10, 0, 3, 43, 140, 5, 4.50, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (21, 7, '2026-01-11 19:01:40', 2, '晴天', 0.70, 19.60, '东南风', 0, 7, 1, 0, 2, 5, 32, 5, 1.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (22, 8, '2026-01-11 21:01:40', 4, '阴天', 10.00, 14.80, '南风', 1, 0, 35, 0, 2, 36, 88, 4, 1.50, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (23, 8, '2026-01-10 17:01:40', 4, '小雨', 4.80, 1.30, '西风', 0, 17, 1, 0, 0, 1, 148, 4, 7.50, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (24, 8, '2026-01-10 12:01:40', 4, '晴天', 5.40, 20.00, '西南风', 1, 17, 29, 1, 2, 2, 121, 5, 7.00, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (25, 9, '2026-01-11 10:01:40', 3, '阴天', 10.40, 12.60, '西南风', 1, 3, 21, 1, 1, 44, 104, 4, 1.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (26, 9, '2026-01-11 04:01:40', 4, '阴天', 10.80, 21.60, '东风', 1, 15, 10, 0, 3, 1, 179, 5, 0.90, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (27, 9, '2026-01-10 03:01:40', 3, '阴天', 6.20, 10.10, '西南风', 0, 19, 37, 1, 4, 32, 147, 5, 9.30, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (28, 10, '2026-01-11 05:01:40', 3, '阴天', 6.40, 20.70, '南风', 0, 6, -7, 1, 4, 12, 80, 5, 6.90, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (29, 10, '2026-01-11 19:01:40', 4, '多云', 4.60, 12.70, '南风', 1, 7, 25, 0, 0, 2, 46, 3, 8.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (30, 10, '2026-01-11 12:01:40', 1, '多云', 9.70, 13.30, '南风', 1, 22, 30, 1, 3, 22, 73, 1, 4.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (31, 11, '2026-01-10 16:01:40', 2, '小雨', 3.00, 14.60, '东南风', 0, 14, 8, 0, 3, 28, 51, 5, 4.00, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (32, 11, '2026-01-10 10:01:40', 4, '阴天', 2.40, 18.90, '西风', 1, 9, 38, 0, 3, 32, 69, 2, 9.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (33, 11, '2026-01-10 02:01:40', 2, '多云', 16.40, 6.40, '西南风', 0, 0, 16, 1, 3, 19, 180, 4, 7.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (34, 12, '2026-01-10 02:01:40', 4, '小雨', 12.90, 8.40, '北风', 0, 2, 38, 0, 4, 5, 164, 1, 8.70, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (35, 12, '2026-01-11 05:01:40', 4, '多云', 12.20, 3.10, '西南风', 0, 23, 20, 0, 1, 17, 182, 5, 5.50, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (36, 12, '2026-01-10 19:01:40', 3, '阴天', 7.80, 0.80, '西南风', 0, 6, 7, 0, 4, 42, 104, 4, 4.70, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (37, 13, '2026-01-10 19:01:40', 4, '阴天', 3.80, 11.20, '东南风', 1, 17, 37, 0, 2, 35, 67, 1, 5.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (38, 13, '2026-01-11 19:01:40', 1, '多云', 6.00, 13.50, '东风', 1, 9, 13, 0, 1, 8, 169, 1, 4.30, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (39, 13, '2026-01-10 12:01:40', 3, '晴天', 9.70, 7.90, '西风', 1, 7, 26, 1, 4, 17, 79, 3, 11.10, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (40, 14, '2026-01-10 07:01:40', 3, '晴天', 1.30, 20.30, '南风', 0, 3, 0, 1, 2, 44, 51, 5, 4.20, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (41, 14, '2026-01-10 06:01:40', 2, '晴天', 5.70, 8.50, '西南风', 0, 15, -14, 0, 4, 13, 94, 2, 3.60, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (42, 14, '2026-01-10 22:01:40', 4, '多云', 0.10, 4.60, '东风', 0, 8, 9, 1, 1, 24, 156, 4, 7.70, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (43, 15, '2026-01-11 08:01:40', 4, '多云', 5.60, 20.30, '西风', 0, 3, -12, 1, 4, 23, 93, 4, 0.20, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (44, 15, '2026-01-11 19:01:40', 3, '多云', 16.40, 20.70, '东南风', 0, 23, 0, 0, 0, 24, 46, 1, 1.50, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (45, 15, '2026-01-11 09:01:40', 1, '晴天', 2.60, 5.10, '西南风', 0, 5, 37, 1, 3, 5, 140, 2, 3.70, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (46, 16, '2026-01-10 17:01:40', 2, '多云', 6.20, 3.70, '南风', 0, 3, 22, 1, 2, 12, 179, 1, 6.90, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (47, 16, '2026-01-10 21:01:40', 1, '多云', 11.60, 1.00, '西南风', 1, 5, 12, 1, 3, 15, 150, 5, 5.20, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (48, 16, '2026-01-11 12:01:40', 1, '多云', 14.00, 3.50, '西南风', 1, 21, 38, 1, 1, 16, 136, 3, 1.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (49, 17, '2026-01-11 13:01:40', 4, '小雨', 12.80, 7.10, '西南风', 0, 23, 3, 1, 3, 4, 66, 5, 1.40, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (50, 17, '2026-01-10 16:01:40', 1, '晴天', 15.50, 15.20, '南风', 0, 8, 37, 0, 4, 7, 82, 2, 6.00, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (51, 17, '2026-01-10 22:01:40', 2, '阴天', 3.00, 9.80, '西南风', 1, 10, 13, 0, 3, 8, 178, 2, 8.00, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (52, 18, '2026-01-11 06:01:40', 4, '阴天', 3.60, 8.50, '西南风', 1, 9, -3, 1, 3, 46, 133, 3, 5.70, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (53, 18, '2026-01-10 06:01:40', 4, '晴天', 2.60, 1.90, '东风', 1, 20, 37, 1, 3, 24, 144, 2, 9.30, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (54, 18, '2026-01-11 12:01:40', 4, '晴天', 15.10, 15.50, '东风', 1, 13, -12, 1, 4, 39, 78, 1, 9.10, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (55, 19, '2026-01-11 07:01:40', 2, '阴天', 11.70, 13.40, '东风', 1, 21, 19, 0, 0, 19, 93, 5, 3.30, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (56, 19, '2026-01-10 17:01:40', 2, '多云', 13.70, 15.90, '西风', 1, 19, -3, 1, 2, 1, 86, 4, 10.30, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (57, 19, '2026-01-10 05:01:40', 4, '多云', 7.60, 19.80, '西北风', 0, 14, -13, 0, 3, 24, 92, 3, 4.70, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (58, 20, '2026-01-11 07:01:40', 3, '晴天', 4.40, 3.80, '东南风', 0, 12, -13, 1, 1, 32, 82, 4, 5.30, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (59, 20, '2026-01-11 18:01:40', 2, '晴天', 12.60, 2.90, '西风', 0, 20, -6, 0, 1, 16, 125, 1, 7.80, '2026-01-12 00:01:40');
-INSERT INTO `eq_climate_data` VALUES (60, 20, '2026-01-10 04:01:40', 3, '多云', 4.40, 3.90, '西风', 0, 11, -5, 0, 4, 1, 96, 1, 4.00, '2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11 23:01:40',4,'晴天',2.80,8.10,'西南风',0,6,17,1,3,47,154,1,0.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-10 06:01:40',2,'多云',2.90,17.30,'南风',0,7,6,1,1,36,176,3,8.90,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11 18:01:40',2,'阴天',9.50,16.80,'西风',1,3,-11,1,0,11,137,5,10.60,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (4,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-12 00:01:40',2,'多云',1.40,7.00,'西南风',1,6,27,1,3,18,142,3,4.50,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (5,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 09:01:40',2,'阴天',7.10,16.40,'西北风',0,1,35,0,3,25,99,4,1.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 01:01:40',1,'晴天',17.60,15.60,'西南风',0,23,-1,0,2,39,117,3,4.90,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (7,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 12:01:40',3,'阴天',10.80,3.50,'西南风',1,11,26,0,4,35,151,5,7.50,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (8,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 15:01:40',3,'小雨',12.30,16.60,'西风',0,22,15,1,4,25,162,4,2.20,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (9,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 17:01:40',3,'小雨',16.10,4.90,'南风',1,14,4,1,0,8,98,4,6.70,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (10,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-11 03:01:40',3,'多云',5.80,16.10,'东南风',0,19,33,1,1,35,171,2,1.80,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (11,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-10 19:01:40',3,'晴天',6.40,16.60,'东南风',0,17,12,0,4,16,181,5,8.60,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (12,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-10 12:01:40',3,'晴天',5.40,6.80,'西风',1,2,17,0,2,4,30,5,1.50,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (13,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-11 20:01:40',1,'小雨',12.30,18.80,'西北风',0,17,15,0,0,19,158,5,3.50,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (14,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-10 21:01:40',4,'晴天',8.50,3.40,'东北风',0,17,27,0,3,33,52,4,1.60,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (15,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-11 01:01:40',1,'多云',12.70,8.40,'西南风',1,23,-1,0,4,23,149,3,9.80,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (16,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-10 10:01:40',3,'阴天',14.10,5.50,'南风',0,11,-1,1,3,42,30,3,2.00,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (17,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-11 01:01:40',4,'多云',1.70,8.60,'东南风',0,13,23,1,4,47,42,3,4.10,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (18,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-11 19:01:40',3,'多云',7.50,7.30,'东南风',0,16,37,0,0,10,179,2,2.00,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (19,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-11 17:01:40',2,'晴天',9.00,5.20,'南风',0,22,19,0,4,33,42,2,6.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (20,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-10 21:01:40',2,'阴天',8.70,0.10,'西北风',1,8,-10,0,3,43,140,5,4.50,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (21,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-11 19:01:40',2,'晴天',0.70,19.60,'东南风',0,7,1,0,2,5,32,5,1.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (22,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-11 21:01:40',4,'阴天',10.00,14.80,'南风',1,0,35,0,2,36,88,4,1.50,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (23,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10 17:01:40',4,'小雨',4.80,1.30,'西风',0,17,1,0,0,1,148,4,7.50,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (24,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10 12:01:40',4,'晴天',5.40,20.00,'西南风',1,17,29,1,2,2,121,5,7.00,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (25,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-11 10:01:40',3,'阴天',10.40,12.60,'西南风',1,3,21,1,1,44,104,4,1.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (26,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-11 04:01:40',4,'阴天',10.80,21.60,'东风',1,15,10,0,3,1,179,5,0.90,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (27,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-10 03:01:40',3,'阴天',6.20,10.10,'西南风',0,19,37,1,4,32,147,5,9.30,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (28,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 05:01:40',3,'阴天',6.40,20.70,'南风',0,6,-7,1,4,12,80,5,6.90,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (29,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 19:01:40',4,'多云',4.60,12.70,'南风',1,7,25,0,0,2,46,3,8.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (30,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 12:01:40',1,'多云',9.70,13.30,'南风',1,22,30,1,3,22,73,1,4.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (31,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-10 16:01:40',2,'小雨',3.00,14.60,'东南风',0,14,8,0,3,28,51,5,4.00,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (32,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-10 10:01:40',4,'阴天',2.40,18.90,'西风',1,9,38,0,3,32,69,2,9.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (33,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-10 02:01:40',2,'多云',16.40,6.40,'西南风',0,0,16,1,3,19,180,4,7.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (34,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-10 02:01:40',4,'小雨',12.90,8.40,'北风',0,2,38,0,4,5,164,1,8.70,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (35,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11 05:01:40',4,'多云',12.20,3.10,'西南风',0,23,20,0,1,17,182,5,5.50,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (36,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-10 19:01:40',3,'阴天',7.80,0.80,'西南风',0,6,7,0,4,42,104,4,4.70,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (37,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-10 19:01:40',4,'阴天',3.80,11.20,'东南风',1,17,37,0,2,35,67,1,5.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (38,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-11 19:01:40',1,'多云',6.00,13.50,'东风',1,9,13,0,1,8,169,1,4.30,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (39,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-10 12:01:40',3,'晴天',9.70,7.90,'西风',1,7,26,1,4,17,79,3,11.10,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (40,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 07:01:40',3,'晴天',1.30,20.30,'南风',0,3,0,1,2,44,51,5,4.20,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (41,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 06:01:40',2,'晴天',5.70,8.50,'西南风',0,15,-14,0,4,13,94,2,3.60,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (42,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 22:01:40',4,'多云',0.10,4.60,'东风',0,8,9,1,1,24,156,4,7.70,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (43,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-11 08:01:40',4,'多云',5.60,20.30,'西风',0,3,-12,1,4,23,93,4,0.20,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (44,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-11 19:01:40',3,'多云',16.40,20.70,'东南风',0,23,0,0,0,24,46,1,1.50,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (45,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-11 09:01:40',1,'晴天',2.60,5.10,'西南风',0,5,37,1,3,5,140,2,3.70,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (46,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-10 17:01:40',2,'多云',6.20,3.70,'南风',0,3,22,1,2,12,179,1,6.90,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-10 21:01:40',1,'多云',11.60,1.00,'西南风',1,5,12,1,3,15,150,5,5.20,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (48,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-11 12:01:40',1,'多云',14.00,3.50,'西南风',1,21,38,1,1,16,136,3,1.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (49,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-11 13:01:40',4,'小雨',12.80,7.10,'西南风',0,23,3,1,3,4,66,5,1.40,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (50,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-10 16:01:40',1,'晴天',15.50,15.20,'南风',0,8,37,0,4,7,82,2,6.00,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (51,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-10 22:01:40',2,'阴天',3.00,9.80,'西南风',1,10,13,0,3,8,178,2,8.00,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (52,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-11 06:01:40',4,'阴天',3.60,8.50,'西南风',1,9,-3,1,3,46,133,3,5.70,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (53,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-10 06:01:40',4,'晴天',2.60,1.90,'东风',1,20,37,1,3,24,144,2,9.30,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (54,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-11 12:01:40',4,'晴天',15.10,15.50,'东风',1,13,-12,1,4,39,78,1,9.10,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (55,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-11 07:01:40',2,'阴天',11.70,13.40,'东风',1,21,19,0,0,19,93,5,3.30,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (56,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-10 17:01:40',2,'多云',13.70,15.90,'西风',1,19,-3,1,2,1,86,4,10.30,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (57,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-10 05:01:40',4,'多云',7.60,19.80,'西北风',0,14,-13,0,3,24,92,3,4.70,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (58,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11 07:01:40',3,'晴天',4.40,3.80,'东南风',0,12,-13,1,1,32,82,4,5.30,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (59,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11 18:01:40',2,'晴天',12.60,2.90,'西风',0,20,-6,0,1,16,125,1,7.80,'2026-01-12 00:01:40');
+INSERT INTO `eq_climate_data` VALUES (60,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-10 04:01:40',3,'多云',4.40,3.90,'西风',0,11,-5,0,4,1,96,1,4.00,'2026-01-12 00:01:40');
 
 -- ----------------------------
 -- Table structure for eq_device
 -- ----------------------------
 DROP TABLE IF EXISTS `eq_device`;
 CREATE TABLE `eq_device`  (
-  `device_id` bigint NOT NULL AUTO_INCREMENT COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `device_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备编号',
   `device_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备名称',
   `device_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '设备类型',
@@ -1133,32 +1102,31 @@ CREATE TABLE `eq_device`  (
   INDEX `idx_device_type`(`device_type` ASC) USING BTREE,
   INDEX `idx_location`(`location` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '设备信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of eq_device
 -- ----------------------------
-INSERT INTO `eq_device` VALUES (1, 'DEV-001', '主变压器1号', '变压器', 'SFZ10-31500/110', 'BYQ-20210001', '华为技术有限公司', '主厂房A区1层', '运维部', '2021-01-15 00:00:00', '2031-01-15 00:00:00', 1, 1500000.00, 20, '张工', '主要供电设备', 'admin', '2026-01-12 00:01:08', 'admin', '2026-02-18 14:28:53');
-INSERT INTO `eq_device` VALUES (2, 'DEV-002', '主变压器2号', '变压器', 'SFZ10-31500/110', 'BYQ-20210002', '华为技术有限公司', '主厂房A区2层', '运维部', '2021-02-20 00:00:00', '2031-02-20 00:00:00', 1, 1500000.00, 20, '张工', '备用供电设备', 'admin', '2026-01-12 00:01:08', 'admin', '2026-01-15 21:19:39');
-INSERT INTO `eq_device` VALUES (3, 'DEV-003', '配电柜1号', '配电柜', 'GGD-3200A', 'PDG-20210101', '施耐德电气', '配电室A区', '运维部', '2021-03-10 00:00:00', '2031-03-10 00:00:00', 1, 80000.00, 15, '李工', '主配电设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (4, 'DEV-004', '配电柜2号', '配电柜', 'GGD-3200A', 'PDG-20210102', '施耐德电气', '配电室B区', '运维部', '2021-03-15 00:00:00', '2031-03-15 00:00:00', 1, 80000.00, 15, '李工', '备用配电设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (5, 'DEV-005', '断路器1号', '断路器', 'DW15-2000', 'DLQ-20210201', 'ABB集团', '开关站1号位', '运维部', '2021-04-05 00:00:00', '2031-04-05 00:00:00', 1, 120000.00, 15, '王工', '主线路保护', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (6, 'DEV-006', '断路器2号', '断路器', 'DW15-2000', 'DLQ-20210202', 'ABB集团', '开关站2号位', '运维部', '2021-04-10 00:00:00', '2031-04-10 00:00:00', 1, 120000.00, 15, '王工', '备用线路保护', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (7, 'DEV-007', '发电机1号', '发电机', 'FDJ-5000KW', 'FDJ-20210301', '西门子', '发电机房A区', '运维部', '2021-05-01 00:00:00', '2031-05-01 00:00:00', 1, 2500000.00, 25, '赵工', '主发电设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (8, 'DEV-008', '发电机2号', '发电机', 'FDJ-5000KW', 'FDJ-20210302', '西门子', '发电机房B区', '运维部', '2021-05-15 00:00:00', '2031-05-15 00:00:00', 1, 2500000.00, 25, '赵工', '备用发电设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (9, 'DEV-009', '电容器组1号', '电容器', 'BFM11/√3-300-1W', 'DRQ-20210401', '思源电气', '无功补偿室1号', '运维部', '2021-06-01 00:00:00', '2031-06-01 00:00:00', 1, 150000.00, 12, '钱工', '无功补偿设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (10, 'DEV-010', '电容器组2号', '电容器', 'BFM11/√3-300-1W', 'DRQ-20210402', '思源电气', '无功补偿室2号', '运维部', '2021-06-10 00:00:00', '2031-06-10 00:00:00', 1, 150000.00, 12, '钱工', '备用补偿设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (11, 'DEV-011', '互感器1号', '互感器', 'JDZX10-10', 'HGQ-20210501', '正泰电器', '计量室1号位', '运维部', '2021-07-01 00:00:00', '2031-07-01 00:00:00', 1, 35000.00, 10, '孙工', '电压测量设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (12, 'DEV-012', '互感器2号', '互感器', 'JDZX10-10', 'HGQ-20210502', '正泰电器', '计量室2号位', '运维部', '2021-07-05 00:00:00', '2031-07-05 00:00:00', 1, 35000.00, 10, '孙工', '备用测量设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (13, 'DEV-013', '避雷器1号', '避雷器', 'HY5WS-17/50', 'BLQ-20210601', '金冠电气', '室外A区1号杆', '运维部', '2021-08-01 00:00:00', '2031-08-01 00:00:00', 1, 28000.00, 10, '周工', '雷电保护设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (14, 'DEV-014', '避雷器2号', '避雷器', 'HY5WS-17/50', 'BLQ-20210602', '金冠电气', '室外B区1号杆', '运维部', '2021-08-05 00:00:00', '2031-08-05 00:00:00', 1, 28000.00, 10, '周工', '备用保护设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (15, 'DEV-015', '隔离开关1号', '隔离开关', 'GW4-110', 'GLKG-20210701', '平高电气', '开关场A区', '运维部', '2021-09-01 00:00:00', '2031-09-01 00:00:00', 1, 95000.00, 15, '吴工', '线路隔离设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (16, 'DEV-016', '隔离开关2号', '隔离开关', 'GW4-110', 'GLKG-20210702', '平高电气', '开关场B区', '运维部', '2021-09-10 00:00:00', '2031-09-10 00:00:00', 1, 95000.00, 15, '吴工', '备用隔离设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (17, 'DEV-017', 'UPS电源1号', 'UPS', 'C3K-3KVA', 'UPS-20210801', '山特电子', '监控室A区', '运维部', '2021-10-01 00:00:00', '2026-10-01 00:00:00', 1, 45000.00, 8, '郑工', '不间断电源', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (18, 'DEV-018', 'UPS电源2号', 'UPS', 'C3K-3KVA', 'UPS-20210802', '山特电子', '监控室B区', '运维部', '2021-10-05 00:00:00', '2026-10-05 00:00:00', 1, 45000.00, 8, '郑工', '备用电源', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (19, 'DEV-019', '直流屏1号', '直流屏', 'GZDW-50Ah/220V', 'ZLP-20210901', '许继电气', '直流室A区', '运维部', '2021-11-01 00:00:00', '2031-11-01 00:00:00', 1, 68000.00, 15, '冯工', '直流供电设备', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (20, 'DEV-020', '直流屏2号', '直流屏', 'GZDW-50Ah/220V', 'ZLP-20210902', '许继电气', '直流室B区', '运维部', '2021-11-10 00:00:00', '2031-11-10 00:00:00', 1, 68000.00, 15, '冯工', '备用直流电源', 'admin', '2026-01-12 00:01:08', '', '2026-01-12 00:01:08');
-INSERT INTO `eq_device` VALUES (21, 'WIND-FD001', '风力发电机组 FD001', '风力发电', 'FD001-GRU', 'FD001-SN', '风电场', '风电场一期', '运维部', '2024-06-01 00:00:00', '2034-06-01 00:00:00', 1, 3200000.00, 25, '运维', 'GRU 预测数据源设备', 'admin', '2026-03-29 11:49:52', '', '2026-03-29 11:49:52');
+INSERT INTO `eq_device` VALUES ('7beaf415-6c5b-5e16-abd7-04c21500858d','DEV-001','主变压器1号','变压器','SFZ10-31500/110','BYQ-20210001','华为技术有限公司','主厂房A区1层','运维部','2021-01-15 00:00:00','2031-01-15 00:00:00',1,1500000.00,20,'张工','主要供电设备','admin','2026-01-12 00:01:08','admin','2026-02-18 14:28:53');
+INSERT INTO `eq_device` VALUES ('fecc074d-88bb-5010-b639-e7db3c22481d','DEV-002','主变压器2号','变压器','SFZ10-31500/110','BYQ-20210002','华为技术有限公司','主厂房A区2层','运维部','2021-02-20 00:00:00','2031-02-20 00:00:00',1,1500000.00,20,'张工','备用供电设备','admin','2026-01-12 00:01:08','admin','2026-01-15 21:19:39');
+INSERT INTO `eq_device` VALUES ('37464ae6-85a6-5ce3-9add-965f746ec79a','DEV-003','配电柜1号','配电柜','GGD-3200A','PDG-20210101','施耐德电气','配电室A区','运维部','2021-03-10 00:00:00','2031-03-10 00:00:00',1,80000.00,15,'李工','主配电设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('cca074a5-c046-5921-82b1-bc414f2340ea','DEV-004','配电柜2号','配电柜','GGD-3200A','PDG-20210102','施耐德电气','配电室B区','运维部','2021-03-15 00:00:00','2031-03-15 00:00:00',1,80000.00,15,'李工','备用配电设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('b98cd60e-fac1-50b3-a1b7-fe7208017d18','DEV-005','断路器1号','断路器','DW15-2000','DLQ-20210201','ABB集团','开关站1号位','运维部','2021-04-05 00:00:00','2031-04-05 00:00:00',1,120000.00,15,'王工','主线路保护','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','DEV-006','断路器2号','断路器','DW15-2000','DLQ-20210202','ABB集团','开关站2号位','运维部','2021-04-10 00:00:00','2031-04-10 00:00:00',1,120000.00,15,'王工','备用线路保护','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('57330e93-592e-5318-b0c2-6d3ff8846bb6','DEV-007','发电机1号','发电机','FDJ-5000KW','FDJ-20210301','西门子','发电机房A区','运维部','2021-05-01 00:00:00','2031-05-01 00:00:00',1,2500000.00,25,'赵工','主发电设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('d3e9f772-bcc2-5f46-871d-4765ef174569','DEV-008','发电机2号','发电机','FDJ-5000KW','FDJ-20210302','西门子','发电机房B区','运维部','2021-05-15 00:00:00','2031-05-15 00:00:00',1,2500000.00,25,'赵工','备用发电设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('50c5eac4-1e56-5756-be8d-aa8c73a42deb','DEV-009','电容器组1号','电容器','BFM11/√3-300-1W','DRQ-20210401','思源电气','无功补偿室1号','运维部','2021-06-01 00:00:00','2031-06-01 00:00:00',1,150000.00,12,'钱工','无功补偿设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','DEV-010','电容器组2号','电容器','BFM11/√3-300-1W','DRQ-20210402','思源电气','无功补偿室2号','运维部','2021-06-10 00:00:00','2031-06-10 00:00:00',1,150000.00,12,'钱工','备用补偿设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('4154482d-78ec-54ae-b4d4-6fe1d3719d47','DEV-011','互感器1号','互感器','JDZX10-10','HGQ-20210501','正泰电器','计量室1号位','运维部','2021-07-01 00:00:00','2031-07-01 00:00:00',1,35000.00,10,'孙工','电压测量设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('2a3ca038-96b0-55ca-b21c-01751b03464b','DEV-012','互感器2号','互感器','JDZX10-10','HGQ-20210502','正泰电器','计量室2号位','运维部','2021-07-05 00:00:00','2031-07-05 00:00:00',1,35000.00,10,'孙工','备用测量设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('1555fe67-2a6c-50e4-870b-fa4fc876a13e','DEV-013','避雷器1号','避雷器','HY5WS-17/50','BLQ-20210601','金冠电气','室外A区1号杆','运维部','2021-08-01 00:00:00','2031-08-01 00:00:00',1,28000.00,10,'周工','雷电保护设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('bb046d14-328a-5267-8b28-c4faed37de82','DEV-014','避雷器2号','避雷器','HY5WS-17/50','BLQ-20210602','金冠电气','室外B区1号杆','运维部','2021-08-05 00:00:00','2031-08-05 00:00:00',1,28000.00,10,'周工','备用保护设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','DEV-015','隔离开关1号','隔离开关','GW4-110','GLKG-20210701','平高电气','开关场A区','运维部','2021-09-01 00:00:00','2031-09-01 00:00:00',1,95000.00,15,'吴工','线路隔离设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('da59851e-ab46-5335-aaba-31e636e34c47','DEV-016','隔离开关2号','隔离开关','GW4-110','GLKG-20210702','平高电气','开关场B区','运维部','2021-09-10 00:00:00','2031-09-10 00:00:00',1,95000.00,15,'吴工','备用隔离设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('2ee4b07d-4d84-51dd-b1ce-ba978142b461','DEV-017','UPS电源1号','UPS','C3K-3KVA','UPS-20210801','山特电子','监控室A区','运维部','2021-10-01 00:00:00','2026-10-01 00:00:00',1,45000.00,8,'郑工','不间断电源','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('becc564c-15ec-5a6e-b975-5cde2f62633b','DEV-018','UPS电源2号','UPS','C3K-3KVA','UPS-20210802','山特电子','监控室B区','运维部','2021-10-05 00:00:00','2026-10-05 00:00:00',1,45000.00,8,'郑工','备用电源','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('5e3c871f-6afd-5c47-95a0-2e48214a47c8','DEV-019','直流屏1号','直流屏','GZDW-50Ah/220V','ZLP-20210901','许继电气','直流室A区','运维部','2021-11-01 00:00:00','2031-11-01 00:00:00',1,68000.00,15,'冯工','直流供电设备','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
+INSERT INTO `eq_device` VALUES ('d64c9542-f3bb-50fe-ac72-5f5a23d42bff','DEV-020','直流屏2号','直流屏','GZDW-50Ah/220V','ZLP-20210902','许继电气','直流室B区','运维部','2021-11-10 00:00:00','2031-11-10 00:00:00',1,68000.00,15,'冯工','备用直流电源','admin','2026-01-12 00:01:08','','2026-01-12 00:01:08');
 
 -- ----------------------------
 -- Table structure for eq_device_param
@@ -1166,7 +1134,7 @@ INSERT INTO `eq_device` VALUES (21, 'WIND-FD001', '风力发电机组 FD001', '�
 DROP TABLE IF EXISTS `eq_device_param`;
 CREATE TABLE `eq_device_param`  (
   `param_id` bigint NOT NULL AUTO_INCREMENT COMMENT '参数ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `parameter_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '参数名称',
   `parameter_value` decimal(10, 4) NULL DEFAULT NULL COMMENT '参数值',
   `unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '单位',
@@ -1189,106 +1157,106 @@ CREATE TABLE `eq_device_param`  (
 -- ----------------------------
 -- Records of eq_device_param
 -- ----------------------------
-INSERT INTO `eq_device_param` VALUES (1, 1, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (2, 2, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (3, 3, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (4, 4, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (5, 5, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (6, 6, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (7, 7, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (8, 8, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (9, 9, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (10, 10, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (11, 11, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (12, 12, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (13, 13, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (14, 14, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (15, 15, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (16, 16, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (17, 17, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (18, 18, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (19, 19, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (20, 20, '额定电压', 110.0000, 'kV', 110.0000, 105.0000, 115.0000, 118.0000, 116.0000, '2026-01-12 00:01:12', '设备额定电压', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (32, 1, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (33, 2, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (34, 3, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (35, 4, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (36, 5, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (37, 6, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (38, 7, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (39, 8, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (40, 9, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (41, 10, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (42, 11, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (43, 12, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (44, 13, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (45, 14, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (46, 15, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (47, 16, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (48, 17, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (49, 18, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (50, 19, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (51, 20, '额定电流', 165.0000, 'A', 165.0000, 0.0000, 200.0000, 195.0000, 185.0000, '2026-01-12 00:01:12', '设备额定电流', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (63, 1, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (64, 2, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (65, 3, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (66, 4, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (67, 5, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (68, 6, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (69, 7, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (70, 8, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (71, 9, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (72, 10, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (73, 11, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (74, 12, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (75, 13, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (76, 14, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (77, 15, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (78, 16, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (79, 17, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (80, 18, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (81, 19, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (82, 20, '额定功率', 18.0000, 'MW', 18.0000, 0.0000, 25.0000, 24.0000, 22.0000, '2026-01-12 00:01:12', '设备额定功率', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (94, 1, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (95, 2, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (96, 3, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (97, 4, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (98, 5, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (99, 6, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (100, 7, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (101, 8, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (102, 9, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (103, 10, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (104, 11, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (105, 12, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (106, 13, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (107, 14, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (108, 15, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (109, 16, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (110, 17, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (111, 18, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (112, 19, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (113, 20, '工作温度', 65.0000, '℃', 65.0000, -10.0000, 85.0000, 90.0000, 80.0000, '2026-01-12 00:01:12', '设备工作温度', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (125, 1, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (126, 2, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (127, 3, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (128, 4, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (129, 5, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (130, 6, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (131, 7, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (132, 8, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (133, 9, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (134, 10, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (135, 11, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (136, 12, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (137, 13, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (138, 14, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (139, 15, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (140, 16, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (141, 17, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (142, 18, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (143, 19, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_device_param` VALUES (144, 20, '绝缘电阻', 1000.0000, 'MΩ', 1000.0000, 500.0000, 5000.0000, 400.0000, 500.0000, '2026-01-12 00:01:12', '绝缘电阻值', '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (2,'fecc074d-88bb-5010-b639-e7db3c22481d','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (3,'37464ae6-85a6-5ce3-9add-965f746ec79a','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (4,'cca074a5-c046-5921-82b1-bc414f2340ea','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (5,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (6,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (7,'57330e93-592e-5318-b0c2-6d3ff8846bb6','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (8,'d3e9f772-bcc2-5f46-871d-4765ef174569','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (9,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (10,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (11,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (12,'2a3ca038-96b0-55ca-b21c-01751b03464b','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (13,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (14,'bb046d14-328a-5267-8b28-c4faed37de82','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (15,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (16,'da59851e-ab46-5335-aaba-31e636e34c47','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (17,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (18,'becc564c-15ec-5a6e-b975-5cde2f62633b','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (19,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (20,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','额定电压',110.0000,'kV',110.0000,105.0000,115.0000,118.0000,116.0000,'2026-01-12 00:01:12','设备额定电压','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (32,'7beaf415-6c5b-5e16-abd7-04c21500858d','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (33,'fecc074d-88bb-5010-b639-e7db3c22481d','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (34,'37464ae6-85a6-5ce3-9add-965f746ec79a','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (35,'cca074a5-c046-5921-82b1-bc414f2340ea','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (36,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (37,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (38,'57330e93-592e-5318-b0c2-6d3ff8846bb6','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (39,'d3e9f772-bcc2-5f46-871d-4765ef174569','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (40,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (41,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (42,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (43,'2a3ca038-96b0-55ca-b21c-01751b03464b','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (44,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (45,'bb046d14-328a-5267-8b28-c4faed37de82','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (46,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (48,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (49,'becc564c-15ec-5a6e-b975-5cde2f62633b','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (50,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (51,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','额定电流',165.0000,'A',165.0000,0.0000,200.0000,195.0000,185.0000,'2026-01-12 00:01:12','设备额定电流','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (63,'7beaf415-6c5b-5e16-abd7-04c21500858d','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (64,'fecc074d-88bb-5010-b639-e7db3c22481d','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (65,'37464ae6-85a6-5ce3-9add-965f746ec79a','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (66,'cca074a5-c046-5921-82b1-bc414f2340ea','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (67,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (68,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (69,'57330e93-592e-5318-b0c2-6d3ff8846bb6','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (70,'d3e9f772-bcc2-5f46-871d-4765ef174569','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (71,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (72,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (73,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (74,'2a3ca038-96b0-55ca-b21c-01751b03464b','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (75,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (76,'bb046d14-328a-5267-8b28-c4faed37de82','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (77,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (78,'da59851e-ab46-5335-aaba-31e636e34c47','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (79,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (80,'becc564c-15ec-5a6e-b975-5cde2f62633b','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (81,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (82,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','额定功率',18.0000,'MW',18.0000,0.0000,25.0000,24.0000,22.0000,'2026-01-12 00:01:12','设备额定功率','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (94,'7beaf415-6c5b-5e16-abd7-04c21500858d','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (95,'fecc074d-88bb-5010-b639-e7db3c22481d','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (96,'37464ae6-85a6-5ce3-9add-965f746ec79a','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (97,'cca074a5-c046-5921-82b1-bc414f2340ea','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (98,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (99,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (100,'57330e93-592e-5318-b0c2-6d3ff8846bb6','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (101,'d3e9f772-bcc2-5f46-871d-4765ef174569','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (102,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (103,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (104,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (105,'2a3ca038-96b0-55ca-b21c-01751b03464b','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (106,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (107,'bb046d14-328a-5267-8b28-c4faed37de82','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (108,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (109,'da59851e-ab46-5335-aaba-31e636e34c47','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (110,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (111,'becc564c-15ec-5a6e-b975-5cde2f62633b','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (112,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (113,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','工作温度',65.0000,'℃',65.0000,-10.0000,85.0000,90.0000,80.0000,'2026-01-12 00:01:12','设备工作温度','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (125,'7beaf415-6c5b-5e16-abd7-04c21500858d','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (126,'fecc074d-88bb-5010-b639-e7db3c22481d','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (127,'37464ae6-85a6-5ce3-9add-965f746ec79a','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (128,'cca074a5-c046-5921-82b1-bc414f2340ea','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (129,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (130,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (131,'57330e93-592e-5318-b0c2-6d3ff8846bb6','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (132,'d3e9f772-bcc2-5f46-871d-4765ef174569','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (133,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (134,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (135,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (136,'2a3ca038-96b0-55ca-b21c-01751b03464b','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (137,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (138,'bb046d14-328a-5267-8b28-c4faed37de82','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (139,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (140,'da59851e-ab46-5335-aaba-31e636e34c47','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (141,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (142,'becc564c-15ec-5a6e-b975-5cde2f62633b','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (143,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_device_param` VALUES (144,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','绝缘电阻',1000.0000,'MΩ',1000.0000,500.0000,5000.0000,400.0000,500.0000,'2026-01-12 00:01:12','绝缘电阻值','','2026-01-12 00:01:12','','2026-01-12 00:01:12');
 
 -- ----------------------------
 -- Table structure for eq_device_rule
@@ -1296,7 +1264,7 @@ INSERT INTO `eq_device_param` VALUES (144, 20, '绝缘电阻', 1000.0000, 'MΩ',
 DROP TABLE IF EXISTS `eq_device_rule`;
 CREATE TABLE `eq_device_rule`  (
   `rule_id` bigint NOT NULL AUTO_INCREMENT COMMENT '规则ID',
-  `device_id` bigint NULL DEFAULT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '设备ID',
   `rule_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规则名称',
   `parameter_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '参数名称',
   `condition_type` int NULL DEFAULT NULL COMMENT '条件类型1大于 2小于 3等于 4区间',
@@ -1304,7 +1272,7 @@ CREATE TABLE `eq_device_rule`  (
   `threshold_unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '阈值单位',
   `alert_level` int NULL DEFAULT NULL COMMENT '报警等级 1警报 2严重 3紧急',
   `enabled` int NULL DEFAULT NULL COMMENT '是否启用 1启用 0禁用',
-  `notification_channels` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '通知渠道',
+  `notification_channels` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '通知渠道（前端/WebSocket 推送填 websocket）',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`rule_id`) USING BTREE,
   INDEX `idx_device_id`(`device_id` ASC) USING BTREE
@@ -1313,66 +1281,66 @@ CREATE TABLE `eq_device_rule`  (
 -- ----------------------------
 -- Records of eq_device_rule
 -- ----------------------------
-INSERT INTO `eq_device_rule` VALUES (1, 1, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (2, 2, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (3, 3, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (4, 4, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (5, 5, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (6, 6, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (7, 7, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (8, 8, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (9, 9, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (10, 10, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (11, 11, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (12, 12, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (13, 13, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (14, 14, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (15, 15, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (16, 16, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (17, 17, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (18, 18, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (19, 19, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (20, 20, '温度超限规则', '温度', 1, 85.00, '℃', 2, 1, '短信,邮件', NULL);
-INSERT INTO `eq_device_rule` VALUES (32, 1, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (33, 2, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (34, 3, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (35, 4, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (36, 5, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (37, 6, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (38, 7, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (39, 8, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (40, 9, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (41, 10, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (42, 11, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (43, 12, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (44, 13, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (45, 14, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (46, 15, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (47, 16, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (48, 17, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (49, 18, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (50, 19, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (51, 20, '电流过载规则', '电流', 1, 200.00, 'A', 3, 1, '短信,邮件,电话', NULL);
-INSERT INTO `eq_device_rule` VALUES (63, 1, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (64, 2, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (65, 3, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (66, 4, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (67, 5, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (68, 6, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (69, 7, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (70, 8, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (71, 9, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (72, 10, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (73, 11, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (74, 12, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (75, 13, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (76, 14, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (77, 15, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (78, 16, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (79, 17, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (80, 18, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (81, 19, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
-INSERT INTO `eq_device_rule` VALUES (82, 20, '电压异常规则', '电压', 4, 110.00, 'kV', 2, 1, '短信', NULL);
+INSERT INTO `eq_device_rule` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (2,'fecc074d-88bb-5010-b639-e7db3c22481d','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (3,'37464ae6-85a6-5ce3-9add-965f746ec79a','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (4,'cca074a5-c046-5921-82b1-bc414f2340ea','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (5,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (6,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (7,'57330e93-592e-5318-b0c2-6d3ff8846bb6','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (8,'d3e9f772-bcc2-5f46-871d-4765ef174569','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (9,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (10,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (11,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (12,'2a3ca038-96b0-55ca-b21c-01751b03464b','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (13,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (14,'bb046d14-328a-5267-8b28-c4faed37de82','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (15,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (16,'da59851e-ab46-5335-aaba-31e636e34c47','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (17,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (18,'becc564c-15ec-5a6e-b975-5cde2f62633b','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (19,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (20,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','温度超限规则','温度',1,85.00,'℃',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (32,'7beaf415-6c5b-5e16-abd7-04c21500858d','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (33,'fecc074d-88bb-5010-b639-e7db3c22481d','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (34,'37464ae6-85a6-5ce3-9add-965f746ec79a','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (35,'cca074a5-c046-5921-82b1-bc414f2340ea','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (36,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (37,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (38,'57330e93-592e-5318-b0c2-6d3ff8846bb6','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (39,'d3e9f772-bcc2-5f46-871d-4765ef174569','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (40,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (41,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (42,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (43,'2a3ca038-96b0-55ca-b21c-01751b03464b','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (44,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (45,'bb046d14-328a-5267-8b28-c4faed37de82','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (46,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (48,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (49,'becc564c-15ec-5a6e-b975-5cde2f62633b','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (50,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (51,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','电流过载规则','电流',1,200.00,'A',3,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (63,'7beaf415-6c5b-5e16-abd7-04c21500858d','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (64,'fecc074d-88bb-5010-b639-e7db3c22481d','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (65,'37464ae6-85a6-5ce3-9add-965f746ec79a','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (66,'cca074a5-c046-5921-82b1-bc414f2340ea','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (67,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (68,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (69,'57330e93-592e-5318-b0c2-6d3ff8846bb6','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (70,'d3e9f772-bcc2-5f46-871d-4765ef174569','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (71,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (72,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (73,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (74,'2a3ca038-96b0-55ca-b21c-01751b03464b','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (75,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (76,'bb046d14-328a-5267-8b28-c4faed37de82','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (77,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (78,'da59851e-ab46-5335-aaba-31e636e34c47','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (79,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (80,'becc564c-15ec-5a6e-b975-5cde2f62633b','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (81,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
+INSERT INTO `eq_device_rule` VALUES (82,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','电压异常规则','电压',4,110.00,'kV',2,1,'websocket',NULL);
 
 -- ----------------------------
 -- Table structure for eq_device_stat
@@ -1380,7 +1348,7 @@ INSERT INTO `eq_device_rule` VALUES (82, 20, '电压异常规则', '电压', 4, 
 DROP TABLE IF EXISTS `eq_device_stat`;
 CREATE TABLE `eq_device_stat`  (
   `stat_id` bigint NOT NULL AUTO_INCREMENT COMMENT '统计ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `stat_date` date NOT NULL COMMENT '统计日期',
   `total_runtime_hours` decimal(10, 2) NULL DEFAULT NULL COMMENT '总运行小时数',
   `total_fault_count` int NULL DEFAULT NULL COMMENT '总故障次数',
@@ -1403,161 +1371,157 @@ CREATE TABLE `eq_device_stat`  (
 -- ----------------------------
 -- Records of eq_device_stat
 -- ----------------------------
-INSERT INTO `eq_device_stat` VALUES (1, 1, '2026-01-06', 20.40, 2, 0, 67.50, 81.50, 53.30, 17.8000, 98.00, 80, 737.83, 0.0059, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (2, 1, '2026-01-07', 22.40, 0, 0, 70.20, 79.20, 50.10, 16.9000, 95.60, 118, 1559.42, 0.0068, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (3, 1, '2026-01-08', 23.20, 0, 1, 60.60, 75.60, 57.30, 19.3000, 97.00, 103, 2167.06, 0.0058, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (4, 1, '2026-01-09', 21.50, 0, 1, 62.60, 79.90, 57.60, 21.6000, 98.40, 92, 1142.14, 0.0028, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (5, 1, '2026-01-10', 21.80, 1, 1, 70.70, 82.60, 50.60, 21.4000, 98.30, 81, 2399.56, 0.0071, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (6, 1, '2026-01-11', 22.80, 1, 1, 61.00, 77.30, 52.40, 21.0000, 95.10, 98, 608.81, 0.0082, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (7, 1, '2026-01-12', 23.70, 0, 1, 64.00, 78.00, 58.60, 20.5000, 98.40, 20, 1174.30, 0.0016, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (8, 2, '2026-01-06', 23.20, 1, 0, 60.40, 72.00, 55.70, 18.7000, 97.40, 69, 752.48, 0.0089, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (9, 2, '2026-01-07', 20.20, 1, 0, 63.60, 71.60, 58.20, 21.1000, 96.40, 56, 1078.76, 0.0004, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (10, 2, '2026-01-08', 21.40, 1, 0, 64.40, 75.80, 50.60, 16.1000, 97.10, 21, 1135.56, 0.0006, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (11, 2, '2026-01-09', 21.40, 1, 0, 62.70, 83.10, 58.40, 19.6000, 96.40, 7, 981.24, 0.0001, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (12, 2, '2026-01-10', 21.40, 2, 0, 62.10, 75.20, 53.20, 19.5000, 98.30, 56, 2264.60, 0.0099, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (13, 2, '2026-01-11', 21.20, 1, 1, 64.90, 74.10, 53.90, 16.1000, 97.00, 9, 2315.71, 0.0030, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (14, 2, '2026-01-12', 23.10, 2, 1, 62.00, 81.90, 55.90, 19.3000, 98.80, 15, 2101.81, 0.0061, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (15, 3, '2026-01-06', 22.60, 1, 0, 71.90, 74.50, 51.10, 20.3000, 99.00, 117, 2317.04, 0.0061, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (16, 3, '2026-01-07', 21.20, 2, 1, 72.50, 76.20, 55.60, 19.4000, 95.20, 76, 529.30, 0.0017, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (17, 3, '2026-01-08', 23.20, 1, 0, 68.50, 82.70, 55.10, 15.2000, 97.50, 119, 756.54, 0.0065, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (18, 3, '2026-01-09', 23.50, 1, 0, 61.40, 70.80, 59.80, 21.1000, 98.40, 115, 1005.09, 0.0039, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (19, 3, '2026-01-10', 20.70, 2, 1, 73.10, 75.50, 52.30, 15.5000, 97.30, 90, 539.42, 0.0083, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (20, 3, '2026-01-11', 20.40, 0, 1, 64.80, 83.80, 56.50, 18.8000, 96.70, 86, 1105.66, 0.0036, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (21, 3, '2026-01-12', 23.60, 1, 0, 62.10, 73.30, 56.80, 20.9000, 97.60, 9, 1311.10, 0.0080, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (22, 4, '2026-01-06', 23.10, 1, 0, 70.70, 77.30, 52.90, 15.0000, 95.60, 84, 713.10, 0.0041, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (23, 4, '2026-01-07', 22.90, 1, 1, 65.60, 71.30, 53.10, 17.3000, 96.90, 70, 1436.30, 0.0058, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (24, 4, '2026-01-08', 22.10, 2, 1, 66.20, 74.80, 53.70, 22.2000, 96.40, 13, 1440.17, 0.0002, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (25, 4, '2026-01-09', 22.80, 1, 0, 68.30, 73.10, 53.80, 17.1000, 95.80, 27, 1571.04, 0.0098, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (26, 4, '2026-01-10', 21.20, 1, 0, 64.30, 75.90, 51.20, 18.2000, 97.60, 6, 1159.84, 0.0048, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (27, 4, '2026-01-11', 21.60, 1, 1, 60.90, 84.90, 57.90, 22.6000, 96.50, 2, 2448.28, 0.0082, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (28, 4, '2026-01-12', 20.70, 1, 0, 63.90, 82.30, 53.20, 16.0000, 97.60, 113, 1967.46, 0.0084, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (29, 5, '2026-01-06', 23.90, 1, 0, 64.30, 71.80, 57.40, 17.8000, 97.10, 65, 831.19, 0.0020, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (30, 5, '2026-01-07', 21.90, 2, 1, 74.90, 83.30, 54.60, 19.9000, 97.90, 86, 1398.29, 0.0009, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (31, 5, '2026-01-08', 20.40, 0, 0, 67.30, 73.80, 57.90, 16.5000, 97.40, 47, 859.44, 0.0072, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (32, 5, '2026-01-09', 20.30, 0, 1, 73.40, 76.20, 53.70, 20.0000, 95.00, 19, 2108.37, 0.0052, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (33, 5, '2026-01-10', 20.80, 1, 1, 67.10, 70.40, 56.90, 18.0000, 98.30, 113, 1061.06, 0.0057, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (34, 5, '2026-01-11', 24.00, 0, 0, 60.60, 71.50, 53.80, 19.7000, 98.10, 17, 1253.70, 0.0046, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (35, 5, '2026-01-12', 20.70, 1, 1, 64.10, 73.20, 52.50, 19.7000, 95.80, 25, 1449.90, 0.0074, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (36, 6, '2026-01-06', 21.10, 0, 1, 67.50, 77.40, 59.60, 17.6000, 98.00, 87, 1333.34, 0.0090, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (37, 6, '2026-01-07', 21.10, 1, 0, 66.30, 75.10, 54.60, 17.3000, 95.20, 41, 1711.67, 0.0099, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (38, 6, '2026-01-08', 20.60, 2, 0, 63.80, 75.80, 51.50, 19.9000, 97.30, 11, 1962.55, 0.0037, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (39, 6, '2026-01-09', 22.50, 0, 0, 63.60, 80.50, 58.00, 22.1000, 95.10, 53, 828.94, 0.0049, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (40, 6, '2026-01-10', 23.80, 0, 1, 73.50, 72.50, 51.40, 16.6000, 97.40, 40, 2373.43, 0.0066, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (41, 6, '2026-01-11', 21.90, 1, 1, 66.50, 83.70, 52.60, 19.5000, 95.20, 66, 1736.02, 0.0043, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (42, 6, '2026-01-12', 21.10, 0, 1, 60.50, 77.00, 52.50, 21.6000, 96.50, 49, 2371.22, 0.0044, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (43, 7, '2026-01-06', 21.60, 1, 0, 62.80, 83.00, 57.80, 17.4000, 95.60, 97, 1759.71, 0.0072, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (44, 7, '2026-01-07', 22.90, 1, 1, 63.70, 78.20, 50.10, 18.2000, 98.90, 83, 1575.41, 0.0060, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (45, 7, '2026-01-08', 21.60, 0, 1, 68.50, 70.10, 53.20, 19.8000, 95.20, 50, 2418.26, 0.0054, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (46, 7, '2026-01-09', 23.30, 1, 1, 73.40, 83.60, 58.40, 18.8000, 98.50, 113, 717.98, 0.0070, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (47, 7, '2026-01-10', 20.70, 2, 1, 62.40, 73.40, 56.60, 20.0000, 95.50, 92, 1468.18, 0.0010, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (48, 7, '2026-01-11', 20.20, 2, 1, 74.70, 73.40, 52.00, 17.5000, 98.70, 91, 2497.11, 0.0071, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (49, 7, '2026-01-12', 22.20, 1, 0, 61.90, 77.10, 59.80, 18.8000, 96.80, 102, 2301.63, 0.0094, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (50, 8, '2026-01-06', 23.90, 0, 1, 73.00, 76.00, 54.10, 21.7000, 98.80, 27, 1080.12, 0.0077, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (51, 8, '2026-01-07', 20.00, 2, 0, 74.20, 78.20, 58.90, 21.4000, 96.30, 32, 1171.08, 0.0088, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (52, 8, '2026-01-08', 21.50, 0, 0, 63.50, 77.90, 59.40, 16.0000, 98.30, 90, 1070.77, 0.0016, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (53, 8, '2026-01-09', 23.80, 0, 1, 60.30, 75.40, 57.40, 19.9000, 98.50, 58, 2162.33, 0.0070, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (54, 8, '2026-01-10', 24.00, 2, 0, 74.10, 82.20, 52.40, 21.2000, 95.50, 40, 1093.12, 0.0047, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (55, 8, '2026-01-11', 21.80, 2, 0, 67.20, 74.80, 51.60, 21.7000, 97.70, 112, 1739.92, 0.0029, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (56, 8, '2026-01-12', 22.40, 0, 1, 63.40, 75.00, 59.70, 21.8000, 96.40, 22, 2286.03, 0.0090, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (57, 9, '2026-01-06', 23.30, 1, 1, 74.10, 71.30, 56.20, 21.6000, 96.20, 117, 2493.38, 0.0006, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (58, 9, '2026-01-07', 21.20, 0, 1, 64.40, 78.00, 57.90, 17.8000, 96.60, 109, 1247.28, 0.0013, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (59, 9, '2026-01-08', 22.20, 1, 0, 68.90, 78.30, 59.90, 17.4000, 97.10, 80, 2160.71, 0.0013, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (60, 9, '2026-01-09', 20.60, 1, 1, 68.70, 73.10, 53.10, 22.3000, 97.60, 54, 1239.32, 0.0048, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (61, 9, '2026-01-10', 21.10, 2, 1, 70.10, 80.00, 53.20, 19.8000, 95.20, 50, 2464.85, 0.0064, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (62, 9, '2026-01-11', 21.00, 0, 1, 64.90, 71.10, 53.70, 20.0000, 95.10, 27, 656.82, 0.0071, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (63, 9, '2026-01-12', 21.20, 1, 0, 66.90, 83.40, 50.80, 20.9000, 96.80, 0, 1893.70, 0.0046, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (64, 10, '2026-01-06', 20.90, 2, 0, 66.10, 79.10, 58.20, 17.3000, 98.80, 107, 1800.50, 0.0055, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (65, 10, '2026-01-07', 23.20, 1, 0, 63.80, 82.40, 53.70, 18.0000, 98.10, 90, 1359.81, 0.0089, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (66, 10, '2026-01-08', 20.70, 0, 0, 68.20, 76.80, 56.40, 21.5000, 95.70, 50, 1671.26, 0.0066, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (67, 10, '2026-01-09', 22.30, 2, 0, 70.10, 71.40, 54.30, 21.9000, 95.10, 61, 1500.75, 0.0097, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (68, 10, '2026-01-10', 21.40, 2, 0, 60.00, 80.80, 55.80, 21.1000, 95.30, 8, 749.11, 0.0042, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (69, 10, '2026-01-11', 22.90, 0, 0, 64.30, 71.50, 56.30, 21.9000, 96.60, 53, 504.08, 0.0068, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (70, 10, '2026-01-12', 21.60, 2, 1, 70.70, 70.90, 51.50, 19.7000, 96.80, 63, 1043.90, 0.0078, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (71, 11, '2026-01-06', 20.30, 0, 1, 67.90, 83.10, 58.00, 17.8000, 96.40, 89, 1824.18, 0.0007, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (72, 11, '2026-01-07', 21.40, 1, 1, 69.50, 73.10, 51.50, 16.0000, 95.60, 51, 1810.81, 0.0100, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (73, 11, '2026-01-08', 20.10, 0, 1, 60.00, 83.80, 55.90, 16.5000, 95.60, 27, 1890.86, 0.0078, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (74, 11, '2026-01-09', 23.20, 2, 1, 71.50, 84.30, 54.80, 19.3000, 96.00, 77, 1418.71, 0.0037, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (75, 11, '2026-01-10', 21.80, 0, 1, 67.90, 81.20, 51.60, 19.6000, 96.50, 16, 1663.88, 0.0049, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (76, 11, '2026-01-11', 22.90, 0, 0, 69.80, 71.30, 54.80, 16.1000, 95.90, 82, 2063.59, 0.0085, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (77, 11, '2026-01-12', 23.60, 2, 0, 64.80, 82.20, 51.00, 15.6000, 95.30, 14, 1261.87, 0.0055, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (78, 12, '2026-01-06', 22.50, 1, 0, 64.70, 78.80, 59.90, 16.7000, 95.40, 99, 2207.42, 0.0079, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (79, 12, '2026-01-07', 21.50, 1, 0, 73.10, 78.80, 53.10, 21.4000, 95.30, 115, 1657.64, 0.0002, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (80, 12, '2026-01-08', 21.40, 2, 0, 70.30, 76.10, 59.60, 19.7000, 95.20, 53, 759.18, 0.0030, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (81, 12, '2026-01-09', 20.40, 1, 1, 61.60, 72.40, 54.80, 22.5000, 95.90, 37, 2300.85, 0.0056, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (82, 12, '2026-01-10', 20.40, 2, 1, 70.30, 79.50, 50.90, 19.5000, 97.10, 112, 767.26, 0.0085, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (83, 12, '2026-01-11', 23.30, 1, 1, 73.90, 84.80, 51.60, 21.8000, 98.00, 24, 2077.59, 0.0032, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (84, 12, '2026-01-12', 20.90, 0, 0, 60.70, 73.40, 60.00, 17.5000, 97.30, 107, 2055.57, 0.0020, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (85, 13, '2026-01-06', 22.70, 2, 1, 61.80, 83.70, 52.00, 17.2000, 98.20, 14, 953.81, 0.0077, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (86, 13, '2026-01-07', 20.70, 1, 0, 73.00, 75.90, 53.60, 19.8000, 98.80, 111, 2117.32, 0.0025, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (87, 13, '2026-01-08', 23.30, 1, 1, 70.10, 79.10, 50.20, 17.4000, 96.60, 16, 1426.76, 0.0091, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (88, 13, '2026-01-09', 20.70, 0, 1, 68.80, 85.00, 52.40, 16.7000, 96.30, 118, 2406.45, 0.0081, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (89, 13, '2026-01-10', 20.90, 1, 0, 66.70, 82.50, 58.50, 20.9000, 95.60, 69, 1344.07, 0.0037, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (90, 13, '2026-01-11', 22.30, 2, 1, 64.80, 83.70, 56.00, 17.1000, 97.10, 94, 1255.48, 0.0054, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (91, 13, '2026-01-12', 22.20, 0, 0, 73.00, 72.50, 52.10, 19.6000, 95.90, 52, 1486.78, 0.0015, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (92, 14, '2026-01-06', 21.10, 2, 1, 60.90, 75.00, 54.60, 17.6000, 96.00, 36, 1961.79, 0.0075, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (93, 14, '2026-01-07', 22.20, 1, 0, 70.10, 72.80, 59.10, 22.9000, 95.90, 16, 542.69, 0.0069, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (94, 14, '2026-01-08', 21.60, 2, 1, 71.70, 75.10, 53.40, 20.5000, 96.60, 112, 1487.79, 0.0066, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (95, 14, '2026-01-09', 23.20, 0, 1, 66.40, 75.20, 54.60, 17.2000, 98.90, 8, 1342.98, 0.0089, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (96, 14, '2026-01-10', 20.80, 0, 1, 74.40, 82.80, 53.90, 18.0000, 97.80, 47, 2239.09, 0.0016, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (97, 14, '2026-01-11', 20.80, 1, 1, 65.50, 83.30, 53.40, 15.3000, 95.70, 84, 555.69, 0.0003, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (98, 14, '2026-01-12', 20.30, 0, 1, 60.50, 75.20, 56.30, 16.0000, 97.80, 15, 1613.18, 0.0039, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (99, 15, '2026-01-06', 21.20, 0, 1, 67.70, 77.20, 58.80, 22.5000, 95.10, 45, 2081.81, 0.0082, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (100, 15, '2026-01-07', 22.80, 0, 0, 63.00, 71.90, 50.50, 21.8000, 95.40, 110, 1176.60, 0.0092, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (101, 15, '2026-01-08', 22.40, 0, 0, 71.50, 84.80, 56.50, 17.2000, 96.70, 31, 619.17, 0.0051, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (102, 15, '2026-01-09', 21.60, 1, 1, 65.00, 83.90, 56.20, 17.5000, 97.90, 82, 1009.17, 0.0021, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (103, 15, '2026-01-10', 21.20, 2, 0, 68.90, 75.40, 60.00, 22.3000, 97.20, 9, 1933.48, 0.0034, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (104, 15, '2026-01-11', 22.20, 2, 0, 65.80, 78.20, 55.60, 16.1000, 95.20, 92, 1999.72, 0.0043, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (105, 15, '2026-01-12', 23.60, 0, 0, 69.50, 76.60, 53.20, 17.3000, 96.80, 47, 1788.72, 0.0003, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (106, 16, '2026-01-06', 20.80, 2, 1, 73.30, 80.00, 56.80, 18.1000, 98.70, 52, 1325.59, 0.0076, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (107, 16, '2026-01-07', 22.20, 1, 1, 62.20, 79.00, 55.60, 22.9000, 96.10, 50, 1038.82, 0.0008, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (108, 16, '2026-01-08', 22.40, 2, 0, 67.90, 70.80, 57.10, 18.0000, 98.00, 75, 2316.72, 0.0064, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (109, 16, '2026-01-09', 22.00, 1, 0, 64.10, 82.90, 54.70, 21.2000, 96.90, 2, 1916.99, 0.0047, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (110, 16, '2026-01-10', 20.90, 2, 1, 61.80, 71.10, 50.10, 21.5000, 95.20, 97, 2301.06, 0.0007, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (111, 16, '2026-01-11', 22.60, 0, 0, 74.90, 74.80, 56.10, 15.6000, 97.20, 61, 2356.74, 0.0010, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (112, 16, '2026-01-12', 22.90, 0, 0, 61.40, 73.40, 58.70, 20.4000, 98.10, 99, 2140.02, 0.0062, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (113, 17, '2026-01-06', 22.50, 0, 1, 73.50, 82.60, 55.10, 15.1000, 97.10, 72, 1384.49, 0.0040, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (114, 17, '2026-01-07', 22.70, 0, 1, 74.20, 80.70, 57.40, 19.4000, 97.20, 6, 1780.21, 0.0004, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (115, 17, '2026-01-08', 21.20, 0, 1, 69.00, 83.10, 55.80, 17.2000, 97.40, 27, 1133.13, 0.0090, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (116, 17, '2026-01-09', 22.20, 0, 1, 60.10, 71.90, 56.20, 20.8000, 98.00, 65, 1471.63, 0.0080, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (117, 17, '2026-01-10', 22.20, 1, 0, 63.50, 74.60, 58.40, 17.2000, 98.40, 48, 1513.62, 0.0031, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (118, 17, '2026-01-11', 20.10, 0, 1, 64.20, 76.60, 53.70, 19.3000, 97.30, 36, 2046.47, 0.0095, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (119, 17, '2026-01-12', 21.70, 0, 1, 61.40, 78.60, 56.00, 17.1000, 97.10, 93, 1216.54, 0.0045, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (120, 18, '2026-01-06', 20.80, 1, 0, 67.30, 70.70, 57.70, 20.6000, 95.90, 0, 1194.73, 0.0072, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (121, 18, '2026-01-07', 22.30, 2, 1, 63.40, 77.30, 57.60, 17.7000, 96.60, 113, 1638.14, 0.0000, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (122, 18, '2026-01-08', 21.20, 1, 1, 62.50, 78.40, 53.20, 22.1000, 97.00, 105, 2243.27, 0.0071, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (123, 18, '2026-01-09', 23.80, 1, 0, 74.60, 80.80, 56.70, 16.4000, 98.40, 92, 1038.18, 0.0004, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (124, 18, '2026-01-10', 21.60, 2, 0, 64.20, 72.20, 59.10, 15.7000, 97.80, 32, 978.58, 0.0038, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (125, 18, '2026-01-11', 20.80, 2, 1, 60.80, 71.20, 52.20, 22.1000, 98.10, 22, 1740.74, 0.0054, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (126, 18, '2026-01-12', 23.40, 1, 1, 61.40, 80.00, 50.50, 17.0000, 95.50, 104, 2419.46, 0.0019, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (127, 19, '2026-01-06', 20.40, 2, 0, 62.80, 76.30, 55.30, 18.2000, 96.70, 113, 1364.90, 0.0032, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (128, 19, '2026-01-07', 21.30, 1, 0, 61.20, 82.40, 58.90, 22.8000, 95.70, 1, 1515.81, 0.0050, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (129, 19, '2026-01-08', 23.90, 1, 0, 74.80, 82.40, 51.80, 18.4000, 97.20, 64, 548.76, 0.0050, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (130, 19, '2026-01-09', 21.70, 1, 1, 72.90, 71.80, 50.00, 20.3000, 96.20, 66, 2164.62, 0.0051, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (131, 19, '2026-01-10', 20.10, 1, 0, 60.00, 76.40, 51.10, 17.3000, 95.30, 63, 1349.90, 0.0054, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (132, 19, '2026-01-11', 21.60, 1, 1, 71.30, 75.80, 56.70, 16.5000, 98.70, 6, 1478.73, 0.0030, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (133, 19, '2026-01-12', 20.10, 0, 1, 69.70, 81.10, 57.50, 19.2000, 96.50, 34, 1181.02, 0.0083, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (134, 20, '2026-01-06', 20.50, 0, 0, 71.90, 74.30, 50.40, 17.6000, 97.10, 74, 1590.17, 0.0086, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (135, 20, '2026-01-07', 22.70, 2, 0, 74.90, 80.30, 54.50, 16.5000, 97.30, 41, 2492.89, 0.0094, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (136, 20, '2026-01-08', 22.80, 2, 0, 70.70, 77.60, 53.70, 17.7000, 97.40, 115, 533.75, 0.0020, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (137, 20, '2026-01-09', 23.80, 0, 1, 67.30, 72.00, 52.10, 20.3000, 97.60, 35, 1526.12, 0.0068, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (138, 20, '2026-01-10', 23.40, 0, 1, 70.20, 75.30, 57.10, 18.8000, 96.10, 107, 1831.90, 0.0065, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (139, 20, '2026-01-11', 21.10, 1, 0, 74.60, 72.00, 57.40, 17.4000, 96.10, 61, 1925.21, 0.0003, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (140, 20, '2026-01-12', 20.00, 2, 1, 64.90, 81.50, 58.60, 15.1000, 96.90, 46, 1466.06, 0.0025, NULL, '2026-01-12 00:01:33');
-INSERT INTO `eq_device_stat` VALUES (141, 21, '2026-03-29', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-29 12:01:06');
-INSERT INTO `eq_device_stat` VALUES (142, 14, '2026-03-29', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-29 20:04:52');
-INSERT INTO `eq_device_stat` VALUES (146, 7, '2026-03-29', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-29 21:58:06');
-INSERT INTO `eq_device_stat` VALUES (147, 8, '2026-03-29', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-29 21:58:16');
-INSERT INTO `eq_device_stat` VALUES (148, 5, '2026-03-29', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-29 21:58:22');
-INSERT INTO `eq_device_stat` VALUES (149, 21, '2026-03-30', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-03-30 22:52:28');
-INSERT INTO `eq_device_stat` VALUES (150, 21, '2026-04-21', 50.00, NULL, NULL, NULL, NULL, NULL, 4.8698, 100.00, NULL, NULL, NULL, 'WIND_FORECAST', '2026-04-21 13:56:41');
-
+INSERT INTO `eq_device_stat` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-06',20.40,2,0,67.50,81.50,53.30,17.8000,98.00,80,737.83,0.0059,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-07',22.40,0,0,70.20,79.20,50.10,16.9000,95.60,118,1559.42,0.0068,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-08',23.20,0,1,60.60,75.60,57.30,19.3000,97.00,103,2167.06,0.0058,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (4,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-09',21.50,0,1,62.60,79.90,57.60,21.6000,98.40,92,1142.14,0.0028,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (5,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-10',21.80,1,1,70.70,82.60,50.60,21.4000,98.30,81,2399.56,0.0071,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (6,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11',22.80,1,1,61.00,77.30,52.40,21.0000,95.10,98,608.81,0.0082,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (7,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-12',23.70,0,1,64.00,78.00,58.60,20.5000,98.40,20,1174.30,0.0016,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (8,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-06',23.20,1,0,60.40,72.00,55.70,18.7000,97.40,69,752.48,0.0089,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (9,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-07',20.20,1,0,63.60,71.60,58.20,21.1000,96.40,56,1078.76,0.0004,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (10,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-08',21.40,1,0,64.40,75.80,50.60,16.1000,97.10,21,1135.56,0.0006,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (11,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-09',21.40,1,0,62.70,83.10,58.40,19.6000,96.40,7,981.24,0.0001,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (12,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-10',21.40,2,0,62.10,75.20,53.20,19.5000,98.30,56,2264.60,0.0099,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (13,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11',21.20,1,1,64.90,74.10,53.90,16.1000,97.00,9,2315.71,0.0030,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (14,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-12',23.10,2,1,62.00,81.90,55.90,19.3000,98.80,15,2101.81,0.0061,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (15,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-06',22.60,1,0,71.90,74.50,51.10,20.3000,99.00,117,2317.04,0.0061,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (16,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-07',21.20,2,1,72.50,76.20,55.60,19.4000,95.20,76,529.30,0.0017,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (17,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-08',23.20,1,0,68.50,82.70,55.10,15.2000,97.50,119,756.54,0.0065,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (18,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-09',23.50,1,0,61.40,70.80,59.80,21.1000,98.40,115,1005.09,0.0039,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (19,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10',20.70,2,1,73.10,75.50,52.30,15.5000,97.30,90,539.42,0.0083,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (20,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-11',20.40,0,1,64.80,83.80,56.50,18.8000,96.70,86,1105.66,0.0036,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (21,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-12',23.60,1,0,62.10,73.30,56.80,20.9000,97.60,9,1311.10,0.0080,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (22,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-06',23.10,1,0,70.70,77.30,52.90,15.0000,95.60,84,713.10,0.0041,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (23,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-07',22.90,1,1,65.60,71.30,53.10,17.3000,96.90,70,1436.30,0.0058,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (24,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-08',22.10,2,1,66.20,74.80,53.70,22.2000,96.40,13,1440.17,0.0002,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (25,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-09',22.80,1,0,68.30,73.10,53.80,17.1000,95.80,27,1571.04,0.0098,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (26,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-10',21.20,1,0,64.30,75.90,51.20,18.2000,97.60,6,1159.84,0.0048,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (27,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-11',21.60,1,1,60.90,84.90,57.90,22.6000,96.50,2,2448.28,0.0082,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (28,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-12',20.70,1,0,63.90,82.30,53.20,16.0000,97.60,113,1967.46,0.0084,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (29,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-06',23.90,1,0,64.30,71.80,57.40,17.8000,97.10,65,831.19,0.0020,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (30,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-07',21.90,2,1,74.90,83.30,54.60,19.9000,97.90,86,1398.29,0.0009,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (31,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-08',20.40,0,0,67.30,73.80,57.90,16.5000,97.40,47,859.44,0.0072,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (32,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-09',20.30,0,1,73.40,76.20,53.70,20.0000,95.00,19,2108.37,0.0052,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (33,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-10',20.80,1,1,67.10,70.40,56.90,18.0000,98.30,113,1061.06,0.0057,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (34,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-11',24.00,0,0,60.60,71.50,53.80,19.7000,98.10,17,1253.70,0.0046,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (35,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-12',20.70,1,1,64.10,73.20,52.50,19.7000,95.80,25,1449.90,0.0074,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (36,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-06',21.10,0,1,67.50,77.40,59.60,17.6000,98.00,87,1333.34,0.0090,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (37,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-07',21.10,1,0,66.30,75.10,54.60,17.3000,95.20,41,1711.67,0.0099,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (38,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-08',20.60,2,0,63.80,75.80,51.50,19.9000,97.30,11,1962.55,0.0037,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (39,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-09',22.50,0,0,63.60,80.50,58.00,22.1000,95.10,53,828.94,0.0049,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (40,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-10',23.80,0,1,73.50,72.50,51.40,16.6000,97.40,40,2373.43,0.0066,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (41,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-11',21.90,1,1,66.50,83.70,52.60,19.5000,95.20,66,1736.02,0.0043,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (42,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-12',21.10,0,1,60.50,77.00,52.50,21.6000,96.50,49,2371.22,0.0044,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (43,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-06',21.60,1,0,62.80,83.00,57.80,17.4000,95.60,97,1759.71,0.0072,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (44,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-07',22.90,1,1,63.70,78.20,50.10,18.2000,98.90,83,1575.41,0.0060,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (45,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-08',21.60,0,1,68.50,70.10,53.20,19.8000,95.20,50,2418.26,0.0054,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (46,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-09',23.30,1,1,73.40,83.60,58.40,18.8000,98.50,113,717.98,0.0070,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (47,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-10',20.70,2,1,62.40,73.40,56.60,20.0000,95.50,92,1468.18,0.0010,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (48,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-11',20.20,2,1,74.70,73.40,52.00,17.5000,98.70,91,2497.11,0.0071,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (49,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-12',22.20,1,0,61.90,77.10,59.80,18.8000,96.80,102,2301.63,0.0094,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (50,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-06',23.90,0,1,73.00,76.00,54.10,21.7000,98.80,27,1080.12,0.0077,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (51,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-07',20.00,2,0,74.20,78.20,58.90,21.4000,96.30,32,1171.08,0.0088,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (52,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-08',21.50,0,0,63.50,77.90,59.40,16.0000,98.30,90,1070.77,0.0016,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (53,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-09',23.80,0,1,60.30,75.40,57.40,19.9000,98.50,58,2162.33,0.0070,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (54,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10',24.00,2,0,74.10,82.20,52.40,21.2000,95.50,40,1093.12,0.0047,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (55,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-11',21.80,2,0,67.20,74.80,51.60,21.7000,97.70,112,1739.92,0.0029,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (56,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-12',22.40,0,1,63.40,75.00,59.70,21.8000,96.40,22,2286.03,0.0090,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (57,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-06',23.30,1,1,74.10,71.30,56.20,21.6000,96.20,117,2493.38,0.0006,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (58,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-07',21.20,0,1,64.40,78.00,57.90,17.8000,96.60,109,1247.28,0.0013,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (59,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-08',22.20,1,0,68.90,78.30,59.90,17.4000,97.10,80,2160.71,0.0013,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (60,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-09',20.60,1,1,68.70,73.10,53.10,22.3000,97.60,54,1239.32,0.0048,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (61,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-10',21.10,2,1,70.10,80.00,53.20,19.8000,95.20,50,2464.85,0.0064,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (62,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-11',21.00,0,1,64.90,71.10,53.70,20.0000,95.10,27,656.82,0.0071,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (63,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-12',21.20,1,0,66.90,83.40,50.80,20.9000,96.80,0,1893.70,0.0046,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (64,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-06',20.90,2,0,66.10,79.10,58.20,17.3000,98.80,107,1800.50,0.0055,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (65,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-07',23.20,1,0,63.80,82.40,53.70,18.0000,98.10,90,1359.81,0.0089,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (66,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-08',20.70,0,0,68.20,76.80,56.40,21.5000,95.70,50,1671.26,0.0066,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (67,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-09',22.30,2,0,70.10,71.40,54.30,21.9000,95.10,61,1500.75,0.0097,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (68,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-10',21.40,2,0,60.00,80.80,55.80,21.1000,95.30,8,749.11,0.0042,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (69,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11',22.90,0,0,64.30,71.50,56.30,21.9000,96.60,53,504.08,0.0068,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (70,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-12',21.60,2,1,70.70,70.90,51.50,19.7000,96.80,63,1043.90,0.0078,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (71,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-06',20.30,0,1,67.90,83.10,58.00,17.8000,96.40,89,1824.18,0.0007,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (72,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-07',21.40,1,1,69.50,73.10,51.50,16.0000,95.60,51,1810.81,0.0100,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (73,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-08',20.10,0,1,60.00,83.80,55.90,16.5000,95.60,27,1890.86,0.0078,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (74,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-09',23.20,2,1,71.50,84.30,54.80,19.3000,96.00,77,1418.71,0.0037,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (75,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-10',21.80,0,1,67.90,81.20,51.60,19.6000,96.50,16,1663.88,0.0049,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (76,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-11',22.90,0,0,69.80,71.30,54.80,16.1000,95.90,82,2063.59,0.0085,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (77,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-12',23.60,2,0,64.80,82.20,51.00,15.6000,95.30,14,1261.87,0.0055,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (78,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-06',22.50,1,0,64.70,78.80,59.90,16.7000,95.40,99,2207.42,0.0079,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (79,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-07',21.50,1,0,73.10,78.80,53.10,21.4000,95.30,115,1657.64,0.0002,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (80,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-08',21.40,2,0,70.30,76.10,59.60,19.7000,95.20,53,759.18,0.0030,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (81,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-09',20.40,1,1,61.60,72.40,54.80,22.5000,95.90,37,2300.85,0.0056,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (82,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-10',20.40,2,1,70.30,79.50,50.90,19.5000,97.10,112,767.26,0.0085,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (83,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11',23.30,1,1,73.90,84.80,51.60,21.8000,98.00,24,2077.59,0.0032,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (84,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-12',20.90,0,0,60.70,73.40,60.00,17.5000,97.30,107,2055.57,0.0020,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (85,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-06',22.70,2,1,61.80,83.70,52.00,17.2000,98.20,14,953.81,0.0077,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (86,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-07',20.70,1,0,73.00,75.90,53.60,19.8000,98.80,111,2117.32,0.0025,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (87,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-08',23.30,1,1,70.10,79.10,50.20,17.4000,96.60,16,1426.76,0.0091,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (88,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-09',20.70,0,1,68.80,85.00,52.40,16.7000,96.30,118,2406.45,0.0081,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (89,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-10',20.90,1,0,66.70,82.50,58.50,20.9000,95.60,69,1344.07,0.0037,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (90,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-11',22.30,2,1,64.80,83.70,56.00,17.1000,97.10,94,1255.48,0.0054,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (91,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-12',22.20,0,0,73.00,72.50,52.10,19.6000,95.90,52,1486.78,0.0015,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (92,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-06',21.10,2,1,60.90,75.00,54.60,17.6000,96.00,36,1961.79,0.0075,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (93,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-07',22.20,1,0,70.10,72.80,59.10,22.9000,95.90,16,542.69,0.0069,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (94,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-08',21.60,2,1,71.70,75.10,53.40,20.5000,96.60,112,1487.79,0.0066,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (95,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-09',23.20,0,1,66.40,75.20,54.60,17.2000,98.90,8,1342.98,0.0089,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (96,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10',20.80,0,1,74.40,82.80,53.90,18.0000,97.80,47,2239.09,0.0016,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (97,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-11',20.80,1,1,65.50,83.30,53.40,15.3000,95.70,84,555.69,0.0003,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (98,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-12',20.30,0,1,60.50,75.20,56.30,16.0000,97.80,15,1613.18,0.0039,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (99,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-06',21.20,0,1,67.70,77.20,58.80,22.5000,95.10,45,2081.81,0.0082,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (100,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-07',22.80,0,0,63.00,71.90,50.50,21.8000,95.40,110,1176.60,0.0092,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (101,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-08',22.40,0,0,71.50,84.80,56.50,17.2000,96.70,31,619.17,0.0051,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (102,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-09',21.60,1,1,65.00,83.90,56.20,17.5000,97.90,82,1009.17,0.0021,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (103,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-10',21.20,2,0,68.90,75.40,60.00,22.3000,97.20,9,1933.48,0.0034,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (104,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-11',22.20,2,0,65.80,78.20,55.60,16.1000,95.20,92,1999.72,0.0043,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (105,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-12',23.60,0,0,69.50,76.60,53.20,17.3000,96.80,47,1788.72,0.0003,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (106,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-06',20.80,2,1,73.30,80.00,56.80,18.1000,98.70,52,1325.59,0.0076,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (107,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-07',22.20,1,1,62.20,79.00,55.60,22.9000,96.10,50,1038.82,0.0008,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (108,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-08',22.40,2,0,67.90,70.80,57.10,18.0000,98.00,75,2316.72,0.0064,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (109,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-09',22.00,1,0,64.10,82.90,54.70,21.2000,96.90,2,1916.99,0.0047,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (110,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-10',20.90,2,1,61.80,71.10,50.10,21.5000,95.20,97,2301.06,0.0007,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (111,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-11',22.60,0,0,74.90,74.80,56.10,15.6000,97.20,61,2356.74,0.0010,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (112,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-12',22.90,0,0,61.40,73.40,58.70,20.4000,98.10,99,2140.02,0.0062,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (113,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-06',22.50,0,1,73.50,82.60,55.10,15.1000,97.10,72,1384.49,0.0040,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (114,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-07',22.70,0,1,74.20,80.70,57.40,19.4000,97.20,6,1780.21,0.0004,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (115,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-08',21.20,0,1,69.00,83.10,55.80,17.2000,97.40,27,1133.13,0.0090,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (116,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-09',22.20,0,1,60.10,71.90,56.20,20.8000,98.00,65,1471.63,0.0080,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (117,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-10',22.20,1,0,63.50,74.60,58.40,17.2000,98.40,48,1513.62,0.0031,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (118,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-11',20.10,0,1,64.20,76.60,53.70,19.3000,97.30,36,2046.47,0.0095,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (119,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-12',21.70,0,1,61.40,78.60,56.00,17.1000,97.10,93,1216.54,0.0045,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (120,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-06',20.80,1,0,67.30,70.70,57.70,20.6000,95.90,0,1194.73,0.0072,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (121,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-07',22.30,2,1,63.40,77.30,57.60,17.7000,96.60,113,1638.14,0.0000,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (122,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-08',21.20,1,1,62.50,78.40,53.20,22.1000,97.00,105,2243.27,0.0071,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (123,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-09',23.80,1,0,74.60,80.80,56.70,16.4000,98.40,92,1038.18,0.0004,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (124,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-10',21.60,2,0,64.20,72.20,59.10,15.7000,97.80,32,978.58,0.0038,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (125,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-11',20.80,2,1,60.80,71.20,52.20,22.1000,98.10,22,1740.74,0.0054,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (126,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-12',23.40,1,1,61.40,80.00,50.50,17.0000,95.50,104,2419.46,0.0019,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (127,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-06',20.40,2,0,62.80,76.30,55.30,18.2000,96.70,113,1364.90,0.0032,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (128,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-07',21.30,1,0,61.20,82.40,58.90,22.8000,95.70,1,1515.81,0.0050,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (129,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-08',23.90,1,0,74.80,82.40,51.80,18.4000,97.20,64,548.76,0.0050,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (130,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-09',21.70,1,1,72.90,71.80,50.00,20.3000,96.20,66,2164.62,0.0051,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (131,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-10',20.10,1,0,60.00,76.40,51.10,17.3000,95.30,63,1349.90,0.0054,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (132,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-11',21.60,1,1,71.30,75.80,56.70,16.5000,98.70,6,1478.73,0.0030,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (133,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-12',20.10,0,1,69.70,81.10,57.50,19.2000,96.50,34,1181.02,0.0083,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (134,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-06',20.50,0,0,71.90,74.30,50.40,17.6000,97.10,74,1590.17,0.0086,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (135,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-07',22.70,2,0,74.90,80.30,54.50,16.5000,97.30,41,2492.89,0.0094,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (136,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-08',22.80,2,0,70.70,77.60,53.70,17.7000,97.40,115,533.75,0.0020,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (137,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-09',23.80,0,1,67.30,72.00,52.10,20.3000,97.60,35,1526.12,0.0068,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (138,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-10',23.40,0,1,70.20,75.30,57.10,18.8000,96.10,107,1831.90,0.0065,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (139,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11',21.10,1,0,74.60,72.00,57.40,17.4000,96.10,61,1925.21,0.0003,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (140,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-12',20.00,2,1,64.90,81.50,58.60,15.1000,96.90,46,1466.06,0.0025,NULL,'2026-01-12 00:01:33');
+INSERT INTO `eq_device_stat` VALUES (142,'bb046d14-328a-5267-8b28-c4faed37de82','2026-03-29',50.00,NULL,NULL,NULL,NULL,NULL,4.8698,100.00,NULL,NULL,NULL,'WIND_FORECAST','2026-03-29 20:04:52');
+INSERT INTO `eq_device_stat` VALUES (146,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-03-29',50.00,NULL,NULL,NULL,NULL,NULL,4.8698,100.00,NULL,NULL,NULL,'WIND_FORECAST','2026-03-29 21:58:06');
+INSERT INTO `eq_device_stat` VALUES (147,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-03-29',50.00,NULL,NULL,NULL,NULL,NULL,4.8698,100.00,NULL,NULL,NULL,'WIND_FORECAST','2026-03-29 21:58:16');
+INSERT INTO `eq_device_stat` VALUES (148,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-03-29',50.00,NULL,NULL,NULL,NULL,NULL,4.8698,100.00,NULL,NULL,NULL,'WIND_FORECAST','2026-03-29 21:58:22');
 -- ----------------------------
 -- Table structure for eq_device_status
 -- ----------------------------
 DROP TABLE IF EXISTS `eq_device_status`;
 CREATE TABLE `eq_device_status`  (
   `status_id` bigint NOT NULL AUTO_INCREMENT COMMENT '状态ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `timestamp` datetime NOT NULL COMMENT '采集时间',
   `temperature` decimal(10, 2) NULL DEFAULT NULL COMMENT '温度(°C)',
   `humidity` decimal(10, 2) NULL DEFAULT NULL COMMENT '湿度(%)',
@@ -1595,106 +1559,106 @@ CREATE TABLE `eq_device_status`  (
 -- ----------------------------
 -- Records of eq_device_status
 -- ----------------------------
-INSERT INTO `eq_device_status` VALUES (1, 1, '2026-01-09 17:01:11', 58.70, 47.30, 101.100, 3.270000, 180.2000, 107.60, 18.2000, 1571.00, 51.3000, 76.60, 1, 26166.00, 169, 4, 2, 90.40, 0.85, 28.00, 38.10, 71.20, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (2, 1, '2026-01-11 23:01:11', 188.00, 44.50, 102.300, 1.430000, 165.7000, 112.00, 16.7000, 1440.00, 60.6000, 73.70, 3, 25708.00, 181, 1, 11, 95.90, 0.93, 24.80, 54.90, 73.80, 95.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (3, 1, '2026-01-09 03:01:11', 76.70, 52.10, 101.300, 1.960000, 158.7000, 111.20, 14.7000, 1507.00, 74.1000, 84.00, 1, 24705.00, 126, 1, 2, 91.60, 0.79, 23.70, 54.40, 61.30, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (4, 1, '2026-01-07 23:01:11', 75.50, 53.30, 102.600, 2.070000, 150.3000, 112.50, 18.4000, 1563.00, 88.1000, 71.10, 1, 24688.00, 161, 4, 6, 95.80, 0.92, 24.50, 52.70, 64.50, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (5, 1, '2026-01-09 21:01:11', 60.30, 55.40, 100.600, 3.140000, 197.3000, 111.40, 17.0000, 1524.00, 60.1000, 64.10, 1, 18905.00, 196, 3, 2, 91.40, 0.76, 27.90, 53.80, 65.30, 90.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (6, 2, '2026-01-09 14:01:11', 64.60, 49.20, 100.400, 1.870000, 142.8000, 109.50, 20.8000, 1463.00, 77.3000, 83.30, 1, 20976.00, 188, 4, 2, 96.50, 0.79, 24.70, 48.20, 58.10, 88.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (7, 2, '2026-01-11 09:01:11', 79.00, 48.20, 100.500, 2.790000, 169.5000, 111.60, 22.4000, 1446.00, 81.4000, 73.40, 3, 22076.00, 123, 4, 10, 91.00, 0.92, 22.70, 51.00, 67.80, 93.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (8, 2, '2026-01-11 07:01:11', 80.00, 51.20, 102.400, 1.970000, 152.6000, 107.60, 21.9000, 1543.00, 60.1000, 85.70, 1, 26199.00, 181, 1, 3, 90.10, 0.75, 28.80, 50.20, 58.60, 85.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (9, 2, '2026-01-07 01:01:11', 77.60, 50.90, 100.000, 2.290000, 146.7000, 108.90, 14.1000, 1444.00, 54.4000, 83.40, 1, 25585.00, 178, 1, 7, 93.40, 0.76, 22.10, 43.20, 66.30, 92.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (10, 2, '2026-01-11 02:01:11', 63.20, 41.60, 101.300, 3.570000, 141.8000, 111.00, 22.0000, 1449.00, 92.5000, 75.20, 1, 29822.00, 128, 0, 1, 93.90, 0.70, 26.60, 52.40, 66.80, 85.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (11, 3, '2026-01-08 11:01:11', 64.80, 56.70, 103.000, 2.390000, 160.4000, 109.20, 19.3000, 1540.00, 96.5000, 76.30, 1, 29213.00, 84, 2, 9, 97.40, 0.74, 22.30, 49.60, 63.20, 92.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (12, 3, '2026-01-09 10:01:11', 58.70, 43.50, 101.300, 2.800000, 183.6000, 112.90, 14.0000, 1499.00, 74.5000, 88.50, 1, 21334.00, 145, 5, 9, 91.30, 0.84, 23.80, 46.70, 72.60, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (13, 3, '2026-01-10 16:01:11', 56.50, 49.40, 100.500, 2.500000, 196.9000, 108.70, 17.8000, 1431.00, 82.9000, 84.50, 1, 19242.00, 88, 0, 11, 96.60, 0.75, 25.40, 47.80, 68.50, 90.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (14, 3, '2026-01-07 13:01:11', 66.10, 50.30, 100.700, 3.090000, 184.1000, 111.10, 21.2000, 1569.00, 53.7000, 84.80, 1, 29042.00, 93, 4, 8, 92.30, 0.75, 22.70, 52.50, 58.10, 92.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (15, 3, '2026-01-10 01:01:11', 68.00, 48.40, 101.600, 2.320000, 175.1000, 111.20, 16.6000, 1499.00, 85.0000, 60.20, 1, 29153.00, 155, 2, 11, 95.00, 0.78, 27.40, 45.50, 61.20, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (16, 4, '2026-01-09 20:01:11', 64.40, 51.50, 102.200, 3.940000, 181.2000, 110.40, 17.8000, 1487.00, 52.8000, 88.90, 1, 25769.00, 121, 4, 11, 92.00, 0.82, 26.90, 49.00, 64.90, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (17, 4, '2026-01-10 23:01:11', 75.10, 47.70, 101.500, 2.230000, 170.9000, 109.40, 15.5000, 1546.00, 60.7000, 86.20, 1, 26712.00, 81, 5, 3, 97.20, 0.85, 24.40, 50.30, 69.80, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (18, 4, '2026-01-09 17:01:11', 64.30, 49.50, 100.800, 3.600000, 173.9000, 108.60, 18.2000, 1482.00, 90.4000, 84.20, 1, 25363.00, 157, 2, 11, 96.70, 0.74, 24.60, 40.20, 69.30, 99.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (19, 4, '2026-01-08 12:01:11', 72.60, 48.30, 102.900, 2.570000, 185.8000, 108.70, 23.2000, 1570.00, 76.3000, 61.90, 1, 26881.00, 141, 2, 1, 95.80, 0.74, 27.20, 50.90, 72.40, 99.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (20, 4, '2026-01-10 20:01:11', 63.00, 57.90, 101.500, 3.660000, 193.6000, 112.60, 17.4000, 1459.00, 72.8000, 71.80, 1, 25149.00, 175, 1, 7, 95.10, 0.76, 23.90, 46.10, 69.80, 85.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (21, 5, '2026-01-11 17:01:11', 60.90, 59.80, 100.700, 1.650000, 162.8000, 108.70, 14.7000, 1527.00, 98.1000, 87.00, 1, 25327.00, 122, 5, 8, 94.70, 0.92, 27.40, 50.00, 66.70, 91.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (22, 5, '2026-01-08 18:01:11', 79.10, 57.10, 101.100, 1.920000, 164.6000, 107.90, 18.3000, 1552.00, 76.2000, 69.90, 1, 18848.00, 124, 3, 0, 91.90, 0.73, 29.00, 38.30, 66.10, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (23, 5, '2026-01-11 05:01:11', 76.10, 54.90, 100.600, 3.230000, 147.6000, 109.80, 20.3000, 1587.00, 90.3000, 66.60, 1, 26104.00, 166, 3, 8, 96.00, 0.87, 22.90, 46.90, 63.10, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (24, 5, '2026-01-08 09:01:11', 76.50, 42.30, 100.000, 3.060000, 164.8000, 107.00, 21.8000, 1576.00, 53.5000, 81.20, 1, 21842.00, 138, 2, 10, 96.40, 0.83, 22.80, 38.40, 71.50, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (25, 5, '2026-01-11 05:01:11', 57.00, 58.50, 101.100, 1.220000, 156.0000, 107.80, 21.6000, 1493.00, 52.9000, 86.60, 1, 21114.00, 156, 2, 1, 92.90, 0.82, 24.00, 52.60, 67.00, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (26, 6, '2026-01-08 00:01:11', 75.00, 51.60, 101.500, 3.120000, 143.8000, 108.40, 22.1000, 1493.00, 95.1000, 63.20, 1, 27851.00, 174, 2, 0, 95.00, 0.72, 26.50, 47.10, 74.80, 90.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (27, 6, '2026-01-08 00:01:11', 79.30, 48.70, 100.800, 1.110000, 162.1000, 112.10, 19.7000, 1529.00, 75.9000, 79.60, 1, 26543.00, 152, 5, 6, 90.20, 0.83, 26.70, 43.90, 74.50, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (28, 6, '2026-01-11 09:01:11', 60.50, 54.40, 102.800, 2.660000, 196.1000, 107.10, 16.7000, 1458.00, 83.4000, 73.70, 1, 21446.00, 87, 2, 0, 96.80, 0.73, 23.20, 43.60, 61.40, 85.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (29, 6, '2026-01-09 19:01:11', 60.00, 53.20, 102.100, 2.480000, 162.8000, 110.00, 23.8000, 1525.00, 59.6000, 62.50, 1, 28046.00, 192, 1, 0, 96.50, 0.91, 28.60, 47.30, 62.70, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (30, 6, '2026-01-07 12:01:11', 61.70, 52.80, 101.200, 1.230000, 151.2000, 111.90, 23.4000, 1516.00, 54.8000, 82.10, 1, 22723.00, 171, 3, 9, 91.90, 0.89, 22.20, 53.30, 64.70, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (31, 7, '2026-01-10 20:01:11', 63.20, 58.60, 102.000, 2.680000, 187.5000, 108.90, 14.0000, 1437.00, 96.3000, 62.20, 1, 25056.00, 166, 4, 11, 93.90, 0.82, 28.80, 52.20, 69.00, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (32, 7, '2026-01-08 08:01:11', 66.50, 42.00, 100.300, 1.840000, 143.4000, 110.10, 14.4000, 1570.00, 58.3000, 68.00, 1, 27955.00, 122, 1, 3, 95.40, 0.82, 24.90, 44.20, 70.80, 94.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (33, 7, '2026-01-11 20:01:11', 60.00, 58.00, 102.700, 3.490000, 166.0000, 111.70, 14.6000, 1461.00, 66.6000, 82.40, 3, 26876.00, 134, 0, 11, 93.70, 0.83, 23.20, 42.20, 71.30, 87.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (34, 7, '2026-01-09 10:01:11', 56.80, 56.20, 102.500, 3.080000, 199.4000, 113.10, 18.0000, 1476.00, 85.2000, 71.40, 1, 27441.00, 175, 3, 7, 93.20, 0.72, 23.40, 48.70, 69.00, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (35, 7, '2026-01-08 10:01:11', 70.10, 57.20, 101.500, 3.710000, 141.3000, 109.80, 23.5000, 1504.00, 88.6000, 68.90, 1, 19983.00, 192, 1, 1, 90.50, 0.94, 26.70, 39.50, 69.40, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (36, 8, '2026-01-09 20:01:11', 78.20, 46.20, 102.300, 3.910000, 170.5000, 111.40, 20.4000, 1459.00, 78.0000, 87.40, 1, 28707.00, 166, 5, 4, 92.30, 0.75, 23.60, 44.60, 63.50, 91.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (37, 8, '2026-01-10 16:01:11', 55.20, 44.50, 100.300, 3.660000, 145.2000, 112.40, 20.3000, 1562.00, 58.9000, 73.60, 3, 26720.00, 113, 1, 2, 92.20, 0.91, 24.80, 42.60, 62.90, 94.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (38, 8, '2026-01-10 13:01:11', 69.40, 59.90, 100.700, 1.730000, 169.0000, 111.80, 23.7000, 1556.00, 50.6000, 81.30, 1, 24228.00, 135, 4, 4, 96.20, 0.86, 29.40, 49.50, 68.10, 99.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (39, 8, '2026-01-07 01:01:11', 57.50, 50.30, 100.800, 3.410000, 152.7000, 111.50, 20.1000, 1418.00, 82.4000, 88.70, 1, 28153.00, 122, 1, 1, 97.60, 0.79, 22.00, 53.10, 65.50, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (40, 8, '2026-01-10 04:01:11', 60.90, 41.40, 101.900, 3.990000, 143.3000, 109.00, 16.7000, 1498.00, 82.1000, 82.10, 1, 27137.00, 151, 4, 8, 92.20, 0.79, 22.10, 54.30, 70.90, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (41, 9, '2026-01-10 15:01:11', 71.70, 50.10, 101.500, 1.200000, 187.0000, 112.00, 16.5000, 1418.00, 85.5000, 68.20, 1, 20813.00, 122, 0, 3, 90.80, 0.88, 24.80, 47.20, 69.40, 95.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (42, 9, '2026-01-08 20:01:11', 79.80, 41.00, 100.800, 1.710000, 161.3000, 107.40, 16.3000, 1596.00, 60.9000, 64.10, 1, 18439.00, 172, 4, 4, 96.20, 0.86, 29.50, 50.90, 74.40, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (43, 9, '2026-01-07 22:01:11', 66.60, 57.20, 102.800, 1.100000, 163.3000, 112.90, 14.5000, 1544.00, 73.0000, 64.00, 1, 21509.00, 87, 2, 10, 92.20, 0.86, 25.10, 38.10, 72.80, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (44, 9, '2026-01-11 18:01:11', 61.60, 43.20, 100.000, 2.750000, 192.8000, 111.50, 19.9000, 1403.00, 65.5000, 74.90, 3, 24691.00, 115, 4, 2, 93.30, 0.84, 26.10, 53.90, 59.90, 96.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (45, 9, '2026-01-09 13:01:11', 59.20, 47.10, 100.800, 1.950000, 185.0000, 112.60, 21.5000, 1469.00, 74.7000, 72.70, 1, 25694.00, 191, 4, 10, 91.90, 0.83, 28.70, 49.10, 71.00, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (46, 10, '2026-01-11 23:01:11', 67.30, 48.20, 101.700, 2.930000, 169.7000, 110.80, 16.2000, 1499.00, 90.3000, 76.30, 3, 21580.00, 183, 2, 5, 91.50, 0.82, 28.80, 51.40, 64.60, 93.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (47, 10, '2026-01-08 02:01:11', 59.30, 50.00, 102.900, 2.100000, 195.0000, 110.40, 20.6000, 1567.00, 61.5000, 78.80, 1, 23401.00, 124, 2, 4, 91.70, 0.71, 26.80, 52.80, 67.40, 87.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (48, 10, '2026-01-11 08:01:11', 59.90, 51.40, 100.800, 2.850000, 157.5000, 111.20, 15.6000, 1593.00, 68.3000, 87.70, 1, 24238.00, 179, 3, 5, 94.40, 0.79, 23.80, 38.10, 63.90, 95.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (49, 10, '2026-01-09 05:01:11', 71.00, 50.30, 102.000, 3.310000, 191.1000, 113.70, 16.1000, 1435.00, 63.5000, 84.40, 1, 21011.00, 178, 2, 3, 92.50, 0.89, 28.40, 51.10, 65.70, 99.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (50, 10, '2026-01-09 22:01:11', 60.80, 58.00, 102.400, 2.040000, 158.2000, 110.30, 18.7000, 1581.00, 57.3000, 60.10, 1, 24844.00, 181, 3, 0, 96.50, 0.91, 27.50, 54.40, 71.00, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (51, 11, '2026-01-10 13:01:11', 73.40, 55.80, 102.200, 2.010000, 167.1000, 108.80, 23.3000, 1572.00, 76.2000, 61.10, 1, 25331.00, 193, 5, 7, 94.30, 0.89, 23.30, 47.50, 63.20, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (52, 11, '2026-01-10 05:01:11', 61.30, 43.40, 100.300, 3.840000, 167.6000, 110.20, 23.3000, 1448.00, 71.6000, 73.00, 1, 28502.00, 88, 4, 5, 92.10, 0.90, 24.40, 39.20, 65.20, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (53, 11, '2026-01-10 12:01:11', 74.50, 59.80, 101.800, 1.110000, 163.1000, 112.70, 23.2000, 1428.00, 98.2000, 71.80, 1, 18898.00, 103, 4, 1, 92.90, 0.81, 23.10, 43.80, 63.00, 91.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (54, 11, '2026-01-09 20:01:11', 75.10, 54.10, 100.300, 2.170000, 178.8000, 107.40, 17.8000, 1543.00, 72.6000, 62.90, 1, 19603.00, 125, 2, 3, 96.80, 0.82, 28.60, 50.00, 59.00, 87.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (55, 11, '2026-01-08 15:01:11', 76.70, 46.20, 102.800, 3.350000, 145.5000, 107.80, 16.7000, 1408.00, 69.2000, 84.00, 1, 28059.00, 175, 2, 11, 92.50, 0.88, 27.80, 45.30, 74.50, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (56, 12, '2026-01-07 10:01:11', 77.50, 54.70, 102.900, 3.060000, 169.5000, 109.80, 19.4000, 1496.00, 90.2000, 77.00, 1, 23066.00, 129, 4, 8, 91.60, 0.92, 28.40, 44.20, 65.10, 99.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (57, 12, '2026-01-08 08:01:11', 72.10, 44.20, 103.000, 1.960000, 177.9000, 108.40, 14.9000, 1574.00, 54.5000, 84.90, 1, 28481.00, 185, 4, 3, 90.40, 0.80, 29.30, 43.30, 72.00, 87.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (58, 12, '2026-01-09 18:01:11', 72.80, 43.90, 102.500, 2.800000, 169.5000, 111.60, 22.3000, 1434.00, 68.0000, 68.70, 1, 22502.00, 80, 5, 4, 92.90, 0.85, 29.20, 50.50, 74.50, 94.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (59, 12, '2026-01-10 13:01:11', 69.00, 58.30, 102.700, 3.080000, 188.4000, 113.70, 17.3000, 1562.00, 53.2000, 86.50, 1, 20766.00, 139, 4, 6, 91.00, 0.73, 24.10, 54.10, 73.80, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (60, 12, '2026-01-10 20:01:11', 74.40, 43.10, 101.400, 3.530000, 190.0000, 111.40, 20.7000, 1493.00, 65.5000, 64.40, 3, 27745.00, 153, 3, 4, 97.40, 0.83, 28.90, 50.10, 74.50, 95.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (61, 13, '2026-01-08 08:01:11', 67.70, 46.20, 100.100, 1.820000, 154.6000, 109.80, 16.5000, 1415.00, 80.9000, 85.80, 1, 23455.00, 162, 0, 4, 93.50, 0.74, 25.90, 54.50, 64.80, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (62, 13, '2026-01-11 04:01:11', 71.30, 54.60, 102.100, 1.870000, 161.5000, 113.50, 19.6000, 1402.00, 69.3000, 86.90, 1, 21798.00, 187, 3, 11, 92.40, 0.84, 29.50, 54.70, 59.50, 92.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (63, 13, '2026-01-10 17:01:11', 74.60, 42.80, 101.000, 1.970000, 174.1000, 113.10, 20.7000, 1548.00, 84.7000, 67.10, 1, 19271.00, 178, 4, 4, 95.70, 0.79, 27.30, 41.90, 60.70, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (64, 13, '2026-01-12 00:01:11', 73.60, 53.90, 100.700, 1.420000, 197.7000, 109.80, 14.9000, 1449.00, 98.7000, 63.90, 1, 26714.00, 109, 0, 5, 91.00, 0.77, 22.50, 45.20, 74.20, 92.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (65, 13, '2026-01-09 01:01:11', 68.10, 56.20, 101.500, 1.100000, 180.9000, 109.20, 19.1000, 1520.00, 74.7000, 79.90, 1, 27982.00, 100, 2, 3, 92.20, 0.85, 22.90, 51.30, 67.80, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (66, 14, '2026-01-07 01:01:11', 63.50, 54.40, 101.700, 3.060000, 183.9000, 111.20, 21.9000, 1434.00, 74.5000, 87.70, 1, 19822.00, 198, 2, 5, 96.50, 0.87, 22.10, 54.60, 72.60, 90.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (67, 14, '2026-01-10 19:01:11', 58.30, 58.40, 100.600, 1.800000, 183.5000, 112.70, 23.2000, 1425.00, 94.3000, 61.40, 1, 25005.00, 172, 0, 3, 90.40, 0.80, 28.40, 52.10, 70.70, 88.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (68, 14, '2026-01-11 20:01:11', 65.50, 59.80, 102.100, 2.380000, 154.1000, 112.60, 17.1000, 1428.00, 89.0000, 74.20, 3, 18347.00, 166, 3, 5, 96.10, 0.80, 28.30, 49.50, 58.30, 86.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (69, 14, '2026-01-10 14:01:11', 61.20, 47.40, 100.300, 2.310000, 191.2000, 113.70, 16.2000, 1442.00, 70.9000, 73.60, 1, 18050.00, 159, 1, 7, 97.90, 0.74, 29.40, 39.10, 67.70, 94.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (70, 14, '2026-01-09 01:01:11', 80.00, 44.00, 100.000, 2.230000, 142.9000, 107.10, 23.2000, 1507.00, 97.6000, 64.30, 1, 28282.00, 182, 4, 11, 96.10, 0.92, 22.60, 51.20, 68.90, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (71, 15, '2026-01-09 11:01:11', 77.10, 57.80, 102.400, 1.850000, 143.0000, 109.80, 22.6000, 1417.00, 93.4000, 62.20, 1, 27149.00, 151, 4, 7, 97.30, 0.91, 24.80, 43.20, 66.00, 91.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (72, 15, '2026-01-08 02:01:11', 70.50, 54.50, 102.300, 3.080000, 148.9000, 111.60, 22.4000, 1443.00, 78.6000, 66.40, 1, 22241.00, 94, 3, 5, 93.60, 0.95, 26.80, 38.70, 64.50, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (73, 15, '2026-01-08 01:01:11', 70.80, 55.30, 102.800, 2.070000, 199.6000, 113.30, 18.9000, 1553.00, 68.6000, 76.50, 1, 25721.00, 147, 5, 8, 90.20, 0.93, 26.80, 40.90, 58.90, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (74, 15, '2026-01-08 18:01:11', 79.80, 59.70, 102.800, 3.360000, 145.3000, 107.60, 15.6000, 1505.00, 58.3000, 67.40, 1, 26933.00, 197, 3, 4, 95.70, 0.84, 27.40, 49.70, 65.30, 85.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (75, 15, '2026-01-11 22:01:11', 77.70, 49.80, 102.200, 1.560000, 183.8000, 107.70, 16.8000, 1422.00, 85.8000, 67.60, 1, 19321.00, 175, 3, 10, 92.00, 0.89, 29.80, 49.10, 63.80, 95.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (76, 16, '2026-01-08 19:01:11', 55.40, 42.90, 102.000, 3.900000, 187.9000, 107.60, 14.4000, 1590.00, 82.1000, 70.40, 1, 27614.00, 196, 2, 3, 92.50, 0.84, 28.30, 43.10, 60.50, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (77, 16, '2026-01-08 09:01:11', 58.80, 51.30, 101.100, 1.380000, 172.8000, 109.50, 15.3000, 1517.00, 77.3000, 88.90, 1, 20215.00, 83, 3, 11, 96.30, 0.74, 26.30, 40.40, 59.90, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (78, 16, '2026-01-10 17:01:11', 79.30, 41.20, 101.100, 3.110000, 163.4000, 112.90, 14.5000, 1541.00, 69.6000, 85.20, 1, 18281.00, 151, 5, 9, 91.50, 0.84, 23.70, 45.30, 66.20, 87.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (79, 16, '2026-01-10 18:01:11', 76.00, 48.80, 102.000, 1.180000, 156.9000, 108.50, 16.6000, 1525.00, 67.9000, 87.30, 1, 23760.00, 160, 5, 6, 96.60, 0.85, 26.10, 51.40, 64.80, 94.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (80, 16, '2026-01-12 00:01:11', 57.70, 50.50, 100.900, 3.580000, 166.2000, 111.30, 21.4000, 1572.00, 55.1000, 87.50, 3, 21420.00, 160, 2, 5, 97.50, 0.75, 23.70, 45.50, 68.00, 94.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (81, 17, '2026-01-10 07:01:11', 76.20, 44.30, 101.600, 1.100000, 173.4000, 111.80, 21.3000, 1522.00, 93.8000, 76.20, 3, 18781.00, 165, 2, 7, 91.30, 0.92, 29.90, 42.00, 61.80, 91.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (82, 17, '2026-01-10 04:01:11', 70.80, 40.80, 100.900, 2.360000, 159.5000, 108.80, 17.4000, 1583.00, 78.1000, 61.70, 1, 25125.00, 176, 1, 8, 97.90, 0.89, 28.20, 48.30, 70.20, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (83, 17, '2026-01-08 15:01:11', 57.60, 49.50, 100.200, 3.690000, 157.4000, 112.30, 23.4000, 1486.00, 66.8000, 71.30, 1, 28528.00, 110, 3, 5, 93.20, 0.85, 28.80, 45.10, 67.00, 90.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (84, 17, '2026-01-10 01:01:11', 74.80, 55.50, 101.500, 1.330000, 145.8000, 108.10, 18.6000, 1573.00, 97.1000, 63.30, 1, 26685.00, 114, 1, 6, 95.60, 0.94, 27.80, 50.70, 67.40, 92.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (85, 17, '2026-01-07 04:01:11', 61.80, 49.10, 101.400, 3.880000, 163.7000, 107.70, 17.2000, 1460.00, 77.2000, 84.60, 1, 23531.00, 181, 5, 8, 90.60, 0.74, 27.40, 52.10, 60.30, 87.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (86, 18, '2026-01-09 08:01:11', 57.60, 58.50, 100.900, 3.300000, 194.7000, 108.80, 19.3000, 1582.00, 97.9000, 61.50, 1, 22464.00, 165, 2, 1, 92.60, 0.75, 22.20, 47.00, 67.80, 89.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (87, 18, '2026-01-08 11:01:11', 72.40, 47.00, 102.000, 1.680000, 150.0000, 108.10, 16.8000, 1582.00, 86.6000, 87.80, 1, 23185.00, 126, 3, 11, 97.30, 0.87, 27.70, 46.00, 62.00, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (88, 18, '2026-01-11 18:01:11', 55.70, 59.30, 102.200, 3.540000, 199.3000, 109.80, 14.2000, 1585.00, 78.5000, 61.80, 1, 25161.00, 176, 1, 8, 96.10, 0.89, 26.00, 41.90, 69.20, 93.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (89, 18, '2026-01-07 01:01:11', 59.80, 59.50, 100.900, 2.680000, 194.7000, 113.10, 20.4000, 1515.00, 98.0000, 62.10, 1, 23741.00, 101, 2, 8, 92.30, 0.76, 24.30, 50.70, 72.80, 86.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (90, 18, '2026-01-07 01:01:11', 70.10, 40.80, 101.200, 3.430000, 193.4000, 107.10, 18.3000, 1418.00, 58.5000, 77.20, 1, 22344.00, 90, 2, 5, 92.70, 0.76, 24.30, 48.80, 63.50, 95.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (91, 19, '2026-01-09 01:01:11', 76.10, 48.60, 101.900, 3.530000, 159.9000, 107.90, 20.5000, 1576.00, 72.7000, 78.60, 1, 26775.00, 176, 4, 7, 96.40, 0.72, 29.50, 46.50, 69.50, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (92, 19, '2026-01-10 08:01:11', 56.70, 46.50, 101.300, 1.470000, 170.1000, 107.30, 20.9000, 1469.00, 82.9000, 67.50, 1, 21221.00, 151, 1, 1, 97.40, 0.78, 29.10, 45.40, 67.10, 90.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (93, 19, '2026-01-10 22:01:11', 80.00, 46.70, 102.100, 2.240000, 140.6000, 112.70, 14.5000, 1558.00, 90.5000, 80.40, 3, 29612.00, 175, 0, 0, 90.40, 0.72, 23.60, 51.00, 62.20, 99.00, NULL, NULL, 1, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (94, 19, '2026-01-07 09:01:11', 75.90, 47.80, 101.400, 1.260000, 144.9000, 108.00, 18.7000, 1582.00, 57.5000, 60.50, 1, 25570.00, 92, 3, 10, 94.40, 0.71, 26.80, 52.50, 66.00, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (95, 19, '2026-01-09 03:01:11', 67.80, 56.30, 101.600, 1.760000, 178.9000, 110.40, 18.6000, 1572.00, 96.3000, 61.20, 1, 23160.00, 83, 5, 1, 91.20, 0.78, 23.90, 41.40, 62.60, 96.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (96, 20, '2026-01-11 23:01:11', 73.70, 54.40, 101.000, 2.700000, 187.6000, 108.90, 23.8000, 1414.00, 72.0000, 89.40, 1, 24839.00, 189, 5, 6, 92.30, 0.88, 27.50, 43.70, 68.00, 98.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (97, 20, '2026-01-07 13:01:11', 72.40, 55.60, 102.400, 3.130000, 147.8000, 110.60, 15.7000, 1465.00, 55.5000, 77.20, 1, 24479.00, 197, 1, 4, 92.10, 0.72, 26.50, 48.30, 63.60, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (98, 20, '2026-01-10 20:01:11', 71.60, 51.80, 102.900, 1.020000, 150.6000, 113.00, 21.6000, 1445.00, 92.9000, 78.10, 1, 23384.00, 131, 4, 8, 92.60, 0.79, 28.70, 40.10, 59.40, 85.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (99, 20, '2026-01-07 04:01:11', 72.90, 53.40, 100.600, 1.120000, 173.9000, 112.00, 22.5000, 1424.00, 53.4000, 89.20, 1, 25839.00, 122, 4, 10, 91.50, 0.75, 24.90, 42.30, 61.20, 87.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
-INSERT INTO `eq_device_status` VALUES (100, 20, '2026-01-10 07:01:11', 59.40, 56.80, 102.000, 3.640000, 161.4000, 108.00, 20.4000, 1553.00, 96.1000, 69.20, 1, 27231.00, 191, 1, 9, 91.50, 0.81, 26.60, 48.40, 63.70, 97.00, NULL, NULL, 0, '运行正常', '2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-09 17:01:11',58.70,47.30,101.100,3.270000,180.2000,107.60,18.2000,1571.00,51.3000,76.60,1,26166.00,169,4,2,90.40,0.85,28.00,38.10,71.20,98.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11 23:01:11',188.00,44.50,102.300,1.430000,165.7000,112.00,16.7000,1440.00,60.6000,73.70,3,25708.00,181,1,11,95.90,0.93,24.80,54.90,73.80,95.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-09 03:01:11',76.70,52.10,101.300,1.960000,158.7000,111.20,14.7000,1507.00,74.1000,84.00,1,24705.00,126,1,2,91.60,0.79,23.70,54.40,61.30,86.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (4,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-07 23:01:11',75.50,53.30,102.600,2.070000,150.3000,112.50,18.4000,1563.00,88.1000,71.10,1,24688.00,161,4,6,95.80,0.92,24.50,52.70,64.50,89.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (5,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-09 21:01:11',60.30,55.40,100.600,3.140000,197.3000,111.40,17.0000,1524.00,60.1000,64.10,1,18905.00,196,3,2,91.40,0.76,27.90,53.80,65.30,90.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-09 14:01:11',64.60,49.20,100.400,1.870000,142.8000,109.50,20.8000,1463.00,77.3000,83.30,1,20976.00,188,4,2,96.50,0.79,24.70,48.20,58.10,88.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (7,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 09:01:11',79.00,48.20,100.500,2.790000,169.5000,111.60,22.4000,1446.00,81.4000,73.40,3,22076.00,123,4,10,91.00,0.92,22.70,51.00,67.80,93.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (8,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 07:01:11',80.00,51.20,102.400,1.970000,152.6000,107.60,21.9000,1543.00,60.1000,85.70,1,26199.00,181,1,3,90.10,0.75,28.80,50.20,58.60,85.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (9,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-07 01:01:11',77.60,50.90,100.000,2.290000,146.7000,108.90,14.1000,1444.00,54.4000,83.40,1,25585.00,178,1,7,93.40,0.76,22.10,43.20,66.30,92.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (10,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 02:01:11',63.20,41.60,101.300,3.570000,141.8000,111.00,22.0000,1449.00,92.5000,75.20,1,29822.00,128,0,1,93.90,0.70,26.60,52.40,66.80,85.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (11,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-08 11:01:11',64.80,56.70,103.000,2.390000,160.4000,109.20,19.3000,1540.00,96.5000,76.30,1,29213.00,84,2,9,97.40,0.74,22.30,49.60,63.20,92.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (12,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-09 10:01:11',58.70,43.50,101.300,2.800000,183.6000,112.90,14.0000,1499.00,74.5000,88.50,1,21334.00,145,5,9,91.30,0.84,23.80,46.70,72.60,96.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (13,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 16:01:11',56.50,49.40,100.500,2.500000,196.9000,108.70,17.8000,1431.00,82.9000,84.50,1,19242.00,88,0,11,96.60,0.75,25.40,47.80,68.50,90.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (14,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-07 13:01:11',66.10,50.30,100.700,3.090000,184.1000,111.10,21.2000,1569.00,53.7000,84.80,1,29042.00,93,4,8,92.30,0.75,22.70,52.50,58.10,92.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (15,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 01:01:11',68.00,48.40,101.600,2.320000,175.1000,111.20,16.6000,1499.00,85.0000,60.20,1,29153.00,155,2,11,95.00,0.78,27.40,45.50,61.20,93.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (16,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-09 20:01:11',64.40,51.50,102.200,3.940000,181.2000,110.40,17.8000,1487.00,52.8000,88.90,1,25769.00,121,4,11,92.00,0.82,26.90,49.00,64.90,86.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (17,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-10 23:01:11',75.10,47.70,101.500,2.230000,170.9000,109.40,15.5000,1546.00,60.7000,86.20,1,26712.00,81,5,3,97.20,0.85,24.40,50.30,69.80,89.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (18,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-09 17:01:11',64.30,49.50,100.800,3.600000,173.9000,108.60,18.2000,1482.00,90.4000,84.20,1,25363.00,157,2,11,96.70,0.74,24.60,40.20,69.30,99.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (19,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-08 12:01:11',72.60,48.30,102.900,2.570000,185.8000,108.70,23.2000,1570.00,76.3000,61.90,1,26881.00,141,2,1,95.80,0.74,27.20,50.90,72.40,99.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (20,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-10 20:01:11',63.00,57.90,101.500,3.660000,193.6000,112.60,17.4000,1459.00,72.8000,71.80,1,25149.00,175,1,7,95.10,0.76,23.90,46.10,69.80,85.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (21,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-11 17:01:11',60.90,59.80,100.700,1.650000,162.8000,108.70,14.7000,1527.00,98.1000,87.00,1,25327.00,122,5,8,94.70,0.92,27.40,50.00,66.70,91.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (22,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-08 18:01:11',79.10,57.10,101.100,1.920000,164.6000,107.90,18.3000,1552.00,76.2000,69.90,1,18848.00,124,3,0,91.90,0.73,29.00,38.30,66.10,89.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (23,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-11 05:01:11',76.10,54.90,100.600,3.230000,147.6000,109.80,20.3000,1587.00,90.3000,66.60,1,26104.00,166,3,8,96.00,0.87,22.90,46.90,63.10,98.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (24,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-08 09:01:11',76.50,42.30,100.000,3.060000,164.8000,107.00,21.8000,1576.00,53.5000,81.20,1,21842.00,138,2,10,96.40,0.83,22.80,38.40,71.50,98.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (25,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-11 05:01:11',57.00,58.50,101.100,1.220000,156.0000,107.80,21.6000,1493.00,52.9000,86.60,1,21114.00,156,2,1,92.90,0.82,24.00,52.60,67.00,86.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (26,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-08 00:01:11',75.00,51.60,101.500,3.120000,143.8000,108.40,22.1000,1493.00,95.1000,63.20,1,27851.00,174,2,0,95.00,0.72,26.50,47.10,74.80,90.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (27,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-08 00:01:11',79.30,48.70,100.800,1.110000,162.1000,112.10,19.7000,1529.00,75.9000,79.60,1,26543.00,152,5,6,90.20,0.83,26.70,43.90,74.50,97.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (28,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-11 09:01:11',60.50,54.40,102.800,2.660000,196.1000,107.10,16.7000,1458.00,83.4000,73.70,1,21446.00,87,2,0,96.80,0.73,23.20,43.60,61.40,85.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (29,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-09 19:01:11',60.00,53.20,102.100,2.480000,162.8000,110.00,23.8000,1525.00,59.6000,62.50,1,28046.00,192,1,0,96.50,0.91,28.60,47.30,62.70,96.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (30,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-07 12:01:11',61.70,52.80,101.200,1.230000,151.2000,111.90,23.4000,1516.00,54.8000,82.10,1,22723.00,171,3,9,91.90,0.89,22.20,53.30,64.70,89.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (31,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-10 20:01:11',63.20,58.60,102.000,2.680000,187.5000,108.90,14.0000,1437.00,96.3000,62.20,1,25056.00,166,4,11,93.90,0.82,28.80,52.20,69.00,96.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (32,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-08 08:01:11',66.50,42.00,100.300,1.840000,143.4000,110.10,14.4000,1570.00,58.3000,68.00,1,27955.00,122,1,3,95.40,0.82,24.90,44.20,70.80,94.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (33,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-11 20:01:11',60.00,58.00,102.700,3.490000,166.0000,111.70,14.6000,1461.00,66.6000,82.40,3,26876.00,134,0,11,93.70,0.83,23.20,42.20,71.30,87.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (34,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-09 10:01:11',56.80,56.20,102.500,3.080000,199.4000,113.10,18.0000,1476.00,85.2000,71.40,1,27441.00,175,3,7,93.20,0.72,23.40,48.70,69.00,89.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (35,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-08 10:01:11',70.10,57.20,101.500,3.710000,141.3000,109.80,23.5000,1504.00,88.6000,68.90,1,19983.00,192,1,1,90.50,0.94,26.70,39.50,69.40,86.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (36,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-09 20:01:11',78.20,46.20,102.300,3.910000,170.5000,111.40,20.4000,1459.00,78.0000,87.40,1,28707.00,166,5,4,92.30,0.75,23.60,44.60,63.50,91.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (37,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10 16:01:11',55.20,44.50,100.300,3.660000,145.2000,112.40,20.3000,1562.00,58.9000,73.60,3,26720.00,113,1,2,92.20,0.91,24.80,42.60,62.90,94.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (38,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10 13:01:11',69.40,59.90,100.700,1.730000,169.0000,111.80,23.7000,1556.00,50.6000,81.30,1,24228.00,135,4,4,96.20,0.86,29.40,49.50,68.10,99.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (39,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-07 01:01:11',57.50,50.30,100.800,3.410000,152.7000,111.50,20.1000,1418.00,82.4000,88.70,1,28153.00,122,1,1,97.60,0.79,22.00,53.10,65.50,93.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (40,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10 04:01:11',60.90,41.40,101.900,3.990000,143.3000,109.00,16.7000,1498.00,82.1000,82.10,1,27137.00,151,4,8,92.20,0.79,22.10,54.30,70.90,98.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (41,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-10 15:01:11',71.70,50.10,101.500,1.200000,187.0000,112.00,16.5000,1418.00,85.5000,68.20,1,20813.00,122,0,3,90.80,0.88,24.80,47.20,69.40,95.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (42,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-08 20:01:11',79.80,41.00,100.800,1.710000,161.3000,107.40,16.3000,1596.00,60.9000,64.10,1,18439.00,172,4,4,96.20,0.86,29.50,50.90,74.40,93.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (43,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-07 22:01:11',66.60,57.20,102.800,1.100000,163.3000,112.90,14.5000,1544.00,73.0000,64.00,1,21509.00,87,2,10,92.20,0.86,25.10,38.10,72.80,89.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (44,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-11 18:01:11',61.60,43.20,100.000,2.750000,192.8000,111.50,19.9000,1403.00,65.5000,74.90,3,24691.00,115,4,2,93.30,0.84,26.10,53.90,59.90,96.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (45,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-09 13:01:11',59.20,47.10,100.800,1.950000,185.0000,112.60,21.5000,1469.00,74.7000,72.70,1,25694.00,191,4,10,91.90,0.83,28.70,49.10,71.00,97.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (46,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 23:01:11',67.30,48.20,101.700,2.930000,169.7000,110.80,16.2000,1499.00,90.3000,76.30,3,21580.00,183,2,5,91.50,0.82,28.80,51.40,64.60,93.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (47,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-08 02:01:11',59.30,50.00,102.900,2.100000,195.0000,110.40,20.6000,1567.00,61.5000,78.80,1,23401.00,124,2,4,91.70,0.71,26.80,52.80,67.40,87.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (48,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 08:01:11',59.90,51.40,100.800,2.850000,157.5000,111.20,15.6000,1593.00,68.3000,87.70,1,24238.00,179,3,5,94.40,0.79,23.80,38.10,63.90,95.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (49,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-09 05:01:11',71.00,50.30,102.000,3.310000,191.1000,113.70,16.1000,1435.00,63.5000,84.40,1,21011.00,178,2,3,92.50,0.89,28.40,51.10,65.70,99.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (50,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-09 22:01:11',60.80,58.00,102.400,2.040000,158.2000,110.30,18.7000,1581.00,57.3000,60.10,1,24844.00,181,3,0,96.50,0.91,27.50,54.40,71.00,98.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (51,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-10 13:01:11',73.40,55.80,102.200,2.010000,167.1000,108.80,23.3000,1572.00,76.2000,61.10,1,25331.00,193,5,7,94.30,0.89,23.30,47.50,63.20,97.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (52,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-10 05:01:11',61.30,43.40,100.300,3.840000,167.6000,110.20,23.3000,1448.00,71.6000,73.00,1,28502.00,88,4,5,92.10,0.90,24.40,39.20,65.20,98.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (53,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-10 12:01:11',74.50,59.80,101.800,1.110000,163.1000,112.70,23.2000,1428.00,98.2000,71.80,1,18898.00,103,4,1,92.90,0.81,23.10,43.80,63.00,91.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (54,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-09 20:01:11',75.10,54.10,100.300,2.170000,178.8000,107.40,17.8000,1543.00,72.6000,62.90,1,19603.00,125,2,3,96.80,0.82,28.60,50.00,59.00,87.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (55,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-08 15:01:11',76.70,46.20,102.800,3.350000,145.5000,107.80,16.7000,1408.00,69.2000,84.00,1,28059.00,175,2,11,92.50,0.88,27.80,45.30,74.50,93.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (56,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-07 10:01:11',77.50,54.70,102.900,3.060000,169.5000,109.80,19.4000,1496.00,90.2000,77.00,1,23066.00,129,4,8,91.60,0.92,28.40,44.20,65.10,99.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (57,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-08 08:01:11',72.10,44.20,103.000,1.960000,177.9000,108.40,14.9000,1574.00,54.5000,84.90,1,28481.00,185,4,3,90.40,0.80,29.30,43.30,72.00,87.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (58,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-09 18:01:11',72.80,43.90,102.500,2.800000,169.5000,111.60,22.3000,1434.00,68.0000,68.70,1,22502.00,80,5,4,92.90,0.85,29.20,50.50,74.50,94.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (59,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-10 13:01:11',69.00,58.30,102.700,3.080000,188.4000,113.70,17.3000,1562.00,53.2000,86.50,1,20766.00,139,4,6,91.00,0.73,24.10,54.10,73.80,97.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (60,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-10 20:01:11',74.40,43.10,101.400,3.530000,190.0000,111.40,20.7000,1493.00,65.5000,64.40,3,27745.00,153,3,4,97.40,0.83,28.90,50.10,74.50,95.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (61,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-08 08:01:11',67.70,46.20,100.100,1.820000,154.6000,109.80,16.5000,1415.00,80.9000,85.80,1,23455.00,162,0,4,93.50,0.74,25.90,54.50,64.80,86.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (62,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-11 04:01:11',71.30,54.60,102.100,1.870000,161.5000,113.50,19.6000,1402.00,69.3000,86.90,1,21798.00,187,3,11,92.40,0.84,29.50,54.70,59.50,92.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (63,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-10 17:01:11',74.60,42.80,101.000,1.970000,174.1000,113.10,20.7000,1548.00,84.7000,67.10,1,19271.00,178,4,4,95.70,0.79,27.30,41.90,60.70,86.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (64,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-12 00:01:11',73.60,53.90,100.700,1.420000,197.7000,109.80,14.9000,1449.00,98.7000,63.90,1,26714.00,109,0,5,91.00,0.77,22.50,45.20,74.20,92.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (65,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-09 01:01:11',68.10,56.20,101.500,1.100000,180.9000,109.20,19.1000,1520.00,74.7000,79.90,1,27982.00,100,2,3,92.20,0.85,22.90,51.30,67.80,93.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (66,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-07 01:01:11',63.50,54.40,101.700,3.060000,183.9000,111.20,21.9000,1434.00,74.5000,87.70,1,19822.00,198,2,5,96.50,0.87,22.10,54.60,72.60,90.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (67,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 19:01:11',58.30,58.40,100.600,1.800000,183.5000,112.70,23.2000,1425.00,94.3000,61.40,1,25005.00,172,0,3,90.40,0.80,28.40,52.10,70.70,88.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (68,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-11 20:01:11',65.50,59.80,102.100,2.380000,154.1000,112.60,17.1000,1428.00,89.0000,74.20,3,18347.00,166,3,5,96.10,0.80,28.30,49.50,58.30,86.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (69,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 14:01:11',61.20,47.40,100.300,2.310000,191.2000,113.70,16.2000,1442.00,70.9000,73.60,1,18050.00,159,1,7,97.90,0.74,29.40,39.10,67.70,94.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (70,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-09 01:01:11',80.00,44.00,100.000,2.230000,142.9000,107.10,23.2000,1507.00,97.6000,64.30,1,28282.00,182,4,11,96.10,0.92,22.60,51.20,68.90,98.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (71,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-09 11:01:11',77.10,57.80,102.400,1.850000,143.0000,109.80,22.6000,1417.00,93.4000,62.20,1,27149.00,151,4,7,97.30,0.91,24.80,43.20,66.00,91.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (72,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-08 02:01:11',70.50,54.50,102.300,3.080000,148.9000,111.60,22.4000,1443.00,78.6000,66.40,1,22241.00,94,3,5,93.60,0.95,26.80,38.70,64.50,96.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (73,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-08 01:01:11',70.80,55.30,102.800,2.070000,199.6000,113.30,18.9000,1553.00,68.6000,76.50,1,25721.00,147,5,8,90.20,0.93,26.80,40.90,58.90,96.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (74,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-08 18:01:11',79.80,59.70,102.800,3.360000,145.3000,107.60,15.6000,1505.00,58.3000,67.40,1,26933.00,197,3,4,95.70,0.84,27.40,49.70,65.30,85.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (75,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-11 22:01:11',77.70,49.80,102.200,1.560000,183.8000,107.70,16.8000,1422.00,85.8000,67.60,1,19321.00,175,3,10,92.00,0.89,29.80,49.10,63.80,95.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (76,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-08 19:01:11',55.40,42.90,102.000,3.900000,187.9000,107.60,14.4000,1590.00,82.1000,70.40,1,27614.00,196,2,3,92.50,0.84,28.30,43.10,60.50,97.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (77,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-08 09:01:11',58.80,51.30,101.100,1.380000,172.8000,109.50,15.3000,1517.00,77.3000,88.90,1,20215.00,83,3,11,96.30,0.74,26.30,40.40,59.90,86.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (78,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-10 17:01:11',79.30,41.20,101.100,3.110000,163.4000,112.90,14.5000,1541.00,69.6000,85.20,1,18281.00,151,5,9,91.50,0.84,23.70,45.30,66.20,87.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (79,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-10 18:01:11',76.00,48.80,102.000,1.180000,156.9000,108.50,16.6000,1525.00,67.9000,87.30,1,23760.00,160,5,6,96.60,0.85,26.10,51.40,64.80,94.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (80,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-12 00:01:11',57.70,50.50,100.900,3.580000,166.2000,111.30,21.4000,1572.00,55.1000,87.50,3,21420.00,160,2,5,97.50,0.75,23.70,45.50,68.00,94.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (81,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-10 07:01:11',76.20,44.30,101.600,1.100000,173.4000,111.80,21.3000,1522.00,93.8000,76.20,3,18781.00,165,2,7,91.30,0.92,29.90,42.00,61.80,91.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (82,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-10 04:01:11',70.80,40.80,100.900,2.360000,159.5000,108.80,17.4000,1583.00,78.1000,61.70,1,25125.00,176,1,8,97.90,0.89,28.20,48.30,70.20,96.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (83,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-08 15:01:11',57.60,49.50,100.200,3.690000,157.4000,112.30,23.4000,1486.00,66.8000,71.30,1,28528.00,110,3,5,93.20,0.85,28.80,45.10,67.00,90.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (84,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-10 01:01:11',74.80,55.50,101.500,1.330000,145.8000,108.10,18.6000,1573.00,97.1000,63.30,1,26685.00,114,1,6,95.60,0.94,27.80,50.70,67.40,92.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (85,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-07 04:01:11',61.80,49.10,101.400,3.880000,163.7000,107.70,17.2000,1460.00,77.2000,84.60,1,23531.00,181,5,8,90.60,0.74,27.40,52.10,60.30,87.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (86,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-09 08:01:11',57.60,58.50,100.900,3.300000,194.7000,108.80,19.3000,1582.00,97.9000,61.50,1,22464.00,165,2,1,92.60,0.75,22.20,47.00,67.80,89.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (87,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-08 11:01:11',72.40,47.00,102.000,1.680000,150.0000,108.10,16.8000,1582.00,86.6000,87.80,1,23185.00,126,3,11,97.30,0.87,27.70,46.00,62.00,96.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (88,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-11 18:01:11',55.70,59.30,102.200,3.540000,199.3000,109.80,14.2000,1585.00,78.5000,61.80,1,25161.00,176,1,8,96.10,0.89,26.00,41.90,69.20,93.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (89,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-07 01:01:11',59.80,59.50,100.900,2.680000,194.7000,113.10,20.4000,1515.00,98.0000,62.10,1,23741.00,101,2,8,92.30,0.76,24.30,50.70,72.80,86.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (90,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-07 01:01:11',70.10,40.80,101.200,3.430000,193.4000,107.10,18.3000,1418.00,58.5000,77.20,1,22344.00,90,2,5,92.70,0.76,24.30,48.80,63.50,95.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (91,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-09 01:01:11',76.10,48.60,101.900,3.530000,159.9000,107.90,20.5000,1576.00,72.7000,78.60,1,26775.00,176,4,7,96.40,0.72,29.50,46.50,69.50,98.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (92,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-10 08:01:11',56.70,46.50,101.300,1.470000,170.1000,107.30,20.9000,1469.00,82.9000,67.50,1,21221.00,151,1,1,97.40,0.78,29.10,45.40,67.10,90.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (93,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-10 22:01:11',80.00,46.70,102.100,2.240000,140.6000,112.70,14.5000,1558.00,90.5000,80.40,3,29612.00,175,0,0,90.40,0.72,23.60,51.00,62.20,99.00,NULL,NULL,1,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (94,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-07 09:01:11',75.90,47.80,101.400,1.260000,144.9000,108.00,18.7000,1582.00,57.5000,60.50,1,25570.00,92,3,10,94.40,0.71,26.80,52.50,66.00,97.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (95,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-09 03:01:11',67.80,56.30,101.600,1.760000,178.9000,110.40,18.6000,1572.00,96.3000,61.20,1,23160.00,83,5,1,91.20,0.78,23.90,41.40,62.60,96.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (96,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11 23:01:11',73.70,54.40,101.000,2.700000,187.6000,108.90,23.8000,1414.00,72.0000,89.40,1,24839.00,189,5,6,92.30,0.88,27.50,43.70,68.00,98.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (97,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-07 13:01:11',72.40,55.60,102.400,3.130000,147.8000,110.60,15.7000,1465.00,55.5000,77.20,1,24479.00,197,1,4,92.10,0.72,26.50,48.30,63.60,97.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (98,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-10 20:01:11',71.60,51.80,102.900,1.020000,150.6000,113.00,21.6000,1445.00,92.9000,78.10,1,23384.00,131,4,8,92.60,0.79,28.70,40.10,59.40,85.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (99,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-07 04:01:11',72.90,53.40,100.600,1.120000,173.9000,112.00,22.5000,1424.00,53.4000,89.20,1,25839.00,122,4,10,91.50,0.75,24.90,42.30,61.20,87.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
+INSERT INTO `eq_device_status` VALUES (100,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-10 07:01:11',59.40,56.80,102.000,3.640000,161.4000,108.00,20.4000,1553.00,96.1000,69.20,1,27231.00,191,1,9,91.50,0.81,26.60,48.40,63.70,97.00,NULL,NULL,0,'运行正常','2026-01-12 00:01:11');
 
 -- ----------------------------
 -- Table structure for eq_economic_data
@@ -1702,7 +1666,7 @@ INSERT INTO `eq_device_status` VALUES (100, 20, '2026-01-10 07:01:11', 59.40, 56
 DROP TABLE IF EXISTS `eq_economic_data`;
 CREATE TABLE `eq_economic_data`  (
   `economic_id` bigint NOT NULL AUTO_INCREMENT COMMENT '经济数据ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `timestamp` datetime NOT NULL COMMENT '记录时间',
   `maintenance_cost` decimal(10, 2) NULL DEFAULT NULL COMMENT '维护成本',
   `energy_consumption` decimal(10, 4) NULL DEFAULT NULL COMMENT '能耗(kWh)',
@@ -1726,66 +1690,66 @@ CREATE TABLE `eq_economic_data`  (
 -- ----------------------------
 -- Records of eq_economic_data
 -- ----------------------------
-INSERT INTO `eq_economic_data` VALUES (1, 1, '2025-11-14 00:01:36', 1806.62, 2541.1500, 1597.48, 733.78, 1116.18, 0.2420, 47359.64, 3.50, 59069.62, 47095.42, 79.9000, 93, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (2, 1, '2025-11-26 00:01:36', 5705.60, 1319.4100, 1923.19, 375.21, 223.66, 0.2220, 56585.23, 2.30, 94173.35, 52989.28, 90.9000, 83, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (3, 1, '2025-12-27 00:01:36', 1056.47, 1115.7400, 996.40, 499.29, 852.75, 0.1680, 110508.33, 5.40, 98956.07, 48331.03, 94.8000, 88, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (4, 2, '2025-12-03 00:01:36', 3270.49, 1149.3000, 2104.46, 1021.91, 903.00, 0.2170, 142671.04, 3.40, 67340.62, 42322.64, 79.4000, 96, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (5, 2, '2025-12-27 00:01:36', 2510.76, 2261.8900, 1625.98, 1077.87, 209.72, 0.1020, 111025.30, 6.50, 92997.39, 42335.87, 88.6000, 85, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (6, 2, '2026-01-04 00:01:36', 2011.85, 1939.8300, 1108.84, 808.00, 557.30, 0.2300, 80241.45, 2.20, 58067.07, 71759.33, 75.9000, 83, 2, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (7, 3, '2025-12-03 00:01:36', 1884.11, 2649.8000, 1853.69, 512.69, 221.96, 0.1330, 96991.13, 5.20, 60513.23, 59524.96, 85.8000, 88, 2, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (8, 3, '2025-12-11 00:01:36', 4240.04, 2089.5900, 1052.75, 514.66, 836.12, 0.1440, 146831.67, 6.30, 85078.85, 55356.41, 87.0000, 97, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (9, 3, '2025-12-06 00:01:36', 4855.80, 2965.2700, 1625.58, 401.56, 983.57, 0.1710, 80102.97, 2.40, 64992.68, 54291.57, 88.8000, 89, 2, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (10, 4, '2025-12-17 00:01:36', 1194.28, 2714.0000, 1167.16, 1020.32, 767.70, 0.1030, 148251.02, 5.00, 78710.44, 56042.55, 76.2000, 85, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (11, 4, '2026-01-03 00:01:36', 5439.45, 2902.5600, 912.16, 959.30, 896.34, 0.0820, 145531.80, 6.60, 96221.81, 55485.25, 93.9000, 93, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (12, 4, '2025-12-27 00:01:36', 2810.73, 2931.2700, 1864.15, 1070.37, 686.55, 0.1720, 72250.65, 6.00, 77607.03, 74301.89, 78.1000, 89, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (13, 5, '2025-12-19 00:01:36', 1543.97, 1314.4800, 1153.86, 728.40, 969.77, 0.1210, 139755.87, 6.70, 60919.00, 73141.87, 75.5000, 96, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (14, 5, '2025-11-14 00:01:36', 2315.50, 1405.2000, 731.65, 315.42, 233.04, 0.0980, 90976.31, 7.20, 51107.44, 62918.01, 84.6000, 95, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (15, 5, '2025-11-14 00:01:36', 1862.23, 2753.9700, 2185.89, 498.57, 469.26, 0.1820, 66060.06, 3.20, 69377.07, 55486.85, 86.2000, 94, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (16, 6, '2025-12-25 00:01:36', 1972.89, 615.0900, 1669.67, 375.30, 731.29, 0.1440, 74037.37, 3.60, 73637.11, 66202.71, 84.9000, 93, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (17, 6, '2025-12-18 00:01:36', 4812.74, 1866.6900, 1368.61, 770.94, 806.16, 0.1250, 98068.71, 6.40, 57372.20, 64255.18, 80.1000, 92, 2, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (18, 6, '2025-12-18 00:01:36', 4666.58, 1433.1100, 1699.41, 469.31, 259.38, 0.1930, 58829.24, 6.00, 98401.70, 77002.47, 79.1000, 91, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (19, 7, '2025-12-18 00:01:36', 3150.08, 2712.8100, 903.36, 317.99, 905.70, 0.1580, 64756.69, 5.30, 61186.06, 60055.92, 86.1000, 89, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (20, 7, '2025-12-12 00:01:36', 5517.18, 2851.7500, 2189.79, 415.10, 939.77, 0.1250, 57272.87, 6.70, 78143.57, 60980.92, 87.9000, 95, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (21, 7, '2025-12-27 00:01:36', 5718.52, 2734.8600, 1657.91, 708.97, 840.25, 0.1930, 88806.32, 2.50, 58231.76, 65804.33, 82.5000, 84, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (22, 8, '2025-12-07 00:01:36', 2143.69, 1271.6100, 1985.51, 587.28, 424.51, 0.0880, 103015.68, 5.80, 73876.42, 62795.67, 77.0000, 97, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (23, 8, '2026-01-07 00:01:36', 4184.05, 2771.9300, 1650.15, 652.67, 503.90, 0.1130, 52693.78, 6.70, 82854.20, 83167.44, 91.5000, 85, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (24, 8, '2026-01-08 00:01:36', 1422.62, 993.0200, 1798.71, 356.60, 356.33, 0.1770, 84693.41, 3.10, 88781.14, 54952.69, 81.7000, 92, 2, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (25, 9, '2025-11-22 00:01:36', 1635.64, 707.8400, 751.43, 1037.62, 707.28, 0.2110, 79618.36, 4.00, 84938.86, 61652.30, 81.2000, 83, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (26, 9, '2025-12-05 00:01:36', 3229.78, 1245.4700, 929.62, 996.66, 1094.88, 0.2270, 110624.73, 5.20, 91052.14, 61941.68, 94.5000, 88, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (27, 9, '2025-12-18 00:01:36', 4720.62, 1589.0800, 2118.67, 637.61, 472.74, 0.0970, 115358.06, 2.30, 63838.70, 49525.02, 79.6000, 90, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (28, 10, '2025-12-02 00:01:36', 5662.96, 1972.6600, 921.33, 1076.45, 610.13, 0.1040, 93779.40, 7.40, 56777.67, 83209.76, 82.9000, 83, 2, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (29, 10, '2026-01-07 00:01:36', 4287.64, 2999.4800, 739.57, 406.02, 783.49, 0.1680, 134135.69, 6.10, 93894.57, 55060.69, 75.8000, 85, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (30, 10, '2025-12-02 00:01:36', 5338.43, 1201.7200, 1900.56, 427.84, 597.88, 0.1670, 82411.05, 3.50, 59436.93, 48510.29, 82.6000, 87, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (31, 11, '2025-12-10 00:01:36', 2322.54, 2117.2200, 1361.38, 511.16, 1196.97, 0.1130, 147285.64, 3.80, 76804.41, 76239.41, 83.4000, 92, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (32, 11, '2025-12-08 00:01:36', 3917.19, 861.6000, 2159.33, 644.41, 433.88, 0.2290, 117208.32, 6.80, 98068.74, 57648.63, 76.5000, 85, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (33, 11, '2025-12-19 00:01:36', 4254.00, 525.1000, 846.70, 667.11, 201.02, 0.1870, 59619.02, 6.90, 81806.86, 73677.64, 91.7000, 96, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (34, 12, '2025-11-26 00:01:36', 4147.91, 2420.5600, 2128.57, 665.78, 628.97, 0.2110, 105794.49, 5.50, 57009.52, 83859.10, 84.1000, 87, 2, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (35, 12, '2025-12-03 00:01:36', 2822.06, 2483.6600, 2011.13, 1092.02, 527.90, 0.1940, 83147.89, 6.90, 97593.13, 55040.41, 91.3000, 83, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (36, 12, '2025-12-18 00:01:36', 2560.11, 1251.4700, 1550.32, 1046.11, 1162.52, 0.0830, 64529.64, 7.30, 93561.86, 71439.25, 92.6000, 86, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (37, 13, '2025-12-17 00:01:36', 4079.30, 2359.0500, 2005.79, 397.41, 1197.26, 0.1860, 56888.17, 6.20, 58792.28, 74646.55, 81.4000, 86, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (38, 13, '2025-11-27 00:01:36', 2512.86, 912.2000, 2075.02, 371.02, 893.81, 0.1140, 142890.74, 2.30, 73462.66, 48396.41, 85.5000, 83, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (39, 13, '2025-12-09 00:01:36', 4096.29, 1414.1300, 2155.74, 904.42, 1066.11, 0.0910, 120767.99, 4.50, 95771.09, 54803.91, 93.0000, 90, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (40, 14, '2025-12-04 00:01:36', 4874.35, 2766.7000, 1013.17, 559.10, 1193.01, 0.2490, 148755.32, 7.80, 91884.42, 53822.50, 75.5000, 85, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (41, 14, '2025-11-20 00:01:36', 4847.25, 943.7200, 1568.62, 590.36, 277.48, 0.1310, 72335.76, 4.40, 62458.79, 41249.21, 82.8000, 95, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (42, 14, '2025-12-23 00:01:36', 1597.31, 1951.7600, 1517.70, 1086.85, 482.42, 0.1580, 93275.22, 7.50, 59686.64, 50118.22, 85.9000, 82, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (43, 15, '2025-11-29 00:01:36', 1122.49, 2685.0700, 1144.98, 988.94, 615.90, 0.1640, 69386.48, 6.00, 83484.17, 54784.90, 87.7000, 84, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (44, 15, '2025-12-12 00:01:36', 3762.20, 1016.2300, 1262.72, 505.00, 355.81, 0.0820, 106324.86, 7.30, 84730.31, 76224.26, 93.8000, 86, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (45, 15, '2025-12-27 00:01:36', 3447.68, 2052.4000, 1654.29, 554.47, 881.87, 0.1570, 69135.61, 6.70, 61526.32, 76025.33, 81.2000, 84, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (46, 16, '2025-11-30 00:01:36', 1674.67, 1709.9400, 722.61, 798.75, 271.99, 0.1630, 69385.60, 6.20, 88233.93, 73594.62, 83.8000, 97, 2, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (47, 16, '2025-12-19 00:01:36', 4311.86, 746.7200, 1459.48, 488.44, 858.76, 0.1800, 145761.53, 2.20, 65207.89, 58492.94, 77.8000, 89, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (48, 16, '2025-12-20 00:01:36', 1387.88, 1005.3300, 1866.89, 526.58, 282.37, 0.1760, 104196.66, 2.80, 98520.89, 60476.74, 82.3000, 89, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (49, 17, '2025-12-11 00:01:36', 1827.63, 1005.8100, 1472.58, 1074.62, 496.25, 0.1780, 149294.65, 3.40, 60305.83, 54355.21, 94.5000, 96, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (50, 17, '2025-11-30 00:01:36', 3716.69, 1818.8100, 711.41, 664.36, 454.42, 0.2340, 125383.56, 2.70, 62790.62, 82640.69, 94.4000, 82, 1, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (51, 17, '2025-12-05 00:01:36', 5214.58, 1161.8000, 1892.29, 444.10, 716.07, 0.0870, 113423.60, 2.80, 86838.05, 52094.75, 77.7000, 95, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (52, 18, '2025-11-16 00:01:36', 1167.13, 1285.5600, 1406.28, 629.26, 845.32, 0.2490, 47465.86, 2.90, 81914.79, 74480.33, 93.3000, 86, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (53, 18, '2025-12-15 00:01:36', 2875.84, 1637.5500, 924.39, 606.33, 665.76, 0.1110, 97822.35, 7.90, 68325.16, 80818.97, 83.7000, 89, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (54, 18, '2025-12-11 00:01:36', 4879.72, 1106.6000, 2028.06, 859.15, 1038.60, 0.0960, 146320.89, 5.20, 89344.61, 54642.82, 80.3000, 87, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (55, 19, '2025-11-24 00:01:36', 1901.95, 1584.4400, 1641.57, 969.78, 502.99, 0.0810, 56269.45, 5.20, 65618.38, 84155.20, 94.4000, 96, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (56, 19, '2025-12-26 00:01:36', 4419.98, 1822.7100, 1590.16, 603.95, 319.39, 0.1580, 142373.51, 3.60, 77274.94, 81892.07, 75.4000, 86, 2, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (57, 19, '2025-12-26 00:01:36', 1591.01, 2338.7400, 1184.32, 626.33, 270.93, 0.1020, 91389.26, 6.90, 87792.30, 54871.52, 82.7000, 96, 3, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (58, 20, '2025-11-29 00:01:36', 2092.07, 2609.4300, 1545.42, 529.41, 942.96, 0.2250, 49594.92, 5.90, 57239.77, 74124.83, 82.1000, 90, 2, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (59, 20, '2025-11-20 00:01:36', 5979.92, 1274.1900, 1540.64, 998.49, 884.30, 0.2160, 145580.00, 4.30, 52072.93, 42618.51, 78.3000, 92, 4, '2026-01-12 00:01:36');
-INSERT INTO `eq_economic_data` VALUES (60, 20, '2025-11-14 00:01:36', 3716.54, 2413.7100, 996.24, 852.82, 1062.66, 0.1210, 109365.37, 4.10, 94157.98, 57212.30, 80.3000, 84, 1, '2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','2025-11-14 00:01:36',1806.62,2541.1500,1597.48,733.78,1116.18,0.2420,47359.64,3.50,59069.62,47095.42,79.9000,93,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d','2025-11-26 00:01:36',5705.60,1319.4100,1923.19,375.21,223.66,0.2220,56585.23,2.30,94173.35,52989.28,90.9000,83,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d','2025-12-27 00:01:36',1056.47,1115.7400,996.40,499.29,852.75,0.1680,110508.33,5.40,98956.07,48331.03,94.8000,88,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (4,'fecc074d-88bb-5010-b639-e7db3c22481d','2025-12-03 00:01:36',3270.49,1149.3000,2104.46,1021.91,903.00,0.2170,142671.04,3.40,67340.62,42322.64,79.4000,96,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (5,'fecc074d-88bb-5010-b639-e7db3c22481d','2025-12-27 00:01:36',2510.76,2261.8900,1625.98,1077.87,209.72,0.1020,111025.30,6.50,92997.39,42335.87,88.6000,85,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-04 00:01:36',2011.85,1939.8300,1108.84,808.00,557.30,0.2300,80241.45,2.20,58067.07,71759.33,75.9000,83,2,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (7,'37464ae6-85a6-5ce3-9add-965f746ec79a','2025-12-03 00:01:36',1884.11,2649.8000,1853.69,512.69,221.96,0.1330,96991.13,5.20,60513.23,59524.96,85.8000,88,2,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (8,'37464ae6-85a6-5ce3-9add-965f746ec79a','2025-12-11 00:01:36',4240.04,2089.5900,1052.75,514.66,836.12,0.1440,146831.67,6.30,85078.85,55356.41,87.0000,97,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (9,'37464ae6-85a6-5ce3-9add-965f746ec79a','2025-12-06 00:01:36',4855.80,2965.2700,1625.58,401.56,983.57,0.1710,80102.97,2.40,64992.68,54291.57,88.8000,89,2,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (10,'cca074a5-c046-5921-82b1-bc414f2340ea','2025-12-17 00:01:36',1194.28,2714.0000,1167.16,1020.32,767.70,0.1030,148251.02,5.00,78710.44,56042.55,76.2000,85,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (11,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-03 00:01:36',5439.45,2902.5600,912.16,959.30,896.34,0.0820,145531.80,6.60,96221.81,55485.25,93.9000,93,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (12,'cca074a5-c046-5921-82b1-bc414f2340ea','2025-12-27 00:01:36',2810.73,2931.2700,1864.15,1070.37,686.55,0.1720,72250.65,6.00,77607.03,74301.89,78.1000,89,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (13,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2025-12-19 00:01:36',1543.97,1314.4800,1153.86,728.40,969.77,0.1210,139755.87,6.70,60919.00,73141.87,75.5000,96,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (14,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2025-11-14 00:01:36',2315.50,1405.2000,731.65,315.42,233.04,0.0980,90976.31,7.20,51107.44,62918.01,84.6000,95,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (15,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2025-11-14 00:01:36',1862.23,2753.9700,2185.89,498.57,469.26,0.1820,66060.06,3.20,69377.07,55486.85,86.2000,94,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (16,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2025-12-25 00:01:36',1972.89,615.0900,1669.67,375.30,731.29,0.1440,74037.37,3.60,73637.11,66202.71,84.9000,93,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (17,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2025-12-18 00:01:36',4812.74,1866.6900,1368.61,770.94,806.16,0.1250,98068.71,6.40,57372.20,64255.18,80.1000,92,2,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (18,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2025-12-18 00:01:36',4666.58,1433.1100,1699.41,469.31,259.38,0.1930,58829.24,6.00,98401.70,77002.47,79.1000,91,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (19,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2025-12-18 00:01:36',3150.08,2712.8100,903.36,317.99,905.70,0.1580,64756.69,5.30,61186.06,60055.92,86.1000,89,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (20,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2025-12-12 00:01:36',5517.18,2851.7500,2189.79,415.10,939.77,0.1250,57272.87,6.70,78143.57,60980.92,87.9000,95,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (21,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2025-12-27 00:01:36',5718.52,2734.8600,1657.91,708.97,840.25,0.1930,88806.32,2.50,58231.76,65804.33,82.5000,84,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (22,'d3e9f772-bcc2-5f46-871d-4765ef174569','2025-12-07 00:01:36',2143.69,1271.6100,1985.51,587.28,424.51,0.0880,103015.68,5.80,73876.42,62795.67,77.0000,97,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (23,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-07 00:01:36',4184.05,2771.9300,1650.15,652.67,503.90,0.1130,52693.78,6.70,82854.20,83167.44,91.5000,85,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (24,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-08 00:01:36',1422.62,993.0200,1798.71,356.60,356.33,0.1770,84693.41,3.10,88781.14,54952.69,81.7000,92,2,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (25,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2025-11-22 00:01:36',1635.64,707.8400,751.43,1037.62,707.28,0.2110,79618.36,4.00,84938.86,61652.30,81.2000,83,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (26,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2025-12-05 00:01:36',3229.78,1245.4700,929.62,996.66,1094.88,0.2270,110624.73,5.20,91052.14,61941.68,94.5000,88,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (27,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2025-12-18 00:01:36',4720.62,1589.0800,2118.67,637.61,472.74,0.0970,115358.06,2.30,63838.70,49525.02,79.6000,90,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (28,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2025-12-02 00:01:36',5662.96,1972.6600,921.33,1076.45,610.13,0.1040,93779.40,7.40,56777.67,83209.76,82.9000,83,2,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (29,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-07 00:01:36',4287.64,2999.4800,739.57,406.02,783.49,0.1680,134135.69,6.10,93894.57,55060.69,75.8000,85,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (30,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2025-12-02 00:01:36',5338.43,1201.7200,1900.56,427.84,597.88,0.1670,82411.05,3.50,59436.93,48510.29,82.6000,87,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (31,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2025-12-10 00:01:36',2322.54,2117.2200,1361.38,511.16,1196.97,0.1130,147285.64,3.80,76804.41,76239.41,83.4000,92,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (32,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2025-12-08 00:01:36',3917.19,861.6000,2159.33,644.41,433.88,0.2290,117208.32,6.80,98068.74,57648.63,76.5000,85,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (33,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2025-12-19 00:01:36',4254.00,525.1000,846.70,667.11,201.02,0.1870,59619.02,6.90,81806.86,73677.64,91.7000,96,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (34,'2a3ca038-96b0-55ca-b21c-01751b03464b','2025-11-26 00:01:36',4147.91,2420.5600,2128.57,665.78,628.97,0.2110,105794.49,5.50,57009.52,83859.10,84.1000,87,2,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (35,'2a3ca038-96b0-55ca-b21c-01751b03464b','2025-12-03 00:01:36',2822.06,2483.6600,2011.13,1092.02,527.90,0.1940,83147.89,6.90,97593.13,55040.41,91.3000,83,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (36,'2a3ca038-96b0-55ca-b21c-01751b03464b','2025-12-18 00:01:36',2560.11,1251.4700,1550.32,1046.11,1162.52,0.0830,64529.64,7.30,93561.86,71439.25,92.6000,86,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (37,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2025-12-17 00:01:36',4079.30,2359.0500,2005.79,397.41,1197.26,0.1860,56888.17,6.20,58792.28,74646.55,81.4000,86,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (38,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2025-11-27 00:01:36',2512.86,912.2000,2075.02,371.02,893.81,0.1140,142890.74,2.30,73462.66,48396.41,85.5000,83,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (39,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2025-12-09 00:01:36',4096.29,1414.1300,2155.74,904.42,1066.11,0.0910,120767.99,4.50,95771.09,54803.91,93.0000,90,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (40,'bb046d14-328a-5267-8b28-c4faed37de82','2025-12-04 00:01:36',4874.35,2766.7000,1013.17,559.10,1193.01,0.2490,148755.32,7.80,91884.42,53822.50,75.5000,85,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (41,'bb046d14-328a-5267-8b28-c4faed37de82','2025-11-20 00:01:36',4847.25,943.7200,1568.62,590.36,277.48,0.1310,72335.76,4.40,62458.79,41249.21,82.8000,95,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (42,'bb046d14-328a-5267-8b28-c4faed37de82','2025-12-23 00:01:36',1597.31,1951.7600,1517.70,1086.85,482.42,0.1580,93275.22,7.50,59686.64,50118.22,85.9000,82,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (43,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2025-11-29 00:01:36',1122.49,2685.0700,1144.98,988.94,615.90,0.1640,69386.48,6.00,83484.17,54784.90,87.7000,84,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (44,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2025-12-12 00:01:36',3762.20,1016.2300,1262.72,505.00,355.81,0.0820,106324.86,7.30,84730.31,76224.26,93.8000,86,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (45,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2025-12-27 00:01:36',3447.68,2052.4000,1654.29,554.47,881.87,0.1570,69135.61,6.70,61526.32,76025.33,81.2000,84,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (46,'da59851e-ab46-5335-aaba-31e636e34c47','2025-11-30 00:01:36',1674.67,1709.9400,722.61,798.75,271.99,0.1630,69385.60,6.20,88233.93,73594.62,83.8000,97,2,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','2025-12-19 00:01:36',4311.86,746.7200,1459.48,488.44,858.76,0.1800,145761.53,2.20,65207.89,58492.94,77.8000,89,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (48,'da59851e-ab46-5335-aaba-31e636e34c47','2025-12-20 00:01:36',1387.88,1005.3300,1866.89,526.58,282.37,0.1760,104196.66,2.80,98520.89,60476.74,82.3000,89,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (49,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2025-12-11 00:01:36',1827.63,1005.8100,1472.58,1074.62,496.25,0.1780,149294.65,3.40,60305.83,54355.21,94.5000,96,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (50,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2025-11-30 00:01:36',3716.69,1818.8100,711.41,664.36,454.42,0.2340,125383.56,2.70,62790.62,82640.69,94.4000,82,1,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (51,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2025-12-05 00:01:36',5214.58,1161.8000,1892.29,444.10,716.07,0.0870,113423.60,2.80,86838.05,52094.75,77.7000,95,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (52,'becc564c-15ec-5a6e-b975-5cde2f62633b','2025-11-16 00:01:36',1167.13,1285.5600,1406.28,629.26,845.32,0.2490,47465.86,2.90,81914.79,74480.33,93.3000,86,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (53,'becc564c-15ec-5a6e-b975-5cde2f62633b','2025-12-15 00:01:36',2875.84,1637.5500,924.39,606.33,665.76,0.1110,97822.35,7.90,68325.16,80818.97,83.7000,89,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (54,'becc564c-15ec-5a6e-b975-5cde2f62633b','2025-12-11 00:01:36',4879.72,1106.6000,2028.06,859.15,1038.60,0.0960,146320.89,5.20,89344.61,54642.82,80.3000,87,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (55,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2025-11-24 00:01:36',1901.95,1584.4400,1641.57,969.78,502.99,0.0810,56269.45,5.20,65618.38,84155.20,94.4000,96,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (56,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2025-12-26 00:01:36',4419.98,1822.7100,1590.16,603.95,319.39,0.1580,142373.51,3.60,77274.94,81892.07,75.4000,86,2,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (57,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2025-12-26 00:01:36',1591.01,2338.7400,1184.32,626.33,270.93,0.1020,91389.26,6.90,87792.30,54871.52,82.7000,96,3,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (58,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2025-11-29 00:01:36',2092.07,2609.4300,1545.42,529.41,942.96,0.2250,49594.92,5.90,57239.77,74124.83,82.1000,90,2,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (59,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2025-11-20 00:01:36',5979.92,1274.1900,1540.64,998.49,884.30,0.2160,145580.00,4.30,52072.93,42618.51,78.3000,92,4,'2026-01-12 00:01:36');
+INSERT INTO `eq_economic_data` VALUES (60,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2025-11-14 00:01:36',3716.54,2413.7100,996.24,852.82,1062.66,0.1210,109365.37,4.10,94157.98,57212.30,80.3000,84,1,'2026-01-12 00:01:36');
 
 -- ----------------------------
 -- Table structure for eq_electrical_data
@@ -1793,7 +1757,7 @@ INSERT INTO `eq_economic_data` VALUES (60, 20, '2025-11-14 00:01:36', 3716.54, 2
 DROP TABLE IF EXISTS `eq_electrical_data`;
 CREATE TABLE `eq_electrical_data`  (
   `electrical_id` bigint NOT NULL AUTO_INCREMENT COMMENT '电气数据ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `timestamp` datetime NOT NULL COMMENT '采集时间',
   `voltage_l1` decimal(10, 2) NULL DEFAULT NULL COMMENT 'L1相电压(V)',
   `voltage_l2` decimal(10, 2) NULL DEFAULT NULL COMMENT 'L2相电压(V)',
@@ -1830,66 +1794,66 @@ CREATE TABLE `eq_electrical_data`  (
 -- ----------------------------
 -- Records of eq_electrical_data
 -- ----------------------------
-INSERT INTO `eq_electrical_data` VALUES (1, 1, '2026-01-11 10:40:52', 109.95, 108.17, 111.01, 0.7231, 49.84, 1.0997, 170.2938, 176.9818, 184.0275, 0.6128, 491.9514, 18.3629, 2.4958, 19.9765, 0.8737, 95.0638, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.3150, 1.1452, 2.1436, 30.4331, 2.4293, 92.5817, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (2, 1, '2026-01-11 14:40:52', 109.53, 108.22, 112.53, 0.8537, 50.11, 1.6122, 162.8312, 161.6057, 174.5347, 0.5238, 540.3973, 22.9648, 2.8056, 19.8355, 0.9460, 95.6952, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.8437, 1.8618, 2.9322, 35.2196, 1.2455, 85.8073, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (3, 1, '2026-01-11 16:40:52', 107.48, 112.52, 112.16, 0.6380, 49.95, 2.8911, 174.9721, 164.7609, 153.8882, 2.0106, 525.8388, 21.0324, 3.8952, 23.5157, 0.8513, 92.4242, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.0418, 1.1516, 3.0114, 39.1662, 1.0603, 85.2572, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (4, 2, '2026-01-11 07:40:52', 113.68, 111.77, 110.80, 1.3457, 50.09, 1.9524, 147.3619, 158.9495, 162.6620, 0.0974, 548.4900, 21.4437, 2.5421, 20.3784, 0.8983, 93.8002, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.5758, 1.4393, 3.5671, 49.0575, 0.8946, 86.2788, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (5, 2, '2026-01-10 08:40:52', 107.89, 107.52, 113.91, 1.4260, 50.04, 2.6538, 172.3972, 162.5658, 150.6371, 1.3659, 540.0643, 15.2361, 4.9544, 21.0957, 0.9026, 92.9110, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.9179, 2.4464, 4.0946, 36.4257, 1.5237, 90.9541, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (6, 2, '2026-01-11 04:40:52', 112.47, 111.52, 113.17, 0.9457, 50.09, 0.5233, 177.2393, 147.6473, 151.5185, 1.6434, 480.4400, 21.9076, 3.4397, 23.1090, 0.8754, 94.0134, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.6141, 2.1056, 2.4498, 31.8263, 0.5135, 92.5972, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (7, 3, '2026-01-10 19:40:52', 112.10, 112.65, 112.93, 1.6290, 50.01, 0.6426, 166.4378, 178.2701, 157.0374, 0.3584, 529.4899, 19.5445, 4.0868, 22.0385, 0.8375, 92.2199, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.7693, 1.6989, 4.9343, 46.8419, 1.0523, 93.5455, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (8, 3, '2026-01-10 17:40:52', 113.69, 112.63, 108.10, 0.7482, 49.96, 2.5899, 150.6342, 146.6250, 181.2223, 2.7491, 466.7010, 14.7736, 4.7862, 20.0861, 0.8471, 93.5595, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.0554, 1.1824, 3.2014, 44.5758, 1.3851, 85.2642, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (9, 3, '2026-01-10 03:40:52', 109.11, 111.74, 110.37, 0.7586, 49.98, 0.3380, 154.5843, 177.7117, 189.8057, 2.3929, 450.1099, 19.5135, 2.1792, 20.6871, 0.8450, 90.4348, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.5251, 1.9563, 4.5966, 47.8644, 2.2390, 91.6795, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (10, 4, '2026-01-10 17:40:52', 107.47, 109.65, 111.83, 0.6334, 50.01, 1.8400, 168.7915, 181.1556, 164.4033, 2.2366, 493.4187, 22.4086, 3.1067, 17.3328, 0.8422, 91.8176, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.8146, 2.7581, 3.7422, 35.3282, 1.6798, 86.5021, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (11, 4, '2026-01-11 03:40:52', 109.36, 109.23, 111.06, 1.8892, 50.19, 0.2423, 165.4796, 146.4942, 181.0325, 2.7120, 461.7801, 21.8932, 2.0952, 21.2201, 0.8951, 89.2956, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.0617, 2.4282, 3.5262, 38.0299, 1.4625, 87.0168, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (12, 4, '2026-01-11 14:40:52', 109.79, 109.35, 110.40, 0.8416, 50.06, 2.9080, 185.8445, 173.3625, 164.2789, 0.7538, 547.1100, 14.9151, 3.7853, 22.3641, 0.8981, 96.2461, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.2641, 2.2659, 4.7020, 42.0901, 1.1411, 92.8911, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (13, 5, '2026-01-10 22:40:52', 112.67, 109.77, 110.81, 1.0759, 49.82, 1.9902, 151.7767, 179.3267, 161.3035, 1.5692, 502.8355, 14.6536, 4.3342, 22.3791, 0.8333, 89.2165, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.5749, 1.5196, 4.1727, 46.8357, 0.5723, 91.5550, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (14, 5, '2026-01-10 06:40:52', 113.19, 112.53, 109.06, 0.2016, 50.05, 2.4222, 152.6997, 164.4989, 174.3952, 2.8986, 537.1345, 18.1230, 4.0296, 17.0660, 0.8314, 88.3384, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.4021, 2.1372, 3.3226, 39.9718, 0.8407, 88.5593, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (15, 5, '2026-01-11 11:40:52', 110.99, 107.19, 109.98, 0.0890, 50.18, 1.7949, 151.8599, 188.5277, 162.0589, 2.9807, 533.0651, 15.5526, 3.1118, 19.6836, 0.8979, 96.2096, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.2252, 2.1583, 4.0119, 42.3136, 0.6330, 89.8535, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (16, 6, '2026-01-10 16:40:52', 112.05, 110.95, 111.58, 1.1676, 50.18, 0.0569, 155.4697, 149.7878, 182.5299, 2.5524, 525.2005, 15.8686, 4.3463, 19.3015, 0.8411, 93.9752, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.1337, 2.5272, 4.0528, 32.6121, 1.7004, 91.0914, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (17, 6, '2026-01-11 05:40:52', 108.79, 107.59, 111.57, 0.0274, 49.84, 1.5100, 153.5517, 164.8080, 173.3848, 2.5000, 477.4342, 21.8454, 3.6066, 17.5003, 0.9147, 91.4271, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.7861, 2.8974, 4.8721, 48.8163, 2.1639, 88.3728, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (18, 6, '2026-01-10 03:40:52', 107.93, 112.89, 112.66, 1.0331, 49.86, 0.7274, 178.1677, 188.1070, 171.0316, 0.0558, 485.7551, 20.5877, 3.7615, 22.9192, 0.9426, 92.7052, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.6154, 1.5616, 4.3654, 32.0007, 0.7695, 88.7373, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (19, 7, '2026-01-11 15:40:52', 111.27, 110.12, 109.78, 1.3061, 49.83, 1.2052, 180.6460, 178.9969, 163.0464, 2.2161, 499.0386, 16.1226, 4.1241, 23.6618, 0.8347, 94.9909, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.1313, 2.5764, 4.4293, 43.6844, 2.4836, 94.0626, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (20, 7, '2026-01-11 22:40:52', 111.46, 107.02, 107.70, 0.9892, 49.87, 1.1300, 161.5202, 176.7493, 164.1863, 0.0456, 529.6845, 22.4480, 2.9084, 22.5840, 0.8998, 96.1409, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.9768, 1.3713, 4.8548, 34.0183, 0.7996, 86.4635, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (21, 7, '2026-01-10 02:40:52', 107.10, 108.10, 112.20, 0.4858, 50.19, 0.5899, 146.2586, 169.7483, 174.9655, 2.0389, 490.0385, 22.6677, 3.8426, 18.4549, 0.8380, 95.8766, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.2150, 1.6575, 3.2863, 33.1522, 1.5034, 85.3567, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (22, 8, '2026-01-11 12:40:52', 108.94, 111.23, 108.35, 0.3066, 49.87, 1.4155, 181.0045, 171.3257, 168.6149, 2.6065, 526.9847, 16.1846, 4.7123, 23.3388, 0.8599, 96.7015, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.8072, 1.8033, 2.6027, 45.9919, 1.2906, 90.7766, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (23, 8, '2026-01-10 11:40:52', 112.52, 111.23, 111.59, 0.9313, 49.94, 1.2328, 188.6468, 172.7572, 152.8457, 0.0638, 508.3273, 21.6732, 3.5392, 17.0604, 0.8898, 92.7025, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.5665, 2.7335, 4.3016, 34.7155, 2.2546, 91.7911, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (24, 8, '2026-01-10 11:40:52', 111.30, 112.10, 112.59, 1.6194, 50.06, 2.4873, 153.5748, 165.9455, 179.0031, 1.1453, 514.1915, 14.5787, 3.1873, 23.2872, 0.9191, 91.5344, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.6215, 2.2843, 3.7680, 30.4039, 1.1659, 91.0420, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (25, 9, '2026-01-11 10:40:52', 109.97, 108.57, 112.97, 1.1845, 49.96, 0.6825, 187.0739, 189.6575, 152.0659, 2.4238, 506.8602, 17.7729, 3.1708, 22.5490, 0.8657, 92.0591, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.4124, 1.9392, 4.8071, 35.3922, 1.5819, 93.9603, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (26, 9, '2026-01-10 20:40:52', 109.93, 109.09, 108.68, 0.5993, 50.11, 0.0043, 175.0104, 159.8607, 174.2721, 0.7852, 485.7239, 14.0087, 4.7994, 22.3021, 0.8917, 93.8366, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.1255, 1.2496, 3.4955, 32.3620, 0.6900, 86.2080, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (27, 9, '2026-01-11 13:40:52', 108.43, 109.29, 107.13, 0.2250, 50.00, 0.5972, 166.3053, 179.6508, 164.3380, 2.5159, 540.3891, 14.0324, 2.9190, 21.1666, 0.9122, 96.6335, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.7838, 2.4325, 4.3926, 46.7774, 2.1035, 89.9210, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (28, 10, '2026-01-10 10:40:52', 112.84, 112.42, 109.56, 1.0172, 49.98, 2.0850, 151.4171, 173.2594, 177.0458, 2.0301, 474.7039, 15.8463, 2.8537, 23.4598, 0.8520, 92.9583, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.7846, 1.3071, 4.9492, 39.0953, 1.1492, 87.5869, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (29, 10, '2026-01-10 09:40:52', 108.06, 109.06, 107.09, 0.3643, 50.15, 2.4512, 166.0252, 184.8208, 146.0284, 1.3786, 472.9165, 20.9047, 2.4454, 20.5260, 0.9210, 92.6948, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.2171, 2.9069, 3.6503, 47.8034, 2.1011, 88.3219, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (30, 10, '2026-01-11 10:40:52', 112.06, 111.98, 109.72, 1.6194, 50.15, 2.9541, 157.3837, 163.9851, 157.7745, 0.4611, 541.6933, 15.1117, 4.6005, 24.7084, 0.8561, 89.9579, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.9812, 1.0959, 2.7759, 32.9840, 2.4403, 89.0318, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (31, 11, '2026-01-11 09:40:52', 108.90, 109.84, 108.48, 1.6821, 50.03, 0.9979, 187.7384, 178.7861, 185.7152, 0.8145, 514.3176, 17.6123, 2.2319, 18.4598, 0.9116, 96.5460, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.6954, 2.1903, 2.8409, 42.3213, 0.9789, 88.4905, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (32, 11, '2026-01-11 20:40:52', 109.49, 110.63, 110.67, 0.1323, 50.10, 1.7710, 175.5228, 172.9210, 148.0367, 1.4280, 467.7621, 18.1406, 4.3024, 20.6566, 0.9480, 93.4381, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.3101, 1.4376, 4.3516, 35.2591, 2.4263, 85.2690, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (33, 11, '2026-01-11 18:40:52', 113.91, 110.51, 110.84, 0.4776, 50.02, 0.0570, 165.4215, 154.5405, 176.4382, 2.5713, 468.9629, 17.3915, 2.9459, 20.5680, 0.8641, 88.8251, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.6807, 2.1074, 2.2630, 45.5466, 1.7473, 92.8619, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (34, 12, '2026-01-10 03:40:52', 110.69, 112.70, 110.42, 1.9971, 50.01, 1.9301, 173.5014, 155.6540, 157.7659, 2.1245, 518.9765, 16.9190, 3.6571, 23.3105, 0.8644, 88.6850, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.4447, 1.4045, 3.6996, 34.5201, 1.3608, 89.7391, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (35, 12, '2026-01-10 02:40:52', 111.31, 108.20, 107.03, 1.0220, 50.02, 0.5178, 155.7858, 175.6260, 175.7728, 1.1324, 533.5788, 14.4190, 4.1763, 20.8997, 0.8613, 96.4280, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.2926, 2.2519, 4.5112, 36.1496, 0.5525, 87.0876, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (36, 12, '2026-01-11 15:40:52', 107.70, 113.34, 108.59, 0.8306, 49.96, 2.2182, 167.7601, 158.9833, 146.6361, 0.7487, 463.8761, 22.5060, 2.9278, 22.6876, 0.9052, 88.0208, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.3884, 2.2821, 4.4506, 33.2225, 1.2101, 87.9197, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (37, 13, '2026-01-11 20:40:52', 109.12, 108.55, 108.38, 0.6441, 49.81, 0.3911, 171.7293, 171.0455, 150.0398, 2.4708, 528.2064, 17.9554, 4.5538, 24.5025, 0.8462, 96.6310, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.7288, 2.9173, 2.1934, 38.9263, 0.5765, 93.5218, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (38, 13, '2026-01-11 16:40:52', 110.04, 111.54, 113.58, 1.5083, 50.18, 1.4695, 171.9043, 168.3926, 181.2502, 1.4049, 542.4788, 15.9715, 2.9628, 24.5797, 0.9229, 88.3031, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.4838, 1.0975, 4.2799, 43.0699, 2.4752, 94.7763, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (39, 13, '2026-01-10 15:40:52', 111.84, 109.65, 112.71, 1.8848, 49.91, 1.5071, 177.1386, 147.8713, 152.9405, 2.0726, 542.4949, 18.9694, 4.9578, 19.1853, 0.8790, 90.2064, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.6373, 2.4673, 2.0927, 49.0711, 1.8502, 90.1472, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (40, 14, '2026-01-11 15:40:52', 109.40, 107.86, 111.09, 1.1098, 49.81, 1.3140, 150.7727, 159.7354, 156.3591, 0.8393, 514.1547, 17.3160, 4.7527, 20.8603, 0.9092, 96.5215, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.8427, 2.6961, 3.1928, 38.8753, 0.5521, 92.9901, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (41, 14, '2026-01-11 16:40:52', 108.30, 109.58, 109.00, 0.6400, 50.10, 2.2824, 170.7205, 170.8945, 152.3111, 0.2581, 544.2813, 18.1034, 3.3537, 24.1064, 0.8405, 95.7434, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.8245, 2.4356, 4.2936, 43.3848, 0.6052, 87.5528, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (42, 14, '2026-01-10 09:40:52', 112.46, 109.94, 112.31, 1.0657, 49.96, 1.0362, 170.2266, 179.5045, 151.8425, 1.3799, 534.3730, 21.5484, 3.9871, 23.3658, 0.9490, 93.7040, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.6324, 2.3522, 4.2442, 44.2414, 1.1323, 89.4455, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (43, 15, '2026-01-11 23:40:52', 109.56, 112.01, 110.38, 0.5299, 50.15, 1.7701, 159.3620, 182.1573, 152.7007, 1.1354, 487.9004, 20.8363, 3.9828, 17.2071, 0.8476, 94.5550, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.5128, 1.4431, 3.7847, 36.1986, 2.0298, 93.9477, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (44, 15, '2026-01-11 14:40:52', 110.63, 113.72, 108.69, 0.6592, 50.17, 1.8822, 161.5270, 187.9351, 175.0948, 1.4446, 490.1298, 19.0573, 3.8171, 19.7423, 0.9376, 92.5577, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.7651, 2.1491, 2.3226, 46.2820, 1.9958, 87.9715, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (45, 15, '2026-01-11 09:40:52', 113.08, 109.69, 109.23, 0.8812, 49.90, 2.7250, 181.1603, 158.1775, 147.4066, 1.1667, 528.4078, 20.7831, 3.2485, 23.5582, 0.9320, 95.9261, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.2357, 2.3633, 2.5176, 46.3542, 1.6419, 89.0174, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (46, 16, '2026-01-11 11:40:52', 110.37, 111.08, 110.31, 1.2321, 50.06, 1.3726, 158.6886, 151.6772, 182.3201, 2.1046, 451.9652, 22.9430, 4.7281, 21.5265, 0.8421, 96.0746, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.2031, 1.4988, 2.1317, 39.4272, 0.9502, 92.1130, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (47, 16, '2026-01-11 11:40:52', 112.03, 112.43, 112.07, 0.5822, 49.91, 1.6413, 184.7462, 179.8727, 155.1251, 2.4005, 482.5780, 16.0559, 2.4945, 18.1103, 0.8539, 93.8113, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.9215, 2.5848, 2.1213, 46.5018, 0.5082, 90.4526, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (48, 16, '2026-01-10 04:40:52', 110.70, 112.88, 111.31, 1.1171, 50.18, 0.1485, 163.5595, 186.1158, 159.9004, 2.7436, 507.9366, 15.3788, 2.0836, 22.4385, 0.8679, 93.3772, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.2269, 1.1968, 2.7952, 30.6013, 1.2103, 91.8563, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (49, 17, '2026-01-10 12:40:52', 111.86, 108.41, 113.47, 0.0331, 49.92, 1.5096, 171.2947, 163.5395, 158.8132, 0.8965, 507.3317, 22.7306, 2.3911, 22.9333, 0.8681, 91.6095, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.5595, 1.3661, 3.0673, 34.5933, 0.6620, 92.1611, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (50, 17, '2026-01-10 23:40:52', 111.78, 112.58, 113.57, 0.5951, 50.07, 1.4319, 161.4042, 162.5860, 183.7174, 0.3886, 456.6507, 22.4954, 3.5605, 23.1516, 0.8641, 89.1474, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.1622, 1.5189, 2.4052, 47.9382, 0.6588, 92.0624, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (51, 17, '2026-01-11 08:40:52', 112.97, 108.58, 111.00, 0.3557, 49.87, 1.0315, 153.6779, 186.9700, 148.8164, 1.8781, 537.5809, 18.5081, 4.6312, 24.0615, 0.9239, 90.6299, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.9050, 1.1054, 3.0754, 42.6837, 0.6911, 90.7528, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (52, 18, '2026-01-11 14:40:52', 109.41, 107.38, 108.67, 0.0558, 49.97, 0.1226, 186.8348, 168.6555, 182.7729, 1.8599, 508.1572, 14.4320, 3.4859, 19.6597, 0.8512, 96.8481, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.6842, 2.6385, 3.2360, 42.0441, 2.0502, 85.6877, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (53, 18, '2026-01-10 06:40:52', 109.65, 108.62, 107.15, 0.8244, 50.20, 2.2523, 179.2606, 169.9506, 166.9711, 2.3336, 492.4596, 21.1044, 4.0193, 24.9786, 0.9461, 96.4480, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.9658, 1.1505, 3.2316, 46.5388, 2.3061, 85.3438, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (54, 18, '2026-01-11 14:40:52', 111.66, 111.87, 110.37, 0.6374, 49.86, 2.3848, 168.5809, 155.5900, 172.2073, 0.9511, 527.1367, 22.1515, 2.6435, 19.8428, 0.8460, 94.0009, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.8023, 1.4072, 2.6471, 39.3539, 1.8828, 85.5379, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (55, 19, '2026-01-10 09:40:52', 110.36, 113.71, 109.48, 1.7939, 49.97, 1.2475, 181.6774, 182.2514, 176.2248, 2.9580, 534.8338, 16.5532, 4.6203, 21.1293, 0.9453, 90.5378, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.1627, 1.3529, 4.1589, 31.3742, 0.8694, 92.1738, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (56, 19, '2026-01-12 00:40:52', 113.73, 112.38, 113.74, 1.0110, 50.06, 2.0492, 167.3038, 164.3031, 174.6042, 0.0074, 453.8774, 15.6779, 4.4476, 21.1602, 0.8483, 90.0245, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.6642, 1.3326, 2.5020, 36.7556, 0.8738, 94.2112, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (57, 19, '2026-01-11 02:40:52', 108.20, 110.31, 112.96, 1.6714, 50.05, 1.8647, 155.3812, 157.9924, 178.8183, 2.6743, 470.2614, 17.0489, 2.2580, 20.3096, 0.9273, 96.1149, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.8776, 2.3898, 3.7909, 48.0012, 1.9188, 93.4691, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (58, 20, '2026-01-10 01:40:52', 111.44, 108.41, 107.72, 1.8250, 49.90, 1.5702, 183.7193, 177.9394, 148.5392, 0.5919, 525.0480, 15.4449, 3.6539, 19.1983, 0.9164, 95.7606, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 4.1601, 1.5440, 2.5998, 33.6742, 1.1374, 85.4236, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (59, 20, '2026-01-11 17:40:52', 113.93, 110.48, 110.58, 0.1382, 50.12, 2.5349, 180.7046, 164.4537, 180.1547, 1.8275, 520.2186, 20.1509, 2.9318, 21.0215, 0.8998, 92.0029, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 2.7693, 1.1627, 3.9124, 48.8647, 2.1076, 86.8925, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_electrical_data` VALUES (60, 20, '2026-01-11 19:40:52', 113.50, 109.25, 112.77, 0.3080, 49.92, 0.0898, 156.4566, 153.2405, 151.8327, 0.6295, 509.3588, 17.0463, 4.7349, 21.3418, 0.9474, 90.6548, '{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}', '{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}', 3.1736, 1.3192, 3.8734, 42.8689, 1.1877, 92.8883, 2, '2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11 10:40:52',109.95,108.17,111.01,0.7231,49.84,1.0997,170.2938,176.9818,184.0275,0.6128,491.9514,18.3629,2.4958,19.9765,0.8737,95.0638,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.3150,1.1452,2.1436,30.4331,2.4293,92.5817,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11 14:40:52',109.53,108.22,112.53,0.8537,50.11,1.6122,162.8312,161.6057,174.5347,0.5238,540.3973,22.9648,2.8056,19.8355,0.9460,95.6952,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.8437,1.8618,2.9322,35.2196,1.2455,85.8073,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11 16:40:52',107.48,112.52,112.16,0.6380,49.95,2.8911,174.9721,164.7609,153.8882,2.0106,525.8388,21.0324,3.8952,23.5157,0.8513,92.4242,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.0418,1.1516,3.0114,39.1662,1.0603,85.2572,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (4,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 07:40:52',113.68,111.77,110.80,1.3457,50.09,1.9524,147.3619,158.9495,162.6620,0.0974,548.4900,21.4437,2.5421,20.3784,0.8983,93.8002,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.5758,1.4393,3.5671,49.0575,0.8946,86.2788,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (5,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-10 08:40:52',107.89,107.52,113.91,1.4260,50.04,2.6538,172.3972,162.5658,150.6371,1.3659,540.0643,15.2361,4.9544,21.0957,0.9026,92.9110,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.9179,2.4464,4.0946,36.4257,1.5237,90.9541,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 04:40:52',112.47,111.52,113.17,0.9457,50.09,0.5233,177.2393,147.6473,151.5185,1.6434,480.4400,21.9076,3.4397,23.1090,0.8754,94.0134,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.6141,2.1056,2.4498,31.8263,0.5135,92.5972,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (7,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 19:40:52',112.10,112.65,112.93,1.6290,50.01,0.6426,166.4378,178.2701,157.0374,0.3584,529.4899,19.5445,4.0868,22.0385,0.8375,92.2199,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.7693,1.6989,4.9343,46.8419,1.0523,93.5455,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (8,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 17:40:52',113.69,112.63,108.10,0.7482,49.96,2.5899,150.6342,146.6250,181.2223,2.7491,466.7010,14.7736,4.7862,20.0861,0.8471,93.5595,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.0554,1.1824,3.2014,44.5758,1.3851,85.2642,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (9,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 03:40:52',109.11,111.74,110.37,0.7586,49.98,0.3380,154.5843,177.7117,189.8057,2.3929,450.1099,19.5135,2.1792,20.6871,0.8450,90.4348,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.5251,1.9563,4.5966,47.8644,2.2390,91.6795,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (10,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-10 17:40:52',107.47,109.65,111.83,0.6334,50.01,1.8400,168.7915,181.1556,164.4033,2.2366,493.4187,22.4086,3.1067,17.3328,0.8422,91.8176,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.8146,2.7581,3.7422,35.3282,1.6798,86.5021,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (11,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-11 03:40:52',109.36,109.23,111.06,1.8892,50.19,0.2423,165.4796,146.4942,181.0325,2.7120,461.7801,21.8932,2.0952,21.2201,0.8951,89.2956,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.0617,2.4282,3.5262,38.0299,1.4625,87.0168,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (12,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-11 14:40:52',109.79,109.35,110.40,0.8416,50.06,2.9080,185.8445,173.3625,164.2789,0.7538,547.1100,14.9151,3.7853,22.3641,0.8981,96.2461,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.2641,2.2659,4.7020,42.0901,1.1411,92.8911,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (13,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-10 22:40:52',112.67,109.77,110.81,1.0759,49.82,1.9902,151.7767,179.3267,161.3035,1.5692,502.8355,14.6536,4.3342,22.3791,0.8333,89.2165,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.5749,1.5196,4.1727,46.8357,0.5723,91.5550,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (14,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-10 06:40:52',113.19,112.53,109.06,0.2016,50.05,2.4222,152.6997,164.4989,174.3952,2.8986,537.1345,18.1230,4.0296,17.0660,0.8314,88.3384,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.4021,2.1372,3.3226,39.9718,0.8407,88.5593,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (15,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-11 11:40:52',110.99,107.19,109.98,0.0890,50.18,1.7949,151.8599,188.5277,162.0589,2.9807,533.0651,15.5526,3.1118,19.6836,0.8979,96.2096,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.2252,2.1583,4.0119,42.3136,0.6330,89.8535,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (16,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-10 16:40:52',112.05,110.95,111.58,1.1676,50.18,0.0569,155.4697,149.7878,182.5299,2.5524,525.2005,15.8686,4.3463,19.3015,0.8411,93.9752,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.1337,2.5272,4.0528,32.6121,1.7004,91.0914,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (17,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-11 05:40:52',108.79,107.59,111.57,0.0274,49.84,1.5100,153.5517,164.8080,173.3848,2.5000,477.4342,21.8454,3.6066,17.5003,0.9147,91.4271,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.7861,2.8974,4.8721,48.8163,2.1639,88.3728,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (18,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-10 03:40:52',107.93,112.89,112.66,1.0331,49.86,0.7274,178.1677,188.1070,171.0316,0.0558,485.7551,20.5877,3.7615,22.9192,0.9426,92.7052,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.6154,1.5616,4.3654,32.0007,0.7695,88.7373,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (19,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-11 15:40:52',111.27,110.12,109.78,1.3061,49.83,1.2052,180.6460,178.9969,163.0464,2.2161,499.0386,16.1226,4.1241,23.6618,0.8347,94.9909,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.1313,2.5764,4.4293,43.6844,2.4836,94.0626,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (20,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-11 22:40:52',111.46,107.02,107.70,0.9892,49.87,1.1300,161.5202,176.7493,164.1863,0.0456,529.6845,22.4480,2.9084,22.5840,0.8998,96.1409,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.9768,1.3713,4.8548,34.0183,0.7996,86.4635,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (21,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-10 02:40:52',107.10,108.10,112.20,0.4858,50.19,0.5899,146.2586,169.7483,174.9655,2.0389,490.0385,22.6677,3.8426,18.4549,0.8380,95.8766,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.2150,1.6575,3.2863,33.1522,1.5034,85.3567,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (22,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-11 12:40:52',108.94,111.23,108.35,0.3066,49.87,1.4155,181.0045,171.3257,168.6149,2.6065,526.9847,16.1846,4.7123,23.3388,0.8599,96.7015,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.8072,1.8033,2.6027,45.9919,1.2906,90.7766,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (23,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10 11:40:52',112.52,111.23,111.59,0.9313,49.94,1.2328,188.6468,172.7572,152.8457,0.0638,508.3273,21.6732,3.5392,17.0604,0.8898,92.7025,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.5665,2.7335,4.3016,34.7155,2.2546,91.7911,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (24,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10 11:40:52',111.30,112.10,112.59,1.6194,50.06,2.4873,153.5748,165.9455,179.0031,1.1453,514.1915,14.5787,3.1873,23.2872,0.9191,91.5344,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.6215,2.2843,3.7680,30.4039,1.1659,91.0420,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (25,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-11 10:40:52',109.97,108.57,112.97,1.1845,49.96,0.6825,187.0739,189.6575,152.0659,2.4238,506.8602,17.7729,3.1708,22.5490,0.8657,92.0591,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.4124,1.9392,4.8071,35.3922,1.5819,93.9603,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (26,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-10 20:40:52',109.93,109.09,108.68,0.5993,50.11,0.0043,175.0104,159.8607,174.2721,0.7852,485.7239,14.0087,4.7994,22.3021,0.8917,93.8366,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.1255,1.2496,3.4955,32.3620,0.6900,86.2080,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (27,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-11 13:40:52',108.43,109.29,107.13,0.2250,50.00,0.5972,166.3053,179.6508,164.3380,2.5159,540.3891,14.0324,2.9190,21.1666,0.9122,96.6335,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.7838,2.4325,4.3926,46.7774,2.1035,89.9210,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (28,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-10 10:40:52',112.84,112.42,109.56,1.0172,49.98,2.0850,151.4171,173.2594,177.0458,2.0301,474.7039,15.8463,2.8537,23.4598,0.8520,92.9583,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.7846,1.3071,4.9492,39.0953,1.1492,87.5869,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (29,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-10 09:40:52',108.06,109.06,107.09,0.3643,50.15,2.4512,166.0252,184.8208,146.0284,1.3786,472.9165,20.9047,2.4454,20.5260,0.9210,92.6948,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.2171,2.9069,3.6503,47.8034,2.1011,88.3219,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (30,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 10:40:52',112.06,111.98,109.72,1.6194,50.15,2.9541,157.3837,163.9851,157.7745,0.4611,541.6933,15.1117,4.6005,24.7084,0.8561,89.9579,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.9812,1.0959,2.7759,32.9840,2.4403,89.0318,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (31,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-11 09:40:52',108.90,109.84,108.48,1.6821,50.03,0.9979,187.7384,178.7861,185.7152,0.8145,514.3176,17.6123,2.2319,18.4598,0.9116,96.5460,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.6954,2.1903,2.8409,42.3213,0.9789,88.4905,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (32,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-11 20:40:52',109.49,110.63,110.67,0.1323,50.10,1.7710,175.5228,172.9210,148.0367,1.4280,467.7621,18.1406,4.3024,20.6566,0.9480,93.4381,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.3101,1.4376,4.3516,35.2591,2.4263,85.2690,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (33,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-11 18:40:52',113.91,110.51,110.84,0.4776,50.02,0.0570,165.4215,154.5405,176.4382,2.5713,468.9629,17.3915,2.9459,20.5680,0.8641,88.8251,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.6807,2.1074,2.2630,45.5466,1.7473,92.8619,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (34,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-10 03:40:52',110.69,112.70,110.42,1.9971,50.01,1.9301,173.5014,155.6540,157.7659,2.1245,518.9765,16.9190,3.6571,23.3105,0.8644,88.6850,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.4447,1.4045,3.6996,34.5201,1.3608,89.7391,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (35,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-10 02:40:52',111.31,108.20,107.03,1.0220,50.02,0.5178,155.7858,175.6260,175.7728,1.1324,533.5788,14.4190,4.1763,20.8997,0.8613,96.4280,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.2926,2.2519,4.5112,36.1496,0.5525,87.0876,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (36,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11 15:40:52',107.70,113.34,108.59,0.8306,49.96,2.2182,167.7601,158.9833,146.6361,0.7487,463.8761,22.5060,2.9278,22.6876,0.9052,88.0208,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.3884,2.2821,4.4506,33.2225,1.2101,87.9197,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (37,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-11 20:40:52',109.12,108.55,108.38,0.6441,49.81,0.3911,171.7293,171.0455,150.0398,2.4708,528.2064,17.9554,4.5538,24.5025,0.8462,96.6310,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.7288,2.9173,2.1934,38.9263,0.5765,93.5218,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (38,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-11 16:40:52',110.04,111.54,113.58,1.5083,50.18,1.4695,171.9043,168.3926,181.2502,1.4049,542.4788,15.9715,2.9628,24.5797,0.9229,88.3031,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.4838,1.0975,4.2799,43.0699,2.4752,94.7763,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (39,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-10 15:40:52',111.84,109.65,112.71,1.8848,49.91,1.5071,177.1386,147.8713,152.9405,2.0726,542.4949,18.9694,4.9578,19.1853,0.8790,90.2064,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.6373,2.4673,2.0927,49.0711,1.8502,90.1472,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (40,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-11 15:40:52',109.40,107.86,111.09,1.1098,49.81,1.3140,150.7727,159.7354,156.3591,0.8393,514.1547,17.3160,4.7527,20.8603,0.9092,96.5215,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.8427,2.6961,3.1928,38.8753,0.5521,92.9901,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (41,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-11 16:40:52',108.30,109.58,109.00,0.6400,50.10,2.2824,170.7205,170.8945,152.3111,0.2581,544.2813,18.1034,3.3537,24.1064,0.8405,95.7434,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.8245,2.4356,4.2936,43.3848,0.6052,87.5528,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (42,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 09:40:52',112.46,109.94,112.31,1.0657,49.96,1.0362,170.2266,179.5045,151.8425,1.3799,534.3730,21.5484,3.9871,23.3658,0.9490,93.7040,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.6324,2.3522,4.2442,44.2414,1.1323,89.4455,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (43,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-11 23:40:52',109.56,112.01,110.38,0.5299,50.15,1.7701,159.3620,182.1573,152.7007,1.1354,487.9004,20.8363,3.9828,17.2071,0.8476,94.5550,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.5128,1.4431,3.7847,36.1986,2.0298,93.9477,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (44,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-11 14:40:52',110.63,113.72,108.69,0.6592,50.17,1.8822,161.5270,187.9351,175.0948,1.4446,490.1298,19.0573,3.8171,19.7423,0.9376,92.5577,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.7651,2.1491,2.3226,46.2820,1.9958,87.9715,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (45,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-11 09:40:52',113.08,109.69,109.23,0.8812,49.90,2.7250,181.1603,158.1775,147.4066,1.1667,528.4078,20.7831,3.2485,23.5582,0.9320,95.9261,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.2357,2.3633,2.5176,46.3542,1.6419,89.0174,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (46,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-11 11:40:52',110.37,111.08,110.31,1.2321,50.06,1.3726,158.6886,151.6772,182.3201,2.1046,451.9652,22.9430,4.7281,21.5265,0.8421,96.0746,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.2031,1.4988,2.1317,39.4272,0.9502,92.1130,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-11 11:40:52',112.03,112.43,112.07,0.5822,49.91,1.6413,184.7462,179.8727,155.1251,2.4005,482.5780,16.0559,2.4945,18.1103,0.8539,93.8113,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.9215,2.5848,2.1213,46.5018,0.5082,90.4526,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (48,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-10 04:40:52',110.70,112.88,111.31,1.1171,50.18,0.1485,163.5595,186.1158,159.9004,2.7436,507.9366,15.3788,2.0836,22.4385,0.8679,93.3772,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.2269,1.1968,2.7952,30.6013,1.2103,91.8563,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (49,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-10 12:40:52',111.86,108.41,113.47,0.0331,49.92,1.5096,171.2947,163.5395,158.8132,0.8965,507.3317,22.7306,2.3911,22.9333,0.8681,91.6095,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.5595,1.3661,3.0673,34.5933,0.6620,92.1611,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (50,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-10 23:40:52',111.78,112.58,113.57,0.5951,50.07,1.4319,161.4042,162.5860,183.7174,0.3886,456.6507,22.4954,3.5605,23.1516,0.8641,89.1474,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.1622,1.5189,2.4052,47.9382,0.6588,92.0624,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (51,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-11 08:40:52',112.97,108.58,111.00,0.3557,49.87,1.0315,153.6779,186.9700,148.8164,1.8781,537.5809,18.5081,4.6312,24.0615,0.9239,90.6299,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.9050,1.1054,3.0754,42.6837,0.6911,90.7528,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (52,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-11 14:40:52',109.41,107.38,108.67,0.0558,49.97,0.1226,186.8348,168.6555,182.7729,1.8599,508.1572,14.4320,3.4859,19.6597,0.8512,96.8481,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.6842,2.6385,3.2360,42.0441,2.0502,85.6877,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (53,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-10 06:40:52',109.65,108.62,107.15,0.8244,50.20,2.2523,179.2606,169.9506,166.9711,2.3336,492.4596,21.1044,4.0193,24.9786,0.9461,96.4480,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.9658,1.1505,3.2316,46.5388,2.3061,85.3438,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (54,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-11 14:40:52',111.66,111.87,110.37,0.6374,49.86,2.3848,168.5809,155.5900,172.2073,0.9511,527.1367,22.1515,2.6435,19.8428,0.8460,94.0009,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.8023,1.4072,2.6471,39.3539,1.8828,85.5379,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (55,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-10 09:40:52',110.36,113.71,109.48,1.7939,49.97,1.2475,181.6774,182.2514,176.2248,2.9580,534.8338,16.5532,4.6203,21.1293,0.9453,90.5378,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.1627,1.3529,4.1589,31.3742,0.8694,92.1738,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (56,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-12 00:40:52',113.73,112.38,113.74,1.0110,50.06,2.0492,167.3038,164.3031,174.6042,0.0074,453.8774,15.6779,4.4476,21.1602,0.8483,90.0245,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.6642,1.3326,2.5020,36.7556,0.8738,94.2112,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (57,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-11 02:40:52',108.20,110.31,112.96,1.6714,50.05,1.8647,155.3812,157.9924,178.8183,2.6743,470.2614,17.0489,2.2580,20.3096,0.9273,96.1149,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.8776,2.3898,3.7909,48.0012,1.9188,93.4691,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (58,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-10 01:40:52',111.44,108.41,107.72,1.8250,49.90,1.5702,183.7193,177.9394,148.5392,0.5919,525.0480,15.4449,3.6539,19.1983,0.9164,95.7606,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',4.1601,1.5440,2.5998,33.6742,1.1374,85.4236,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (59,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11 17:40:52',113.93,110.48,110.58,0.1382,50.12,2.5349,180.7046,164.4537,180.1547,1.8275,520.2186,20.1509,2.9318,21.0215,0.8998,92.0029,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',2.7693,1.1627,3.9124,48.8647,2.1076,86.8925,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_electrical_data` VALUES (60,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11 19:40:52',113.50,109.25,112.77,0.3080,49.92,0.0898,156.4566,153.2405,151.8327,0.6295,509.3588,17.0463,4.7349,21.3418,0.9474,90.6548,'{\"V3\": 2.5, \"V5\": 1.8, \"V7\": 1.2}','{\"I3\": 4.2, \"I5\": 3.1, \"I7\": 2.0}',3.1736,1.3192,3.8734,42.8689,1.1877,92.8883,2,'2026-01-12 00:40:52');
 
 -- ----------------------------
 -- Table structure for eq_environment_data
@@ -1897,7 +1861,7 @@ INSERT INTO `eq_electrical_data` VALUES (60, 20, '2026-01-11 19:40:52', 113.50, 
 DROP TABLE IF EXISTS `eq_environment_data`;
 CREATE TABLE `eq_environment_data`  (
   `env_id` bigint NOT NULL AUTO_INCREMENT COMMENT '环境数据ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `timestamp` datetime NOT NULL COMMENT '采集时间',
   `ambient_temperature` decimal(10, 2) NULL DEFAULT NULL COMMENT '环境温度(°C)',
   `device_temperature` decimal(10, 2) NULL DEFAULT NULL COMMENT '设备温度(°C)',
@@ -1925,66 +1889,66 @@ CREATE TABLE `eq_environment_data`  (
 -- ----------------------------
 -- Records of eq_environment_data
 -- ----------------------------
-INSERT INTO `eq_environment_data` VALUES (1, 1, '2026-01-10 11:01:34', 22.10, 73.00, 1.0800, 83.00, 57.10, 41.30, 16.20, 11.5400, 2.00, 0.109000, 0.125000, 0.299000, 50.60, 2, 2.2600, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (2, 1, '2026-01-10 21:01:34', 28.00, 64.10, 1.9000, 75.40, 52.70, 43.30, 13.90, 7.2600, 4.80, 0.237000, 1.431000, 0.445000, 54.70, 1, 4.7600, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (3, 1, '2026-01-10 12:01:34', 24.80, 60.70, -1.3200, 79.90, 59.40, 43.50, 14.10, 8.2000, 1.80, 1.681000, 0.244000, 0.175000, 45.70, 0, 2.7800, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (4, 2, '2026-01-11 11:01:34', 24.10, 61.80, 0.5900, 82.10, 56.00, 57.20, 15.70, 7.1300, 1.80, 0.398000, 1.785000, 1.728000, 51.40, 3, 2.5300, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (5, 2, '2026-01-10 20:01:34', 28.80, 71.90, 0.0600, 81.80, 58.60, 43.90, 17.50, 14.3000, 2.10, 0.542000, 0.235000, 1.551000, 50.20, 1, 4.6900, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (6, 2, '2026-01-11 08:01:34', 28.70, 65.40, -1.6800, 78.90, 56.90, 44.70, 14.50, 8.1800, 1.30, 0.595000, 1.471000, 1.571000, 52.20, 1, 2.2800, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (7, 3, '2026-01-11 12:01:34', 22.00, 62.50, -0.3200, 79.90, 51.70, 46.90, 15.00, 7.6900, 4.30, 0.999000, 1.823000, 0.121000, 50.70, 3, 3.7400, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (8, 3, '2026-01-10 06:01:34', 26.40, 70.30, 1.4600, 81.50, 56.60, 45.40, 17.00, 10.0600, 2.10, 1.223000, 1.558000, 0.121000, 54.70, 3, 3.0300, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (9, 3, '2026-01-10 10:01:34', 27.50, 64.90, -0.7300, 81.50, 53.10, 50.90, 10.00, 7.4800, 1.20, 0.883000, 0.992000, 0.311000, 47.90, 5, 2.1500, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (10, 4, '2026-01-11 09:01:34', 27.50, 75.40, 0.7400, 75.60, 52.30, 59.90, 12.70, 8.5400, 4.90, 1.582000, 0.085000, 1.680000, 45.70, 4, 4.9600, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (11, 4, '2026-01-11 19:01:34', 22.90, 60.50, 0.8100, 76.80, 57.90, 46.70, 16.20, 14.3300, 3.90, 0.298000, 0.754000, 0.876000, 45.60, 5, 4.2100, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (12, 4, '2026-01-11 02:01:34', 20.90, 60.00, -1.3000, 81.00, 55.00, 52.60, 18.40, 7.0800, 2.60, 1.910000, 0.457000, 0.554000, 52.00, 3, 2.7500, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (13, 5, '2026-01-11 04:01:34', 24.30, 77.00, -1.8700, 80.70, 57.70, 41.10, 13.90, 10.1300, 2.00, 0.940000, 0.291000, 0.633000, 46.50, 4, 3.4600, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (14, 5, '2026-01-10 04:01:34', 23.60, 58.90, -1.4900, 80.20, 52.10, 49.20, 19.00, 14.6900, 0.70, 1.674000, 1.478000, 0.369000, 52.00, 5, 4.2200, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (15, 5, '2026-01-10 14:01:34', 22.50, 59.40, 0.3500, 82.40, 59.40, 48.20, 15.20, 6.8300, 1.80, 0.573000, 0.663000, 1.598000, 45.00, 3, 2.0500, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (16, 6, '2026-01-11 11:01:34', 26.50, 66.70, -1.9100, 84.20, 55.40, 58.30, 10.10, 7.6100, 1.40, 1.285000, 0.716000, 1.724000, 47.40, 3, 2.7400, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (17, 6, '2026-01-10 22:01:34', 23.60, 61.30, 0.7400, 84.70, 58.00, 40.30, 11.00, 7.1000, 3.70, 0.120000, 0.171000, 0.498000, 54.90, 1, 4.9300, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (18, 6, '2026-01-10 15:01:34', 25.10, 67.90, 0.9200, 78.00, 52.90, 50.40, 19.50, 5.3600, 1.70, 1.228000, 0.074000, 0.686000, 51.00, 5, 2.4200, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (19, 7, '2026-01-11 13:01:34', 20.10, 65.30, 0.5100, 76.40, 58.20, 53.10, 19.60, 12.4000, 4.10, 1.801000, 0.061000, 0.901000, 46.60, 2, 4.4000, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (20, 7, '2026-01-10 14:01:34', 27.20, 67.40, 1.9700, 81.80, 54.00, 59.60, 17.00, 10.6700, 3.60, 1.895000, 1.097000, 1.798000, 53.50, 3, 2.6800, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (21, 7, '2026-01-10 17:01:34', 29.20, 71.40, -0.8900, 80.60, 59.80, 42.70, 11.20, 14.8000, 2.60, 1.415000, 1.898000, 1.245000, 47.70, 2, 3.5300, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (22, 8, '2026-01-11 11:01:34', 29.40, 76.60, -0.3700, 80.10, 53.00, 59.60, 10.10, 6.1100, 2.60, 0.540000, 1.577000, 0.263000, 47.90, 0, 3.4100, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (23, 8, '2026-01-11 10:01:34', 21.00, 70.90, 0.5100, 78.80, 50.00, 57.50, 14.10, 9.2000, 4.30, 0.051000, 1.109000, 1.393000, 53.20, 0, 3.7500, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (24, 8, '2026-01-10 16:01:34', 27.70, 75.10, 0.3300, 80.90, 51.90, 42.50, 14.30, 10.5700, 2.40, 1.492000, 0.562000, 0.333000, 54.90, 2, 2.8400, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (25, 9, '2026-01-11 05:01:34', 28.50, 58.80, 0.5600, 76.00, 55.60, 48.90, 18.10, 10.7500, 2.20, 0.918000, 1.969000, 1.090000, 52.70, 1, 4.3500, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (26, 9, '2026-01-10 02:01:34', 20.60, 66.20, 0.8000, 78.80, 58.00, 57.10, 19.30, 5.6600, 2.60, 0.871000, 1.195000, 1.362000, 51.10, 0, 2.7900, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (27, 9, '2026-01-11 01:01:34', 27.10, 59.20, -1.4400, 80.40, 52.90, 56.10, 12.40, 12.4200, 4.90, 1.412000, 1.142000, 1.473000, 54.70, 3, 2.8300, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (28, 10, '2026-01-10 22:01:34', 23.30, 79.70, 1.7800, 82.60, 59.80, 51.20, 10.80, 10.7200, 3.20, 0.899000, 0.699000, 0.795000, 54.40, 3, 4.1800, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (29, 10, '2026-01-11 08:01:34', 24.10, 58.80, 1.7400, 80.60, 50.20, 46.80, 19.40, 10.0100, 3.40, 1.868000, 1.215000, 0.470000, 48.50, 0, 2.7300, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (30, 10, '2026-01-11 04:01:34', 20.40, 78.00, -0.2400, 79.70, 50.30, 54.30, 16.10, 13.3800, 1.80, 0.498000, 0.374000, 0.378000, 48.80, 2, 3.7700, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (31, 11, '2026-01-10 11:01:34', 21.90, 71.10, -0.3400, 77.90, 51.80, 39.20, 17.20, 9.5300, 0.50, 0.228000, 0.575000, 0.192000, 51.20, 4, 2.4000, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (32, 11, '2026-01-10 02:01:34', 30.00, 60.30, 0.1300, 78.40, 51.20, 50.60, 15.10, 13.1400, 2.70, 0.589000, 1.662000, 0.542000, 53.60, 2, 4.7000, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (33, 11, '2026-01-11 09:01:34', 26.30, 61.20, 1.4200, 83.40, 56.10, 50.20, 19.40, 5.1900, 1.40, 0.755000, 0.052000, 1.996000, 54.10, 3, 2.2500, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (34, 12, '2026-01-11 06:01:34', 27.80, 74.30, -0.6300, 79.90, 54.40, 54.30, 13.60, 10.8900, 4.30, 1.096000, 0.301000, 0.215000, 45.90, 1, 2.8500, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (35, 12, '2026-01-10 20:01:34', 26.70, 70.80, 1.6200, 82.80, 51.80, 50.50, 13.00, 12.7400, 4.90, 1.199000, 0.087000, 0.839000, 54.70, 3, 5.0000, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (36, 12, '2026-01-11 12:01:34', 25.90, 60.70, 1.4500, 84.40, 51.30, 55.60, 16.30, 12.4200, 4.10, 1.758000, 1.864000, 0.048000, 48.20, 3, 4.2700, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (37, 13, '2026-01-11 02:01:34', 29.30, 62.60, -0.9400, 82.00, 57.00, 46.50, 18.40, 5.5600, 3.80, 1.179000, 1.386000, 1.391000, 49.00, 5, 3.1000, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (38, 13, '2026-01-11 07:01:34', 25.40, 71.80, 0.0400, 81.60, 57.90, 59.40, 14.80, 9.7700, 4.70, 0.635000, 1.477000, 1.482000, 49.90, 1, 3.8900, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (39, 13, '2026-01-10 21:01:34', 23.70, 60.80, 0.1100, 77.60, 57.40, 57.70, 12.60, 11.3400, 1.90, 1.986000, 1.653000, 0.310000, 47.90, 0, 2.4400, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (40, 14, '2026-01-11 16:01:34', 26.70, 76.40, -1.2500, 79.30, 55.70, 50.10, 10.60, 11.5700, 0.50, 1.033000, 0.579000, 1.794000, 51.20, 2, 2.4300, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (41, 14, '2026-01-11 16:01:34', 23.60, 63.20, -1.5900, 83.10, 57.30, 43.40, 10.30, 9.1800, 5.00, 1.446000, 1.257000, 1.948000, 54.80, 5, 2.1100, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (42, 14, '2026-01-10 07:01:34', 27.30, 59.30, -1.6000, 78.30, 53.30, 52.90, 13.90, 14.2400, 2.20, 0.917000, 1.908000, 0.791000, 46.10, 2, 3.7700, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (43, 15, '2026-01-11 17:01:34', 24.40, 73.60, -1.0300, 75.80, 56.60, 39.80, 14.10, 13.2000, 4.30, 1.733000, 1.471000, 0.156000, 46.80, 3, 4.5800, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (44, 15, '2026-01-10 14:01:34', 28.30, 79.30, -0.5600, 83.90, 53.80, 42.80, 19.50, 5.9000, 3.00, 1.511000, 1.925000, 1.095000, 53.50, 3, 3.3600, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (45, 15, '2026-01-10 03:01:34', 23.70, 79.90, 1.4500, 78.30, 50.50, 43.90, 12.00, 6.7200, 1.40, 1.703000, 0.873000, 1.258000, 53.30, 1, 4.7800, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (46, 16, '2026-01-11 20:01:34', 21.20, 65.80, -0.4300, 84.00, 53.30, 58.60, 16.90, 11.6400, 1.20, 0.388000, 0.518000, 1.425000, 52.80, 4, 3.7500, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (47, 16, '2026-01-11 23:01:34', 24.80, 64.90, -1.5300, 81.50, 59.20, 51.60, 13.30, 13.2300, 0.60, 0.194000, 0.288000, 0.861000, 52.20, 2, 3.1400, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (48, 16, '2026-01-10 12:01:34', 28.30, 77.80, -1.9900, 78.20, 55.70, 57.70, 17.70, 6.7900, 2.90, 0.688000, 1.984000, 1.853000, 51.60, 3, 3.6600, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (49, 17, '2026-01-10 18:01:34', 23.80, 58.00, 1.4800, 78.40, 51.00, 48.30, 10.50, 13.5700, 0.60, 0.118000, 1.833000, 0.811000, 47.80, 1, 2.1600, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (50, 17, '2026-01-11 02:01:34', 22.10, 71.90, 0.0600, 81.80, 58.70, 44.20, 18.10, 7.1000, 3.10, 0.907000, 0.837000, 1.461000, 49.00, 4, 4.3900, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (51, 17, '2026-01-10 22:01:34', 29.90, 64.80, 0.2500, 83.90, 57.50, 39.60, 11.20, 8.9700, 3.10, 1.788000, 1.238000, 0.825000, 47.10, 4, 2.9900, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (52, 18, '2026-01-11 05:01:34', 21.90, 74.10, -1.6400, 77.60, 50.20, 45.10, 15.60, 13.4700, 2.70, 0.337000, 0.433000, 1.156000, 47.40, 2, 3.8000, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (53, 18, '2026-01-11 11:01:34', 25.10, 74.50, -1.1600, 83.00, 53.70, 48.10, 11.80, 10.1600, 0.20, 1.352000, 0.490000, 0.395000, 47.50, 3, 3.7700, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (54, 18, '2026-01-10 03:01:34', 28.70, 69.70, -1.8400, 81.10, 59.50, 57.60, 16.10, 9.0200, 0.80, 1.238000, 1.201000, 0.291000, 54.30, 1, 2.6100, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (55, 19, '2026-01-11 00:01:34', 22.60, 75.10, -1.5700, 77.00, 57.00, 57.30, 13.00, 13.7800, 2.40, 1.534000, 0.788000, 1.338000, 46.60, 4, 3.6300, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (56, 19, '2026-01-10 09:01:34', 22.80, 78.30, 1.0600, 75.50, 59.70, 53.10, 15.30, 10.9700, 2.00, 0.317000, 1.246000, 1.276000, 48.20, 3, 3.5100, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (57, 19, '2026-01-10 16:01:34', 20.50, 62.90, 1.9300, 77.30, 52.20, 46.50, 12.90, 7.6900, 2.40, 1.239000, 1.285000, 0.708000, 53.40, 1, 2.6300, 2, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (58, 20, '2026-01-11 04:01:34', 23.30, 65.70, 1.0200, 82.30, 53.80, 53.60, 14.20, 14.4500, 2.40, 1.117000, 0.713000, 0.214000, 49.70, 0, 3.8900, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (59, 20, '2026-01-10 12:01:34', 24.20, 75.70, 1.1200, 79.80, 50.40, 55.30, 18.00, 11.5600, 4.30, 0.762000, 0.592000, 0.674000, 53.00, 5, 3.3900, 1, '2026-01-12 00:01:34');
-INSERT INTO `eq_environment_data` VALUES (60, 20, '2026-01-10 19:01:34', 28.80, 70.30, -1.4000, 75.80, 59.40, 47.80, 14.20, 12.7300, 3.00, 1.338000, 1.106000, 1.514000, 46.30, 2, 3.2900, 1, '2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-10 11:01:34',22.10,73.00,1.0800,83.00,57.10,41.30,16.20,11.5400,2.00,0.109000,0.125000,0.299000,50.60,2,2.2600,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-10 21:01:34',28.00,64.10,1.9000,75.40,52.70,43.30,13.90,7.2600,4.80,0.237000,1.431000,0.445000,54.70,1,4.7600,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-10 12:01:34',24.80,60.70,-1.3200,79.90,59.40,43.50,14.10,8.2000,1.80,1.681000,0.244000,0.175000,45.70,0,2.7800,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (4,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 11:01:34',24.10,61.80,0.5900,82.10,56.00,57.20,15.70,7.1300,1.80,0.398000,1.785000,1.728000,51.40,3,2.5300,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (5,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-10 20:01:34',28.80,71.90,0.0600,81.80,58.60,43.90,17.50,14.3000,2.10,0.542000,0.235000,1.551000,50.20,1,4.6900,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 08:01:34',28.70,65.40,-1.6800,78.90,56.90,44.70,14.50,8.1800,1.30,0.595000,1.471000,1.571000,52.20,1,2.2800,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (7,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-11 12:01:34',22.00,62.50,-0.3200,79.90,51.70,46.90,15.00,7.6900,4.30,0.999000,1.823000,0.121000,50.70,3,3.7400,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (8,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 06:01:34',26.40,70.30,1.4600,81.50,56.60,45.40,17.00,10.0600,2.10,1.223000,1.558000,0.121000,54.70,3,3.0300,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (9,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 10:01:34',27.50,64.90,-0.7300,81.50,53.10,50.90,10.00,7.4800,1.20,0.883000,0.992000,0.311000,47.90,5,2.1500,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (10,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-11 09:01:34',27.50,75.40,0.7400,75.60,52.30,59.90,12.70,8.5400,4.90,1.582000,0.085000,1.680000,45.70,4,4.9600,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (11,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-11 19:01:34',22.90,60.50,0.8100,76.80,57.90,46.70,16.20,14.3300,3.90,0.298000,0.754000,0.876000,45.60,5,4.2100,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (12,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-11 02:01:34',20.90,60.00,-1.3000,81.00,55.00,52.60,18.40,7.0800,2.60,1.910000,0.457000,0.554000,52.00,3,2.7500,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (13,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-11 04:01:34',24.30,77.00,-1.8700,80.70,57.70,41.10,13.90,10.1300,2.00,0.940000,0.291000,0.633000,46.50,4,3.4600,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (14,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-10 04:01:34',23.60,58.90,-1.4900,80.20,52.10,49.20,19.00,14.6900,0.70,1.674000,1.478000,0.369000,52.00,5,4.2200,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (15,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-10 14:01:34',22.50,59.40,0.3500,82.40,59.40,48.20,15.20,6.8300,1.80,0.573000,0.663000,1.598000,45.00,3,2.0500,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (16,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-11 11:01:34',26.50,66.70,-1.9100,84.20,55.40,58.30,10.10,7.6100,1.40,1.285000,0.716000,1.724000,47.40,3,2.7400,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (17,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-10 22:01:34',23.60,61.30,0.7400,84.70,58.00,40.30,11.00,7.1000,3.70,0.120000,0.171000,0.498000,54.90,1,4.9300,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (18,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-10 15:01:34',25.10,67.90,0.9200,78.00,52.90,50.40,19.50,5.3600,1.70,1.228000,0.074000,0.686000,51.00,5,2.4200,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (19,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-11 13:01:34',20.10,65.30,0.5100,76.40,58.20,53.10,19.60,12.4000,4.10,1.801000,0.061000,0.901000,46.60,2,4.4000,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (20,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-10 14:01:34',27.20,67.40,1.9700,81.80,54.00,59.60,17.00,10.6700,3.60,1.895000,1.097000,1.798000,53.50,3,2.6800,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (21,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-10 17:01:34',29.20,71.40,-0.8900,80.60,59.80,42.70,11.20,14.8000,2.60,1.415000,1.898000,1.245000,47.70,2,3.5300,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (22,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-11 11:01:34',29.40,76.60,-0.3700,80.10,53.00,59.60,10.10,6.1100,2.60,0.540000,1.577000,0.263000,47.90,0,3.4100,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (23,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-11 10:01:34',21.00,70.90,0.5100,78.80,50.00,57.50,14.10,9.2000,4.30,0.051000,1.109000,1.393000,53.20,0,3.7500,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (24,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10 16:01:34',27.70,75.10,0.3300,80.90,51.90,42.50,14.30,10.5700,2.40,1.492000,0.562000,0.333000,54.90,2,2.8400,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (25,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-11 05:01:34',28.50,58.80,0.5600,76.00,55.60,48.90,18.10,10.7500,2.20,0.918000,1.969000,1.090000,52.70,1,4.3500,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (26,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-10 02:01:34',20.60,66.20,0.8000,78.80,58.00,57.10,19.30,5.6600,2.60,0.871000,1.195000,1.362000,51.10,0,2.7900,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (27,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-11 01:01:34',27.10,59.20,-1.4400,80.40,52.90,56.10,12.40,12.4200,4.90,1.412000,1.142000,1.473000,54.70,3,2.8300,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (28,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-10 22:01:34',23.30,79.70,1.7800,82.60,59.80,51.20,10.80,10.7200,3.20,0.899000,0.699000,0.795000,54.40,3,4.1800,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (29,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 08:01:34',24.10,58.80,1.7400,80.60,50.20,46.80,19.40,10.0100,3.40,1.868000,1.215000,0.470000,48.50,0,2.7300,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (30,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 04:01:34',20.40,78.00,-0.2400,79.70,50.30,54.30,16.10,13.3800,1.80,0.498000,0.374000,0.378000,48.80,2,3.7700,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (31,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-10 11:01:34',21.90,71.10,-0.3400,77.90,51.80,39.20,17.20,9.5300,0.50,0.228000,0.575000,0.192000,51.20,4,2.4000,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (32,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-10 02:01:34',30.00,60.30,0.1300,78.40,51.20,50.60,15.10,13.1400,2.70,0.589000,1.662000,0.542000,53.60,2,4.7000,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (33,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-11 09:01:34',26.30,61.20,1.4200,83.40,56.10,50.20,19.40,5.1900,1.40,0.755000,0.052000,1.996000,54.10,3,2.2500,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (34,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11 06:01:34',27.80,74.30,-0.6300,79.90,54.40,54.30,13.60,10.8900,4.30,1.096000,0.301000,0.215000,45.90,1,2.8500,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (35,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-10 20:01:34',26.70,70.80,1.6200,82.80,51.80,50.50,13.00,12.7400,4.90,1.199000,0.087000,0.839000,54.70,3,5.0000,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (36,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11 12:01:34',25.90,60.70,1.4500,84.40,51.30,55.60,16.30,12.4200,4.10,1.758000,1.864000,0.048000,48.20,3,4.2700,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (37,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-11 02:01:34',29.30,62.60,-0.9400,82.00,57.00,46.50,18.40,5.5600,3.80,1.179000,1.386000,1.391000,49.00,5,3.1000,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (38,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-11 07:01:34',25.40,71.80,0.0400,81.60,57.90,59.40,14.80,9.7700,4.70,0.635000,1.477000,1.482000,49.90,1,3.8900,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (39,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-10 21:01:34',23.70,60.80,0.1100,77.60,57.40,57.70,12.60,11.3400,1.90,1.986000,1.653000,0.310000,47.90,0,2.4400,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (40,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-11 16:01:34',26.70,76.40,-1.2500,79.30,55.70,50.10,10.60,11.5700,0.50,1.033000,0.579000,1.794000,51.20,2,2.4300,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (41,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-11 16:01:34',23.60,63.20,-1.5900,83.10,57.30,43.40,10.30,9.1800,5.00,1.446000,1.257000,1.948000,54.80,5,2.1100,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (42,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 07:01:34',27.30,59.30,-1.6000,78.30,53.30,52.90,13.90,14.2400,2.20,0.917000,1.908000,0.791000,46.10,2,3.7700,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (43,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-11 17:01:34',24.40,73.60,-1.0300,75.80,56.60,39.80,14.10,13.2000,4.30,1.733000,1.471000,0.156000,46.80,3,4.5800,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (44,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-10 14:01:34',28.30,79.30,-0.5600,83.90,53.80,42.80,19.50,5.9000,3.00,1.511000,1.925000,1.095000,53.50,3,3.3600,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (45,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-10 03:01:34',23.70,79.90,1.4500,78.30,50.50,43.90,12.00,6.7200,1.40,1.703000,0.873000,1.258000,53.30,1,4.7800,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (46,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-11 20:01:34',21.20,65.80,-0.4300,84.00,53.30,58.60,16.90,11.6400,1.20,0.388000,0.518000,1.425000,52.80,4,3.7500,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-11 23:01:34',24.80,64.90,-1.5300,81.50,59.20,51.60,13.30,13.2300,0.60,0.194000,0.288000,0.861000,52.20,2,3.1400,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (48,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-10 12:01:34',28.30,77.80,-1.9900,78.20,55.70,57.70,17.70,6.7900,2.90,0.688000,1.984000,1.853000,51.60,3,3.6600,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (49,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-10 18:01:34',23.80,58.00,1.4800,78.40,51.00,48.30,10.50,13.5700,0.60,0.118000,1.833000,0.811000,47.80,1,2.1600,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (50,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-11 02:01:34',22.10,71.90,0.0600,81.80,58.70,44.20,18.10,7.1000,3.10,0.907000,0.837000,1.461000,49.00,4,4.3900,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (51,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-10 22:01:34',29.90,64.80,0.2500,83.90,57.50,39.60,11.20,8.9700,3.10,1.788000,1.238000,0.825000,47.10,4,2.9900,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (52,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-11 05:01:34',21.90,74.10,-1.6400,77.60,50.20,45.10,15.60,13.4700,2.70,0.337000,0.433000,1.156000,47.40,2,3.8000,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (53,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-11 11:01:34',25.10,74.50,-1.1600,83.00,53.70,48.10,11.80,10.1600,0.20,1.352000,0.490000,0.395000,47.50,3,3.7700,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (54,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-10 03:01:34',28.70,69.70,-1.8400,81.10,59.50,57.60,16.10,9.0200,0.80,1.238000,1.201000,0.291000,54.30,1,2.6100,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (55,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-11 00:01:34',22.60,75.10,-1.5700,77.00,57.00,57.30,13.00,13.7800,2.40,1.534000,0.788000,1.338000,46.60,4,3.6300,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (56,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-10 09:01:34',22.80,78.30,1.0600,75.50,59.70,53.10,15.30,10.9700,2.00,0.317000,1.246000,1.276000,48.20,3,3.5100,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (57,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-10 16:01:34',20.50,62.90,1.9300,77.30,52.20,46.50,12.90,7.6900,2.40,1.239000,1.285000,0.708000,53.40,1,2.6300,2,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (58,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11 04:01:34',23.30,65.70,1.0200,82.30,53.80,53.60,14.20,14.4500,2.40,1.117000,0.713000,0.214000,49.70,0,3.8900,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (59,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-10 12:01:34',24.20,75.70,1.1200,79.80,50.40,55.30,18.00,11.5600,4.30,0.762000,0.592000,0.674000,53.00,5,3.3900,1,'2026-01-12 00:01:34');
+INSERT INTO `eq_environment_data` VALUES (60,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-10 19:01:34',28.80,70.30,-1.4000,75.80,59.40,47.80,14.20,12.7300,3.00,1.338000,1.106000,1.514000,46.30,2,3.2900,1,'2026-01-12 00:01:34');
 
 -- ----------------------------
 -- Table structure for eq_fault_record
@@ -1992,7 +1956,7 @@ INSERT INTO `eq_environment_data` VALUES (60, 20, '2026-01-10 19:01:34', 28.80, 
 DROP TABLE IF EXISTS `eq_fault_record`;
 CREATE TABLE `eq_fault_record`  (
   `fault_id` bigint NOT NULL AUTO_INCREMENT COMMENT '故障ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `fault_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '故障代码',
   `fault_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '故障描述',
   `fault_level` tinyint NULL DEFAULT NULL COMMENT '故障等级 1-紧急 2-严重 3-一般 4-轻微',
@@ -2018,66 +1982,66 @@ CREATE TABLE `eq_fault_record`  (
 -- ----------------------------
 -- Records of eq_fault_record
 -- ----------------------------
-INSERT INTO `eq_fault_record` VALUES (1, 1, 'F1888', '温度过高报警', 2, '2025-12-02 00:40:52', '2025-12-26 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 64, 1125.90, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (2, 1, 'F3035', '绝缘故障', 2, '2025-11-29 00:40:52', '2025-12-16 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 112, 2853.41, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (3, 1, 'F9101', '机械磨损', 1, '2025-11-22 00:40:52', '2025-12-23 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 134, 1011.27, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (4, 2, 'F7372', '机械磨损', 4, '2025-12-04 00:40:52', '2026-01-10 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 48, 907.84, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (5, 2, 'F7356', '机械磨损', 1, '2025-11-20 00:40:52', '2026-01-02 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 51, 3321.60, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (6, 2, 'F9727', '温度过高报警', 4, '2025-11-03 00:40:52', '2025-12-28 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 74, 786.61, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (7, 3, 'F5447', '电流过载', 3, '2025-11-17 00:40:52', '2025-12-25 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 144, 1977.53, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (8, 3, 'F5558', '绝缘故障', 1, '2025-10-31 00:40:52', '2026-01-10 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 114, 3348.68, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (9, 3, 'F4381', '机械磨损', 3, '2025-12-06 00:40:52', '2025-12-17 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 66, 2193.84, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (10, 4, 'F8656', '电流过载', 1, '2025-10-25 00:40:52', '2025-12-16 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 92, 1916.20, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (11, 4, 'F5661', '温度过高报警', 3, '2025-11-27 00:40:52', '2025-12-25 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 55, 1869.38, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (12, 4, 'F8197', '电压异常波动', 1, '2025-12-05 00:40:52', '2025-12-30 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 92, 1460.71, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (13, 5, 'F2643', '机械磨损', 3, '2025-11-16 00:40:52', '2025-12-28 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 71, 1133.72, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (14, 5, 'F5086', '温度过高报警', 3, '2025-10-16 00:40:52', '2025-12-22 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 149, 844.91, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (15, 5, 'F5846', '机械磨损', 1, '2025-12-08 00:40:52', '2025-12-16 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 75, 1267.65, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (16, 6, 'F9076', '电压异常波动', 3, '2025-11-15 00:40:52', '2026-01-09 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 78, 2266.81, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (17, 6, 'F8673', '电压异常波动', 4, '2025-11-30 00:40:52', '2025-12-31 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 123, 2539.13, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (18, 6, 'F3480', '电压异常波动', 1, '2025-12-12 00:40:52', '2025-12-20 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 132, 2692.46, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (19, 7, 'F3807', '温度过高报警', 2, '2025-10-16 00:40:52', '2025-12-18 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 117, 3248.57, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (20, 7, 'F2595', '绝缘故障', 1, '2025-11-18 00:40:52', '2025-12-22 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 106, 779.55, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (21, 7, 'F5719', '机械磨损', 1, '2025-10-26 00:40:52', '2025-12-24 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 141, 1541.83, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (22, 8, 'F7325', '绝缘故障', 1, '2025-12-05 00:40:52', '2026-01-12 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 50, 3334.64, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (23, 8, 'F2567', '温度过高报警', 4, '2025-11-30 00:40:52', '2025-12-22 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 66, 3093.10, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (24, 8, 'F4801', '机械磨损', 1, '2025-11-12 00:40:52', '2025-12-18 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 57, 2999.11, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (25, 9, 'F9564', '温度过高报警', 3, '2025-12-11 00:40:52', '2025-12-29 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 60, 1195.76, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (26, 9, 'F3196', '电压异常波动', 3, '2025-11-09 00:40:52', '2026-01-05 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 105, 2660.59, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (27, 9, 'F5129', '电压异常波动', 1, '2025-10-26 00:40:52', '2026-01-02 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 63, 2407.68, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (28, 10, 'F7800', '绝缘故障', 3, '2025-10-25 00:40:52', '2026-01-05 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 127, 3302.38, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (29, 10, 'F4682', '温度过高报警', 2, '2025-10-22 00:40:52', '2026-01-04 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 46, 1420.96, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (30, 10, 'F6680', '机械磨损', 1, '2025-11-03 00:40:52', '2025-12-23 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 33, 3122.29, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (31, 11, 'F8549', '温度过高报警', 1, '2025-11-19 00:40:52', '2025-12-20 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 87, 764.70, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (32, 11, 'F7407', '电流过载', 3, '2025-10-18 00:40:52', '2025-12-28 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 32, 3487.86, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (33, 11, 'F5921', '电压异常波动', 2, '2025-12-08 00:40:52', '2026-01-08 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 56, 1968.28, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (34, 12, 'F4886', '机械磨损', 4, '2025-11-11 00:40:52', '2026-01-03 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 120, 3326.33, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (35, 12, 'F5106', '机械磨损', 1, '2025-12-01 00:40:52', '2025-12-28 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 149, 1240.82, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (36, 12, 'F5923', '机械磨损', 1, '2025-10-16 00:40:52', '2026-01-02 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 144, 1635.08, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (37, 13, 'F1230', '电压异常波动', 1, '2025-11-25 00:40:52', '2026-01-03 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 87, 1480.07, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (38, 13, 'F9766', '温度过高报警', 3, '2025-10-18 00:40:52', '2026-01-12 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 139, 539.58, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (39, 13, 'F6443', '电压异常波动', 2, '2025-10-29 00:40:52', '2025-12-24 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 136, 2163.37, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (40, 14, 'F8671', '机械磨损', 1, '2025-12-03 00:40:52', '2026-01-05 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 126, 3235.11, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (41, 14, 'F9490', '温度过高报警', 3, '2025-11-04 00:40:52', '2026-01-08 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 81, 2930.45, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (42, 14, 'F4606', '绝缘故障', 2, '2025-11-14 00:40:52', '2025-12-28 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 120, 2364.96, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (43, 15, 'F3723', '电压异常波动', 1, '2025-10-30 00:40:52', '2026-01-06 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 144, 3405.74, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (44, 15, 'F1511', '温度过高报警', 2, '2025-10-21 00:40:52', '2026-01-01 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 131, 2497.30, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (45, 15, 'F9087', '电压异常波动', 1, '2025-10-18 00:40:52', '2025-12-30 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 142, 1393.00, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (46, 16, 'F5566', '电流过载', 4, '2025-11-24 00:40:52', '2025-12-22 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 110, 2538.48, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (47, 16, 'F9287', '电流过载', 2, '2025-11-06 00:40:52', '2025-12-15 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 103, 1656.67, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (48, 16, 'F3663', '温度过高报警', 1, '2025-12-05 00:40:52', '2026-01-06 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 137, 1550.31, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (49, 17, 'F2995', '机械磨损', 1, '2025-11-15 00:40:52', '2026-01-07 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 138, 621.85, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (50, 17, 'F4285', '温度过高报警', 3, '2025-10-24 00:40:52', '2025-12-27 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 43, 880.66, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (51, 17, 'F1874', '电流过载', 3, '2025-10-31 00:40:52', '2025-12-28 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 58, 961.74, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (52, 18, 'F7910', '绝缘故障', 1, '2025-10-20 00:40:52', '2025-12-15 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 89, 1194.76, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (53, 18, 'F7337', '电流过载', 2, '2025-12-12 00:40:52', '2026-01-05 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 65, 3011.49, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (54, 18, 'F9689', '机械磨损', 4, '2025-11-30 00:40:52', '2025-12-23 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 122, 2207.53, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (55, 19, 'F9188', '机械磨损', 1, '2025-10-22 00:40:52', '2025-12-16 00:40:52', '故障已修复，设备恢复正常运行', '环境因素', 136, 2438.52, '[\"继电器\", \"保险丝\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (56, 19, 'F9585', '电压异常波动', 2, '2025-11-17 00:40:52', '2026-01-04 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 83, 750.12, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (57, 19, 'F1806', '温度过高报警', 4, '2025-12-12 00:40:52', '2026-01-04 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 124, 3388.20, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (58, 20, 'F4148', '电流过载', 4, '2025-11-02 00:40:52', '2025-12-28 00:40:52', '故障已修复，设备恢复正常运行', '操作不当', 124, 2209.83, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (59, 20, 'F7012', '机械磨损', 3, '2025-12-09 00:40:52', '2025-12-22 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 59, 1771.53, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_fault_record` VALUES (60, 20, 'F6603', '机械磨损', 1, '2025-12-05 00:40:52', '2025-12-23 00:40:52', '故障已修复，设备恢复正常运行', '部件老化', 147, 3089.83, '[\"接触器\"]', 2, '故障已解决', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','F1888','温度过高报警',2,'2025-12-02 00:40:52','2025-12-26 00:40:52','故障已修复，设备恢复正常运行','操作不当',64,1125.90,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d','F3035','绝缘故障',2,'2025-11-29 00:40:52','2025-12-16 00:40:52','故障已修复，设备恢复正常运行','环境因素',112,2853.41,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d','F9101','机械磨损',1,'2025-11-22 00:40:52','2025-12-23 00:40:52','故障已修复，设备恢复正常运行','操作不当',134,1011.27,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (4,'fecc074d-88bb-5010-b639-e7db3c22481d','F7372','机械磨损',4,'2025-12-04 00:40:52','2026-01-10 00:40:52','故障已修复，设备恢复正常运行','环境因素',48,907.84,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (5,'fecc074d-88bb-5010-b639-e7db3c22481d','F7356','机械磨损',1,'2025-11-20 00:40:52','2026-01-02 00:40:52','故障已修复，设备恢复正常运行','操作不当',51,3321.60,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d','F9727','温度过高报警',4,'2025-11-03 00:40:52','2025-12-28 00:40:52','故障已修复，设备恢复正常运行','操作不当',74,786.61,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (7,'37464ae6-85a6-5ce3-9add-965f746ec79a','F5447','电流过载',3,'2025-11-17 00:40:52','2025-12-25 00:40:52','故障已修复，设备恢复正常运行','环境因素',144,1977.53,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (8,'37464ae6-85a6-5ce3-9add-965f746ec79a','F5558','绝缘故障',1,'2025-10-31 00:40:52','2026-01-10 00:40:52','故障已修复，设备恢复正常运行','部件老化',114,3348.68,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (9,'37464ae6-85a6-5ce3-9add-965f746ec79a','F4381','机械磨损',3,'2025-12-06 00:40:52','2025-12-17 00:40:52','故障已修复，设备恢复正常运行','环境因素',66,2193.84,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (10,'cca074a5-c046-5921-82b1-bc414f2340ea','F8656','电流过载',1,'2025-10-25 00:40:52','2025-12-16 00:40:52','故障已修复，设备恢复正常运行','部件老化',92,1916.20,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (11,'cca074a5-c046-5921-82b1-bc414f2340ea','F5661','温度过高报警',3,'2025-11-27 00:40:52','2025-12-25 00:40:52','故障已修复，设备恢复正常运行','部件老化',55,1869.38,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (12,'cca074a5-c046-5921-82b1-bc414f2340ea','F8197','电压异常波动',1,'2025-12-05 00:40:52','2025-12-30 00:40:52','故障已修复，设备恢复正常运行','环境因素',92,1460.71,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (13,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','F2643','机械磨损',3,'2025-11-16 00:40:52','2025-12-28 00:40:52','故障已修复，设备恢复正常运行','部件老化',71,1133.72,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (14,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','F5086','温度过高报警',3,'2025-10-16 00:40:52','2025-12-22 00:40:52','故障已修复，设备恢复正常运行','操作不当',149,844.91,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (15,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','F5846','机械磨损',1,'2025-12-08 00:40:52','2025-12-16 00:40:52','故障已修复，设备恢复正常运行','部件老化',75,1267.65,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (16,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','F9076','电压异常波动',3,'2025-11-15 00:40:52','2026-01-09 00:40:52','故障已修复，设备恢复正常运行','部件老化',78,2266.81,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (17,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','F8673','电压异常波动',4,'2025-11-30 00:40:52','2025-12-31 00:40:52','故障已修复，设备恢复正常运行','操作不当',123,2539.13,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (18,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','F3480','电压异常波动',1,'2025-12-12 00:40:52','2025-12-20 00:40:52','故障已修复，设备恢复正常运行','环境因素',132,2692.46,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (19,'57330e93-592e-5318-b0c2-6d3ff8846bb6','F3807','温度过高报警',2,'2025-10-16 00:40:52','2025-12-18 00:40:52','故障已修复，设备恢复正常运行','部件老化',117,3248.57,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (20,'57330e93-592e-5318-b0c2-6d3ff8846bb6','F2595','绝缘故障',1,'2025-11-18 00:40:52','2025-12-22 00:40:52','故障已修复，设备恢复正常运行','操作不当',106,779.55,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (21,'57330e93-592e-5318-b0c2-6d3ff8846bb6','F5719','机械磨损',1,'2025-10-26 00:40:52','2025-12-24 00:40:52','故障已修复，设备恢复正常运行','环境因素',141,1541.83,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (22,'d3e9f772-bcc2-5f46-871d-4765ef174569','F7325','绝缘故障',1,'2025-12-05 00:40:52','2026-01-12 00:40:52','故障已修复，设备恢复正常运行','操作不当',50,3334.64,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (23,'d3e9f772-bcc2-5f46-871d-4765ef174569','F2567','温度过高报警',4,'2025-11-30 00:40:52','2025-12-22 00:40:52','故障已修复，设备恢复正常运行','环境因素',66,3093.10,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (24,'d3e9f772-bcc2-5f46-871d-4765ef174569','F4801','机械磨损',1,'2025-11-12 00:40:52','2025-12-18 00:40:52','故障已修复，设备恢复正常运行','环境因素',57,2999.11,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (25,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','F9564','温度过高报警',3,'2025-12-11 00:40:52','2025-12-29 00:40:52','故障已修复，设备恢复正常运行','操作不当',60,1195.76,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (26,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','F3196','电压异常波动',3,'2025-11-09 00:40:52','2026-01-05 00:40:52','故障已修复，设备恢复正常运行','操作不当',105,2660.59,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (27,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','F5129','电压异常波动',1,'2025-10-26 00:40:52','2026-01-02 00:40:52','故障已修复，设备恢复正常运行','部件老化',63,2407.68,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (28,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','F7800','绝缘故障',3,'2025-10-25 00:40:52','2026-01-05 00:40:52','故障已修复，设备恢复正常运行','环境因素',127,3302.38,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (29,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','F4682','温度过高报警',2,'2025-10-22 00:40:52','2026-01-04 00:40:52','故障已修复，设备恢复正常运行','环境因素',46,1420.96,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (30,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','F6680','机械磨损',1,'2025-11-03 00:40:52','2025-12-23 00:40:52','故障已修复，设备恢复正常运行','操作不当',33,3122.29,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (31,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','F8549','温度过高报警',1,'2025-11-19 00:40:52','2025-12-20 00:40:52','故障已修复，设备恢复正常运行','环境因素',87,764.70,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (32,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','F7407','电流过载',3,'2025-10-18 00:40:52','2025-12-28 00:40:52','故障已修复，设备恢复正常运行','环境因素',32,3487.86,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (33,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','F5921','电压异常波动',2,'2025-12-08 00:40:52','2026-01-08 00:40:52','故障已修复，设备恢复正常运行','操作不当',56,1968.28,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (34,'2a3ca038-96b0-55ca-b21c-01751b03464b','F4886','机械磨损',4,'2025-11-11 00:40:52','2026-01-03 00:40:52','故障已修复，设备恢复正常运行','环境因素',120,3326.33,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (35,'2a3ca038-96b0-55ca-b21c-01751b03464b','F5106','机械磨损',1,'2025-12-01 00:40:52','2025-12-28 00:40:52','故障已修复，设备恢复正常运行','环境因素',149,1240.82,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (36,'2a3ca038-96b0-55ca-b21c-01751b03464b','F5923','机械磨损',1,'2025-10-16 00:40:52','2026-01-02 00:40:52','故障已修复，设备恢复正常运行','环境因素',144,1635.08,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (37,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','F1230','电压异常波动',1,'2025-11-25 00:40:52','2026-01-03 00:40:52','故障已修复，设备恢复正常运行','环境因素',87,1480.07,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (38,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','F9766','温度过高报警',3,'2025-10-18 00:40:52','2026-01-12 00:40:52','故障已修复，设备恢复正常运行','部件老化',139,539.58,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (39,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','F6443','电压异常波动',2,'2025-10-29 00:40:52','2025-12-24 00:40:52','故障已修复，设备恢复正常运行','环境因素',136,2163.37,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (40,'bb046d14-328a-5267-8b28-c4faed37de82','F8671','机械磨损',1,'2025-12-03 00:40:52','2026-01-05 00:40:52','故障已修复，设备恢复正常运行','环境因素',126,3235.11,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (41,'bb046d14-328a-5267-8b28-c4faed37de82','F9490','温度过高报警',3,'2025-11-04 00:40:52','2026-01-08 00:40:52','故障已修复，设备恢复正常运行','环境因素',81,2930.45,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (42,'bb046d14-328a-5267-8b28-c4faed37de82','F4606','绝缘故障',2,'2025-11-14 00:40:52','2025-12-28 00:40:52','故障已修复，设备恢复正常运行','部件老化',120,2364.96,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (43,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','F3723','电压异常波动',1,'2025-10-30 00:40:52','2026-01-06 00:40:52','故障已修复，设备恢复正常运行','环境因素',144,3405.74,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (44,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','F1511','温度过高报警',2,'2025-10-21 00:40:52','2026-01-01 00:40:52','故障已修复，设备恢复正常运行','部件老化',131,2497.30,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (45,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','F9087','电压异常波动',1,'2025-10-18 00:40:52','2025-12-30 00:40:52','故障已修复，设备恢复正常运行','操作不当',142,1393.00,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (46,'da59851e-ab46-5335-aaba-31e636e34c47','F5566','电流过载',4,'2025-11-24 00:40:52','2025-12-22 00:40:52','故障已修复，设备恢复正常运行','操作不当',110,2538.48,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','F9287','电流过载',2,'2025-11-06 00:40:52','2025-12-15 00:40:52','故障已修复，设备恢复正常运行','环境因素',103,1656.67,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (48,'da59851e-ab46-5335-aaba-31e636e34c47','F3663','温度过高报警',1,'2025-12-05 00:40:52','2026-01-06 00:40:52','故障已修复，设备恢复正常运行','环境因素',137,1550.31,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (49,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','F2995','机械磨损',1,'2025-11-15 00:40:52','2026-01-07 00:40:52','故障已修复，设备恢复正常运行','操作不当',138,621.85,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (50,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','F4285','温度过高报警',3,'2025-10-24 00:40:52','2025-12-27 00:40:52','故障已修复，设备恢复正常运行','部件老化',43,880.66,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (51,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','F1874','电流过载',3,'2025-10-31 00:40:52','2025-12-28 00:40:52','故障已修复，设备恢复正常运行','操作不当',58,961.74,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (52,'becc564c-15ec-5a6e-b975-5cde2f62633b','F7910','绝缘故障',1,'2025-10-20 00:40:52','2025-12-15 00:40:52','故障已修复，设备恢复正常运行','部件老化',89,1194.76,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (53,'becc564c-15ec-5a6e-b975-5cde2f62633b','F7337','电流过载',2,'2025-12-12 00:40:52','2026-01-05 00:40:52','故障已修复，设备恢复正常运行','部件老化',65,3011.49,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (54,'becc564c-15ec-5a6e-b975-5cde2f62633b','F9689','机械磨损',4,'2025-11-30 00:40:52','2025-12-23 00:40:52','故障已修复，设备恢复正常运行','环境因素',122,2207.53,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (55,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','F9188','机械磨损',1,'2025-10-22 00:40:52','2025-12-16 00:40:52','故障已修复，设备恢复正常运行','环境因素',136,2438.52,'[\"继电器\", \"保险丝\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (56,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','F9585','电压异常波动',2,'2025-11-17 00:40:52','2026-01-04 00:40:52','故障已修复，设备恢复正常运行','部件老化',83,750.12,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (57,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','F1806','温度过高报警',4,'2025-12-12 00:40:52','2026-01-04 00:40:52','故障已修复，设备恢复正常运行','部件老化',124,3388.20,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (58,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','F4148','电流过载',4,'2025-11-02 00:40:52','2025-12-28 00:40:52','故障已修复，设备恢复正常运行','操作不当',124,2209.83,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (59,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','F7012','机械磨损',3,'2025-12-09 00:40:52','2025-12-22 00:40:52','故障已修复，设备恢复正常运行','部件老化',59,1771.53,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_fault_record` VALUES (60,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','F6603','机械磨损',1,'2025-12-05 00:40:52','2025-12-23 00:40:52','故障已修复，设备恢复正常运行','部件老化',147,3089.83,'[\"接触器\"]',2,'故障已解决','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
 
 -- ----------------------------
 -- Table structure for eq_maintenance_record
@@ -2085,7 +2049,7 @@ INSERT INTO `eq_fault_record` VALUES (60, 20, 'F6603', '机械磨损', 1, '2025-
 DROP TABLE IF EXISTS `eq_maintenance_record`;
 CREATE TABLE `eq_maintenance_record`  (
   `record_id` bigint NOT NULL AUTO_INCREMENT COMMENT '记录ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `maintenance_type` tinyint NULL DEFAULT NULL COMMENT '维护类型 1-预防性 2-纠正性 3-预测性',
   `maintenance_date` datetime NOT NULL COMMENT '维护日期',
   `next_maintenance_date` datetime NULL DEFAULT NULL COMMENT '下次维护日期',
@@ -2109,66 +2073,66 @@ CREATE TABLE `eq_maintenance_record`  (
 -- ----------------------------
 -- Records of eq_maintenance_record
 -- ----------------------------
-INSERT INTO `eq_maintenance_record` VALUES (1, 1, 1, '2025-12-27 00:40:52', '2026-03-28 00:40:52', 2003.29, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (2, 1, 1, '2025-10-16 00:40:52', '2026-02-20 00:40:52', 4283.64, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (3, 1, 1, '2025-11-15 00:40:52', '2026-03-29 00:40:52', 4602.38, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (4, 2, 1, '2025-12-26 00:40:52', '2026-02-28 00:40:52', 4532.05, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (5, 2, 1, '2025-11-26 00:40:52', '2026-04-10 00:40:52', 2299.43, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (6, 2, 1, '2025-11-12 00:40:52', '2026-03-09 00:40:52', 1589.21, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (7, 3, 1, '2025-12-06 00:40:52', '2026-03-22 00:40:52', 1052.35, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (8, 3, 1, '2026-01-03 00:40:52', '2026-03-11 00:40:52', 1279.60, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (9, 3, 1, '2025-10-22 00:40:52', '2026-03-07 00:40:52', 1954.12, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (10, 4, 1, '2025-10-15 00:40:52', '2026-02-24 00:40:52', 1780.73, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (11, 4, 1, '2025-12-19 00:40:52', '2026-03-31 00:40:52', 1697.45, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (12, 4, 1, '2025-12-01 00:40:52', '2026-03-31 00:40:52', 3716.52, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (13, 5, 1, '2025-10-19 00:40:52', '2026-03-24 00:40:52', 3489.98, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (14, 5, 1, '2026-01-09 00:40:52', '2026-03-01 00:40:52', 2852.44, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (15, 5, 1, '2025-12-10 00:40:52', '2026-03-11 00:40:52', 1965.87, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (16, 6, 1, '2025-11-02 00:40:52', '2026-02-25 00:40:52', 4254.07, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (17, 6, 1, '2025-12-12 00:40:52', '2026-03-02 00:40:52', 3246.89, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (18, 6, 1, '2025-10-29 00:40:52', '2026-03-12 00:40:52', 4891.64, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (19, 7, 1, '2025-12-10 00:40:52', '2026-04-09 00:40:52', 3665.36, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (20, 7, 1, '2025-12-02 00:40:52', '2026-02-27 00:40:52', 1154.28, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (21, 7, 1, '2025-12-12 00:40:52', '2026-03-20 00:40:52', 1377.45, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (22, 8, 1, '2025-11-21 00:40:52', '2026-03-22 00:40:52', 3030.42, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (23, 8, 1, '2025-11-22 00:40:52', '2026-03-04 00:40:52', 1242.35, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (24, 8, 1, '2025-12-23 00:40:52', '2026-04-09 00:40:52', 1566.34, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (25, 9, 1, '2025-11-01 00:40:52', '2026-03-20 00:40:52', 3763.54, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (26, 9, 1, '2025-11-21 00:40:52', '2026-04-02 00:40:52', 2792.44, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (27, 9, 1, '2025-11-08 00:40:52', '2026-02-27 00:40:52', 1779.19, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (28, 10, 1, '2025-12-30 00:40:52', '2026-02-22 00:40:52', 2939.51, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (29, 10, 1, '2025-10-28 00:40:52', '2026-04-01 00:40:52', 3122.77, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (30, 10, 1, '2025-12-26 00:40:52', '2026-03-06 00:40:52', 2454.82, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (31, 11, 1, '2025-11-15 00:40:52', '2026-02-19 00:40:52', 4070.92, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (32, 11, 1, '2025-12-06 00:40:52', '2026-03-29 00:40:52', 3393.77, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (33, 11, 1, '2025-11-12 00:40:52', '2026-03-21 00:40:52', 1586.69, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (34, 12, 1, '2025-11-01 00:40:52', '2026-03-18 00:40:52', 3303.63, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (35, 12, 1, '2026-01-05 00:40:52', '2026-03-23 00:40:52', 1449.67, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (36, 12, 1, '2025-11-24 00:40:52', '2026-03-08 00:40:52', 2775.62, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (37, 13, 1, '2025-10-18 00:40:52', '2026-03-11 00:40:52', 2908.17, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (38, 13, 1, '2025-10-17 00:40:52', '2026-03-08 00:40:52', 1712.33, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (39, 13, 1, '2025-11-16 00:40:52', '2026-03-22 00:40:52', 2465.78, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (40, 14, 1, '2025-10-27 00:40:52', '2026-02-24 00:40:52', 3029.62, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (41, 14, 1, '2025-10-26 00:40:52', '2026-04-03 00:40:52', 3793.21, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (42, 14, 1, '2025-10-24 00:40:52', '2026-03-05 00:40:52', 1657.45, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (43, 15, 1, '2025-11-09 00:40:52', '2026-02-16 00:40:52', 2179.23, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (44, 15, 1, '2025-12-25 00:40:52', '2026-02-20 00:40:52', 1587.34, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (45, 15, 1, '2025-12-19 00:40:52', '2026-04-07 00:40:52', 4147.93, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (46, 16, 1, '2025-12-28 00:40:52', '2026-03-13 00:40:52', 4975.98, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (47, 16, 1, '2025-12-02 00:40:52', '2026-03-02 00:40:52', 2084.71, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (48, 16, 1, '2025-12-11 00:40:52', '2026-04-11 00:40:52', 4425.13, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (49, 17, 1, '2025-12-15 00:40:52', '2026-02-12 00:40:52', 1723.16, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (50, 17, 1, '2025-10-31 00:40:52', '2026-03-16 00:40:52', 2374.05, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (51, 17, 1, '2026-01-09 00:40:52', '2026-02-19 00:40:52', 3398.79, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (52, 18, 1, '2025-11-22 00:40:52', '2026-02-16 00:40:52', 3804.01, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (53, 18, 1, '2025-12-21 00:40:52', '2026-02-18 00:40:52', 4553.78, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (54, 18, 1, '2026-01-06 00:40:52', '2026-03-23 00:40:52', 1594.38, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (55, 19, 1, '2025-11-08 00:40:52', '2026-02-24 00:40:52', 4598.25, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (56, 19, 1, '2025-10-29 00:40:52', '2026-03-12 00:40:52', 4811.49, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (57, 19, 1, '2025-12-18 00:40:52', '2026-03-16 00:40:52', 4766.26, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (58, 20, 1, '2026-01-10 00:40:52', '2026-03-03 00:40:52', 3391.02, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (59, 20, 1, '2025-10-17 00:40:52', '2026-02-14 00:40:52', 2592.72, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
-INSERT INTO `eq_maintenance_record` VALUES (60, 20, 1, '2025-11-01 00:40:52', '2026-04-01 00:40:52', 3859.87, '维护班组A', '定期预防性维护检查', '[\"滤芯\", \"密封圈\"]', '设备运行正常，无异常', 1, '维护完成', 'admin', '2026-01-12 00:40:52', '', '2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d',1,'2025-12-27 00:40:52','2026-03-28 00:40:52',2003.29,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d',1,'2025-10-16 00:40:52','2026-02-20 00:40:52',4283.64,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d',1,'2025-11-15 00:40:52','2026-03-29 00:40:52',4602.38,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (4,'fecc074d-88bb-5010-b639-e7db3c22481d',1,'2025-12-26 00:40:52','2026-02-28 00:40:52',4532.05,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (5,'fecc074d-88bb-5010-b639-e7db3c22481d',1,'2025-11-26 00:40:52','2026-04-10 00:40:52',2299.43,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d',1,'2025-11-12 00:40:52','2026-03-09 00:40:52',1589.21,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (7,'37464ae6-85a6-5ce3-9add-965f746ec79a',1,'2025-12-06 00:40:52','2026-03-22 00:40:52',1052.35,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (8,'37464ae6-85a6-5ce3-9add-965f746ec79a',1,'2026-01-03 00:40:52','2026-03-11 00:40:52',1279.60,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (9,'37464ae6-85a6-5ce3-9add-965f746ec79a',1,'2025-10-22 00:40:52','2026-03-07 00:40:52',1954.12,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (10,'cca074a5-c046-5921-82b1-bc414f2340ea',1,'2025-10-15 00:40:52','2026-02-24 00:40:52',1780.73,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (11,'cca074a5-c046-5921-82b1-bc414f2340ea',1,'2025-12-19 00:40:52','2026-03-31 00:40:52',1697.45,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (12,'cca074a5-c046-5921-82b1-bc414f2340ea',1,'2025-12-01 00:40:52','2026-03-31 00:40:52',3716.52,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (13,'b98cd60e-fac1-50b3-a1b7-fe7208017d18',1,'2025-10-19 00:40:52','2026-03-24 00:40:52',3489.98,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (14,'b98cd60e-fac1-50b3-a1b7-fe7208017d18',1,'2026-01-09 00:40:52','2026-03-01 00:40:52',2852.44,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (15,'b98cd60e-fac1-50b3-a1b7-fe7208017d18',1,'2025-12-10 00:40:52','2026-03-11 00:40:52',1965.87,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (16,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd',1,'2025-11-02 00:40:52','2026-02-25 00:40:52',4254.07,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (17,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd',1,'2025-12-12 00:40:52','2026-03-02 00:40:52',3246.89,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (18,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd',1,'2025-10-29 00:40:52','2026-03-12 00:40:52',4891.64,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (19,'57330e93-592e-5318-b0c2-6d3ff8846bb6',1,'2025-12-10 00:40:52','2026-04-09 00:40:52',3665.36,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (20,'57330e93-592e-5318-b0c2-6d3ff8846bb6',1,'2025-12-02 00:40:52','2026-02-27 00:40:52',1154.28,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (21,'57330e93-592e-5318-b0c2-6d3ff8846bb6',1,'2025-12-12 00:40:52','2026-03-20 00:40:52',1377.45,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (22,'d3e9f772-bcc2-5f46-871d-4765ef174569',1,'2025-11-21 00:40:52','2026-03-22 00:40:52',3030.42,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (23,'d3e9f772-bcc2-5f46-871d-4765ef174569',1,'2025-11-22 00:40:52','2026-03-04 00:40:52',1242.35,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (24,'d3e9f772-bcc2-5f46-871d-4765ef174569',1,'2025-12-23 00:40:52','2026-04-09 00:40:52',1566.34,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (25,'50c5eac4-1e56-5756-be8d-aa8c73a42deb',1,'2025-11-01 00:40:52','2026-03-20 00:40:52',3763.54,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (26,'50c5eac4-1e56-5756-be8d-aa8c73a42deb',1,'2025-11-21 00:40:52','2026-04-02 00:40:52',2792.44,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (27,'50c5eac4-1e56-5756-be8d-aa8c73a42deb',1,'2025-11-08 00:40:52','2026-02-27 00:40:52',1779.19,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (28,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8',1,'2025-12-30 00:40:52','2026-02-22 00:40:52',2939.51,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (29,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8',1,'2025-10-28 00:40:52','2026-04-01 00:40:52',3122.77,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (30,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8',1,'2025-12-26 00:40:52','2026-03-06 00:40:52',2454.82,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (31,'4154482d-78ec-54ae-b4d4-6fe1d3719d47',1,'2025-11-15 00:40:52','2026-02-19 00:40:52',4070.92,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (32,'4154482d-78ec-54ae-b4d4-6fe1d3719d47',1,'2025-12-06 00:40:52','2026-03-29 00:40:52',3393.77,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (33,'4154482d-78ec-54ae-b4d4-6fe1d3719d47',1,'2025-11-12 00:40:52','2026-03-21 00:40:52',1586.69,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (34,'2a3ca038-96b0-55ca-b21c-01751b03464b',1,'2025-11-01 00:40:52','2026-03-18 00:40:52',3303.63,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (35,'2a3ca038-96b0-55ca-b21c-01751b03464b',1,'2026-01-05 00:40:52','2026-03-23 00:40:52',1449.67,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (36,'2a3ca038-96b0-55ca-b21c-01751b03464b',1,'2025-11-24 00:40:52','2026-03-08 00:40:52',2775.62,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (37,'1555fe67-2a6c-50e4-870b-fa4fc876a13e',1,'2025-10-18 00:40:52','2026-03-11 00:40:52',2908.17,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (38,'1555fe67-2a6c-50e4-870b-fa4fc876a13e',1,'2025-10-17 00:40:52','2026-03-08 00:40:52',1712.33,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (39,'1555fe67-2a6c-50e4-870b-fa4fc876a13e',1,'2025-11-16 00:40:52','2026-03-22 00:40:52',2465.78,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (40,'bb046d14-328a-5267-8b28-c4faed37de82',1,'2025-10-27 00:40:52','2026-02-24 00:40:52',3029.62,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (41,'bb046d14-328a-5267-8b28-c4faed37de82',1,'2025-10-26 00:40:52','2026-04-03 00:40:52',3793.21,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (42,'bb046d14-328a-5267-8b28-c4faed37de82',1,'2025-10-24 00:40:52','2026-03-05 00:40:52',1657.45,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (43,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a',1,'2025-11-09 00:40:52','2026-02-16 00:40:52',2179.23,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (44,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a',1,'2025-12-25 00:40:52','2026-02-20 00:40:52',1587.34,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (45,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a',1,'2025-12-19 00:40:52','2026-04-07 00:40:52',4147.93,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (46,'da59851e-ab46-5335-aaba-31e636e34c47',1,'2025-12-28 00:40:52','2026-03-13 00:40:52',4975.98,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47',1,'2025-12-02 00:40:52','2026-03-02 00:40:52',2084.71,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (48,'da59851e-ab46-5335-aaba-31e636e34c47',1,'2025-12-11 00:40:52','2026-04-11 00:40:52',4425.13,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (49,'2ee4b07d-4d84-51dd-b1ce-ba978142b461',1,'2025-12-15 00:40:52','2026-02-12 00:40:52',1723.16,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (50,'2ee4b07d-4d84-51dd-b1ce-ba978142b461',1,'2025-10-31 00:40:52','2026-03-16 00:40:52',2374.05,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (51,'2ee4b07d-4d84-51dd-b1ce-ba978142b461',1,'2026-01-09 00:40:52','2026-02-19 00:40:52',3398.79,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (52,'becc564c-15ec-5a6e-b975-5cde2f62633b',1,'2025-11-22 00:40:52','2026-02-16 00:40:52',3804.01,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (53,'becc564c-15ec-5a6e-b975-5cde2f62633b',1,'2025-12-21 00:40:52','2026-02-18 00:40:52',4553.78,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (54,'becc564c-15ec-5a6e-b975-5cde2f62633b',1,'2026-01-06 00:40:52','2026-03-23 00:40:52',1594.38,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (55,'5e3c871f-6afd-5c47-95a0-2e48214a47c8',1,'2025-11-08 00:40:52','2026-02-24 00:40:52',4598.25,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (56,'5e3c871f-6afd-5c47-95a0-2e48214a47c8',1,'2025-10-29 00:40:52','2026-03-12 00:40:52',4811.49,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (57,'5e3c871f-6afd-5c47-95a0-2e48214a47c8',1,'2025-12-18 00:40:52','2026-03-16 00:40:52',4766.26,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (58,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff',1,'2026-01-10 00:40:52','2026-03-03 00:40:52',3391.02,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (59,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff',1,'2025-10-17 00:40:52','2026-02-14 00:40:52',2592.72,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
+INSERT INTO `eq_maintenance_record` VALUES (60,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff',1,'2025-11-01 00:40:52','2026-04-01 00:40:52',3859.87,'维护班组A','定期预防性维护检查','[\"滤芯\", \"密封圈\"]','设备运行正常，无异常',1,'维护完成','admin','2026-01-12 00:40:52','','2026-01-12 00:40:52');
 
 -- ----------------------------
 -- Table structure for eq_mechanical_data
@@ -2176,7 +2140,7 @@ INSERT INTO `eq_maintenance_record` VALUES (60, 20, 1, '2025-11-01 00:40:52', '2
 DROP TABLE IF EXISTS `eq_mechanical_data`;
 CREATE TABLE `eq_mechanical_data`  (
   `mechanical_id` bigint NOT NULL AUTO_INCREMENT COMMENT '机械数据ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `timestamp` datetime NOT NULL COMMENT '采集时间',
   `load_weight` decimal(10, 2) NULL DEFAULT NULL COMMENT '载荷重量(kg)',
   `load_ratio` decimal(10, 4) NULL DEFAULT NULL COMMENT '载荷比率(%)',
@@ -2206,66 +2170,66 @@ CREATE TABLE `eq_mechanical_data`  (
 -- ----------------------------
 -- Records of eq_mechanical_data
 -- ----------------------------
-INSERT INTO `eq_mechanical_data` VALUES (1, 1, '2026-01-11 15:40:52', 7936.25, 77.3890, 93.3398, 27907, 5, 3.100864, 19.757655, 2.369176, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.270943, 1.2850, 1, 127.8671, 20.23, 1.329560, 205.6583, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (2, 1, '2026-01-10 13:40:52', 16494.95, 79.8037, 66.0613, 53598, 8, 1.696738, 5.053993, 2.905021, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.356383, 0.8692, 4, 159.5694, 85.77, 2.287412, 155.0129, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (3, 1, '2026-01-11 07:40:52', 14746.57, 63.3252, 63.3050, 16220, 2, 5.176217, 12.181657, 5.343296, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.384120, 0.6832, 2, 108.4594, 76.18, 0.798192, 194.1263, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (4, 2, '2026-01-11 00:40:52', 10005.17, 67.7642, 118.2362, 28455, 9, 1.150343, 9.368436, 1.012323, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.132787, 1.4733, 2, 145.0789, 49.17, 2.409349, 216.2160, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (5, 2, '2026-01-11 02:40:52', 17227.22, 80.8108, 66.7508, 50816, 5, 0.045284, 12.817404, 4.163985, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.513131, 0.6098, 3, 128.3986, 77.73, 0.069343, 245.1221, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (6, 2, '2026-01-10 22:40:52', 16096.65, 58.3062, 66.4396, 46352, 0, 0.979736, 13.454135, 2.822747, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.214102, 0.3347, 3, 136.9314, 31.83, 0.159912, 230.4547, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (7, 3, '2026-01-10 03:40:52', 5512.30, 77.2810, 139.4415, 38545, 2, 2.588908, 11.058971, 5.057373, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.260793, 1.1796, 1, 178.3532, 29.17, 0.250234, 154.6383, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (8, 3, '2026-01-11 00:40:52', 5827.32, 55.5907, 122.8853, 42226, 0, 2.122586, 13.149063, 4.488945, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.584467, 0.1252, 2, 120.9397, 56.18, 2.145179, 238.8316, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (9, 3, '2026-01-10 11:40:52', 8201.26, 88.1177, 144.0529, 53663, 6, 1.012960, 6.594752, 2.021900, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.158268, 0.5319, 2, 157.1835, 83.73, 2.091965, 226.8036, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (10, 4, '2026-01-10 20:40:52', 16558.86, 60.6207, 92.0576, 47471, 4, 5.861598, 12.514997, 4.150687, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.048128, 0.5967, 4, 52.4349, 49.28, 1.907923, 215.5184, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (11, 4, '2026-01-11 09:40:52', 10931.13, 61.3959, 109.4823, 35162, 8, 1.681493, 5.485428, 3.617251, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.193989, 0.2509, 3, 100.5649, 34.13, 2.269574, 244.6639, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (12, 4, '2026-01-11 12:40:52', 8086.17, 71.9174, 113.3142, 49755, 0, 5.440351, 9.507188, 0.504104, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.513042, 0.9021, 1, 62.3905, 87.22, 2.210678, 238.3281, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (13, 5, '2026-01-11 11:40:52', 5245.27, 73.1287, 82.4136, 19841, 0, 3.989339, 5.850120, 3.417464, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.061412, 2.0002, 3, 55.2612, 38.60, 0.143021, 200.9182, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (14, 5, '2026-01-10 07:40:52', 17070.56, 72.8619, 55.6015, 58638, 6, 5.456607, 17.578317, 3.074603, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.359148, 2.2672, 3, 195.8105, 71.19, 0.811003, 215.9819, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (15, 5, '2026-01-12 00:40:52', 16979.74, 56.2962, 123.9041, 41604, 10, 5.671329, 16.731930, 1.215318, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.126730, 0.1796, 3, 108.8961, 90.53, 0.464643, 173.9540, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (16, 6, '2026-01-11 11:40:52', 18878.71, 83.4725, 74.1630, 57307, 9, 4.167313, 15.987926, 3.812854, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.202725, 1.2351, 2, 169.0619, 69.87, 1.903437, 240.4797, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (17, 6, '2026-01-10 20:40:52', 6170.86, 87.3552, 67.5891, 23723, 9, 2.550770, 12.420774, 2.280534, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.563924, 0.2361, 3, 196.8777, 95.19, 1.917969, 146.2478, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (18, 6, '2026-01-10 12:40:52', 11913.75, 62.4248, 105.5702, 20889, 5, 4.803288, 11.619532, 5.397300, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.242886, 1.5453, 4, 126.6702, 18.47, 1.119823, 168.3584, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (19, 7, '2026-01-11 16:40:52', 13126.86, 66.4296, 141.7587, 40649, 4, 5.943711, 17.256697, 1.354312, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.198491, 1.3701, 3, 59.6932, 36.91, 2.171666, 213.4077, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (20, 7, '2026-01-11 10:40:52', 12970.97, 86.3005, 127.8911, 21743, 10, 5.837824, 4.085350, 1.038800, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.174423, 2.2128, 3, 62.4216, 91.91, 0.423337, 159.9896, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (21, 7, '2026-01-10 20:40:52', 10175.00, 59.4698, 95.4761, 9066, 7, 1.440946, 7.516667, 2.392427, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.017882, 1.1246, 1, 114.7296, 81.11, 1.246896, 164.4012, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (22, 8, '2026-01-10 20:40:52', 14167.10, 69.9200, 68.6355, 52025, 6, 1.497575, 13.188297, 1.112777, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.049314, 1.8526, 2, 55.8352, 97.84, 1.647209, 184.1922, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (23, 8, '2026-01-11 09:40:52', 19572.86, 85.8411, 96.0262, 48887, 5, 0.054266, 13.991408, 0.975909, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.436234, 2.0693, 4, 92.1183, 71.11, 0.815787, 217.3036, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (24, 8, '2026-01-11 12:40:52', 18091.52, 77.3937, 103.4793, 52993, 7, 4.089804, 11.067422, 1.318336, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.584983, 0.9882, 1, 56.0746, 34.64, 2.000179, 186.1293, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (25, 9, '2026-01-10 19:40:52', 10519.39, 61.5749, 120.2728, 9084, 10, 4.233483, 14.672211, 1.591623, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.478767, 1.7949, 1, 173.0585, 62.51, 0.589393, 202.7711, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (26, 9, '2026-01-10 21:40:52', 15345.86, 84.4487, 53.3590, 53441, 1, 0.186500, 16.220696, 4.128587, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.305328, 1.3320, 1, 58.6410, 20.31, 2.192707, 176.5790, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (27, 9, '2026-01-11 02:40:52', 14944.70, 56.3743, 60.1404, 39365, 6, 0.641744, 16.558330, 3.518031, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.303541, 1.3487, 1, 88.3942, 88.58, 1.159981, 222.4516, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (28, 10, '2026-01-11 12:40:52', 11228.51, 70.9141, 141.4001, 19773, 4, 1.258428, 18.644729, 5.236319, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.066222, 1.4514, 3, 63.0863, 89.21, 2.480043, 182.2583, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (29, 10, '2026-01-10 04:40:52', 7788.68, 69.1823, 78.1444, 26859, 9, 1.464353, 13.936554, 2.364982, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.534242, 1.1159, 3, 116.9662, 70.43, 2.010614, 155.8091, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (30, 10, '2026-01-11 15:40:52', 15191.82, 86.2963, 84.1055, 17340, 8, 2.191549, 11.740977, 2.116403, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.513004, 1.9503, 2, 97.3346, 73.88, 0.985228, 242.2557, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (31, 11, '2026-01-11 02:40:52', 19731.71, 73.1339, 112.2901, 41797, 3, 4.117234, 11.190089, 1.441429, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.240948, 0.5701, 4, 198.9250, 31.04, 2.039783, 208.2629, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (32, 11, '2026-01-12 00:40:52', 10200.53, 86.0992, 74.4153, 46224, 9, 5.817457, 9.487864, 4.531144, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.355298, 2.3858, 4, 62.4095, 65.27, 1.363232, 249.6969, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (33, 11, '2026-01-10 12:40:52', 15783.43, 69.3851, 133.7904, 59745, 4, 1.247754, 15.581303, 5.476401, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.023215, 1.9468, 4, 130.5343, 52.96, 1.190563, 155.7194, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (34, 12, '2026-01-11 20:40:52', 8281.67, 56.0595, 81.5978, 41900, 2, 0.685660, 18.869406, 2.019297, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.446902, 1.3258, 2, 121.7009, 36.26, 1.572549, 195.0815, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (35, 12, '2026-01-11 22:40:52', 16744.28, 83.3039, 113.6562, 51851, 2, 4.466291, 19.317687, 3.268158, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.491738, 1.0239, 3, 156.0610, 84.87, 2.320072, 165.3265, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (36, 12, '2026-01-11 08:40:52', 6252.27, 79.0960, 47.0982, 9796, 1, 2.761558, 19.407365, 2.670112, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.062454, 1.6919, 1, 95.7279, 52.59, 0.318630, 184.0276, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (37, 13, '2026-01-11 12:40:52', 18381.55, 79.4280, 128.2838, 53347, 10, 1.726478, 11.941860, 3.592962, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.098124, 0.0153, 3, 150.5998, 82.51, 2.223779, 154.1908, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (38, 13, '2026-01-10 21:40:52', 13723.87, 65.1375, 110.6237, 21312, 4, 1.544217, 5.145777, 3.429735, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.490002, 2.3466, 1, 107.0087, 40.20, 0.383256, 245.2150, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (39, 13, '2026-01-10 15:40:52', 12844.65, 78.4588, 117.7532, 31591, 2, 3.526178, 9.907778, 0.915456, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.173680, 1.3102, 4, 74.1366, 74.07, 2.136926, 168.3760, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (40, 14, '2026-01-11 21:40:52', 15758.70, 70.6009, 47.5146, 48691, 9, 5.137447, 16.142760, 1.629444, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.351431, 0.9264, 1, 101.8169, 62.76, 1.574010, 198.5972, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (41, 14, '2026-01-10 11:40:52', 19021.00, 66.7808, 135.9859, 24789, 0, 0.632258, 11.719545, 0.981145, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.527978, 0.7466, 4, 102.4098, 41.96, 0.874171, 236.5438, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (42, 14, '2026-01-10 04:40:52', 15956.15, 87.5338, 87.6201, 20527, 10, 1.269522, 5.557328, 4.759519, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.169133, 1.2672, 3, 188.0775, 63.03, 2.441472, 169.7219, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (43, 15, '2026-01-10 23:40:52', 18600.52, 88.9397, 56.6483, 41569, 9, 3.229743, 4.103511, 2.587378, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.052453, 0.5830, 4, 171.9468, 49.48, 1.156113, 161.8566, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (44, 15, '2026-01-10 20:40:52', 15677.02, 85.2237, 58.4642, 10628, 9, 1.132004, 9.426295, 1.148578, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.459954, 2.3488, 2, 71.4025, 71.99, 1.952130, 242.5597, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (45, 15, '2026-01-10 14:40:52', 15713.47, 71.6440, 64.0516, 32990, 9, 5.107576, 14.887982, 4.743531, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.278432, 1.7854, 1, 161.3779, 35.89, 2.095484, 201.3395, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (46, 16, '2026-01-11 13:40:52', 14448.47, 74.9667, 138.7958, 47261, 1, 1.268655, 16.340445, 1.610309, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.189716, 0.4789, 1, 118.0055, 44.87, 0.562968, 160.0169, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (47, 16, '2026-01-10 12:40:52', 15590.24, 66.0657, 87.8024, 12665, 2, 5.155444, 13.906577, 3.090415, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.066248, 0.8832, 2, 62.9264, 40.39, 0.045114, 173.4783, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (48, 16, '2026-01-10 15:40:52', 13201.78, 82.5427, 66.9807, 43666, 8, 5.697766, 9.499955, 4.849266, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.588337, 2.3718, 4, 70.3919, 51.87, 1.434751, 211.1803, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (49, 17, '2026-01-11 12:40:52', 19999.34, 62.9200, 58.8134, 58903, 5, 3.377402, 9.035287, 4.924132, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.447359, 0.7199, 1, 68.3813, 29.92, 0.686443, 243.3446, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (50, 17, '2026-01-11 01:40:52', 17701.79, 83.7410, 101.3612, 19458, 5, 4.776766, 12.101266, 1.216314, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.334107, 0.4806, 2, 180.8814, 59.92, 2.315628, 155.2404, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (51, 17, '2026-01-11 12:40:52', 6120.73, 86.7523, 59.5323, 58460, 4, 1.635434, 4.841808, 2.726741, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.005080, 2.0891, 1, 84.8042, 85.72, 0.896451, 178.1286, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (52, 18, '2026-01-10 21:40:52', 8915.36, 84.6962, 78.6715, 11016, 3, 2.797012, 9.547378, 2.175249, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.102257, 2.3670, 1, 87.3160, 75.15, 1.664999, 170.0936, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (53, 18, '2026-01-11 12:40:52', 15964.60, 87.7523, 90.7314, 27257, 5, 3.687165, 10.996819, 2.214616, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.590877, 1.7896, 3, 196.3478, 18.64, 0.274505, 200.1818, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (54, 18, '2026-01-10 05:40:52', 14871.06, 77.8412, 68.5942, 16617, 1, 1.650646, 18.595023, 4.178109, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.300507, 1.6990, 4, 112.9777, 59.53, 0.540825, 204.0555, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (55, 19, '2026-01-11 18:40:52', 6453.78, 68.3376, 91.7556, 12327, 0, 0.910184, 12.282466, 1.165893, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.099071, 1.2170, 4, 81.0837, 46.54, 0.104935, 162.3932, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (56, 19, '2026-01-12 00:40:52', 19462.46, 82.5798, 49.2790, 51668, 0, 5.183797, 5.437429, 4.786491, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.307783, 1.2849, 1, 139.8773, 97.39, 0.011649, 157.4636, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (57, 19, '2026-01-10 23:40:52', 19505.41, 62.7294, 65.6777, 24750, 0, 0.797961, 13.685286, 3.638356, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '水平', 0.437288, 1.6924, 1, 193.9744, 35.25, 0.421632, 167.2650, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (58, 20, '2026-01-11 18:40:52', 4215.21, 78.1517, 73.0387, 26238, 10, 4.264949, 15.140664, 2.244915, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.139954, 0.4954, 2, 178.3938, 53.26, 1.420234, 202.8048, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (59, 20, '2026-01-10 20:40:52', 16886.67, 63.9894, 136.1354, 37601, 2, 3.025990, 16.710321, 2.794901, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.108983, 0.4326, 2, 57.7736, 54.99, 0.020978, 217.3012, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_mechanical_data` VALUES (60, 20, '2026-01-11 23:40:52', 17785.08, 63.3637, 109.0618, 25350, 9, 1.134622, 10.903146, 3.449610, '{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}', '垂直', 0.303950, 1.4178, 2, 181.0391, 54.16, 1.429410, 201.2751, 3, '2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11 15:40:52',7936.25,77.3890,93.3398,27907,5,3.100864,19.757655,2.369176,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.270943,1.2850,1,127.8671,20.23,1.329560,205.6583,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-10 13:40:52',16494.95,79.8037,66.0613,53598,8,1.696738,5.053993,2.905021,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.356383,0.8692,4,159.5694,85.77,2.287412,155.0129,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11 07:40:52',14746.57,63.3252,63.3050,16220,2,5.176217,12.181657,5.343296,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.384120,0.6832,2,108.4594,76.18,0.798192,194.1263,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (4,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 00:40:52',10005.17,67.7642,118.2362,28455,9,1.150343,9.368436,1.012323,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.132787,1.4733,2,145.0789,49.17,2.409349,216.2160,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (5,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 02:40:52',17227.22,80.8108,66.7508,50816,5,0.045284,12.817404,4.163985,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.513131,0.6098,3,128.3986,77.73,0.069343,245.1221,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-10 22:40:52',16096.65,58.3062,66.4396,46352,0,0.979736,13.454135,2.822747,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.214102,0.3347,3,136.9314,31.83,0.159912,230.4547,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (7,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 03:40:52',5512.30,77.2810,139.4415,38545,2,2.588908,11.058971,5.057373,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.260793,1.1796,1,178.3532,29.17,0.250234,154.6383,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (8,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-11 00:40:52',5827.32,55.5907,122.8853,42226,0,2.122586,13.149063,4.488945,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.584467,0.1252,2,120.9397,56.18,2.145179,238.8316,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (9,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-10 11:40:52',8201.26,88.1177,144.0529,53663,6,1.012960,6.594752,2.021900,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.158268,0.5319,2,157.1835,83.73,2.091965,226.8036,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (10,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-10 20:40:52',16558.86,60.6207,92.0576,47471,4,5.861598,12.514997,4.150687,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.048128,0.5967,4,52.4349,49.28,1.907923,215.5184,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (11,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-11 09:40:52',10931.13,61.3959,109.4823,35162,8,1.681493,5.485428,3.617251,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.193989,0.2509,3,100.5649,34.13,2.269574,244.6639,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (12,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-11 12:40:52',8086.17,71.9174,113.3142,49755,0,5.440351,9.507188,0.504104,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.513042,0.9021,1,62.3905,87.22,2.210678,238.3281,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (13,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-11 11:40:52',5245.27,73.1287,82.4136,19841,0,3.989339,5.850120,3.417464,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.061412,2.0002,3,55.2612,38.60,0.143021,200.9182,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (14,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-10 07:40:52',17070.56,72.8619,55.6015,58638,6,5.456607,17.578317,3.074603,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.359148,2.2672,3,195.8105,71.19,0.811003,215.9819,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (15,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-12 00:40:52',16979.74,56.2962,123.9041,41604,10,5.671329,16.731930,1.215318,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.126730,0.1796,3,108.8961,90.53,0.464643,173.9540,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (16,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-11 11:40:52',18878.71,83.4725,74.1630,57307,9,4.167313,15.987926,3.812854,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.202725,1.2351,2,169.0619,69.87,1.903437,240.4797,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (17,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-10 20:40:52',6170.86,87.3552,67.5891,23723,9,2.550770,12.420774,2.280534,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.563924,0.2361,3,196.8777,95.19,1.917969,146.2478,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (18,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-10 12:40:52',11913.75,62.4248,105.5702,20889,5,4.803288,11.619532,5.397300,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.242886,1.5453,4,126.6702,18.47,1.119823,168.3584,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (19,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-11 16:40:52',13126.86,66.4296,141.7587,40649,4,5.943711,17.256697,1.354312,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.198491,1.3701,3,59.6932,36.91,2.171666,213.4077,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (20,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-11 10:40:52',12970.97,86.3005,127.8911,21743,10,5.837824,4.085350,1.038800,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.174423,2.2128,3,62.4216,91.91,0.423337,159.9896,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (21,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-10 20:40:52',10175.00,59.4698,95.4761,9066,7,1.440946,7.516667,2.392427,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.017882,1.1246,1,114.7296,81.11,1.246896,164.4012,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (22,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10 20:40:52',14167.10,69.9200,68.6355,52025,6,1.497575,13.188297,1.112777,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.049314,1.8526,2,55.8352,97.84,1.647209,184.1922,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (23,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-11 09:40:52',19572.86,85.8411,96.0262,48887,5,0.054266,13.991408,0.975909,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.436234,2.0693,4,92.1183,71.11,0.815787,217.3036,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (24,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-11 12:40:52',18091.52,77.3937,103.4793,52993,7,4.089804,11.067422,1.318336,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.584983,0.9882,1,56.0746,34.64,2.000179,186.1293,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (25,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-10 19:40:52',10519.39,61.5749,120.2728,9084,10,4.233483,14.672211,1.591623,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.478767,1.7949,1,173.0585,62.51,0.589393,202.7711,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (26,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-10 21:40:52',15345.86,84.4487,53.3590,53441,1,0.186500,16.220696,4.128587,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.305328,1.3320,1,58.6410,20.31,2.192707,176.5790,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (27,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-11 02:40:52',14944.70,56.3743,60.1404,39365,6,0.641744,16.558330,3.518031,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.303541,1.3487,1,88.3942,88.58,1.159981,222.4516,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (28,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 12:40:52',11228.51,70.9141,141.4001,19773,4,1.258428,18.644729,5.236319,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.066222,1.4514,3,63.0863,89.21,2.480043,182.2583,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (29,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-10 04:40:52',7788.68,69.1823,78.1444,26859,9,1.464353,13.936554,2.364982,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.534242,1.1159,3,116.9662,70.43,2.010614,155.8091,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (30,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 15:40:52',15191.82,86.2963,84.1055,17340,8,2.191549,11.740977,2.116403,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.513004,1.9503,2,97.3346,73.88,0.985228,242.2557,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (31,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-11 02:40:52',19731.71,73.1339,112.2901,41797,3,4.117234,11.190089,1.441429,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.240948,0.5701,4,198.9250,31.04,2.039783,208.2629,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (32,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-12 00:40:52',10200.53,86.0992,74.4153,46224,9,5.817457,9.487864,4.531144,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.355298,2.3858,4,62.4095,65.27,1.363232,249.6969,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (33,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-10 12:40:52',15783.43,69.3851,133.7904,59745,4,1.247754,15.581303,5.476401,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.023215,1.9468,4,130.5343,52.96,1.190563,155.7194,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (34,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11 20:40:52',8281.67,56.0595,81.5978,41900,2,0.685660,18.869406,2.019297,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.446902,1.3258,2,121.7009,36.26,1.572549,195.0815,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (35,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11 22:40:52',16744.28,83.3039,113.6562,51851,2,4.466291,19.317687,3.268158,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.491738,1.0239,3,156.0610,84.87,2.320072,165.3265,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (36,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11 08:40:52',6252.27,79.0960,47.0982,9796,1,2.761558,19.407365,2.670112,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.062454,1.6919,1,95.7279,52.59,0.318630,184.0276,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (37,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-11 12:40:52',18381.55,79.4280,128.2838,53347,10,1.726478,11.941860,3.592962,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.098124,0.0153,3,150.5998,82.51,2.223779,154.1908,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (38,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-10 21:40:52',13723.87,65.1375,110.6237,21312,4,1.544217,5.145777,3.429735,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.490002,2.3466,1,107.0087,40.20,0.383256,245.2150,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (39,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-10 15:40:52',12844.65,78.4588,117.7532,31591,2,3.526178,9.907778,0.915456,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.173680,1.3102,4,74.1366,74.07,2.136926,168.3760,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (40,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-11 21:40:52',15758.70,70.6009,47.5146,48691,9,5.137447,16.142760,1.629444,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.351431,0.9264,1,101.8169,62.76,1.574010,198.5972,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (41,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 11:40:52',19021.00,66.7808,135.9859,24789,0,0.632258,11.719545,0.981145,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.527978,0.7466,4,102.4098,41.96,0.874171,236.5438,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (42,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 04:40:52',15956.15,87.5338,87.6201,20527,10,1.269522,5.557328,4.759519,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.169133,1.2672,3,188.0775,63.03,2.441472,169.7219,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (43,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-10 23:40:52',18600.52,88.9397,56.6483,41569,9,3.229743,4.103511,2.587378,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.052453,0.5830,4,171.9468,49.48,1.156113,161.8566,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (44,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-10 20:40:52',15677.02,85.2237,58.4642,10628,9,1.132004,9.426295,1.148578,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.459954,2.3488,2,71.4025,71.99,1.952130,242.5597,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (45,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-10 14:40:52',15713.47,71.6440,64.0516,32990,9,5.107576,14.887982,4.743531,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.278432,1.7854,1,161.3779,35.89,2.095484,201.3395,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (46,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-11 13:40:52',14448.47,74.9667,138.7958,47261,1,1.268655,16.340445,1.610309,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.189716,0.4789,1,118.0055,44.87,0.562968,160.0169,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-10 12:40:52',15590.24,66.0657,87.8024,12665,2,5.155444,13.906577,3.090415,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.066248,0.8832,2,62.9264,40.39,0.045114,173.4783,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (48,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-10 15:40:52',13201.78,82.5427,66.9807,43666,8,5.697766,9.499955,4.849266,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.588337,2.3718,4,70.3919,51.87,1.434751,211.1803,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (49,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-11 12:40:52',19999.34,62.9200,58.8134,58903,5,3.377402,9.035287,4.924132,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.447359,0.7199,1,68.3813,29.92,0.686443,243.3446,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (50,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-11 01:40:52',17701.79,83.7410,101.3612,19458,5,4.776766,12.101266,1.216314,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.334107,0.4806,2,180.8814,59.92,2.315628,155.2404,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (51,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-11 12:40:52',6120.73,86.7523,59.5323,58460,4,1.635434,4.841808,2.726741,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.005080,2.0891,1,84.8042,85.72,0.896451,178.1286,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (52,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-10 21:40:52',8915.36,84.6962,78.6715,11016,3,2.797012,9.547378,2.175249,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.102257,2.3670,1,87.3160,75.15,1.664999,170.0936,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (53,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-11 12:40:52',15964.60,87.7523,90.7314,27257,5,3.687165,10.996819,2.214616,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.590877,1.7896,3,196.3478,18.64,0.274505,200.1818,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (54,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-10 05:40:52',14871.06,77.8412,68.5942,16617,1,1.650646,18.595023,4.178109,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.300507,1.6990,4,112.9777,59.53,0.540825,204.0555,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (55,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-11 18:40:52',6453.78,68.3376,91.7556,12327,0,0.910184,12.282466,1.165893,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.099071,1.2170,4,81.0837,46.54,0.104935,162.3932,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (56,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-12 00:40:52',19462.46,82.5798,49.2790,51668,0,5.183797,5.437429,4.786491,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.307783,1.2849,1,139.8773,97.39,0.011649,157.4636,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (57,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-10 23:40:52',19505.41,62.7294,65.6777,24750,0,0.797961,13.685286,3.638356,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','水平',0.437288,1.6924,1,193.9744,35.25,0.421632,167.2650,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (58,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11 18:40:52',4215.21,78.1517,73.0387,26238,10,4.264949,15.140664,2.244915,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.139954,0.4954,2,178.3938,53.26,1.420234,202.8048,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (59,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-10 20:40:52',16886.67,63.9894,136.1354,37601,2,3.025990,16.710321,2.794901,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.108983,0.4326,2,57.7736,54.99,0.020978,217.3012,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_mechanical_data` VALUES (60,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11 23:40:52',17785.08,63.3637,109.0618,25350,9,1.134622,10.903146,3.449610,'{\"freq_10\": 0.5, \"freq_20\": 1.2, \"freq_50\": 2.8}','垂直',0.303950,1.4178,2,181.0391,54.16,1.429410,201.2751,3,'2026-01-12 00:40:52');
 
 -- ----------------------------
 -- Table structure for eq_operational_data
@@ -2273,7 +2237,7 @@ INSERT INTO `eq_mechanical_data` VALUES (60, 20, '2026-01-11 23:40:52', 17785.08
 DROP TABLE IF EXISTS `eq_operational_data`;
 CREATE TABLE `eq_operational_data`  (
   `operational_id` bigint NOT NULL AUTO_INCREMENT COMMENT '操作数据ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `timestamp` datetime NOT NULL COMMENT '操作时间',
   `operator_id` bigint NULL DEFAULT NULL COMMENT '操作员ID',
   `operator_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '操作员姓名',
@@ -2299,66 +2263,66 @@ CREATE TABLE `eq_operational_data`  (
 -- ----------------------------
 -- Records of eq_operational_data
 -- ----------------------------
-INSERT INTO `eq_operational_data` VALUES (1, 1, '2026-01-11 09:40:52', 1018, '操作员8', 4, 95, 1, 28, 1, '操作正常，无异常', 4, 74, 692.92, '[\"滤芯\"]', 89.5957, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (2, 1, '2026-01-11 01:40:52', 1070, '操作员16', 3, 71, 4, 61, 1, '操作顺利完成', 1, 61, 407.49, '[\"密封圈\", \"润滑油\"]', 77.8571, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (3, 1, '2026-01-10 21:40:52', 1062, '操作员29', 4, 79, 1, 132, 1, '操作顺利完成', 3, 59, 958.24, '[\"密封圈\", \"润滑油\"]', 89.9251, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (4, 2, '2026-01-10 02:40:52', 1072, '操作员19', 4, 91, 5, 51, 1, '操作正常，无异常', 2, 48, 773.54, '[\"密封圈\", \"润滑油\"]', 85.1607, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (5, 2, '2026-01-11 10:40:52', 1077, '操作员8', 4, 89, 4, 67, 1, '操作完成，有轻微警告', 3, 73, 477.95, '[\"密封圈\", \"润滑油\"]', 93.7747, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (6, 2, '2026-01-09 21:40:52', 1064, '操作员1', 2, 72, 4, 56, 1, '操作顺利完成', 3, 41, 262.69, '[\"滤芯\"]', 77.0014, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (7, 3, '2026-01-11 10:40:52', 1009, '操作员25', 4, 97, 5, 27, 1, '操作顺利完成', 4, 45, 426.93, '[\"密封圈\", \"润滑油\"]', 86.9112, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (8, 3, '2026-01-09 18:40:52', 1089, '操作员4', 2, 89, 1, 144, 1, '操作顺利完成', 3, 32, 876.11, '[\"滤芯\"]', 78.8615, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (9, 3, '2026-01-11 20:40:52', 1053, '操作员14', 3, 95, 3, 79, 2, '操作完成，有轻微警告', 2, 46, 559.44, '[\"密封圈\", \"润滑油\"]', 93.7944, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (10, 4, '2026-01-09 14:40:52', 1088, '操作员29', 2, 92, 3, 131, 2, '操作正常，无异常', 3, 31, 392.05, '[\"滤芯\"]', 76.7990, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (11, 4, '2026-01-10 09:40:52', 1066, '操作员19', 2, 89, 5, 137, 1, '操作顺利完成', 1, 47, 220.70, '[\"密封圈\", \"润滑油\"]', 84.8874, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (12, 4, '2026-01-11 13:40:52', 1002, '操作员18', 4, 94, 2, 63, 1, '操作顺利完成', 1, 56, 468.85, '[\"密封圈\", \"润滑油\"]', 75.9293, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (13, 5, '2026-01-09 11:40:52', 1010, '操作员27', 2, 75, 2, 72, 1, '操作完成，有轻微警告', 4, 66, 496.37, '[\"滤芯\"]', 82.9462, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (14, 5, '2026-01-11 09:40:52', 1083, '操作员16', 2, 89, 1, 94, 1, '操作正常，无异常', 1, 40, 611.77, '[\"滤芯\"]', 75.4894, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (15, 5, '2026-01-09 13:40:52', 1062, '操作员18', 2, 95, 5, 97, 1, '操作顺利完成', 4, 41, 429.91, '[\"滤芯\"]', 91.4497, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (16, 6, '2026-01-11 22:40:52', 1010, '操作员12', 3, 91, 5, 28, 1, '操作顺利完成', 1, 42, 664.59, '[\"密封圈\", \"润滑油\"]', 92.1339, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (17, 6, '2026-01-11 21:40:52', 1009, '操作员8', 2, 78, 2, 39, 1, '操作正常，无异常', 3, 70, 849.12, '[\"滤芯\"]', 76.4332, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (18, 6, '2026-01-11 20:40:52', 1094, '操作员15', 3, 84, 4, 123, 1, '操作正常，无异常', 1, 58, 936.90, '[\"滤芯\"]', 84.9318, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (19, 7, '2026-01-11 14:40:52', 1035, '操作员9', 3, 74, 3, 46, 1, '操作顺利完成', 1, 49, 628.10, '[\"密封圈\", \"润滑油\"]', 76.6446, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (20, 7, '2026-01-09 19:40:52', 1094, '操作员14', 3, 87, 5, 71, 1, '操作正常，无异常', 4, 23, 945.78, '[\"滤芯\"]', 81.2339, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (21, 7, '2026-01-10 10:40:52', 1099, '操作员10', 3, 71, 3, 54, 1, '操作顺利完成', 1, 69, 601.61, '[\"密封圈\", \"润滑油\"]', 83.0136, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (22, 8, '2026-01-11 18:40:52', 1050, '操作员6', 3, 96, 5, 149, 1, '操作正常，无异常', 4, 59, 559.56, '[\"滤芯\"]', 90.1626, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (23, 8, '2026-01-10 23:40:52', 1062, '操作员1', 2, 95, 4, 74, 1, '操作正常，无异常', 2, 56, 545.30, '[\"滤芯\"]', 77.1274, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (24, 8, '2026-01-11 15:40:52', 1081, '操作员20', 4, 95, 1, 84, 1, '操作顺利完成', 4, 63, 721.70, '[\"密封圈\", \"润滑油\"]', 81.7009, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (25, 9, '2026-01-10 13:40:52', 1019, '操作员13', 3, 87, 1, 46, 1, '操作顺利完成', 2, 20, 251.17, '[\"滤芯\"]', 94.4606, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (26, 9, '2026-01-09 07:40:52', 1027, '操作员18', 2, 87, 4, 42, 1, '操作顺利完成', 4, 34, 906.43, '[\"滤芯\"]', 87.7835, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (27, 9, '2026-01-11 10:40:52', 1052, '操作员30', 3, 70, 5, 106, 1, '操作顺利完成', 1, 70, 903.13, '[\"密封圈\", \"润滑油\"]', 85.7961, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (28, 10, '2026-01-11 00:40:52', 1036, '操作员22', 3, 86, 1, 119, 1, '操作正常，无异常', 2, 60, 949.31, '[\"滤芯\"]', 81.6755, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (29, 10, '2026-01-09 07:40:52', 1042, '操作员10', 3, 97, 3, 90, 1, '操作正常，无异常', 4, 35, 418.84, '[\"滤芯\"]', 75.0285, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (30, 10, '2026-01-10 08:40:52', 1009, '操作员22', 3, 90, 2, 64, 1, '操作正常，无异常', 3, 74, 268.62, '[\"滤芯\"]', 75.1092, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (31, 11, '2026-01-11 01:40:52', 1066, '操作员8', 2, 96, 3, 83, 1, '操作正常，无异常', 1, 71, 371.48, '[\"滤芯\"]', 88.8041, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (32, 11, '2026-01-11 11:40:52', 1098, '操作员9', 3, 70, 2, 68, 2, '操作完成，有轻微警告', 1, 42, 263.99, '[\"滤芯\"]', 93.4118, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (33, 11, '2026-01-09 17:40:52', 1034, '操作员12', 4, 72, 5, 86, 1, '操作顺利完成', 3, 38, 411.29, '[\"滤芯\"]', 75.4229, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (34, 12, '2026-01-11 23:40:52', 1028, '操作员9', 3, 72, 4, 28, 1, '操作正常，无异常', 1, 22, 206.32, '[\"密封圈\", \"润滑油\"]', 81.5782, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (35, 12, '2026-01-11 12:40:52', 1100, '操作员13', 2, 84, 5, 39, 2, '操作顺利完成', 2, 71, 898.87, '[\"密封圈\", \"润滑油\"]', 79.3003, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (36, 12, '2026-01-11 08:40:52', 1100, '操作员10', 3, 91, 1, 146, 1, '操作正常，无异常', 1, 65, 813.56, '[\"滤芯\"]', 80.6998, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (37, 13, '2026-01-10 12:40:52', 1015, '操作员6', 3, 87, 4, 87, 1, '操作顺利完成', 4, 69, 411.18, '[\"密封圈\", \"润滑油\"]', 80.0656, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (38, 13, '2026-01-10 17:40:52', 1087, '操作员1', 3, 80, 2, 81, 1, '操作正常，无异常', 3, 17, 334.53, '[\"密封圈\", \"润滑油\"]', 77.7109, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (39, 13, '2026-01-11 20:40:52', 1083, '操作员29', 2, 88, 1, 145, 1, '操作完成，有轻微警告', 1, 49, 823.07, '[\"滤芯\"]', 83.9989, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (40, 14, '2026-01-10 10:40:52', 1037, '操作员6', 4, 98, 5, 34, 1, '操作正常，无异常', 2, 45, 537.01, '[\"密封圈\", \"润滑油\"]', 89.0959, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (41, 14, '2026-01-10 05:40:52', 1078, '操作员2', 4, 87, 1, 88, 1, '操作顺利完成', 1, 16, 911.65, '[\"滤芯\"]', 79.3363, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (42, 14, '2026-01-11 16:40:52', 1071, '操作员7', 4, 95, 3, 74, 1, '操作正常，无异常', 4, 36, 282.67, '[\"滤芯\"]', 94.1220, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (43, 15, '2026-01-11 08:40:52', 1092, '操作员27', 3, 85, 4, 149, 2, '操作顺利完成', 2, 52, 280.75, '[\"密封圈\", \"润滑油\"]', 90.3140, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (44, 15, '2026-01-10 02:40:52', 1024, '操作员9', 3, 79, 4, 99, 2, '操作顺利完成', 4, 20, 856.39, '[\"密封圈\", \"润滑油\"]', 88.7131, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (45, 15, '2026-01-10 02:40:52', 1040, '操作员2', 2, 72, 2, 84, 1, '操作顺利完成', 1, 57, 458.99, '[\"密封圈\", \"润滑油\"]', 85.7577, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (46, 16, '2026-01-11 02:40:52', 1098, '操作员30', 4, 94, 1, 94, 1, '操作顺利完成', 4, 74, 769.32, '[\"密封圈\", \"润滑油\"]', 89.2229, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (47, 16, '2026-01-11 17:40:52', 1100, '操作员19', 2, 99, 3, 64, 1, '操作顺利完成', 3, 44, 377.76, '[\"密封圈\", \"润滑油\"]', 86.0964, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (48, 16, '2026-01-10 09:40:52', 1019, '操作员9', 4, 94, 2, 122, 1, '操作正常，无异常', 1, 43, 829.33, '[\"密封圈\", \"润滑油\"]', 79.4947, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (49, 17, '2026-01-11 11:40:52', 1024, '操作员18', 2, 83, 3, 58, 1, '操作正常，无异常', 3, 51, 502.14, '[\"滤芯\"]', 80.4921, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (50, 17, '2026-01-09 14:40:52', 1071, '操作员3', 2, 73, 4, 78, 2, '操作正常，无异常', 4, 43, 576.04, '[\"密封圈\", \"润滑油\"]', 78.7561, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (51, 17, '2026-01-11 00:40:52', 1015, '操作员22', 2, 94, 3, 115, 1, '操作正常，无异常', 3, 39, 216.44, '[\"密封圈\", \"润滑油\"]', 81.0431, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (52, 18, '2026-01-10 08:40:52', 1011, '操作员26', 4, 71, 3, 56, 2, '操作顺利完成', 3, 52, 652.33, '[\"密封圈\", \"润滑油\"]', 77.2834, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (53, 18, '2026-01-11 19:40:52', 1035, '操作员16', 3, 94, 4, 118, 2, '操作顺利完成', 3, 59, 949.28, '[\"滤芯\"]', 85.5349, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (54, 18, '2026-01-10 07:40:52', 1020, '操作员8', 4, 89, 2, 63, 1, '操作正常，无异常', 2, 33, 295.62, '[\"密封圈\", \"润滑油\"]', 77.0060, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (55, 19, '2026-01-09 13:40:52', 1088, '操作员27', 4, 99, 5, 48, 1, '操作正常，无异常', 4, 72, 285.15, '[\"密封圈\", \"润滑油\"]', 93.2611, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (56, 19, '2026-01-10 20:40:52', 1008, '操作员6', 4, 75, 4, 117, 1, '操作顺利完成', 3, 70, 874.76, '[\"滤芯\"]', 89.0037, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (57, 19, '2026-01-09 21:40:52', 1008, '操作员8', 4, 71, 3, 33, 2, '操作正常，无异常', 2, 60, 978.50, '[\"密封圈\", \"润滑油\"]', 76.0142, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (58, 20, '2026-01-11 10:40:52', 1062, '操作员14', 3, 88, 5, 124, 1, '操作正常，无异常', 1, 74, 917.96, '[\"密封圈\", \"润滑油\"]', 94.0939, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (59, 20, '2026-01-11 20:40:52', 1076, '操作员18', 4, 89, 1, 145, 1, '操作顺利完成', 2, 67, 231.69, '[\"密封圈\", \"润滑油\"]', 90.1225, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_operational_data` VALUES (60, 20, '2026-01-12 00:40:52', 1089, '操作员12', 2, 75, 1, 29, 2, '操作正常，无异常', 1, 68, 485.88, '[\"滤芯\"]', 83.6313, 4, '2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11 09:40:52',1018,'操作员8',4,95,1,28,1,'操作正常，无异常',4,74,692.92,'[\"滤芯\"]',89.5957,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-11 01:40:52',1070,'操作员16',3,71,4,61,1,'操作顺利完成',1,61,407.49,'[\"密封圈\", \"润滑油\"]',77.8571,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d','2026-01-10 21:40:52',1062,'操作员29',4,79,1,132,1,'操作顺利完成',3,59,958.24,'[\"密封圈\", \"润滑油\"]',89.9251,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (4,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-10 02:40:52',1072,'操作员19',4,91,5,51,1,'操作正常，无异常',2,48,773.54,'[\"密封圈\", \"润滑油\"]',85.1607,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (5,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 10:40:52',1077,'操作员8',4,89,4,67,1,'操作完成，有轻微警告',3,73,477.95,'[\"密封圈\", \"润滑油\"]',93.7747,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-09 21:40:52',1064,'操作员1',2,72,4,56,1,'操作顺利完成',3,41,262.69,'[\"滤芯\"]',77.0014,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (7,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-11 10:40:52',1009,'操作员25',4,97,5,27,1,'操作顺利完成',4,45,426.93,'[\"密封圈\", \"润滑油\"]',86.9112,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (8,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-09 18:40:52',1089,'操作员4',2,89,1,144,1,'操作顺利完成',3,32,876.11,'[\"滤芯\"]',78.8615,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (9,'37464ae6-85a6-5ce3-9add-965f746ec79a','2026-01-11 20:40:52',1053,'操作员14',3,95,3,79,2,'操作完成，有轻微警告',2,46,559.44,'[\"密封圈\", \"润滑油\"]',93.7944,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (10,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-09 14:40:52',1088,'操作员29',2,92,3,131,2,'操作正常，无异常',3,31,392.05,'[\"滤芯\"]',76.7990,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (11,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-10 09:40:52',1066,'操作员19',2,89,5,137,1,'操作顺利完成',1,47,220.70,'[\"密封圈\", \"润滑油\"]',84.8874,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (12,'cca074a5-c046-5921-82b1-bc414f2340ea','2026-01-11 13:40:52',1002,'操作员18',4,94,2,63,1,'操作顺利完成',1,56,468.85,'[\"密封圈\", \"润滑油\"]',75.9293,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (13,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-09 11:40:52',1010,'操作员27',2,75,2,72,1,'操作完成，有轻微警告',4,66,496.37,'[\"滤芯\"]',82.9462,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (14,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-11 09:40:52',1083,'操作员16',2,89,1,94,1,'操作正常，无异常',1,40,611.77,'[\"滤芯\"]',75.4894,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (15,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2026-01-09 13:40:52',1062,'操作员18',2,95,5,97,1,'操作顺利完成',4,41,429.91,'[\"滤芯\"]',91.4497,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (16,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-11 22:40:52',1010,'操作员12',3,91,5,28,1,'操作顺利完成',1,42,664.59,'[\"密封圈\", \"润滑油\"]',92.1339,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (17,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-11 21:40:52',1009,'操作员8',2,78,2,39,1,'操作正常，无异常',3,70,849.12,'[\"滤芯\"]',76.4332,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (18,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2026-01-11 20:40:52',1094,'操作员15',3,84,4,123,1,'操作正常，无异常',1,58,936.90,'[\"滤芯\"]',84.9318,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (19,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-11 14:40:52',1035,'操作员9',3,74,3,46,1,'操作顺利完成',1,49,628.10,'[\"密封圈\", \"润滑油\"]',76.6446,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (20,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-09 19:40:52',1094,'操作员14',3,87,5,71,1,'操作正常，无异常',4,23,945.78,'[\"滤芯\"]',81.2339,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (21,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-10 10:40:52',1099,'操作员10',3,71,3,54,1,'操作顺利完成',1,69,601.61,'[\"密封圈\", \"润滑油\"]',83.0136,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (22,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-11 18:40:52',1050,'操作员6',3,96,5,149,1,'操作正常，无异常',4,59,559.56,'[\"滤芯\"]',90.1626,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (23,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-10 23:40:52',1062,'操作员1',2,95,4,74,1,'操作正常，无异常',2,56,545.30,'[\"滤芯\"]',77.1274,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (24,'d3e9f772-bcc2-5f46-871d-4765ef174569','2026-01-11 15:40:52',1081,'操作员20',4,95,1,84,1,'操作顺利完成',4,63,721.70,'[\"密封圈\", \"润滑油\"]',81.7009,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (25,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-10 13:40:52',1019,'操作员13',3,87,1,46,1,'操作顺利完成',2,20,251.17,'[\"滤芯\"]',94.4606,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (26,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-09 07:40:52',1027,'操作员18',2,87,4,42,1,'操作顺利完成',4,34,906.43,'[\"滤芯\"]',87.7835,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (27,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2026-01-11 10:40:52',1052,'操作员30',3,70,5,106,1,'操作顺利完成',1,70,903.13,'[\"密封圈\", \"润滑油\"]',85.7961,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (28,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-11 00:40:52',1036,'操作员22',3,86,1,119,1,'操作正常，无异常',2,60,949.31,'[\"滤芯\"]',81.6755,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (29,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-09 07:40:52',1042,'操作员10',3,97,3,90,1,'操作正常，无异常',4,35,418.84,'[\"滤芯\"]',75.0285,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (30,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2026-01-10 08:40:52',1009,'操作员22',3,90,2,64,1,'操作正常，无异常',3,74,268.62,'[\"滤芯\"]',75.1092,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (31,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-11 01:40:52',1066,'操作员8',2,96,3,83,1,'操作正常，无异常',1,71,371.48,'[\"滤芯\"]',88.8041,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (32,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-11 11:40:52',1098,'操作员9',3,70,2,68,2,'操作完成，有轻微警告',1,42,263.99,'[\"滤芯\"]',93.4118,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (33,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2026-01-09 17:40:52',1034,'操作员12',4,72,5,86,1,'操作顺利完成',3,38,411.29,'[\"滤芯\"]',75.4229,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (34,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11 23:40:52',1028,'操作员9',3,72,4,28,1,'操作正常，无异常',1,22,206.32,'[\"密封圈\", \"润滑油\"]',81.5782,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (35,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11 12:40:52',1100,'操作员13',2,84,5,39,2,'操作顺利完成',2,71,898.87,'[\"密封圈\", \"润滑油\"]',79.3003,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (36,'2a3ca038-96b0-55ca-b21c-01751b03464b','2026-01-11 08:40:52',1100,'操作员10',3,91,1,146,1,'操作正常，无异常',1,65,813.56,'[\"滤芯\"]',80.6998,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (37,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-10 12:40:52',1015,'操作员6',3,87,4,87,1,'操作顺利完成',4,69,411.18,'[\"密封圈\", \"润滑油\"]',80.0656,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (38,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-10 17:40:52',1087,'操作员1',3,80,2,81,1,'操作正常，无异常',3,17,334.53,'[\"密封圈\", \"润滑油\"]',77.7109,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (39,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2026-01-11 20:40:52',1083,'操作员29',2,88,1,145,1,'操作完成，有轻微警告',1,49,823.07,'[\"滤芯\"]',83.9989,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (40,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 10:40:52',1037,'操作员6',4,98,5,34,1,'操作正常，无异常',2,45,537.01,'[\"密封圈\", \"润滑油\"]',89.0959,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (41,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 05:40:52',1078,'操作员2',4,87,1,88,1,'操作顺利完成',1,16,911.65,'[\"滤芯\"]',79.3363,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (42,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-11 16:40:52',1071,'操作员7',4,95,3,74,1,'操作正常，无异常',4,36,282.67,'[\"滤芯\"]',94.1220,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (43,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-11 08:40:52',1092,'操作员27',3,85,4,149,2,'操作顺利完成',2,52,280.75,'[\"密封圈\", \"润滑油\"]',90.3140,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (44,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-10 02:40:52',1024,'操作员9',3,79,4,99,2,'操作顺利完成',4,20,856.39,'[\"密封圈\", \"润滑油\"]',88.7131,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (45,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-10 02:40:52',1040,'操作员2',2,72,2,84,1,'操作顺利完成',1,57,458.99,'[\"密封圈\", \"润滑油\"]',85.7577,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (46,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-11 02:40:52',1098,'操作员30',4,94,1,94,1,'操作顺利完成',4,74,769.32,'[\"密封圈\", \"润滑油\"]',89.2229,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-11 17:40:52',1100,'操作员19',2,99,3,64,1,'操作顺利完成',3,44,377.76,'[\"密封圈\", \"润滑油\"]',86.0964,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (48,'da59851e-ab46-5335-aaba-31e636e34c47','2026-01-10 09:40:52',1019,'操作员9',4,94,2,122,1,'操作正常，无异常',1,43,829.33,'[\"密封圈\", \"润滑油\"]',79.4947,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (49,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-11 11:40:52',1024,'操作员18',2,83,3,58,1,'操作正常，无异常',3,51,502.14,'[\"滤芯\"]',80.4921,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (50,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-09 14:40:52',1071,'操作员3',2,73,4,78,2,'操作正常，无异常',4,43,576.04,'[\"密封圈\", \"润滑油\"]',78.7561,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (51,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2026-01-11 00:40:52',1015,'操作员22',2,94,3,115,1,'操作正常，无异常',3,39,216.44,'[\"密封圈\", \"润滑油\"]',81.0431,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (52,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-10 08:40:52',1011,'操作员26',4,71,3,56,2,'操作顺利完成',3,52,652.33,'[\"密封圈\", \"润滑油\"]',77.2834,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (53,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-11 19:40:52',1035,'操作员16',3,94,4,118,2,'操作顺利完成',3,59,949.28,'[\"滤芯\"]',85.5349,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (54,'becc564c-15ec-5a6e-b975-5cde2f62633b','2026-01-10 07:40:52',1020,'操作员8',4,89,2,63,1,'操作正常，无异常',2,33,295.62,'[\"密封圈\", \"润滑油\"]',77.0060,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (55,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-09 13:40:52',1088,'操作员27',4,99,5,48,1,'操作正常，无异常',4,72,285.15,'[\"密封圈\", \"润滑油\"]',93.2611,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (56,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-10 20:40:52',1008,'操作员6',4,75,4,117,1,'操作顺利完成',3,70,874.76,'[\"滤芯\"]',89.0037,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (57,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-09 21:40:52',1008,'操作员8',4,71,3,33,2,'操作正常，无异常',2,60,978.50,'[\"密封圈\", \"润滑油\"]',76.0142,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (58,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11 10:40:52',1062,'操作员14',3,88,5,124,1,'操作正常，无异常',1,74,917.96,'[\"密封圈\", \"润滑油\"]',94.0939,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (59,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-11 20:40:52',1076,'操作员18',4,89,1,145,1,'操作顺利完成',2,67,231.69,'[\"密封圈\", \"润滑油\"]',90.1225,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_operational_data` VALUES (60,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2026-01-12 00:40:52',1089,'操作员12',2,75,1,29,2,'操作正常，无异常',1,68,485.88,'[\"滤芯\"]',83.6313,4,'2026-01-12 00:40:52');
 
 -- ----------------------------
 -- Table structure for eq_prediction
@@ -2366,7 +2330,7 @@ INSERT INTO `eq_operational_data` VALUES (60, 20, '2026-01-12 00:40:52', 1089, '
 DROP TABLE IF EXISTS `eq_prediction`;
 CREATE TABLE `eq_prediction`  (
   `prediction_id` bigint NOT NULL AUTO_INCREMENT COMMENT '预测ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `prediction_time` datetime NOT NULL COMMENT '预测时间',
   `predicted_status` tinyint NULL DEFAULT NULL COMMENT '预测状态 1-正常 2-警告 3-错误 4-离线',
   `prediction_confidence` decimal(5, 4) NULL DEFAULT NULL COMMENT '预测置信度',
@@ -2399,7 +2363,7 @@ INSERT INTO `eq_prediction` VALUES (2, 2, '2023-12-01 10:00:00', 1, 0.9234, 1, N
 DROP TABLE IF EXISTS `eq_sensor`;
 CREATE TABLE `eq_sensor`  (
   `sensor_id` bigint NOT NULL AUTO_INCREMENT COMMENT '传感器ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `sensor_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '传感器类型',
   `sensor_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '传感器名称',
   `location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '安装位置',
@@ -2420,86 +2384,86 @@ CREATE TABLE `eq_sensor`  (
 -- ----------------------------
 -- Records of eq_sensor
 -- ----------------------------
-INSERT INTO `eq_sensor` VALUES (1, 1, '温度传感器', '温度传感器-DEV-001', '主厂房A区1层', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (2, 2, '温度传感器', '温度传感器-DEV-002', '主厂房A区2层', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (3, 3, '温度传感器', '温度传感器-DEV-003', '配电室A区', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (4, 4, '温度传感器', '温度传感器-DEV-004', '配电室B区', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (5, 5, '温度传感器', '温度传感器-DEV-005', '开关站1号位', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (6, 6, '温度传感器', '温度传感器-DEV-006', '开关站2号位', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (7, 7, '温度传感器', '温度传感器-DEV-007', '发电机房A区', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (8, 8, '温度传感器', '温度传感器-DEV-008', '发电机房B区', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (9, 9, '温度传感器', '温度传感器-DEV-009', '无功补偿室1号', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (10, 10, '温度传感器', '温度传感器-DEV-010', '无功补偿室2号', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (11, 11, '温度传感器', '温度传感器-DEV-011', '计量室1号位', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (12, 12, '温度传感器', '温度传感器-DEV-012', '计量室2号位', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (13, 13, '温度传感器', '温度传感器-DEV-013', '室外A区1号杆', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (14, 14, '温度传感器', '温度传感器-DEV-014', '室外B区1号杆', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (15, 15, '温度传感器', '温度传感器-DEV-015', '开关场A区', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (16, 16, '温度传感器', '温度传感器-DEV-016', '开关场B区', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (17, 17, '温度传感器', '温度传感器-DEV-017', '监控室A区', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (18, 18, '温度传感器', '温度传感器-DEV-018', '监控室B区', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (19, 19, '温度传感器', '温度传感器-DEV-019', '直流室A区', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (20, 20, '温度传感器', '温度传感器-DEV-020', '直流室B区', '℃', '2025-12-13 00:01:12', '2026-12-13 00:01:12', 1, NULL, '', '2026-01-12 00:01:12', '', '2026-01-12 00:01:12');
-INSERT INTO `eq_sensor` VALUES (32, 1, '湿度传感器', '湿度传感器-DEV-001', '主厂房A区1层', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (33, 2, '湿度传感器', '湿度传感器-DEV-002', '主厂房A区2层', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (34, 3, '湿度传感器', '湿度传感器-DEV-003', '配电室A区', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (35, 4, '湿度传感器', '湿度传感器-DEV-004', '配电室B区', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (36, 5, '湿度传感器', '湿度传感器-DEV-005', '开关站1号位', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (37, 6, '湿度传感器', '湿度传感器-DEV-006', '开关站2号位', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (38, 7, '湿度传感器', '湿度传感器-DEV-007', '发电机房A区', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (39, 8, '湿度传感器', '湿度传感器-DEV-008', '发电机房B区', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (40, 9, '湿度传感器', '湿度传感器-DEV-009', '无功补偿室1号', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (41, 10, '湿度传感器', '湿度传感器-DEV-010', '无功补偿室2号', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (42, 11, '湿度传感器', '湿度传感器-DEV-011', '计量室1号位', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (43, 12, '湿度传感器', '湿度传感器-DEV-012', '计量室2号位', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (44, 13, '湿度传感器', '湿度传感器-DEV-013', '室外A区1号杆', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (45, 14, '湿度传感器', '湿度传感器-DEV-014', '室外B区1号杆', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (46, 15, '湿度传感器', '湿度传感器-DEV-015', '开关场A区', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (47, 16, '湿度传感器', '湿度传感器-DEV-016', '开关场B区', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (48, 17, '湿度传感器', '湿度传感器-DEV-017', '监控室A区', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (49, 18, '湿度传感器', '湿度传感器-DEV-018', '监控室B区', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (50, 19, '湿度传感器', '湿度传感器-DEV-019', '直流室A区', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (51, 20, '湿度传感器', '湿度传感器-DEV-020', '直流室B区', '%', '2025-11-28 00:01:13', '2026-11-28 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (63, 1, '电流传感器', '电流传感器-DEV-001', '主厂房A区1层', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (64, 2, '电流传感器', '电流传感器-DEV-002', '主厂房A区2层', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (65, 3, '电流传感器', '电流传感器-DEV-003', '配电室A区', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (66, 4, '电流传感器', '电流传感器-DEV-004', '配电室B区', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (67, 5, '电流传感器', '电流传感器-DEV-005', '开关站1号位', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (68, 6, '电流传感器', '电流传感器-DEV-006', '开关站2号位', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (69, 7, '电流传感器', '电流传感器-DEV-007', '发电机房A区', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (70, 8, '电流传感器', '电流传感器-DEV-008', '发电机房B区', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (71, 9, '电流传感器', '电流传感器-DEV-009', '无功补偿室1号', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (72, 10, '电流传感器', '电流传感器-DEV-010', '无功补偿室2号', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (73, 11, '电流传感器', '电流传感器-DEV-011', '计量室1号位', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (74, 12, '电流传感器', '电流传感器-DEV-012', '计量室2号位', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (75, 13, '电流传感器', '电流传感器-DEV-013', '室外A区1号杆', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (76, 14, '电流传感器', '电流传感器-DEV-014', '室外B区1号杆', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (77, 15, '电流传感器', '电流传感器-DEV-015', '开关场A区', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (78, 16, '电流传感器', '电流传感器-DEV-016', '开关场B区', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (79, 17, '电流传感器', '电流传感器-DEV-017', '监控室A区', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (80, 18, '电流传感器', '电流传感器-DEV-018', '监控室B区', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (81, 19, '电流传感器', '电流传感器-DEV-019', '直流室A区', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (82, 20, '电流传感器', '电流传感器-DEV-020', '直流室B区', 'A', '2025-11-13 00:01:13', '2026-11-13 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (94, 1, '电压传感器', '电压传感器-DEV-001', '主厂房A区1层', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (95, 2, '电压传感器', '电压传感器-DEV-002', '主厂房A区2层', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (96, 3, '电压传感器', '电压传感器-DEV-003', '配电室A区', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (97, 4, '电压传感器', '电压传感器-DEV-004', '配电室B区', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (98, 5, '电压传感器', '电压传感器-DEV-005', '开关站1号位', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (99, 6, '电压传感器', '电压传感器-DEV-006', '开关站2号位', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (100, 7, '电压传感器', '电压传感器-DEV-007', '发电机房A区', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (101, 8, '电压传感器', '电压传感器-DEV-008', '发电机房B区', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (102, 9, '电压传感器', '电压传感器-DEV-009', '无功补偿室1号', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (103, 10, '电压传感器', '电压传感器-DEV-010', '无功补偿室2号', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (104, 11, '电压传感器', '电压传感器-DEV-011', '计量室1号位', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (105, 12, '电压传感器', '电压传感器-DEV-012', '计量室2号位', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (106, 13, '电压传感器', '电压传感器-DEV-013', '室外A区1号杆', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (107, 14, '电压传感器', '电压传感器-DEV-014', '室外B区1号杆', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (108, 15, '电压传感器', '电压传感器-DEV-015', '开关场A区', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (109, 16, '电压传感器', '电压传感器-DEV-016', '开关场B区', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (110, 17, '电压传感器', '电压传感器-DEV-017', '监控室A区', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (111, 18, '电压传感器', '电压传感器-DEV-018', '监控室B区', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (112, 19, '电压传感器', '电压传感器-DEV-019', '直流室A区', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
-INSERT INTO `eq_sensor` VALUES (113, 20, '电压传感器', '电压传感器-DEV-020', '直流室B区', 'kV', '2025-12-23 00:01:13', '2026-12-23 00:01:13', 1, NULL, '', '2026-01-12 00:01:13', '', '2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','温度传感器','温度传感器-DEV-001','主厂房A区1层','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (2,'fecc074d-88bb-5010-b639-e7db3c22481d','温度传感器','温度传感器-DEV-002','主厂房A区2层','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (3,'37464ae6-85a6-5ce3-9add-965f746ec79a','温度传感器','温度传感器-DEV-003','配电室A区','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (4,'cca074a5-c046-5921-82b1-bc414f2340ea','温度传感器','温度传感器-DEV-004','配电室B区','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (5,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','温度传感器','温度传感器-DEV-005','开关站1号位','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (6,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','温度传感器','温度传感器-DEV-006','开关站2号位','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (7,'57330e93-592e-5318-b0c2-6d3ff8846bb6','温度传感器','温度传感器-DEV-007','发电机房A区','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (8,'d3e9f772-bcc2-5f46-871d-4765ef174569','温度传感器','温度传感器-DEV-008','发电机房B区','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (9,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','温度传感器','温度传感器-DEV-009','无功补偿室1号','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (10,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','温度传感器','温度传感器-DEV-010','无功补偿室2号','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (11,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','温度传感器','温度传感器-DEV-011','计量室1号位','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (12,'2a3ca038-96b0-55ca-b21c-01751b03464b','温度传感器','温度传感器-DEV-012','计量室2号位','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (13,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','温度传感器','温度传感器-DEV-013','室外A区1号杆','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (14,'bb046d14-328a-5267-8b28-c4faed37de82','温度传感器','温度传感器-DEV-014','室外B区1号杆','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (15,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','温度传感器','温度传感器-DEV-015','开关场A区','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (16,'da59851e-ab46-5335-aaba-31e636e34c47','温度传感器','温度传感器-DEV-016','开关场B区','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (17,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','温度传感器','温度传感器-DEV-017','监控室A区','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (18,'becc564c-15ec-5a6e-b975-5cde2f62633b','温度传感器','温度传感器-DEV-018','监控室B区','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (19,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','温度传感器','温度传感器-DEV-019','直流室A区','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (20,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','温度传感器','温度传感器-DEV-020','直流室B区','℃','2025-12-13 00:01:12','2026-12-13 00:01:12',1,NULL,'','2026-01-12 00:01:12','','2026-01-12 00:01:12');
+INSERT INTO `eq_sensor` VALUES (32,'7beaf415-6c5b-5e16-abd7-04c21500858d','湿度传感器','湿度传感器-DEV-001','主厂房A区1层','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (33,'fecc074d-88bb-5010-b639-e7db3c22481d','湿度传感器','湿度传感器-DEV-002','主厂房A区2层','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (34,'37464ae6-85a6-5ce3-9add-965f746ec79a','湿度传感器','湿度传感器-DEV-003','配电室A区','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (35,'cca074a5-c046-5921-82b1-bc414f2340ea','湿度传感器','湿度传感器-DEV-004','配电室B区','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (36,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','湿度传感器','湿度传感器-DEV-005','开关站1号位','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (37,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','湿度传感器','湿度传感器-DEV-006','开关站2号位','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (38,'57330e93-592e-5318-b0c2-6d3ff8846bb6','湿度传感器','湿度传感器-DEV-007','发电机房A区','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (39,'d3e9f772-bcc2-5f46-871d-4765ef174569','湿度传感器','湿度传感器-DEV-008','发电机房B区','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (40,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','湿度传感器','湿度传感器-DEV-009','无功补偿室1号','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (41,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','湿度传感器','湿度传感器-DEV-010','无功补偿室2号','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (42,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','湿度传感器','湿度传感器-DEV-011','计量室1号位','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (43,'2a3ca038-96b0-55ca-b21c-01751b03464b','湿度传感器','湿度传感器-DEV-012','计量室2号位','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (44,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','湿度传感器','湿度传感器-DEV-013','室外A区1号杆','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (45,'bb046d14-328a-5267-8b28-c4faed37de82','湿度传感器','湿度传感器-DEV-014','室外B区1号杆','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (46,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','湿度传感器','湿度传感器-DEV-015','开关场A区','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','湿度传感器','湿度传感器-DEV-016','开关场B区','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (48,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','湿度传感器','湿度传感器-DEV-017','监控室A区','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (49,'becc564c-15ec-5a6e-b975-5cde2f62633b','湿度传感器','湿度传感器-DEV-018','监控室B区','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (50,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','湿度传感器','湿度传感器-DEV-019','直流室A区','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (51,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','湿度传感器','湿度传感器-DEV-020','直流室B区','%','2025-11-28 00:01:13','2026-11-28 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (63,'7beaf415-6c5b-5e16-abd7-04c21500858d','电流传感器','电流传感器-DEV-001','主厂房A区1层','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (64,'fecc074d-88bb-5010-b639-e7db3c22481d','电流传感器','电流传感器-DEV-002','主厂房A区2层','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (65,'37464ae6-85a6-5ce3-9add-965f746ec79a','电流传感器','电流传感器-DEV-003','配电室A区','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (66,'cca074a5-c046-5921-82b1-bc414f2340ea','电流传感器','电流传感器-DEV-004','配电室B区','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (67,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','电流传感器','电流传感器-DEV-005','开关站1号位','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (68,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','电流传感器','电流传感器-DEV-006','开关站2号位','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (69,'57330e93-592e-5318-b0c2-6d3ff8846bb6','电流传感器','电流传感器-DEV-007','发电机房A区','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (70,'d3e9f772-bcc2-5f46-871d-4765ef174569','电流传感器','电流传感器-DEV-008','发电机房B区','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (71,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','电流传感器','电流传感器-DEV-009','无功补偿室1号','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (72,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','电流传感器','电流传感器-DEV-010','无功补偿室2号','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (73,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','电流传感器','电流传感器-DEV-011','计量室1号位','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (74,'2a3ca038-96b0-55ca-b21c-01751b03464b','电流传感器','电流传感器-DEV-012','计量室2号位','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (75,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','电流传感器','电流传感器-DEV-013','室外A区1号杆','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (76,'bb046d14-328a-5267-8b28-c4faed37de82','电流传感器','电流传感器-DEV-014','室外B区1号杆','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (77,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','电流传感器','电流传感器-DEV-015','开关场A区','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (78,'da59851e-ab46-5335-aaba-31e636e34c47','电流传感器','电流传感器-DEV-016','开关场B区','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (79,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','电流传感器','电流传感器-DEV-017','监控室A区','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (80,'becc564c-15ec-5a6e-b975-5cde2f62633b','电流传感器','电流传感器-DEV-018','监控室B区','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (81,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','电流传感器','电流传感器-DEV-019','直流室A区','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (82,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','电流传感器','电流传感器-DEV-020','直流室B区','A','2025-11-13 00:01:13','2026-11-13 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (94,'7beaf415-6c5b-5e16-abd7-04c21500858d','电压传感器','电压传感器-DEV-001','主厂房A区1层','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (95,'fecc074d-88bb-5010-b639-e7db3c22481d','电压传感器','电压传感器-DEV-002','主厂房A区2层','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (96,'37464ae6-85a6-5ce3-9add-965f746ec79a','电压传感器','电压传感器-DEV-003','配电室A区','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (97,'cca074a5-c046-5921-82b1-bc414f2340ea','电压传感器','电压传感器-DEV-004','配电室B区','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (98,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','电压传感器','电压传感器-DEV-005','开关站1号位','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (99,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','电压传感器','电压传感器-DEV-006','开关站2号位','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (100,'57330e93-592e-5318-b0c2-6d3ff8846bb6','电压传感器','电压传感器-DEV-007','发电机房A区','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (101,'d3e9f772-bcc2-5f46-871d-4765ef174569','电压传感器','电压传感器-DEV-008','发电机房B区','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (102,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','电压传感器','电压传感器-DEV-009','无功补偿室1号','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (103,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','电压传感器','电压传感器-DEV-010','无功补偿室2号','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (104,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','电压传感器','电压传感器-DEV-011','计量室1号位','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (105,'2a3ca038-96b0-55ca-b21c-01751b03464b','电压传感器','电压传感器-DEV-012','计量室2号位','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (106,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','电压传感器','电压传感器-DEV-013','室外A区1号杆','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (107,'bb046d14-328a-5267-8b28-c4faed37de82','电压传感器','电压传感器-DEV-014','室外B区1号杆','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (108,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','电压传感器','电压传感器-DEV-015','开关场A区','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (109,'da59851e-ab46-5335-aaba-31e636e34c47','电压传感器','电压传感器-DEV-016','开关场B区','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (110,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','电压传感器','电压传感器-DEV-017','监控室A区','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (111,'becc564c-15ec-5a6e-b975-5cde2f62633b','电压传感器','电压传感器-DEV-018','监控室B区','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (112,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','电压传感器','电压传感器-DEV-019','直流室A区','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
+INSERT INTO `eq_sensor` VALUES (113,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','电压传感器','电压传感器-DEV-020','直流室B区','kV','2025-12-23 00:01:13','2026-12-23 00:01:13',1,NULL,'','2026-01-12 00:01:13','','2026-01-12 00:01:13');
 
 -- ----------------------------
 -- Table structure for eq_technology_data
@@ -2507,7 +2471,7 @@ INSERT INTO `eq_sensor` VALUES (113, 20, '电压传感器', '电压传感器-DEV
 DROP TABLE IF EXISTS `eq_technology_data`;
 CREATE TABLE `eq_technology_data`  (
   `tech_id` bigint NOT NULL AUTO_INCREMENT COMMENT '技术数据ID',
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `timestamp` datetime NOT NULL COMMENT '更新时间',
   `technology_level` tinyint NULL DEFAULT NULL COMMENT '技术水平 1-落后 2-一般 3-先进 4-领先',
   `upgrade_status` tinyint NULL DEFAULT NULL COMMENT '升级状态 1-无需升级 2-计划升级 3-正在升级 4-已完成',
@@ -2529,73 +2493,73 @@ CREATE TABLE `eq_technology_data`  (
 -- ----------------------------
 -- Records of eq_technology_data
 -- ----------------------------
-INSERT INTO `eq_technology_data` VALUES (1, 1, '2025-10-16 00:40:52', 3, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V2.3.8', 'FW2.2.7', 6, 2, 2, 2, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (2, 1, '2025-11-30 00:40:52', 2, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V2.9.3', 'FW2.4.8', 14, 4, 2, 4, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (3, 1, '2025-10-21 00:40:52', 4, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V1.9.9', 'FW1.2.3', 7, 4, 2, 4, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (4, 2, '2025-10-22 00:40:52', 3, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V3.7.16', 'FW2.3.8', 6, 4, 2, 4, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (5, 2, '2025-12-24 00:40:52', 4, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V2.4.1', 'FW2.3.1', 24, 3, 2, 3, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (6, 2, '2026-01-11 00:40:52', 2, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V2.9.15', 'FW2.0.0', 22, 2, 3, 2, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (7, 3, '2025-12-31 00:40:52', 3, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V2.4.16', 'FW2.3.0', 6, 2, 3, 4, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (8, 3, '2025-11-23 00:40:52', 4, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V2.4.0', 'FW2.4.9', 10, 3, 2, 4, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (9, 3, '2025-12-19 00:40:52', 2, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V3.4.19', 'FW2.2.4', 12, 4, 2, 4, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (10, 4, '2025-11-25 00:40:52', 4, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V3.3.15', 'FW2.2.1', 14, 2, 4, 4, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (11, 4, '2025-12-08 00:40:52', 3, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V1.8.11', 'FW1.4.7', 6, 2, 2, 3, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (12, 4, '2025-11-23 00:40:52', 3, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V3.7.2', 'FW1.0.9', 6, 3, 4, 4, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (13, 5, '2025-11-17 00:40:52', 2, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V3.1.3', 'FW1.0.1', 16, 3, 3, 2, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (14, 5, '2025-10-29 00:40:52', 4, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V3.7.13', 'FW1.2.7', 9, 4, 4, 2, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (15, 5, '2025-12-17 00:40:52', 4, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V2.9.7', 'FW1.2.7', 16, 3, 4, 2, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (16, 6, '2025-10-25 00:40:52', 3, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V2.2.3', 'FW1.0.4', 21, 4, 2, 2, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (17, 6, '2025-12-21 00:40:52', 3, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V3.4.10', 'FW1.1.4', 11, 2, 4, 4, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (18, 6, '2025-10-19 00:40:52', 2, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V1.9.4', 'FW1.1.0', 14, 2, 4, 2, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (19, 7, '2026-01-12 00:40:52', 4, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V2.0.5', 'FW1.0.9', 13, 3, 3, 4, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (20, 7, '2025-12-27 00:40:52', 4, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V2.4.17', 'FW1.3.9', 24, 4, 3, 3, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (21, 7, '2025-11-25 00:40:52', 4, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V2.8.10', 'FW1.4.5', 9, 3, 2, 3, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (22, 8, '2025-11-17 00:40:52', 4, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V3.1.5', 'FW1.1.6', 6, 3, 3, 2, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (23, 8, '2025-12-27 00:40:52', 4, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V2.6.15', 'FW1.3.4', 6, 2, 4, 3, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (24, 8, '2025-10-25 00:40:52', 4, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V3.1.6', 'FW1.0.8', 20, 3, 4, 4, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (25, 9, '2025-11-16 00:40:52', 3, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V3.1.7', 'FW1.2.4', 21, 4, 3, 2, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (26, 9, '2025-11-03 00:40:52', 3, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V3.3.4', 'FW1.2.1', 8, 2, 3, 3, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (27, 9, '2025-12-30 00:40:52', 2, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V3.3.8', 'FW1.3.7', 23, 2, 2, 4, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (28, 10, '2025-11-26 00:40:52', 3, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V1.7.15', 'FW1.0.9', 15, 4, 2, 2, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (29, 10, '2025-10-24 00:40:52', 3, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V1.0.4', 'FW2.0.3', 21, 4, 2, 3, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (30, 10, '2025-10-20 00:40:52', 3, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V1.8.3', 'FW1.3.2', 17, 3, 3, 2, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (31, 11, '2025-12-07 00:40:52', 4, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V3.1.8', 'FW2.2.1', 6, 4, 3, 4, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (32, 11, '2025-10-22 00:40:52', 3, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V1.6.12', 'FW2.3.1', 16, 2, 4, 4, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (33, 11, '2025-12-19 00:40:52', 4, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V2.0.2', 'FW1.4.3', 5, 4, 4, 3, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (34, 12, '2025-11-28 00:40:52', 2, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V1.6.17', 'FW1.2.1', 9, 4, 3, 4, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (35, 12, '2025-10-31 00:40:52', 3, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V1.0.1', 'FW1.1.9', 6, 3, 4, 2, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (36, 12, '2025-12-22 00:40:52', 2, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V2.9.18', 'FW2.2.8', 17, 4, 4, 4, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (37, 13, '2025-11-23 00:40:52', 2, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V1.1.17', 'FW1.2.7', 6, 2, 2, 4, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (38, 13, '2025-12-31 00:40:52', 4, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V3.0.4', 'FW2.0.1', 23, 2, 4, 2, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (39, 13, '2025-10-28 00:40:52', 3, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V1.9.6', 'FW2.0.1', 8, 3, 3, 2, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (40, 14, '2026-01-10 00:40:52', 3, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V3.0.3', 'FW2.4.0', 19, 3, 3, 2, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (41, 14, '2025-12-27 00:40:52', 2, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V2.0.2', 'FW1.4.8', 15, 2, 4, 3, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (42, 14, '2025-11-06 00:40:52', 2, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V1.0.12', 'FW1.2.9', 11, 4, 3, 2, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (43, 15, '2025-11-30 00:40:52', 2, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V1.6.7', 'FW2.4.4', 10, 2, 3, 3, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (44, 15, '2025-12-23 00:40:52', 3, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V2.1.13', 'FW2.4.9', 13, 2, 2, 3, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (45, 15, '2026-01-08 00:40:52', 4, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V2.7.10', 'FW1.1.7', 23, 3, 3, 3, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (46, 16, '2025-12-23 00:40:52', 3, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V1.1.15', 'FW2.1.1', 20, 3, 3, 3, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (47, 16, '2025-12-29 00:40:52', 3, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V1.6.0', 'FW1.1.0', 15, 3, 2, 4, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (48, 16, '2025-12-28 00:40:52', 2, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V2.2.7', 'FW2.1.1', 20, 3, 3, 2, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (49, 17, '2025-11-12 00:40:52', 4, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V1.2.10', 'FW2.1.8', 15, 2, 3, 3, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (50, 17, '2025-12-23 00:40:52', 3, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V1.6.19', 'FW2.3.9', 14, 3, 3, 3, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (51, 17, '2025-10-15 00:40:52', 2, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V2.8.18', 'FW1.4.9', 12, 4, 4, 4, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (52, 18, '2025-12-22 00:40:52', 4, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V3.8.4', 'FW2.1.9', 22, 3, 2, 2, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (53, 18, '2025-12-19 00:40:52', 2, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V1.4.3', 'FW2.1.6', 18, 2, 3, 2, 1, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (54, 18, '2025-11-18 00:40:52', 3, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V3.0.5', 'FW1.3.6', 20, 4, 2, 2, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (55, 19, '2026-01-03 00:40:52', 4, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V1.3.12', 'FW1.0.8', 22, 4, 2, 4, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (56, 19, '2025-11-30 00:40:52', 4, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 3, 'V2.6.19', 'FW2.4.4', 20, 3, 2, 3, 4, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (57, 19, '2025-10-18 00:40:52', 2, 3, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V1.3.12', 'FW1.3.2', 10, 3, 2, 3, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (58, 20, '2025-11-26 00:40:52', 3, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V3.6.9', 'FW1.0.3', 13, 2, 4, 3, 2, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (59, 20, '2025-10-21 00:40:52', 3, 2, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 1, 'V2.5.8', 'FW1.1.8', 15, 4, 3, 4, 3, '2026-01-12 00:40:52');
-INSERT INTO `eq_technology_data` VALUES (60, 20, '2025-12-11 00:40:52', 4, 1, '{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}', 2, 'V1.3.18', 'FW2.1.4', 12, 3, 4, 4, 2, '2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (1,'7beaf415-6c5b-5e16-abd7-04c21500858d','2025-10-16 00:40:52',3,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V2.3.8','FW2.2.7',6,2,2,2,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (2,'7beaf415-6c5b-5e16-abd7-04c21500858d','2025-11-30 00:40:52',2,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V2.9.3','FW2.4.8',14,4,2,4,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (3,'7beaf415-6c5b-5e16-abd7-04c21500858d','2025-10-21 00:40:52',4,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V1.9.9','FW1.2.3',7,4,2,4,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (4,'fecc074d-88bb-5010-b639-e7db3c22481d','2025-10-22 00:40:52',3,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V3.7.16','FW2.3.8',6,4,2,4,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (5,'fecc074d-88bb-5010-b639-e7db3c22481d','2025-12-24 00:40:52',4,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V2.4.1','FW2.3.1',24,3,2,3,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (6,'fecc074d-88bb-5010-b639-e7db3c22481d','2026-01-11 00:40:52',2,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V2.9.15','FW2.0.0',22,2,3,2,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (7,'37464ae6-85a6-5ce3-9add-965f746ec79a','2025-12-31 00:40:52',3,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V2.4.16','FW2.3.0',6,2,3,4,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (8,'37464ae6-85a6-5ce3-9add-965f746ec79a','2025-11-23 00:40:52',4,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V2.4.0','FW2.4.9',10,3,2,4,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (9,'37464ae6-85a6-5ce3-9add-965f746ec79a','2025-12-19 00:40:52',2,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V3.4.19','FW2.2.4',12,4,2,4,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (10,'cca074a5-c046-5921-82b1-bc414f2340ea','2025-11-25 00:40:52',4,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V3.3.15','FW2.2.1',14,2,4,4,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (11,'cca074a5-c046-5921-82b1-bc414f2340ea','2025-12-08 00:40:52',3,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V1.8.11','FW1.4.7',6,2,2,3,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (12,'cca074a5-c046-5921-82b1-bc414f2340ea','2025-11-23 00:40:52',3,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V3.7.2','FW1.0.9',6,3,4,4,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (13,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2025-11-17 00:40:52',2,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V3.1.3','FW1.0.1',16,3,3,2,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (14,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2025-10-29 00:40:52',4,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V3.7.13','FW1.2.7',9,4,4,2,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (15,'b98cd60e-fac1-50b3-a1b7-fe7208017d18','2025-12-17 00:40:52',4,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V2.9.7','FW1.2.7',16,3,4,2,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (16,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2025-10-25 00:40:52',3,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V2.2.3','FW1.0.4',21,4,2,2,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (17,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2025-12-21 00:40:52',3,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V3.4.10','FW1.1.4',11,2,4,4,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (18,'43a6dca8-7f91-5167-9aaf-df8eddc6a5bd','2025-10-19 00:40:52',2,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V1.9.4','FW1.1.0',14,2,4,2,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (19,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2026-01-12 00:40:52',4,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V2.0.5','FW1.0.9',13,3,3,4,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (20,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2025-12-27 00:40:52',4,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V2.4.17','FW1.3.9',24,4,3,3,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (21,'57330e93-592e-5318-b0c2-6d3ff8846bb6','2025-11-25 00:40:52',4,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V2.8.10','FW1.4.5',9,3,2,3,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (22,'d3e9f772-bcc2-5f46-871d-4765ef174569','2025-11-17 00:40:52',4,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V3.1.5','FW1.1.6',6,3,3,2,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (23,'d3e9f772-bcc2-5f46-871d-4765ef174569','2025-12-27 00:40:52',4,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V2.6.15','FW1.3.4',6,2,4,3,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (24,'d3e9f772-bcc2-5f46-871d-4765ef174569','2025-10-25 00:40:52',4,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V3.1.6','FW1.0.8',20,3,4,4,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (25,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2025-11-16 00:40:52',3,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V3.1.7','FW1.2.4',21,4,3,2,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (26,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2025-11-03 00:40:52',3,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V3.3.4','FW1.2.1',8,2,3,3,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (27,'50c5eac4-1e56-5756-be8d-aa8c73a42deb','2025-12-30 00:40:52',2,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V3.3.8','FW1.3.7',23,2,2,4,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (28,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2025-11-26 00:40:52',3,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V1.7.15','FW1.0.9',15,4,2,2,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (29,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2025-10-24 00:40:52',3,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V1.0.4','FW2.0.3',21,4,2,3,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (30,'404a01c5-aa88-5bc1-a9ad-ddb5532a42a8','2025-10-20 00:40:52',3,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V1.8.3','FW1.3.2',17,3,3,2,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (31,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2025-12-07 00:40:52',4,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V3.1.8','FW2.2.1',6,4,3,4,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (32,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2025-10-22 00:40:52',3,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V1.6.12','FW2.3.1',16,2,4,4,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (33,'4154482d-78ec-54ae-b4d4-6fe1d3719d47','2025-12-19 00:40:52',4,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V2.0.2','FW1.4.3',5,4,4,3,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (34,'2a3ca038-96b0-55ca-b21c-01751b03464b','2025-11-28 00:40:52',2,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V1.6.17','FW1.2.1',9,4,3,4,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (35,'2a3ca038-96b0-55ca-b21c-01751b03464b','2025-10-31 00:40:52',3,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V1.0.1','FW1.1.9',6,3,4,2,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (36,'2a3ca038-96b0-55ca-b21c-01751b03464b','2025-12-22 00:40:52',2,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V2.9.18','FW2.2.8',17,4,4,4,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (37,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2025-11-23 00:40:52',2,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V1.1.17','FW1.2.7',6,2,2,4,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (38,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2025-12-31 00:40:52',4,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V3.0.4','FW2.0.1',23,2,4,2,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (39,'1555fe67-2a6c-50e4-870b-fa4fc876a13e','2025-10-28 00:40:52',3,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V1.9.6','FW2.0.1',8,3,3,2,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (40,'bb046d14-328a-5267-8b28-c4faed37de82','2026-01-10 00:40:52',3,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V3.0.3','FW2.4.0',19,3,3,2,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (41,'bb046d14-328a-5267-8b28-c4faed37de82','2025-12-27 00:40:52',2,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V2.0.2','FW1.4.8',15,2,4,3,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (42,'bb046d14-328a-5267-8b28-c4faed37de82','2025-11-06 00:40:52',2,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V1.0.12','FW1.2.9',11,4,3,2,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (43,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2025-11-30 00:40:52',2,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V1.6.7','FW2.4.4',10,2,3,3,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (44,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2025-12-23 00:40:52',3,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V2.1.13','FW2.4.9',13,2,2,3,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (45,'3cc5c2c6-5b83-54ba-929d-72e90bfdd29a','2026-01-08 00:40:52',4,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V2.7.10','FW1.1.7',23,3,3,3,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (46,'da59851e-ab46-5335-aaba-31e636e34c47','2025-12-23 00:40:52',3,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V1.1.15','FW2.1.1',20,3,3,3,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (47,'da59851e-ab46-5335-aaba-31e636e34c47','2025-12-29 00:40:52',3,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V1.6.0','FW1.1.0',15,3,2,4,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (48,'da59851e-ab46-5335-aaba-31e636e34c47','2025-12-28 00:40:52',2,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V2.2.7','FW2.1.1',20,3,3,2,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (49,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2025-11-12 00:40:52',4,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V1.2.10','FW2.1.8',15,2,3,3,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (50,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2025-12-23 00:40:52',3,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V1.6.19','FW2.3.9',14,3,3,3,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (51,'2ee4b07d-4d84-51dd-b1ce-ba978142b461','2025-10-15 00:40:52',2,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V2.8.18','FW1.4.9',12,4,4,4,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (52,'becc564c-15ec-5a6e-b975-5cde2f62633b','2025-12-22 00:40:52',4,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V3.8.4','FW2.1.9',22,3,2,2,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (53,'becc564c-15ec-5a6e-b975-5cde2f62633b','2025-12-19 00:40:52',2,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V1.4.3','FW2.1.6',18,2,3,2,1,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (54,'becc564c-15ec-5a6e-b975-5cde2f62633b','2025-11-18 00:40:52',3,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V3.0.5','FW1.3.6',20,4,2,2,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (55,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2026-01-03 00:40:52',4,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V1.3.12','FW1.0.8',22,4,2,4,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (56,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2025-11-30 00:40:52',4,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',3,'V2.6.19','FW2.4.4',20,3,2,3,4,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (57,'5e3c871f-6afd-5c47-95a0-2e48214a47c8','2025-10-18 00:40:52',2,3,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V1.3.12','FW1.3.2',10,3,2,3,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (58,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2025-11-26 00:40:52',3,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V3.6.9','FW1.0.3',13,2,4,3,2,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (59,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2025-10-21 00:40:52',3,2,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',1,'V2.5.8','FW1.1.8',15,4,3,4,3,'2026-01-12 00:40:52');
+INSERT INTO `eq_technology_data` VALUES (60,'d64c9542-f3bb-50fe-ac72-5f5a23d42bff','2025-12-11 00:40:52',4,1,'{\"IEC 61850\": \"符合\", \"IEEE 1547\": \"部分符合\", \"GB/T 19001-2016\": \"符合\"}',2,'V1.3.18','FW2.1.4',12,3,4,4,2,'2026-01-12 00:40:52');
 
 -- ----------------------------
 -- Table structure for eq_wind_forecast_bind
 -- ----------------------------
 DROP TABLE IF EXISTS `eq_wind_forecast_bind`;
 CREATE TABLE `eq_wind_forecast_bind`  (
-  `device_id` bigint NOT NULL COMMENT '设备ID',
+  `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `model_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'GRU 模型 .h5 绝对路径',
   `feature_excel_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '特征 Excel 绝对路径',
   `real_excel_path` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '实测功率 Excel 绝对路径',
@@ -2607,7 +2571,7 @@ CREATE TABLE `eq_wind_forecast_bind`  (
 -- ----------------------------
 -- Records of eq_wind_forecast_bind
 -- ----------------------------
-INSERT INTO `eq_wind_forecast_bind` VALUES (21, NULL, NULL, NULL, '', '2026-03-29 17:02:21');
+INSERT INTO `eq_wind_forecast_bind` VALUES ('57330e93-592e-5318-b0c2-6d3ff8846bb6',NULL,NULL,NULL,'','2026-03-29 17:02:21');
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -5232,7 +5196,7 @@ CREATE TABLE `sys_user_message`  (
   `msg_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'maintenance_form' COMMENT '消息类型',
   `title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '标题',
   `content` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '摘要内容',
-  `biz_id` bigint NULL DEFAULT NULL COMMENT '业务主键，如运维表单 form_id',
+  `biz_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '业务主键：运维表单 form_id 或设备 device_id（UUID），统一字符串存储',
   `read_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0' COMMENT '是否已读 0否 1是',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`msg_id`) USING BTREE,
@@ -5447,5 +5411,32 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 INSERT INTO `t_user` VALUES (2, '买买买', 22, 1);
 INSERT INTO `t_user` VALUES (3, '55', 1, 0);
+
+-- ----------------------------
+-- 增量补丁合并（发电预测菜单纠偏 + 移除演示设备 21）
+-- 全新库：上方数据已对齐时可忽略本节（DELETE/UPDATE 无匹配行时安全）。
+-- 从旧库升级：务必执行本节一次；bind-device-id=7 请在 application.yml wind.forecast 中配置。
+-- ----------------------------
+DELETE FROM eq_device_stat WHERE device_id = '4f7a0ac3-4605-53a7-bf78-02d9a2b14fe6';
+DELETE FROM eq_wind_forecast_bind WHERE device_id = '4f7a0ac3-4605-53a7-bf78-02d9a2b14fe6';
+DELETE FROM eq_device WHERE device_id = '4f7a0ac3-4605-53a7-bf78-02d9a2b14fe6';
+
+UPDATE sys_menu SET
+  menu_name   = '发电预测',
+  parent_id   = 0,
+  order_num   = 3,
+  path        = 'power-forecast',
+  component   = 'powerForecast/index',
+  query       = '',
+  route_name  = '',
+  is_frame    = 1,
+  is_cache    = 0,
+  menu_type   = 'C',
+  visible     = '0',
+  status      = '0',
+  perms       = 'power:forecast:list',
+  icon        = 'chart',
+  remark      = '发电预测菜单（component 须与 ruoyi-ui/views/powerForecast/index.vue 一致）'
+WHERE menu_id = 200;
 
 SET FOREIGN_KEY_CHECKS = 1;

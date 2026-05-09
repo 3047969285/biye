@@ -7,6 +7,7 @@ import com.ruoyi.system.domain.EqDeviceStatus;
 import com.ruoyi.system.domain.dto.RuleTriggerResult;
 import com.ruoyi.system.mapper.EqAlertRecordMapper;
 import com.ruoyi.system.mapper.EqDeviceRuleMapper;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.service.IEqDeviceRuleTriggerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 设备规则触发Service业务层处理
+ *
+ * @author wangchangzhen
+ * @date 2026-01-07
+ */
 @Service
 public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerService {
 
@@ -57,6 +64,12 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
     @Autowired
     private EqAlertRecordMapper eqAlertRecordMapper;
 
+    /**
+     * 根据设备状态快照匹配规则，计算目标运行状态并产生告警等副作用
+     *
+     * @param data 设备状态快照
+     * @return 规则触发汇总结果
+     */
     @Override
     public RuleTriggerResult fireRulesForSnapshot(EqDeviceStatus data) {
         RuleTriggerResult result = new RuleTriggerResult();
@@ -160,6 +173,7 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
         rec.setDeviceId(status.getDeviceId());
         rec.setRuleId(rule.getRuleId());
         rec.setAlertLevel(rule.getAlertLevel());
+        rec.setAlertType(StringUtils.isNotEmpty(rule.getRuleName()) ? rule.getRuleName().trim() : "规则告警");
         rec.setTriggeredTime(new Date());
         rec.setStatus(EquipmentRuleConstants.ALERT_RECORD_TRIGGERED);
         String paramKey = normalizeParameterKey(rule.getParameterName());

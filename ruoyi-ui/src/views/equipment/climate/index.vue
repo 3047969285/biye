@@ -1,17 +1,18 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="80px">
-      <el-form-item label="设备ID" prop="deviceId">
-        <el-input
-          v-model="queryParams.deviceId"
-          placeholder="请输入设备ID"
+      <el-form-item label="设备" prop="deviceId">
+        <device-select
+          :value="queryParams.deviceId"
+          placeholder="请选择设备（数据获取共用）"
           clearable
-          @keyup.enter.native="handleQuery"
+          style="width: 260px"
+          @input="handleDataAcquisitionDeviceChange"
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -21,7 +22,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+          size="small"
           @click="handleAdd"
           v-hasPermi="['equipment:climateData:add']"
         >新增</el-button>
@@ -31,7 +32,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+          size="small"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['equipment:climateData:remove']"
@@ -41,20 +42,19 @@
 
     <el-table v-loading="loading" :data="dataList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="climateId" width="80" />
-      <el-table-column label="设备ID" align="center" prop="deviceId" width="100" />
-      <el-table-column label="设备编号" align="center" prop="deviceNo" width="140" show-overflow-tooltip>
+      <el-table-column label="ID" align="center" prop="climateId" min-width="80" />
+      <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceNo || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="设备名称" align="center" prop="deviceName" width="180" show-overflow-tooltip>
+      <el-table-column label="设备名称" align="center" prop="deviceName" min-width="132" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="采集时间" align="center" prop="timestamp" width="180" :formatter="formatTableTime" />
-      <el-table-column label="季节" align="center" prop="season" width="80">
+      <el-table-column label="采集时间" align="center" prop="timestamp" min-width="180" :formatter="formatTableTime" />
+      <el-table-column label="季节" align="center" prop="season" min-width="80">
         <template slot-scope="scope">
           <span v-if="scope.row.season === 1">春</span>
           <span v-else-if="scope.row.season === 2">夏</span>
@@ -62,10 +62,10 @@
           <span v-else-if="scope.row.season === 4">冬</span>
         </template>
       </el-table-column>
-      <el-table-column label="天气情况" align="center" prop="weatherCondition" width="120" />
-      <el-table-column label="降水量" align="center" prop="precipitation" width="100" />
-      <el-table-column label="风速" align="center" prop="windSpeed" width="100" />
-      <el-table-column label="污染等级" align="center" prop="pollutionLevel" width="100">
+      <el-table-column label="天气情况" align="center" prop="weatherCondition" min-width="120" />
+      <el-table-column label="降水量" align="center" prop="precipitation" min-width="100" />
+      <el-table-column label="风速" align="center" prop="windSpeed" min-width="100" />
+      <el-table-column label="污染等级" align="center" prop="pollutionLevel" min-width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pollutionLevel === 1" type="success">优</el-tag>
           <el-tag v-else-if="scope.row.pollutionLevel === 2" type="info">良</el-tag>
@@ -77,14 +77,14 @@
       <el-table-column label="操作" align="center" width="160" fixed="right">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['equipment:climateData:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -107,8 +107,8 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="160px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="设备ID" prop="deviceId">
-              <el-input-number v-model="form.deviceId" placeholder="请输入设备ID" style="width: 100%" />
+            <el-form-item label="设备" prop="deviceId">
+              <device-select v-model="form.deviceId" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -229,9 +229,11 @@
 
 <script>
 import { listClimateData, getClimateData, delClimateData, addClimateData, updateClimateData } from "@/api/equipment/climateData";
+import dataAcquisitionDevice from '@/mixins/dataAcquisitionDevice'
 
 export default {
   name: "ClimateData",
+  mixins: [dataAcquisitionDevice],
   data() {
     return {
       loading: true,
@@ -250,7 +252,7 @@ export default {
       },
       rules: {
         deviceId: [
-          { required: true, message: "设备ID不能为空", trigger: "blur" }
+          { required: true, message: "请选择设备", trigger: "blur" }
         ]
       }
     };
@@ -288,6 +290,7 @@ export default {
     },
     resetQuery() {
       this.resetForm("queryForm");
+      this.clearDataAcquisitionDeviceFilter();
       this.handleQuery();
     },
     handleSelectionChange(selection) {

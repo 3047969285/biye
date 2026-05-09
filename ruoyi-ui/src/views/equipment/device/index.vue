@@ -99,8 +99,8 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -110,7 +110,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+          size="small"
           @click="handleAdd"
         >新增</el-button>
       </el-col>
@@ -119,7 +119,7 @@
           type="success"
           plain
           icon="el-icon-edit"
-          size="mini"
+          size="small"
           :disabled="single"
           @click="handleUpdate"
         >修改</el-button>
@@ -129,7 +129,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+          size="small"
           :disabled="multiple"
           @click="handleDelete"
         >删除</el-button>
@@ -139,7 +139,7 @@
           type="warning"
           plain
           icon="el-icon-setting"
-          size="mini"
+          size="small"
           :disabled="multiple"
           @click="showBatchStatusDialog"
         >批量状态变更</el-button>
@@ -150,14 +150,14 @@
     <!-- 设备列表 -->
     <el-table v-loading="loading" :data="deviceList" @selection-change="handleSelectionChange" border>
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="设备编号" align="center" prop="deviceNo" width="120" />
-      <el-table-column label="设备名称" align="center" prop="deviceName" width="150" />
-      <el-table-column label="设备类型" align="center" prop="deviceType" width="100" />
-      <el-table-column label="型号" align="center" prop="model" width="120" />
-      <el-table-column label="序列号" align="center" prop="serialNumber" width="140" />
-      <el-table-column label="制造商" align="center" prop="manufacturer" width="120" />
-      <el-table-column label="安装位置" align="center" prop="location" width="150" />
-      <el-table-column label="状态" align="center" prop="status" width="120">
+      <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="120" />
+      <el-table-column label="设备名称" align="center" prop="deviceName" min-width="128" />
+      <el-table-column label="设备类型" align="center" prop="deviceType" min-width="100" />
+      <el-table-column label="型号" align="center" prop="model" min-width="120" />
+      <el-table-column label="序列号" align="center" prop="serialNumber" min-width="140" />
+      <el-table-column label="制造商" align="center" prop="manufacturer" min-width="120" />
+      <el-table-column label="安装位置" align="center" prop="location" min-width="150" />
+      <el-table-column label="状态" align="center" prop="status" min-width="120">
         <template slot-scope="scope">
           <el-tag 
             :type="getStatusType(scope.row.status)" 
@@ -169,23 +169,23 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="责任人" align="center" prop="responsiblePerson" width="100" />
+      <el-table-column label="责任人" align="center" prop="responsiblePerson" min-width="100" />
       <el-table-column label="操作" align="center" width="250" fixed="right">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
           >修改</el-button>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-switch-button"
             @click="handleStatusChange(scope.row)"
           >状态变更</el-button>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -562,8 +562,14 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const deviceIds = row.deviceId || this.ids;
-      this.$modal.confirm('是否确认删除设备编号为"' + deviceIds + '"的数据项？').then(() => {
+      const deviceIds = row ? row.deviceId : this.ids;
+      let confirmMsg = '是否确认删除所选设备？';
+      if (row && row.deviceId) {
+        const name = row.deviceName || '';
+        const no = row.deviceNo ? '（编号 ' + row.deviceNo + '）' : '';
+        confirmMsg = '是否确认删除设备「' + name + '」' + no + '？';
+      }
+      this.$modal.confirm(confirmMsg).then(() => {
         return delDevice(deviceIds);
       }).then(() => {
         this.getList();

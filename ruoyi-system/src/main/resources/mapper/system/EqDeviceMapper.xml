@@ -60,10 +60,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 AND responsible_person like concat('%', #{responsiblePerson}, '%')
             </if>
         </where>
-        order by device_id
+        order by create_time desc, device_id desc
     </select>
 
-    <select id="selectEqDeviceByDeviceId" parameterType="Long" resultMap="EqDeviceResult">
+    <select id="selectEqDeviceByDeviceId" parameterType="String" resultMap="EqDeviceResult">
         <include refid="selectEqDeviceVo"/>
         where device_id = #{deviceId}
     </select>
@@ -73,9 +73,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where device_no = #{deviceNo}
     </select>
 
-    <insert id="insertEqDevice" parameterType="com.ruoyi.system.domain.EqDevice" useGeneratedKeys="true" keyProperty="deviceId">
+    <insert id="insertEqDevice" parameterType="com.ruoyi.system.domain.EqDevice">
         insert into eq_device
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != ''">device_id,</if>
             <if test="deviceNo != null and deviceNo != ''">device_no,</if>
             <if test="deviceName != null and deviceName != ''">device_name,</if>
             <if test="deviceType != null and deviceType != ''">device_type,</if>
@@ -95,6 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             create_time
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != ''">#{deviceId},</if>
             <if test="deviceNo != null and deviceNo != ''">#{deviceNo},</if>
             <if test="deviceName != null and deviceName != ''">#{deviceName},</if>
             <if test="deviceType != null and deviceType != ''">#{deviceType},</if>
@@ -152,11 +154,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </update>
 
-    <delete id="deleteEqDeviceByDeviceId" parameterType="Long">
+    <delete id="deleteEqDeviceByDeviceId" parameterType="String">
         delete from eq_device where device_id = #{deviceId}
     </delete>
 
-    <delete id="deleteEqDeviceByDeviceIds" parameterType="Long">
+    <delete id="deleteEqDeviceByDeviceIds" parameterType="String">
         delete from eq_device where device_id in
         <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
             #{deviceId}

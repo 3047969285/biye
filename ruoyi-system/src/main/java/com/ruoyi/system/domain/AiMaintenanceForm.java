@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * AI运维操作表单对象 ai_maintenance_form
  * 
- * @author ruoyi
+ * @author wangchangzhen
  */
 public class AiMaintenanceForm extends BaseEntity {
     private static final long serialVersionUID = 1L;
@@ -17,7 +17,7 @@ public class AiMaintenanceForm extends BaseEntity {
     private Long formId;
 
     /** 设备ID */
-    private Long deviceId;
+    private String deviceId;
 
     /** 设备名称 */
     private String deviceName;
@@ -67,8 +67,8 @@ public class AiMaintenanceForm extends BaseEntity {
     public Long getFormId() { return formId; }
     public void setFormId(Long formId) { this.formId = formId; }
 
-    public Long getDeviceId() { return deviceId; }
-    public void setDeviceId(Long deviceId) { this.deviceId = deviceId; }
+    public String getDeviceId() { return deviceId; }
+    public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
 
     public String getDeviceName() { return deviceName; }
     public void setDeviceName(String deviceName) { this.deviceName = deviceName; }

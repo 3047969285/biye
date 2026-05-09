@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 智能问答对话记录 Mapper 接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2025-01-01
  */
 @Mapper

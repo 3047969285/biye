@@ -25,4 +25,7 @@ public interface ISysUserMessageService {
     int markRead(Long msgId, Long userId);
 
     int markAllRead(Long userId);
+
+    /** 删除当前用户名下一条消息 */
+    int deleteMessage(Long msgId, Long userId);
 }

@@ -1,12 +1,13 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="80px">
-      <el-form-item label="设备ID" prop="deviceId">
-        <el-input
-          v-model="queryParams.deviceId"
-          placeholder="请输入设备ID"
+      <el-form-item label="设备" prop="deviceId">
+        <device-select
+          :value="queryParams.deviceId"
+          placeholder="请选择设备（数据获取共用）"
           clearable
-          @keyup.enter.native="handleQuery"
+          style="width: 260px"
+          @input="handleDataAcquisitionDeviceChange"
         />
       </el-form-item>
       <el-form-item label="操作员名称" prop="operatorName">
@@ -18,8 +19,8 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -29,7 +30,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+          size="small"
           @click="handleAdd"
           v-hasPermi="['equipment:operationalData:add']"
         >新增</el-button>
@@ -39,7 +40,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+          size="small"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['equipment:operationalData:remove']"
@@ -49,21 +50,20 @@
 
     <el-table v-loading="loading" :data="dataList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="operationalId" width="80" />
-      <el-table-column label="设备ID" align="center" prop="deviceId" width="100" />
-      <el-table-column label="设备编号" align="center" prop="deviceNo" width="140" show-overflow-tooltip>
+      <el-table-column label="ID" align="center" prop="operationalId" min-width="80" />
+      <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceNo || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="设备名称" align="center" prop="deviceName" width="180" show-overflow-tooltip>
+      <el-table-column label="设备名称" align="center" prop="deviceName" min-width="132" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="操作时间" align="center" prop="timestamp" width="180" :formatter="formatTableTime" />
-      <el-table-column label="操作员名称" align="center" prop="operatorName" width="120" />
-      <el-table-column label="操作类型" align="center" prop="operationType" width="100">
+      <el-table-column label="操作时间" align="center" prop="timestamp" min-width="180" :formatter="formatTableTime" />
+      <el-table-column label="操作员名称" align="center" prop="operatorName" min-width="120" />
+      <el-table-column label="操作类型" align="center" prop="operationType" min-width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.operationType === 1">开机</span>
           <span v-else-if="scope.row.operationType === 2">关机</span>
@@ -72,25 +72,26 @@
           <span v-else-if="scope.row.operationType === 5">故障处理</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作结果" align="center" prop="operationResult" width="100">
+      <el-table-column label="操作结果" align="center" prop="operationResult" min-width="100">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.operationResult === '1'" type="success">成功</el-tag>
-          <el-tag v-else-if="scope.row.operationResult === '2'" type="danger">失败</el-tag>
-          <el-tag v-else-if="scope.row.operationResult === '3'" type="warning">警告</el-tag>
+          <el-tag v-if="operationResultCode(scope.row) === 1" type="success">成功</el-tag>
+          <el-tag v-else-if="operationResultCode(scope.row) === 2" type="danger">失败</el-tag>
+          <el-tag v-else-if="operationResultCode(scope.row) === 3" type="warning">警告</el-tag>
+          <span v-else-if="operationResultCode(scope.row) === null">—</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作时长(秒)" align="center" prop="operationDuration" width="120" />
+      <el-table-column label="操作时长(秒)" align="center" prop="operationDuration" min-width="120" />
       <el-table-column label="操作" align="center" width="160" fixed="right">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['equipment:operationalData:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -113,8 +114,8 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="160px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="设备ID" prop="deviceId">
-              <el-input-number v-model="form.deviceId" placeholder="请输入设备ID" style="width: 100%" />
+            <el-form-item label="设备" prop="deviceId">
+              <device-select v-model="form.deviceId" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -179,10 +180,10 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="操作结果" prop="operationResult">
-              <el-select v-model="form.operationResult" placeholder="请选择操作结果" style="width: 100%">
-                <el-option label="成功" value="1" />
-                <el-option label="失败" value="2" />
-                <el-option label="警告" value="3" />
+              <el-select v-model="form.operationResult" placeholder="请选择操作结果" style="width: 100%" clearable>
+                <el-option label="成功" :value="1" />
+                <el-option label="失败" :value="2" />
+                <el-option label="警告" :value="3" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -194,8 +195,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="维护类型" prop="maintainanceType">
-              <el-select v-model="form.maintainanceType" placeholder="请选择维护类型" style="width: 100%">
+            <el-form-item label="维护类型" prop="maintenanceType">
+              <el-select v-model="form.maintenanceType" placeholder="请选择维护类型" style="width: 100%">
                 <el-option label="预防性" :value="1" />
                 <el-option label="纠正性" :value="2" />
                 <el-option label="预测性" :value="3" />
@@ -204,15 +205,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="维护时长(秒)" prop="maintainanceDuration">
-              <el-input-number v-model="form.maintainanceDuration" style="width: 100%" />
+            <el-form-item label="维护时长(秒)" prop="maintenanceDuration">
+              <el-input-number v-model="form.maintenanceDuration" style="width: 100%" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="维护成本" prop="maintainanceCost">
-              <el-input-number v-model="form.maintainanceCost" :precision="2" style="width: 100%" />
+            <el-form-item label="维护成本" prop="maintenanceCost">
+              <el-input-number v-model="form.maintenanceCost" :precision="2" style="width: 100%" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -244,9 +245,11 @@
 
 <script>
 import { listOperationalData, getOperationalData, delOperationalData, addOperationalData, updateOperationalData } from "@/api/equipment/operationalData";
+import dataAcquisitionDevice from '@/mixins/dataAcquisitionDevice'
 
 export default {
   name: "OperationalData",
+  mixins: [dataAcquisitionDevice],
   data() {
     return {
       loading: true,
@@ -266,7 +269,7 @@ export default {
       },
       rules: {
         deviceId: [
-          { required: true, message: "设备ID不能为空", trigger: "blur" }
+          { required: true, message: "请选择设备", trigger: "blur" }
         ]
       }
     };
@@ -275,6 +278,15 @@ export default {
     this.getList();
   },
   methods: {
+    /** 操作结果：后端为整数 1/2/3，兼容历史字符串 */
+    operationResultCode(row) {
+      const v = row && row.operationResult;
+      if (v === null || v === undefined || v === "") {
+        return null;
+      }
+      const n = Number(v);
+      return Number.isNaN(n) ? null : n;
+    },
     // 表格时间字段格式化，兼容 2025-12-27T00:40:52.000+08:00
     formatTableTime(row, column, cellValue) {
       if (!cellValue) {
@@ -304,6 +316,7 @@ export default {
     },
     resetQuery() {
       this.resetForm("queryForm");
+      this.clearDataAcquisitionDeviceFilter();
       this.handleQuery();
     },
     handleSelectionChange(selection) {
@@ -370,9 +383,9 @@ export default {
         operationDuration: null,
         operationResult: null,
         operationNotes: null,
-        maintainanceType: null,
-        maintainanceDuration: null,
-        maintainanceCost: null,
+        maintenanceType: null,
+        maintenanceDuration: null,
+        maintenanceCost: null,
         partsUsed: null,
         operatorPerformanceScore: null,
         safetyCompliance: null

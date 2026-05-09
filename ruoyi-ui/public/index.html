@@ -9,12 +9,15 @@
     <title><%= webpackConfig.name %></title>
     <!--[if lt IE 11]><script>window.location.href='/html/ie.html';</script><![endif]-->
 	  <style>
+    /* 与 variables.scss $primary-bg 一致，避免样式加载前整页白闪 */
     html,
     body,
     #app {
       height: 100%;
       margin: 0px;
       padding: 0px;
+      background-color: #1b2435;
+      color: #f5f7fb;
     }
     .chromeframe {
       margin: 0.2em 0;

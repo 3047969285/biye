@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * 智能问答对话记录对象 ai_chat_record
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2025-01-01
  */
 public class AiChatRecord extends BaseEntity {

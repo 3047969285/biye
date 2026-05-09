@@ -49,7 +49,7 @@
             <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
             <if test="timestamp != null"> and el.timestamp = #{timestamp}</if>
         </where>
-        order by el.device_id, el.electrical_id desc
+        order by el.timestamp desc
     </select>
     
     <select id="selectEqElectricalDataByElectricalId" parameterType="Long" resultMap="EqElectricalDataResult">
@@ -57,10 +57,10 @@
         where el.electrical_id = #{electricalId}
     </select>
 
-    <select id="selectEqElectricalDataListByDeviceId" parameterType="Long" resultMap="EqElectricalDataResult">
+    <select id="selectEqElectricalDataListByDeviceId" parameterType="String" resultMap="EqElectricalDataResult">
         <include refid="selectEqElectricalDataVo"/>
         where el.device_id = #{deviceId}
-        order by el.device_id, el.electrical_id desc
+        order by el.timestamp desc
     </select>
         
     <insert id="insertEqElectricalData" parameterType="com.ruoyi.system.domain.EqElectricalData">
@@ -172,7 +172,7 @@
         </foreach>
     </delete>
 
-    <delete id="deleteEqElectricalDataByDeviceId" parameterType="Long">
+    <delete id="deleteEqElectricalDataByDeviceId" parameterType="String">
         delete from eq_electrical_data where device_id = #{deviceId}
     </delete>
 

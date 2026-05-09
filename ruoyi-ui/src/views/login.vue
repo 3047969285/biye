@@ -44,7 +44,7 @@
     </div>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2025 智能电网运维系统. All Rights Reserved.</span>
+      <span>Copyright © 2018-2026 智能电网运维系统 · wangchangzhen. All Rights Reserved.</span>
     </div>
   </div>
 </template>

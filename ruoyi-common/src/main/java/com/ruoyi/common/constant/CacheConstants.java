@@ -3,7 +3,7 @@ package com.ruoyi.common.constant;
 /**
  * 缓存的key 常量
  * 
- * @author ruoyi
+ * @author wangchangzhen
  */
 public class CacheConstants
 {
@@ -47,6 +47,6 @@ public class CacheConstants
      */
     public static final String MAINTENANCE_FORM_SCHEDULE_NOTIFY_KEY = "maintenance:form:schedule_notify:";
 
-    /** 运维表单推送 Redis 去重 TTL（秒），与定时任务、实时推送共用 */
-    public static final long MAINTENANCE_FORM_NOTIFY_TTL_SECONDS = 86400L;
+    /** 运维表单推送 Redis 去重 TTL：1 天（86400 秒），与定时任务、实时推送共用 */
+    public static final long MAINTENANCE_FORM_NOTIFY_TTL_SECONDS = 24L * 60L * 60L;
 }

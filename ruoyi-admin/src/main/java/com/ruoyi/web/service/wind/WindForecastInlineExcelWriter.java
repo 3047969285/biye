@@ -34,7 +34,7 @@ public final class WindForecastInlineExcelWriter {
     /**
      * @return [featureXlsx, realXlsx] 绝对路径
      */
-    public static Path[] write(long deviceId, List<Map<String, Object>> rows) throws Exception {
+    public static Path[] write(String deviceId, List<Map<String, Object>> rows) throws Exception {
         if (rows == null) {
             rows = List.of();
         }

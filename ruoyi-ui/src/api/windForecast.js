@@ -69,6 +69,18 @@ export function downloadWindForecastExcel(deviceId, kind) {
   })
 }
 
+export function uploadWindForecastModel(deviceId, file) {
+  const formData = new FormData()
+  formData.append('file', file)
+  return request({
+    url: '/wind/forecast/model/' + deviceId,
+    method: 'post',
+    data: formData,
+    headers: { repeatSubmit: false },
+    timeout: 120000
+  })
+}
+
 export function uploadWindForecastExcel(deviceId, kind, file) {
   const formData = new FormData()
   formData.append('file', file)

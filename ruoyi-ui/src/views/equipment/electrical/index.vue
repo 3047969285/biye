@@ -1,17 +1,18 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="80px">
-      <el-form-item label="设备ID" prop="deviceId">
-        <el-input
-          v-model="queryParams.deviceId"
-          placeholder="请输入设备ID"
+      <el-form-item label="设备" prop="deviceId">
+        <device-select
+          :value="queryParams.deviceId"
+          placeholder="请选择设备（数据获取共用）"
           clearable
-          @keyup.enter.native="handleQuery"
+          style="width: 260px"
+          @input="handleDataAcquisitionDeviceChange"
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -21,7 +22,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+          size="small"
           @click="handleAdd"
           v-hasPermi="['equipment:electricalData:add']"
         >新增</el-button>
@@ -31,7 +32,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+          size="small"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['equipment:electricalData:remove']"
@@ -41,26 +42,25 @@
 
     <el-table v-loading="loading" :data="dataList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="electricalId" width="80" />
-      <el-table-column label="设备ID" align="center" prop="deviceId" width="100" />
-      <el-table-column label="设备编号" align="center" prop="deviceNo" width="140" show-overflow-tooltip>
+      <el-table-column label="ID" align="center" prop="electricalId" min-width="80" />
+      <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceNo || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="设备名称" align="center" prop="deviceName" width="180" show-overflow-tooltip>
+      <el-table-column label="设备名称" align="center" prop="deviceName" min-width="132" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="采集时间" align="center" prop="timestamp" width="180" :formatter="formatTableTime" />
-      <el-table-column label="L1相电压(V)" align="center" prop="voltageL1" width="120" />
-      <el-table-column label="L2相电压(V)" align="center" prop="voltageL2" width="120" />
-      <el-table-column label="L3相电压(V)" align="center" prop="voltageL3" width="120" />
-      <el-table-column label="有功功率(kW)" align="center" prop="activePower" width="120" />
-      <el-table-column label="功率因数" align="center" prop="powerFactor" width="100" />
-      <el-table-column label="效率(%)" align="center" prop="efficiency" width="100" />
-      <el-table-column label="电器等级" align="center" prop="electricalGrade" width="100">
+      <el-table-column label="采集时间" align="center" prop="timestamp" min-width="180" :formatter="formatTableTime" />
+      <el-table-column label="L1相电压(V)" align="center" prop="voltageL1" min-width="120" />
+      <el-table-column label="L2相电压(V)" align="center" prop="voltageL2" min-width="120" />
+      <el-table-column label="L3相电压(V)" align="center" prop="voltageL3" min-width="120" />
+      <el-table-column label="有功功率(kW)" align="center" prop="activePower" min-width="120" />
+      <el-table-column label="功率因数" align="center" prop="powerFactor" min-width="100" />
+      <el-table-column label="效率(%)" align="center" prop="efficiency" min-width="100" />
+      <el-table-column label="电器等级" align="center" prop="electricalGrade" min-width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.electricalGrade === 1" type="success">优良</el-tag>
           <el-tag v-else-if="scope.row.electricalGrade === 2" type="info">良好</el-tag>
@@ -71,14 +71,14 @@
       <el-table-column label="操作" align="center" width="160" fixed="right">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['equipment:electricalData:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -101,8 +101,8 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="160px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="设备ID" prop="deviceId">
-              <el-input-number v-model="form.deviceId" placeholder="请输入设备ID" style="width: 100%" />
+            <el-form-item label="设备" prop="deviceId">
+              <device-select v-model="form.deviceId" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -283,9 +283,11 @@
 
 <script>
 import { listElectricalData, getElectricalData, delElectricalData, addElectricalData, updateElectricalData } from "@/api/equipment/electricalData";
+import dataAcquisitionDevice from '@/mixins/dataAcquisitionDevice'
 
 export default {
   name: "ElectricalData",
+  mixins: [dataAcquisitionDevice],
   data() {
     return {
       loading: true,
@@ -304,7 +306,7 @@ export default {
       },
       rules: {
         deviceId: [
-          { required: true, message: "设备ID不能为空", trigger: "blur" }
+          { required: true, message: "请选择设备", trigger: "blur" }
         ]
       }
     };
@@ -342,6 +344,7 @@ export default {
     },
     resetQuery() {
       this.resetForm("queryForm");
+      this.clearDataAcquisitionDeviceFilter();
       this.handleQuery();
     },
     handleSelectionChange(selection) {

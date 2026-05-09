@@ -1,12 +1,13 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="80px">
-      <el-form-item label="设备ID" prop="deviceId">
-        <el-input
-          v-model="queryParams.deviceId"
-          placeholder="请输入设备ID"
+      <el-form-item label="设备" prop="deviceId">
+        <device-select
+          :value="queryParams.deviceId"
+          placeholder="请选择设备（数据获取共用）"
           clearable
-          @keyup.enter.native="handleQuery"
+          style="width: 260px"
+          @input="handleDataAcquisitionDeviceChange"
         />
       </el-form-item>
       <el-form-item label="规则名称" prop="ruleName">
@@ -18,8 +19,8 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -29,7 +30,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+          size="small"
           @click="handleAdd"
           v-hasPermi="['equipment:deviceRule:add']"
         >新增</el-button>
@@ -39,7 +40,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+          size="small"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['equipment:deviceRule:remove']"
@@ -49,21 +50,20 @@
 
     <el-table v-loading="loading" :data="dataList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="规则ID" align="center" prop="ruleId" width="80" />
-      <el-table-column label="设备ID" align="center" prop="deviceId" width="100" />
-      <el-table-column label="设备编号" align="center" prop="deviceNo" width="140" show-overflow-tooltip>
+      <el-table-column label="规则ID" align="center" prop="ruleId" min-width="80" />
+      <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceNo || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="设备名称" align="center" prop="deviceName" width="180" show-overflow-tooltip>
+      <el-table-column label="设备名称" align="center" prop="deviceName" min-width="132" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="规则名称" align="center" prop="ruleName" width="150" />
-      <el-table-column label="参数名称" align="center" prop="parameterName" width="150" />
-      <el-table-column label="条件类型" align="center" prop="conditionType" width="100">
+      <el-table-column label="规则名称" align="center" prop="ruleName" min-width="150" />
+      <el-table-column label="参数名称" align="center" prop="parameterName" min-width="150" />
+      <el-table-column label="条件类型" align="center" prop="conditionType" min-width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.conditionType === 1">大于</span>
           <span v-else-if="scope.row.conditionType === 2">小于</span>
@@ -71,16 +71,16 @@
           <span v-else-if="scope.row.conditionType === 4">区间</span>
         </template>
       </el-table-column>
-      <el-table-column label="阈值" align="center" prop="thresholdValue" width="120" />
-      <el-table-column label="阈值单位" align="center" prop="thresholdUnit" width="100" />
-      <el-table-column label="报警等级" align="center" prop="alertLevel" width="100">
+      <el-table-column label="阈值" align="center" prop="thresholdValue" min-width="120" />
+      <el-table-column label="阈值单位" align="center" prop="thresholdUnit" min-width="100" />
+      <el-table-column label="报警等级" align="center" prop="alertLevel" min-width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.alertLevel === 1">警报</span>
           <span v-else-if="scope.row.alertLevel === 2">严重</span>
           <span v-else-if="scope.row.alertLevel === 3">紧急</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" align="center" prop="enabled" width="100">
+      <el-table-column label="是否启用" align="center" prop="enabled" min-width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.enabled === 1" type="success">启用</el-tag>
           <el-tag v-else type="info">禁用</el-tag>
@@ -89,14 +89,14 @@
       <el-table-column label="操作" align="center" width="160" fixed="right">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['equipment:deviceRule:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -117,8 +117,8 @@
     <!-- 添加或修改设备规则对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-        <el-form-item label="设备ID" prop="deviceId">
-          <el-input-number v-model="form.deviceId" placeholder="请输入设备ID" style="width: 100%" />
+        <el-form-item label="设备" prop="deviceId">
+          <device-select v-model="form.deviceId" />
         </el-form-item>
         <el-form-item label="规则名称" prop="ruleName">
           <el-input v-model="form.ruleName" placeholder="请输入规则名称" />
@@ -154,7 +154,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="通知渠道" prop="notificationChannels">
-          <el-input v-model="form.notificationChannels" type="textarea" placeholder="请输入通知渠道" />
+          <el-input v-model="form.notificationChannels" type="textarea" placeholder="默认 websocket（站内/WebSocket 推送）" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -167,9 +167,11 @@
 
 <script>
 import { listDeviceRule, getDeviceRule, delDeviceRule, addDeviceRule, updateDeviceRule } from "@/api/equipment/deviceRule";
+import dataAcquisitionDevice from '@/mixins/dataAcquisitionDevice'
 
 export default {
   name: "DeviceRule",
+  mixins: [dataAcquisitionDevice],
   data() {
     return {
       loading: true,
@@ -189,7 +191,7 @@ export default {
       },
       rules: {
         deviceId: [
-          { required: true, message: "设备ID不能为空", trigger: "blur" }
+          { required: true, message: "请选择设备", trigger: "blur" }
         ],
         ruleName: [
           { required: true, message: "规则名称不能为空", trigger: "blur" }
@@ -230,6 +232,7 @@ export default {
     },
     resetQuery() {
       this.resetForm("queryForm");
+      this.clearDataAcquisitionDeviceFilter();
       this.handleQuery();
     },
     handleSelectionChange(selection) {

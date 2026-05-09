@@ -5,11 +5,12 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 设备信息 Mapper 接口
  *
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-07
  */
 @Mapper
@@ -29,7 +30,7 @@ public interface EqDeviceMapper {
      * @param deviceId 设备ID
      * @return 设备信息
      */
-    EqDevice selectEqDeviceByDeviceId(@Param("deviceId") Long deviceId);
+    EqDevice selectEqDeviceByDeviceId(@Param("deviceId") String deviceId);
 
     /**
      * 根据设备编号查询设备
@@ -62,7 +63,7 @@ public interface EqDeviceMapper {
      * @param status 状态 (1-正常, 2-停用, 3-维护, 4-报废)
      * @return 结果
      */
-    int updateEqDeviceStatus(@Param("deviceId") Long deviceId, @Param("status") Integer status);
+    int updateEqDeviceStatus(@Param("deviceId") String deviceId, @Param("status") Integer status);
 
     /**
      * 批量更新设备状态
@@ -71,7 +72,7 @@ public interface EqDeviceMapper {
      * @param status 状态
      * @return 结果
      */
-    int updateEqDeviceStatusBatch(@Param("deviceIds") Long[] deviceIds, @Param("status") Integer status);
+    int updateEqDeviceStatusBatch(@Param("deviceIds") String[] deviceIds, @Param("status") Integer status);
 
     /**
      * 删除设备信息
@@ -79,7 +80,7 @@ public interface EqDeviceMapper {
      * @param deviceId 设备ID
      * @return 结果
      */
-    int deleteEqDeviceByDeviceId(@Param("deviceId") Long deviceId);
+    int deleteEqDeviceByDeviceId(@Param("deviceId") String deviceId);
 
     /**
      * 批量删除设备信息
@@ -87,19 +88,19 @@ public interface EqDeviceMapper {
      * @param deviceIds 需要删除的设备ID
      * @return 结果
      */
-    int deleteEqDeviceByDeviceIds(@Param("deviceIds") Long[] deviceIds);
+    int deleteEqDeviceByDeviceIds(@Param("deviceIds") String[] deviceIds);
 
     /**
      * 统计设备数量按状态分组
      *
      * @return 统计结果
      */
-    List<java.util.Map<String, Object>> countByStatus();
+    List<Map<String, Object>> countByStatus();
 
     /**
      * 统计设备数量按类型分组
      *
      * @return 统计结果
      */
-    List<java.util.Map<String, Object>> countByType();
+    List<Map<String, Object>> countByType();
 }

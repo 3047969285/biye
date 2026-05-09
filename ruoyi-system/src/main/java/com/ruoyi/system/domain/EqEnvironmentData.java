@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * 环境数据  eq_environment_data
  *
- * @author wcz
+ * @author wangchangzhen
  * @date 2025-12-19
  */
 @Data
@@ -21,7 +21,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class EqEnvironmentData extends BaseEntity {
     private Long envId;                   //环境数据ID
-    private Long deviceId;                 //设备ID
+    private String deviceId;                 //设备ID
     
     /** 设备编号（关联查询） */
     private String deviceNo;

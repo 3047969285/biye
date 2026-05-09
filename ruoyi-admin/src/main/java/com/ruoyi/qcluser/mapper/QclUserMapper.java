@@ -6,7 +6,7 @@ import com.ruoyi.qcluser.domain.QclUser;
 /**
  * 用户Mapper接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2025-11-03
  */
 public interface QclUserMapper 

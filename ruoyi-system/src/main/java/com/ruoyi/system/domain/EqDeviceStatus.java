@@ -8,12 +8,12 @@ import java.util.Date;
 /**
  * 设备运行状态(包括温度、湿度、压力、振动、电流、电压、功率、转速、流量、液位）  eq_device_status
  *
- * @author wcz
+ * @author wangchangzhen
  * @date 2025-12-19
  */
 public class EqDeviceStatus extends BaseEntity {
     private Long statusId; //状态ID
-    private Long deviceId; //设备ID
+    private String deviceId; //设备ID
     private String deviceNo; //设备编号（关联查询）
     private String deviceName; //设备名称（关联查询）
     private Date timestamp;  //采集时间
@@ -51,11 +51,11 @@ public class EqDeviceStatus extends BaseEntity {
         this.statusId = statusId;
     }
 
-    public Long getDeviceId() {
+    public String getDeviceId() {
         return deviceId;
     }
 
-    public void setDeviceId(Long deviceId) {
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
 

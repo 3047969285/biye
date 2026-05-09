@@ -1,5 +1,6 @@
 package com.ruoyi.web.config.properties;
 
+import com.ruoyi.common.utils.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -52,10 +53,10 @@ public class WindForecastProperties {
     private int httpTimeoutSeconds = 300;
 
     /**
-     * 绑定设备 ID：预测成功后将当日平均预测功率写入 eq_device_stat（与设备管理中的风力机组对应）。
-     * 未配置或 ≤0 时不写库。
+     * 绑定设备 ID（UUID）：预测成功后将当日平均预测功率写入 eq_device_stat（与设备管理中的风力机组对应）。
+     * 未配置或为空时不写库。
      */
-    private Long bindDeviceId;
+    private String bindDeviceId;
 
     /**
      * 每个预测输出点对应的时间间隔（分钟），仅用于前端把「点数」换算成时长；须与 Excel 行时间分辨率一致（常见 15）。
@@ -198,24 +199,24 @@ public class WindForecastProperties {
         this.httpTimeoutSeconds = httpTimeoutSeconds;
     }
 
-    public Long getBindDeviceId() {
+    public String getBindDeviceId() {
         return bindDeviceId;
     }
 
-    public void setBindDeviceId(Long bindDeviceId) {
+    public void setBindDeviceId(String bindDeviceId) {
         this.bindDeviceId = bindDeviceId;
     }
 
     /**
-     * 按设备预测时是否允许回退 yml 中的全局模型/Excel。
-     * 仅当配置了 {@link #bindDeviceId} 且与当前设备一致时为 true，避免未绑定设备误用全局演示数据。
+     * 按设备预测时是否允许回退 yml 中的全局「特征/功率」Excel（不含模型；模型对未上传 gru_FD.h5 的设备统一回退 {@link #modelPath}）。
+     * 仅当配置了 {@link #bindDeviceId} 且与当前设备一致时为 true，避免其它设备误用全局演示 Excel。
      */
-    public boolean isGlobalYamlFallbackDevice(long deviceId) {
-        if (deviceId <= 0) {
+    public boolean isGlobalYamlFallbackDevice(String deviceId) {
+        if (StringUtils.isEmpty(deviceId)) {
             return false;
         }
-        Long bid = this.bindDeviceId;
-        return bid != null && bid > 0 && bid.longValue() == deviceId;
+        String bid = this.bindDeviceId;
+        return StringUtils.isNotEmpty(bid) && bid.trim().equals(deviceId.trim());
     }
 
     public int getForecastPointIntervalMinutes() {

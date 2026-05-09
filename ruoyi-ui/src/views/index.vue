@@ -142,12 +142,6 @@
           <el-row :gutter="20">
             <el-col :xs="24" :sm="12" :md="8">
               <div class="info-item">
-                <div class="info-label">设备ID</div>
-                <div class="info-value highlight">{{ selectedDevice.deviceId }}</div>
-              </div>
-            </el-col>
-            <el-col :xs="24" :sm="12" :md="8">
-              <div class="info-item">
                 <div class="info-label">设备编号</div>
                 <div class="info-value">{{ selectedDevice.deviceNo || '-' }}</div>
               </div>
@@ -423,7 +417,6 @@ export default {
           label: '设备状态',
           api: (id) => listDeviceStatus({ deviceId: id }),
           columns: [
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'timestamp', label: '采集时间', width: 180 },
             { prop: 'temperature', label: '温度(℃)', width: 100 },
             { prop: 'humidity', label: '湿度(%)', width: 100 },
@@ -442,7 +435,6 @@ export default {
           api: listDeviceParamByDeviceId,
           columns: [
             { prop: 'paramId', label: '参数ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'parameterName', label: '参数名称', width: 150 },
             { prop: 'parameterValue', label: '参数值', width: 120 },
             { prop: 'unit', label: '单位', width: 80 },
@@ -461,7 +453,6 @@ export default {
           api: listDeviceStatByDeviceId,
           columns: [
             { prop: 'statId', label: '统计ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'statDate', label: '统计日期', width: 150 },
             { prop: 'totalRuntimeHours', label: '总运行时间(小时)', width: 150 },
             { prop: 'totalFaultCount', label: '总故障次数', width: 120 },
@@ -479,7 +470,6 @@ export default {
           api: listMaintenanceRecordByDeviceId,
           columns: [
             { prop: 'recordId', label: '记录ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'maintenanceDate', label: '维护日期', width: 150 },
             { prop: 'maintenanceType', label: '维护类型', width: 120 },
             { prop: 'maintenancePerson', label: '维护人员', width: 120 },
@@ -495,7 +485,6 @@ export default {
           api: listAlertRecordByDeviceId,
           columns: [
             { prop: 'alertId', label: '告警ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'alertTime', label: '告警时间', width: 180 },
             { prop: 'alertLevel', label: '告警级别', width: 120 },
             { prop: 'alertType', label: '告警类型', width: 120 },
@@ -511,7 +500,6 @@ export default {
           api: listEnvironmentDataByDeviceId,
           columns: [
             { prop: 'envId', label: '环境ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'timestamp', label: '时间戳', width: 180 },
             { prop: 'temperature', label: '温度(℃)', width: 120 },
             { prop: 'humidity', label: '湿度(%)', width: 120 },
@@ -528,7 +516,6 @@ export default {
           api: listEconomicDataByDeviceId,
           columns: [
             { prop: 'economicId', label: '经济ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'timestamp', label: '时间戳', width: 180 },
             { prop: 'energyCost', label: '能耗成本', width: 120 },
             { prop: 'maintenanceCost', label: '维护成本', width: 120 },
@@ -544,7 +531,6 @@ export default {
           api: listElectricalDataByDeviceId,
           columns: [
             { prop: 'electricalId', label: '电气ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'timestamp', label: '时间戳', width: 180 },
             { prop: 'voltage', label: '电压(V)', width: 120 },
             { prop: 'current', label: '电流(A)', width: 120 },
@@ -561,7 +547,6 @@ export default {
           api: listTechnologyDataByDeviceId,
           columns: [
             { prop: 'techId', label: '技术ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'timestamp', label: '时间戳', width: 180 },
             { prop: 'technologyType', label: '技术类型', width: 150 },
             { prop: 'technologyValue', label: '技术值', width: 150 },
@@ -576,7 +561,6 @@ export default {
           api: listMechanicalDataByDeviceId,
           columns: [
             { prop: 'mechanicalId', label: '机械ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'timestamp', label: '时间戳', width: 180 },
             { prop: 'vibration', label: '振动(mm/s)', width: 140 },
             { prop: 'rpm', label: '转速(rpm)', width: 120 },
@@ -592,7 +576,6 @@ export default {
           api: listOperationalDataByDeviceId,
           columns: [
             { prop: 'operationalId', label: '操作ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'timestamp', label: '时间戳', width: 180 },
             { prop: 'operationType', label: '操作类型', width: 150 },
             { prop: 'operationValue', label: '操作值', width: 150 },
@@ -607,7 +590,6 @@ export default {
           api: listSensorByDeviceId,
           columns: [
             { prop: 'sensorId', label: '传感器ID', width: 120 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'sensorType', label: '传感器类型', width: 150 },
             { prop: 'sensorValue', label: '传感器值', width: 150 },
             { prop: 'sensorUnit', label: '传感器单位', width: 140 },
@@ -622,7 +604,6 @@ export default {
           api: listClimateDataByDeviceId,
           columns: [
             { prop: 'climateId', label: '气候ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'timestamp', label: '时间戳', width: 180 },
             { prop: 'season', label: '季节', width: 100 },
             { prop: 'weatherCondition', label: '天气状况', width: 150 },
@@ -639,7 +620,6 @@ export default {
           api: listFaultRecordByDeviceId,
           columns: [
             { prop: 'faultId', label: '故障ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'faultTime', label: '故障时间', width: 180 },
             { prop: 'faultType', label: '故障类型', width: 150 },
             { prop: 'faultDescription', label: '故障描述', minWidth: 200 },
@@ -655,7 +635,6 @@ export default {
           api: listDeviceRuleByDeviceId,
           columns: [
             { prop: 'ruleId', label: '规则ID', width: 100 },
-            { prop: 'deviceId', label: '设备ID', width: 100 },
             { prop: 'ruleName', label: '规则名称', width: 200 },
             { prop: 'ruleType', label: '规则类型', width: 150 },
             { prop: 'ruleCondition', label: '规则条件', minWidth: 200 },

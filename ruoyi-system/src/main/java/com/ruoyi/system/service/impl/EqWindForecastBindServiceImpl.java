@@ -6,6 +6,12 @@ import com.ruoyi.system.mapper.EqWindForecastBindMapper;
 import com.ruoyi.system.service.IEqWindForecastBindService;
 import org.springframework.stereotype.Service;
 
+/**
+ * 风电预测绑定Service业务层处理
+ *
+ * @author wangchangzhen
+ * @date 2026-01-07
+ */
 @Service
 public class EqWindForecastBindServiceImpl implements IEqWindForecastBindService {
 
@@ -15,17 +21,28 @@ public class EqWindForecastBindServiceImpl implements IEqWindForecastBindService
         this.bindMapper = bindMapper;
     }
 
+    /**
+     * 根据设备ID查询风电预测绑定配置
+     *
+     * @param deviceId 设备ID
+     * @return 绑定配置，不存在或参数为空时返回null
+     */
     @Override
-    public EqWindForecastBind selectByDeviceId(Long deviceId) {
-        if (deviceId == null || deviceId <= 0) {
+    public EqWindForecastBind selectByDeviceId(String deviceId) {
+        if (StringUtils.isEmpty(deviceId)) {
             return null;
         }
         return bindMapper.selectByDeviceId(deviceId);
     }
 
+    /**
+     * 合并保存风电预测绑定（按设备ID upsert）
+     *
+     * @param patch 待合并的绑定数据
+     */
     @Override
     public void mergeSave(EqWindForecastBind patch) {
-        if (patch == null || patch.getDeviceId() == null || patch.getDeviceId() <= 0) {
+        if (patch == null || StringUtils.isEmpty(patch.getDeviceId())) {
             return;
         }
         EqWindForecastBind existing = bindMapper.selectByDeviceId(patch.getDeviceId());

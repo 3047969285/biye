@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 维护记录Mapper接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-07
  */
 @Mapper
@@ -37,7 +37,7 @@ public interface EqMaintenanceRecordMapper
      * @param deviceId 设备ID
      * @return 维护记录集合
      */
-    public List<EqMaintenanceRecord> selectEqMaintenanceRecordListByDeviceId(@Param("deviceId") Long deviceId);
+    public List<EqMaintenanceRecord> selectEqMaintenanceRecordListByDeviceId(@Param("deviceId") String deviceId);
 
     /**
      * 新增维护记录
@@ -77,7 +77,7 @@ public interface EqMaintenanceRecordMapper
      * @param deviceId 设备ID
      * @return 结果
      */
-    public int deleteEqMaintenanceRecordByDeviceId(@Param("deviceId") Long deviceId);
+    public int deleteEqMaintenanceRecordByDeviceId(@Param("deviceId") String deviceId);
 
     /**
      * 批量根据设备ID删除维护记录
@@ -85,5 +85,5 @@ public interface EqMaintenanceRecordMapper
      * @param deviceIds 设备ID数组
      * @return 结果
      */
-    public int deleteEqMaintenanceRecordByDeviceIds(@Param("deviceIds") Long[] deviceIds);
+    public int deleteEqMaintenanceRecordByDeviceIds(@Param("deviceIds") String[] deviceIds);
 }

@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.uuid.IdUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.system.domain.EqDevice;
 import com.ruoyi.system.mapper.*;
@@ -14,10 +15,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 设备信息Service业务层处理
+ *
+ * @author wangchangzhen
+ * @date 2026-01-07
+ */
 @Service
 public class EqDeviceServiceImpl implements IEqDeviceService {
 
@@ -60,21 +68,45 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
     @Autowired
     private EqDeviceRuleMapper eqDeviceRuleMapper;
 
+    /**
+     * 查询设备信息列表
+     *
+     * @param eqDevice 设备信息
+     * @return 设备信息集合
+     */
     @Override
     public List<EqDevice> selectEqDeviceList(EqDevice eqDevice) {
         return eqDeviceMapper.selectEqDeviceList(eqDevice);
     }
 
+    /**
+     * 查询设备信息
+     *
+     * @param deviceId 设备ID
+     * @return 设备信息
+     */
     @Override
-    public EqDevice selectEqDeviceByDeviceId(Long deviceId) {
+    public EqDevice selectEqDeviceByDeviceId(String deviceId) {
         return eqDeviceMapper.selectEqDeviceByDeviceId(deviceId);
     }
 
+    /**
+     * 根据设备编号查询设备
+     *
+     * @param deviceNo 设备编号
+     * @return 设备信息
+     */
     @Override
     public EqDevice selectEqDeviceByDeviceNo(String deviceNo) {
         return eqDeviceMapper.selectEqDeviceByDeviceNo(deviceNo);
     }
 
+    /**
+     * 新增设备信息
+     *
+     * @param eqDevice 设备信息
+     * @return 结果
+     */
     @Override
     @Transactional
     public int insertEqDevice(EqDevice eqDevice) {
@@ -84,12 +116,21 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
         if (eqDevice.getStatus() == null) {
             eqDevice.setStatus(1);
         }
+        if (eqDevice.getDeviceId() == null || eqDevice.getDeviceId().isBlank()) {
+            eqDevice.setDeviceId(IdUtils.fastUUID());
+        }
 
         int result = eqDeviceMapper.insertEqDevice(eqDevice);
         logger.info("新增设备：{}, ID: {}", eqDevice.getDeviceName(), eqDevice.getDeviceId());
         return result;
     }
 
+    /**
+     * 修改设备信息
+     *
+     * @param eqDevice 设备信息
+     * @return 结果
+     */
     @Override
     @Transactional
     public int updateEqDevice(EqDevice eqDevice) {
@@ -101,9 +142,16 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
         return result;
     }
 
+    /**
+     * 更新设备状态（单个）
+     *
+     * @param deviceId 设备ID
+     * @param status 状态 (1-正常, 2-停用, 3-维护, 4-报废)
+     * @return 操作结果
+     */
     @Override
     @Transactional
-    public AjaxResult updateDeviceStatus(Long deviceId, Integer status) {
+    public AjaxResult updateDeviceStatus(String deviceId, Integer status) {
         if (status == null || status < 1 || status > 4) {
             return AjaxResult.error("状态值无效，必须在 1-4 之间");
         }
@@ -136,7 +184,7 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
 
     @Override
     @Transactional
-    public AjaxResult updateDeviceStatusBatch(Long[] deviceIds, Integer status) {
+    public AjaxResult updateDeviceStatusBatch(String[] deviceIds, Integer status) {
         if (deviceIds == null || deviceIds.length == 0) {
             return AjaxResult.error("请选择要更新的设备");
         }
@@ -156,9 +204,15 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
         return AjaxResult.error("批量状态更新失败");
     }
 
+    /**
+     * 批量删除设备信息（级联删除关联数据）
+     *
+     * @param deviceIds 需要删除的设备ID
+     * @return 结果
+     */
     @Override
     @Transactional
-    public int deleteEqDeviceByDeviceIds(Long[] deviceIds) {
+    public int deleteEqDeviceByDeviceIds(String[] deviceIds) {
         eqDeviceStatusMapper.deleteEqDeviceStatusByDeviceIds(deviceIds);
         eqDeviceParamMapper.deleteEqDeviceParamByDeviceIds(deviceIds);
         eqMaintenanceRecordMapper.deleteEqMaintenanceRecordByDeviceIds(deviceIds);
@@ -180,9 +234,15 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
         return result;
     }
 
+    /**
+     * 删除设备信息（级联删除关联数据）
+     *
+     * @param deviceId 设备ID
+     * @return 结果
+     */
     @Override
     @Transactional
-    public int deleteEqDeviceByDeviceId(Long deviceId) {
+    public int deleteEqDeviceByDeviceId(String deviceId) {
         EqDevice device = eqDeviceMapper.selectEqDeviceByDeviceId(deviceId);
         if (device == null) {
             return 0;
@@ -211,6 +271,11 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
         return result;
     }
 
+    /**
+     * 获取设备统计信息
+     *
+     * @return 统计结果
+     */
     @Override
     public Map<String, Object> getDeviceStatistics() {
         Map<String, Object> stats = new HashMap<>();
@@ -235,12 +300,23 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
         return stats;
     }
 
+    /**
+     * 校验设备编号是否唯一
+     *
+     * @param deviceNo 设备编号
+     * @return true表示唯一可用
+     */
     @Override
     public boolean checkDeviceNoUnique(String deviceNo) {
         EqDevice device = eqDeviceMapper.selectEqDeviceByDeviceNo(deviceNo);
         return device == null;
     }
 
+    /**
+     * 获取所有设备的汇总数据（用于首页仪表板）
+     *
+     * @return 仪表板数据
+     */
     @Override
     public Map<String, Object> getDeviceDashboardData() {
         Map<String, Object> result = new HashMap<>();
@@ -248,13 +324,7 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
 
         try {
             List<EqDevice> devices = eqDeviceMapper.selectEqDeviceList(new EqDevice());
-            devices.sort((a, b) -> {
-                Long id1 = a.getDeviceId();
-                Long id2 = b.getDeviceId();
-                if (id1 == null) return 1;
-                if (id2 == null) return -1;
-                return id1.compareTo(id2);
-            });
+            devices.sort(Comparator.comparing(EqDevice::getDeviceId, Comparator.nullsLast(String::compareTo)));
 
             String[] tables = {
                 "eq_device_status", "eq_device_param", "eq_device_stat",
@@ -309,6 +379,12 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
         return result;
     }
 
+    /**
+     * 将状态码转换为中文名称
+     *
+     * @param status 状态码
+     * @return 状态名称
+     */
     private String getStatusName(Integer status) {
         if (status == null) return "未知";
         switch (status) {

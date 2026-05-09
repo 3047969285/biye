@@ -8,7 +8,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 用户对象 qcl_user
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2025-11-03
  */
 public class QclUser extends BaseEntity

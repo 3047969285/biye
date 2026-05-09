@@ -8,7 +8,7 @@ import com.ruoyi.common.core.domain.TreeEntity;
 /**
  * 部门信息对象 department
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2025-11-03
  */
 public class Department extends TreeEntity

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * AI运维操作表单Mapper接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  */
 @Mapper
 public interface AiMaintenanceFormMapper {

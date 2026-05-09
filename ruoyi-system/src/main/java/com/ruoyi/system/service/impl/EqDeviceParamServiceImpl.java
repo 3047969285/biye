@@ -10,7 +10,7 @@ import com.ruoyi.system.service.IEqDeviceParamService;
 /**
  * 设备参数Service业务层处理
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-07
  */
 @Service
@@ -50,7 +50,7 @@ public class EqDeviceParamServiceImpl implements IEqDeviceParamService
      * @return 设备参数集合
      */
     @Override
-    public List<EqDeviceParam> selectEqDeviceParamListByDeviceId(Long deviceId)
+    public List<EqDeviceParam> selectEqDeviceParamListByDeviceId(String deviceId)
     {
         return eqDeviceParamMapper.selectEqDeviceParamListByDeviceId(deviceId);
     }
@@ -110,7 +110,7 @@ public class EqDeviceParamServiceImpl implements IEqDeviceParamService
      * @return 结果
      */
     @Override
-    public int deleteEqDeviceParamByDeviceId(Long deviceId)
+    public int deleteEqDeviceParamByDeviceId(String deviceId)
     {
         return eqDeviceParamMapper.deleteEqDeviceParamByDeviceId(deviceId);
     }
@@ -122,7 +122,7 @@ public class EqDeviceParamServiceImpl implements IEqDeviceParamService
      * @return 结果
      */
     @Override
-    public int deleteEqDeviceParamByDeviceIds(Long[] deviceIds)
+    public int deleteEqDeviceParamByDeviceIds(String[] deviceIds)
     {
         return eqDeviceParamMapper.deleteEqDeviceParamByDeviceIds(deviceIds);
     }

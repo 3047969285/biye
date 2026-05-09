@@ -32,7 +32,7 @@
             <if test="timestamp != null"> and c.timestamp = #{timestamp}</if>
             <if test="season != null"> and c.season = #{season}</if>
         </where>
-        order by c.device_id, c.climate_id desc
+        order by c.timestamp desc
     </select>
     
     <select id="selectEqClimateDataByClimateId" parameterType="Long" resultMap="EqClimateDataResult">
@@ -40,10 +40,10 @@
         where c.climate_id = #{climateId}
     </select>
 
-    <select id="selectEqClimateDataListByDeviceId" parameterType="Long" resultMap="EqClimateDataResult">
+    <select id="selectEqClimateDataListByDeviceId" parameterType="String" resultMap="EqClimateDataResult">
         <include refid="selectEqClimateDataVo"/>
         where c.device_id = #{deviceId}
-        order by c.device_id, c.climate_id desc
+        order by c.timestamp desc
     </select>
         
     <insert id="insertEqClimateData" parameterType="com.ruoyi.system.domain.EqClimateData">
@@ -101,7 +101,7 @@
         </foreach>
     </delete>
 
-    <delete id="deleteEqClimateDataByDeviceId" parameterType="Long">
+    <delete id="deleteEqClimateDataByDeviceId" parameterType="String">
         delete from eq_climate_data where device_id = #{deviceId}
     </delete>
 

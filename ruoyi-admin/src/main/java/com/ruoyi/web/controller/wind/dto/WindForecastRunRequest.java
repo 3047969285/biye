@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Data
 public class WindForecastRunRequest {
-    private Long deviceId;
+    private String deviceId;
     private String modelPath;
     private String featureExcel;
     private String realExcel;

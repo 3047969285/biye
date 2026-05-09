@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="maintenanceType != null "> and m.maintenance_type = #{maintenanceType}</if>
             <if test="status != null "> and m.status = #{status}</if>
         </where>
-        order by m.device_id, m.maintenance_date desc
+        order by m.maintenance_date desc
     </select>
     
     <select id="selectEqMaintenanceRecordByRecordId" parameterType="Long" resultMap="EqMaintenanceRecordResult">
@@ -45,10 +45,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where m.record_id = #{recordId}
     </select>
 
-    <select id="selectEqMaintenanceRecordListByDeviceId" parameterType="Long" resultMap="EqMaintenanceRecordResult">
+    <select id="selectEqMaintenanceRecordListByDeviceId" parameterType="String" resultMap="EqMaintenanceRecordResult">
         <include refid="selectEqMaintenanceRecordVo"/>
         where m.device_id = #{deviceId}
-        order by m.device_id, m.maintenance_date desc
+        order by m.maintenance_date desc
     </select>
         
     <insert id="insertEqMaintenanceRecord" parameterType="com.ruoyi.system.domain.EqMaintenanceRecord">
@@ -112,7 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <delete id="deleteEqMaintenanceRecordByDeviceId" parameterType="Long">
+    <delete id="deleteEqMaintenanceRecordByDeviceId" parameterType="String">
         delete from eq_maintenance_record where device_id = #{deviceId}
     </delete>
 

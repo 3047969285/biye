@@ -10,7 +10,7 @@ import com.ruoyi.deparment.service.IDepartmentService;
 /**
  * 部门信息Service业务层处理
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2025-11-03
  */
 @Service

@@ -3,21 +3,21 @@ package com.ruoyi;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 启动程序
  * 
- * @author ruoyi
+ * @author wangchangzhen
  */
 @EnableScheduling
-@SpringBootApplication(excludeName = {
-    "com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAgentAutoConfiguration",
-    "com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeEmbeddingAutoConfiguration"
-})
-@ComponentScan(basePackages = {"com.ruoyi", "com.thor.springai"})
-@MapperScan(basePackages = {"com.ruoyi.system.mapper", "com.ruoyi.quartz.mapper", "com.ruoyi.qcluser.mapper", "com.ruoyi.deparment.mapper", "com.ruoyi.equipment.mapper"})
+@SpringBootApplication(
+    scanBasePackages = {"com.ruoyi", "com.thor.springai"},
+    excludeName = {
+        "com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAgentAutoConfiguration",
+        "com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeEmbeddingAutoConfiguration"
+    })
+@MapperScan(basePackages = {"com.ruoyi.system.mapper", "com.ruoyi.quartz.mapper", "com.ruoyi.qcluser.mapper", "com.ruoyi.deparment.mapper"})
 public class RuoYiApplication
 {
     public static void main(String[] args)

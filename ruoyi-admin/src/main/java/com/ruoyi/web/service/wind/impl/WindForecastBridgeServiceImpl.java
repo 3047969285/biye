@@ -2,12 +2,14 @@ package com.ruoyi.web.service.wind.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.EqDeviceStat;
 import com.ruoyi.system.domain.EqWindForecastBind;
 import com.ruoyi.system.service.IEqDeviceStatService;
 import com.ruoyi.system.service.IEqWindForecastBindService;
 import com.ruoyi.web.config.properties.WindForecastProperties;
 import com.ruoyi.web.service.wind.WindForecastBridgeService;
+import com.ruoyi.web.service.wind.WindForecastDeviceDataPaths;
 import com.ruoyi.web.service.wind.WindForecastExcelFileService;
 import com.ruoyi.web.service.wind.WindForecastInlineExcelWriter;
 import com.ruoyi.web.service.wind.WindForecastPathResolver;
@@ -26,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Date;
@@ -51,8 +54,8 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
     private final AtomicReference<Long> lastPredictionAt = new AtomicReference<>(0L);
     private final AtomicReference<String> lastError = new AtomicReference<>();
 
-    private final ConcurrentHashMap<Long, Map<String, Object>> lastPredictionByDevice = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<Long, Long> lastPredictionAtByDevice = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Map<String, Object>> lastPredictionByDevice = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Long> lastPredictionAtByDevice = new ConcurrentHashMap<>();
 
     public WindForecastBridgeServiceImpl(WindForecastProperties props, ObjectMapper objectMapper,
                                          IEqDeviceStatService eqDeviceStatService,
@@ -99,12 +102,12 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
     }
 
     @Override
-    public Map<String, Object> runPredict(Long deviceId, String modelPath, String featureExcel, String realExcel) {
+    public Map<String, Object> runPredict(String deviceId, String modelPath, String featureExcel, String realExcel) {
         return runPredict(deviceId, modelPath, featureExcel, realExcel, null);
     }
 
     @Override
-    public synchronized Map<String, Object> runPredict(Long deviceId, String modelPath, String featureExcel, String realExcel,
+    public synchronized Map<String, Object> runPredict(String deviceId, String modelPath, String featureExcel, String realExcel,
                                                          List<Map<String, Object>> requestRows) {
         lastError.set(null);
         if (!props.isEnabled()) {
@@ -115,21 +118,22 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
         }
 
         EqWindForecastBind bindRow = null;
-        if (deviceId != null && deviceId > 0) {
-            bindRow = windForecastBindService.selectByDeviceId(deviceId);
+        if (StringUtils.isNotEmpty(deviceId)) {
+            bindRow = windForecastBindService.selectByDeviceId(deviceId.trim());
         }
 
         final boolean yamlFallback =
-            deviceId == null || deviceId <= 0 || props.isGlobalYamlFallbackDevice(deviceId);
+            StringUtils.isEmpty(deviceId) || props.isGlobalYamlFallbackDevice(deviceId.trim());
 
+        // 模型：请求覆盖 → 绑定表 → 设备目录 gru_FD.h5 → yml 全局（各设备可共用同一 GRU，Excel 仍按设备隔离）
         String model = firstNonBlank(
             modelPath,
             bindRow != null ? bindRow.getModelPath() : null,
-            yamlFallback ? props.getModelPath() : null);
+            firstNonBlank(perDeviceModelPath(deviceId), props.getModelPath(), null));
 
         String feat = null;
         String real = null;
-        if (deviceId != null && deviceId > 0) {
+        if (StringUtils.isNotEmpty(deviceId)) {
             List<Map<String, Object>> materialize = null;
             if (requestRows != null && !requestRows.isEmpty()) {
                 materialize = requestRows;
@@ -146,7 +150,7 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
             }
             if (materialize != null && !materialize.isEmpty()) {
                 try {
-                    Path[] ps = WindForecastInlineExcelWriter.write(deviceId, materialize);
+                    Path[] ps = WindForecastInlineExcelWriter.write(deviceId.trim(), materialize);
                     feat = ps[0].toString();
                     real = ps[1].toString();
                 } catch (IllegalArgumentException ex) {
@@ -164,8 +168,8 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
         if (feat == null) {
             feat = firstNonBlank(featureExcel, null, null);
         }
-        if (feat == null && deviceId != null && deviceId > 0) {
-            Path pf = windForecastExcelFileService.resolveExcelPath(deviceId, "feature");
+        if (feat == null && StringUtils.isNotEmpty(deviceId)) {
+            Path pf = windForecastExcelFileService.resolveExcelPath(deviceId.trim(), "feature");
             feat = pf != null ? pf.toAbsolutePath().toString() : null;
         }
         if (feat == null) {
@@ -177,8 +181,8 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
         if (real == null) {
             real = firstNonBlank(realExcel, null, null);
         }
-        if (real == null && deviceId != null && deviceId > 0) {
-            Path pr = windForecastExcelFileService.resolveExcelPath(deviceId, "real");
+        if (real == null && StringUtils.isNotEmpty(deviceId)) {
+            Path pr = windForecastExcelFileService.resolveExcelPath(deviceId.trim(), "real");
             real = pr != null ? pr.toAbsolutePath().toString() : null;
         }
         if (real == null) {
@@ -198,8 +202,8 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
             return Map.of("success", false, "message", msg);
         }
 
-        Long statDeviceId = deviceId != null && deviceId > 0 ? deviceId : props.getBindDeviceId();
-        if (statDeviceId == null || statDeviceId <= 0) {
+        String statDeviceId = StringUtils.isNotEmpty(deviceId) ? deviceId.trim() : props.getBindDeviceId();
+        if (statDeviceId != null && statDeviceId.isBlank()) {
             statDeviceId = null;
         }
 
@@ -280,6 +284,22 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
         return e.getClass().getSimpleName();
     }
 
+    /** 设备目录下已上传的 gru_FD.h5（无则返回 null） */
+    private static String perDeviceModelPath(String deviceId) {
+        if (StringUtils.isEmpty(deviceId)) {
+            return null;
+        }
+        try {
+            Path p = WindForecastDeviceDataPaths.modelFile(deviceId.trim());
+            if (Files.isRegularFile(p)) {
+                return p.toAbsolutePath().normalize().toString();
+            }
+        } catch (Exception ignored) {
+            // ignore
+        }
+        return null;
+    }
+
     private static String firstNonBlank(String a, String b, String c) {
         if (a != null && !a.isBlank()) {
             return a.trim();
@@ -300,11 +320,11 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
     }
 
     @Override
-    public Map<String, Object> getLastPrediction(Long deviceId) {
-        if (deviceId == null || deviceId <= 0) {
+    public Map<String, Object> getLastPrediction(String deviceId) {
+        if (StringUtils.isEmpty(deviceId)) {
             return getLastPrediction();
         }
-        Map<String, Object> p = lastPredictionByDevice.get(deviceId);
+        Map<String, Object> p = lastPredictionByDevice.get(deviceId.trim());
         return p != null ? p : Collections.emptyMap();
     }
 
@@ -315,11 +335,11 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
     }
 
     @Override
-    public long getLastPredictionAtMillis(Long deviceId) {
-        if (deviceId == null || deviceId <= 0) {
+    public long getLastPredictionAtMillis(String deviceId) {
+        if (StringUtils.isEmpty(deviceId)) {
             return getLastPredictionAtMillis();
         }
-        Long t = lastPredictionAtByDevice.get(deviceId);
+        Long t = lastPredictionAtByDevice.get(deviceId.trim());
         return t != null ? t : 0L;
     }
 
@@ -343,8 +363,8 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
         }
     }
 
-    private void syncWindStatToDevice(Map<String, Object> parsed, Long targetDeviceId) {
-        if (targetDeviceId == null || targetDeviceId <= 0) {
+    private void syncWindStatToDevice(Map<String, Object> parsed, String targetDeviceId) {
+        if (StringUtils.isEmpty(targetDeviceId)) {
             return;
         }
         Object rawSeries = parsed.get("predicted_power");
@@ -383,12 +403,12 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
         Date statDate = Date.from(today.atStartOfDay(zone).toInstant());
 
         EqDeviceStat query = new EqDeviceStat();
-        query.setDeviceId(targetDeviceId);
+        query.setDeviceId(targetDeviceId.trim());
         query.setStatDate(statDate);
         List<EqDeviceStat> existing = eqDeviceStatService.selectEqDeviceStatList(query);
 
         EqDeviceStat row = new EqDeviceStat();
-        row.setDeviceId(targetDeviceId);
+        row.setDeviceId(targetDeviceId.trim());
         row.setStatDate(statDate);
         row.setAveragePower(avgPower);
         row.setUptimePercentage(new BigDecimal("100.00"));
@@ -397,6 +417,14 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
         int intervalMin = Math.max(1, props.getForecastPointIntervalMinutes());
         double hours = (statCount * intervalMin) / 60.0;
         row.setTotalRuntimeHours(BigDecimal.valueOf(hours).setScale(2, RoundingMode.HALF_UP));
+
+        EqDeviceStat prev = (existing != null && !existing.isEmpty()) ? existing.get(0) : null;
+        row.setTotalFaultCount(prev != null && prev.getTotalFaultCount() != null ? prev.getTotalFaultCount() : 0);
+        row.setTotalMaintenanceCount(prev != null && prev.getTotalMaintenanceCount() != null ? prev.getTotalMaintenanceCount() : 0);
+        BigDecimal avgTemp = prev != null ? prev.getAverageTemperature() : null;
+        row.setAverageTemperature(avgTemp != null ? avgTemp : BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP));
+        BigDecimal faultRate = prev != null ? prev.getFaultRatePerHour() : null;
+        row.setFaultRatePerHour(faultRate != null ? faultRate : BigDecimal.ZERO.setScale(4, RoundingMode.HALF_UP));
 
         try {
             if (existing != null && !existing.isEmpty()) {

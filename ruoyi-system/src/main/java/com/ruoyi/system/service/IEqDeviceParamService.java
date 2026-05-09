@@ -6,7 +6,7 @@ import com.ruoyi.system.domain.EqDeviceParam;
 /**
  * 设备参数Service接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-07
  */
 public interface IEqDeviceParamService 
@@ -33,7 +33,7 @@ public interface IEqDeviceParamService
      * @param deviceId 设备ID
      * @return 设备参数集合
      */
-    public List<EqDeviceParam> selectEqDeviceParamListByDeviceId(Long deviceId);
+    public List<EqDeviceParam> selectEqDeviceParamListByDeviceId(String deviceId);
 
     /**
      * 新增设备参数
@@ -73,7 +73,7 @@ public interface IEqDeviceParamService
      * @param deviceId 设备ID
      * @return 结果
      */
-    public int deleteEqDeviceParamByDeviceId(Long deviceId);
+    public int deleteEqDeviceParamByDeviceId(String deviceId);
 
     /**
      * 批量根据设备ID删除设备参数
@@ -81,5 +81,5 @@ public interface IEqDeviceParamService
      * @param deviceIds 设备ID数组
      * @return 结果
      */
-    public int deleteEqDeviceParamByDeviceIds(Long[] deviceIds);
+    public int deleteEqDeviceParamByDeviceIds(String[] deviceIds);
 }

@@ -31,8 +31,7 @@ public class MaintenanceFormNotifyTask {
 
     public void scanPendingFormsAndNotify() {
         if (redisCache == null) {
-            log.warn("Redis 未配置，跳过运维表单定时消息推送（避免无法去重导致重复通知）");
-            return;
+            log.warn("[运维表单推送] Redis 未配置：将仅依赖数据库去重发送（并行多实例时可能重复，建议配置 Redis）");
         }
         List<AiMaintenanceForm> forms = aiMaintenanceFormMapper.selectPendingFormsForScheduledNotify();
         if (forms == null || forms.isEmpty()) {

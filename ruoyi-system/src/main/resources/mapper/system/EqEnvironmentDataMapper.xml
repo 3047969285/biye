@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
             <if test="timestamp != null "> and e.timestamp = #{timestamp}</if>
         </where>
-        order by e.device_id, e.env_id desc
+        order by e.timestamp desc
     </select>
     
     <select id="selectEqEnvironmentDataByEnvId" parameterType="Long" resultMap="EqEnvironmentDataResult">
@@ -51,10 +51,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where e.env_id = #{envId}
     </select>
 
-    <select id="selectEqEnvironmentDataListByDeviceId" parameterType="Long" resultMap="EqEnvironmentDataResult">
+    <select id="selectEqEnvironmentDataListByDeviceId" parameterType="String" resultMap="EqEnvironmentDataResult">
         <include refid="selectEqEnvironmentDataVo"/>
         where e.device_id = #{deviceId}
-        order by e.device_id, e.env_id desc
+        order by e.timestamp desc
     </select>
         
     <insert id="insertEqEnvironmentData" parameterType="com.ruoyi.system.domain.EqEnvironmentData">
@@ -139,7 +139,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <delete id="deleteEqEnvironmentDataByDeviceId" parameterType="Long">
+    <delete id="deleteEqEnvironmentDataByDeviceId" parameterType="String">
         delete from eq_environment_data where device_id = #{deviceId}
     </delete>
 

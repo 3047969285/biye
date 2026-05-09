@@ -5,13 +5,18 @@
 - GET  /status  → 查询训练状态 / 模型指标
 
 依赖安装：
-  pip install fastapi uvicorn tensorflow scikit-learn pandas openpyxl joblib
+  pip install -r requirements.txt
+  （勿 pip install ctypes：为标准库，PyPI 无此包）
 
 启动：python predict.py（或由 Spring Boot wind.forecast.auto-start-python 自动拉起）
 """
 
 import os
+import sys
 import json
+
+# 减轻 HDF5 文件锁在部分环境下的异常；须在尽可能靠前设置（已导入 TF 时亦有一定帮助）
+os.environ.setdefault("HDF5_USE_FILE_LOCKING", "FALSE")
 import joblib
 import threading
 import numpy as np
@@ -43,6 +48,53 @@ def _coerce_time_series(s: pd.Series) -> pd.Series:
         if mx is not None and not pd.isna(mx) and float(mx) > 20000:
             return pd.to_datetime(s, unit="D", origin=_EXCEL_DAY_ORIGIN, errors="coerce")
     return pd.to_datetime(s, errors="coerce")
+
+
+def _abs_norm_path(p: Optional[str]) -> Optional[str]:
+    """统一绝对路径 + 系统分隔符，避免混合斜杠。"""
+    if p is None or str(p).strip() == "":
+        return p
+    return os.path.normpath(os.path.abspath(os.path.expanduser(str(p))))
+
+
+def _win_short_path(path: str) -> str:
+    """
+    Windows 下 h5py 打开含中文/Unicode 路径时常报 Unable to open file / errno=-1。
+    GetShortPathNameW 得到 8.3 短路径（纯 ASCII）后再交给 Keras/h5py。
+    （ctypes 为标准库，仅在本函数内导入，勿 pip install ctypes）
+    """
+    if sys.platform != "win32":
+        return path
+    import ctypes
+
+    path = _abs_norm_path(path) or path
+    if not os.path.exists(path):
+        return path
+    try:
+        buf = ctypes.create_unicode_buffer(32768)
+        kernel32 = ctypes.windll.kernel32  # type: ignore[attr-defined]
+        n = kernel32.GetShortPathNameW(path, buf, len(buf))
+        if n and buf.value:
+            return buf.value
+    except Exception:
+        pass
+    return path
+
+
+def load_model_h5(path: str):
+    """加载 .h5；Windows 上对路径做短路径处理。"""
+    p = _abs_norm_path(path) or path
+    lp = _win_short_path(p)
+    try:
+        return load_model(lp, compile=False)
+    except TypeError:
+        # 旧版 TF/Keras 无 compile 参数
+        return load_model(lp)
+    except Exception:
+        try:
+            return load_model(lp, compile=False, safe_mode=False)
+        except TypeError:
+            return load_model(lp)
 
 
 # ─── 路径 ──────────────────────────────────────────────────────────────────
@@ -422,7 +474,7 @@ def _predict_with_existing_model(req: PredictRequest) -> dict:
     """
     ts = req.time_step or 30
 
-    model = load_model(req.model_path)
+    model = load_model_h5(req.model_path)
     try:
         n_feat = _model_input_feature_dim(model)
     except ValueError as e:
@@ -606,14 +658,16 @@ def _predict_dispatch(req: PredictRequest):
     """predict_endpoint 的实际推理逻辑。"""
     # ── 模式 1：使用已有模型 ──────────────────────────────────────────────
     if req.model_path:
-        if not os.path.exists(req.model_path):
-            return {"success": False, "message": f"模型文件不存在：{req.model_path}"}
+        mp = _abs_norm_path(req.model_path)
+        if mp and not os.path.exists(mp):
+            return {"success": False, "message": f"模型文件不存在：{mp}"}
         if not req.feature_excel or not os.path.exists(req.feature_excel):
             return {"success": False, "message": "请提供有效的特征数据 Excel 路径"}
         if not req.real_excel or not os.path.exists(req.real_excel):
             return {"success": False, "message": "请提供有效的真实功率 Excel 路径"}
         try:
-            return _predict_with_existing_model(req)
+            req2 = req.model_copy(update={"model_path": mp or req.model_path})
+            return _predict_with_existing_model(req2)
         except Exception as e:
             return {"success": False, "message": f"预测失败：{e}"}
 
@@ -624,7 +678,7 @@ def _predict_dispatch(req: PredictRequest):
         return {"success": False, "message": "模型训练中，请稍后预测"}
     try:
         sy    = joblib.load(SCALER_Y)
-        model = load_model(MODEL_H5)
+        model = load_model_h5(MODEL_H5)
         data  = np.load(CACHE_NPZ)
 
         X_seq      = data["X_seq"]

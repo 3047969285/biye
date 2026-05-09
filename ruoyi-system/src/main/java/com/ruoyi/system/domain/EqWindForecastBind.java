@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Data
 public class EqWindForecastBind {
-    private Long deviceId;
+    private String deviceId;
     private String modelPath;
     private String featureExcelPath;
     private String realExcelPath;

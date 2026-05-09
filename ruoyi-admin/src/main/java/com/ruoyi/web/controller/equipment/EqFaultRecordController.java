@@ -1,56 +1,95 @@
 package com.ruoyi.web.controller.equipment;
+
 import java.util.List;
+
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.system.domain.EqFaultRecord;
 import com.ruoyi.system.service.IEqFaultRecordService;
-import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.page.TableDataInfo;
+
+/**
+ * 故障记录：分页、按设备、导出、CRUD。
+ *
+ * @author wangchangzhen
+ * @date 2026-01-07
+ */
 @RestController
 @RequestMapping("/equipment/faultRecord")
-public class EqFaultRecordController extends BaseController {
+public class EqFaultRecordController extends BaseController
+{
     @Autowired
     private IEqFaultRecordService eqFaultRecordService;
+
+    /** startPage 后分页查询。 */
     @GetMapping("/list")
-    public TableDataInfo list(EqFaultRecord eqFaultRecord) {
+    public TableDataInfo list(EqFaultRecord eqFaultRecord)
+    {
         startPage();
         List<EqFaultRecord> list = eqFaultRecordService.selectEqFaultRecordList(eqFaultRecord);
         return getDataTable(list);
     }
+
+    /** 按 deviceId 不分页列表。 */
     @GetMapping("/listByDeviceId/{deviceId}")
-    public AjaxResult listByDeviceId(@PathVariable("deviceId") Long deviceId) {
+    public AjaxResult listByDeviceId(@PathVariable("deviceId") String deviceId)
+    {
         List<EqFaultRecord> list = eqFaultRecordService.selectEqFaultRecordListByDeviceId(deviceId);
         return success(list);
     }
+
+    /** 条件全量导出 Excel。 */
     @Log(title = "故障记录", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, EqFaultRecord eqFaultRecord) {
+    public void export(HttpServletResponse response, EqFaultRecord eqFaultRecord)
+    {
         List<EqFaultRecord> list = eqFaultRecordService.selectEqFaultRecordList(eqFaultRecord);
         ExcelUtil<EqFaultRecord> util = new ExcelUtil<EqFaultRecord>(EqFaultRecord.class);
         util.exportExcel(response, list, "故障记录数据");
     }
+
+    /** 主键详情。 */
     @GetMapping(value = "/{faultId}")
-    public AjaxResult getInfo(@PathVariable("faultId") Long faultId) {
+    public AjaxResult getInfo(@PathVariable("faultId") Long faultId)
+    {
         return success(eqFaultRecordService.selectEqFaultRecordByFaultId(faultId));
     }
+
+    /** 新增。 */
     @Log(title = "故障记录", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody EqFaultRecord eqFaultRecord) {
+    public AjaxResult add(@RequestBody EqFaultRecord eqFaultRecord)
+    {
         return toAjax(eqFaultRecordService.insertEqFaultRecord(eqFaultRecord));
     }
+
+    /** 更新。 */
     @Log(title = "故障记录", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody EqFaultRecord eqFaultRecord) {
+    public AjaxResult edit(@RequestBody EqFaultRecord eqFaultRecord)
+    {
         return toAjax(eqFaultRecordService.updateEqFaultRecord(eqFaultRecord));
     }
+
+    /** 批量删主键。 */
     @Log(title = "故障记录", businessType = BusinessType.DELETE)
     @DeleteMapping("/{faultIds}")
-    public AjaxResult remove(@PathVariable Long[] faultIds) {
+    public AjaxResult remove(@PathVariable Long[] faultIds)
+    {
         return toAjax(eqFaultRecordService.deleteEqFaultRecordByFaultIds(faultIds));
     }
 }

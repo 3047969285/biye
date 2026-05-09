@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 告警记录Mapper接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-07
  */
 @Mapper
@@ -37,7 +37,7 @@ public interface EqAlertRecordMapper
      * @param deviceId 设备ID
      * @return 告警记录集合
      */
-    public List<EqAlertRecord> selectEqAlertRecordListByDeviceId(@Param("deviceId") Long deviceId);
+    public List<EqAlertRecord> selectEqAlertRecordListByDeviceId(@Param("deviceId") String deviceId);
 
     /**
      * 新增告警记录
@@ -77,7 +77,7 @@ public interface EqAlertRecordMapper
      * @param deviceId 设备ID
      * @return 结果
      */
-    public int deleteEqAlertRecordByDeviceId(@Param("deviceId") Long deviceId);
+    public int deleteEqAlertRecordByDeviceId(@Param("deviceId") String deviceId);
 
     /**
      * 批量根据设备ID删除告警记录
@@ -85,10 +85,10 @@ public interface EqAlertRecordMapper
      * @param deviceIds 设备ID数组
      * @return 结果
      */
-    public int deleteEqAlertRecordByDeviceIds(@Param("deviceIds") Long[] deviceIds);
+    public int deleteEqAlertRecordByDeviceIds(@Param("deviceIds") String[] deviceIds);
 
     /**
      * 未解决且同一规则下是否已有告警（去重）
      */
-    int countUnresolvedByDeviceAndRule(@Param("deviceId") Long deviceId, @Param("ruleId") Long ruleId);
+    int countUnresolvedByDeviceAndRule(@Param("deviceId") String deviceId, @Param("ruleId") Long ruleId);
 }

@@ -52,5 +52,5 @@ module.exports = {
   /**
    * 底部版权文本内容
    */
-  footerContent: 'Copyright © 2018-2025 智能电网运维系统. All Rights Reserved.'
+  footerContent: 'Copyright © 2018-2026 智能电网运维系统 · wangchangzhen. All Rights Reserved.'
 }

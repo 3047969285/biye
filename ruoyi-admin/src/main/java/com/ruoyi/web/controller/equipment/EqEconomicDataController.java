@@ -1,72 +1,95 @@
 package com.ruoyi.web.controller.equipment;
 
 import java.util.List;
+
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.system.domain.EqEconomicData;
 import com.ruoyi.system.service.IEqEconomicDataService;
-import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.page.TableDataInfo;
 
+/**
+ * 经济数据：分页、按设备、导出、CRUD。
+ *
+ * @author wangchangzhen
+ * @date 2026-01-07
+ */
 @RestController
 @RequestMapping("/equipment/economicData")
-public class EqEconomicDataController extends BaseController {
+public class EqEconomicDataController extends BaseController
+{
     @Autowired
     private IEqEconomicDataService eqEconomicDataService;
 
+    /** startPage 后分页查询。 */
     @GetMapping("/list")
-    public TableDataInfo list(EqEconomicData eqEconomicData) {
+    public TableDataInfo list(EqEconomicData eqEconomicData)
+    {
         startPage();
         List<EqEconomicData> list = eqEconomicDataService.selectEqEconomicDataList(eqEconomicData);
         return getDataTable(list);
     }
 
+    /** 按 deviceId 不分页列表。 */
     @GetMapping("/listByDeviceId/{deviceId}")
-    public AjaxResult listByDeviceId(@PathVariable("deviceId") Long deviceId) {
+    public AjaxResult listByDeviceId(@PathVariable("deviceId") String deviceId)
+    {
         List<EqEconomicData> list = eqEconomicDataService.selectEqEconomicDataListByDeviceId(deviceId);
         return success(list);
     }
 
+    /** 条件全量导出 Excel。 */
     @Log(title = "经济数据", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, EqEconomicData eqEconomicData) {
+    public void export(HttpServletResponse response, EqEconomicData eqEconomicData)
+    {
         List<EqEconomicData> list = eqEconomicDataService.selectEqEconomicDataList(eqEconomicData);
         ExcelUtil<EqEconomicData> util = new ExcelUtil<EqEconomicData>(EqEconomicData.class);
         util.exportExcel(response, list, "经济数据数据");
     }
 
+    /** 主键详情。 */
     @GetMapping(value = "/{economicId}")
-    public AjaxResult getInfo(@PathVariable("economicId") Long economicId) {
+    public AjaxResult getInfo(@PathVariable("economicId") Long economicId)
+    {
         return success(eqEconomicDataService.selectEqEconomicDataByEconomicId(economicId));
     }
 
+    /** 新增。 */
     @Log(title = "经济数据", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody EqEconomicData eqEconomicData) {
+    public AjaxResult add(@RequestBody EqEconomicData eqEconomicData)
+    {
         return toAjax(eqEconomicDataService.insertEqEconomicData(eqEconomicData));
     }
 
+    /** 更新。 */
     @Log(title = "经济数据", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody EqEconomicData eqEconomicData) {
+    public AjaxResult edit(@RequestBody EqEconomicData eqEconomicData)
+    {
         return toAjax(eqEconomicDataService.updateEqEconomicData(eqEconomicData));
     }
 
+    /** 批量删主键。 */
     @Log(title = "经济数据", businessType = BusinessType.DELETE)
     @DeleteMapping("/{economicIds}")
-    public AjaxResult remove(@PathVariable Long[] economicIds) {
+    public AjaxResult remove(@PathVariable Long[] economicIds)
+    {
         return toAjax(eqEconomicDataService.deleteEqEconomicDataByEconomicIds(economicIds));
     }
 }

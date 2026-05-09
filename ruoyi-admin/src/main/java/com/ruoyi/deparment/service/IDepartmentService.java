@@ -6,7 +6,7 @@ import com.ruoyi.deparment.domain.Model.Department;
 /**
  * 部门信息Service接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2025-11-03
  */
 public interface IDepartmentService 

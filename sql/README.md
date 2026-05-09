@@ -1,20 +1,30 @@
-# SQL 脚本说明与执行顺序
+# SQL 脚本说明
 
-## 1. 总览
+**作者：** wangchangzhen
 
-| 顺序 | 文件 | 说明 |
-|------|------|------|
-| ① | `ry-vue.sql` | **主库初始化**：若依系统表 + 业务表（`eq_*`、`ai_*`、`eq_wind_forecast_bind`、`sys_user_message` 等）及示例数据。新环境先执行此文件。 |
-| ② | `sys_user_message.sql` | **可选增量**：旧库从备份升级且尚无 `sys_user_message` 时执行（`CREATE TABLE IF NOT EXISTS`，与主脚本末尾建表一致）。新库执行 ① 后可跳过。 |
-| ③ | `sys_config_client_poll_interval.sql` | **增量**：写入 `client.poll.interval.seconds`（前端轮询间隔，与消息中心、发电预测页等一致）。`WHERE NOT EXISTS` 防重复。 |
-| ④ | `sys_job_maintenance_message_notify.sql` | **增量**：插入 Quartz 任务「运维表单待处理消息推送」，调用 `maintenanceFormNotifyTask.scanPendingFormsAndNotify`。若任务已存在请手工合并或跳过。 |
+## 1. 数据库初始化（仅此一份）
 
-## 2. 说明
+| 文件 | 说明 |
+|------|------|
+| **`biye.sql`** | **唯一主脚本**：若依系统表 + 业务表（`eq_*`、`ai_*`、`sys_user_message` 等）、示例数据、**定时任务 `sys_job`（含 job_id 100 检查报警、101 运维表单推送默认暂停）**，以及文件末尾 **增量补丁合并**（菜单纠偏、告警 `alert_type` 回填、`sys_user_message.biz_id` 列类型纠偏等）。导入后 Quartz 按库内任务配置自动调度。 |
+| `docs/论文/数据库内容/biye.sql` | 论文归档副本；应与仓库根目录 `sql/biye.sql` 保持一致（按需同步）。 |
 
-- **字符集**：与主库保持一致（建议 `utf8mb4`）。
-- **站内消息去重**：业务在 `SysUserMessageServiceImpl` 中按 `(user_id, msg_type, biz_id)` 控制；Redis 为运维表单推送的可选辅助，见代码与 `CacheConstants`。
-- **`eq_wind_forecast_bind`**：主脚本末尾含表结构；若旧库缺 `inline_data_json` 列，可使用 `ry-vue.sql` 中 **可选升级** 段（动态 `ALTER`，可重复执行）。
+不再维护单独的 `patch_*.sql` / `schedule_*.sql` / `增量脚本整合.sql`，避免多处不一致。
 
-## 3. 与毕业论文文档的关系
+## 2. 日志文件分类（Logback）
 
-功能与表结构对应说明见 **`docs/毕业论文-功能实现.md`** 附录 B、C。
+默认日志目录：`LOG_PATH` 环境变量，未设置时为运行目录下 **`logs/`**。
+
+| 目录/文件 | 内容 |
+|-----------|------|
+| `logs/sys-info.log` | 全局 INFO |
+| `logs/sys-error.log` | 全局 ERROR |
+| `logs/category/quartz-schedule.log` | Quartz 调度、`MaintenanceFormScheduleFacade` |
+| `logs/category/alarm-maintenance.log` | 检查报警业务、`MaintenanceFormService`、`MaintenanceFormNotifyTask` |
+| `logs/category/sys-user-message.log` | 站内消息写入 `SysUserMessageServiceImpl` |
+
+## 3. 其它说明
+
+- **站内消息**：待维护设备按 `(user_id, msg_type, biz_id)` 去重；`biz_id` 须为 **varchar（UUID）**，已在 `biye.sql` 末尾 `ALTER` 纠偏。
+- **定时任务**：job **100** 默认每 **5** 分钟执行「检查报警」；job **101** 默认 **暂停**，可按需在「定时任务」监控中启用。
+- **WebSocket**：检查报警成功后若有在线客户端，会广播 `type=maintenance_notice`（与前端 `main.js` 一致）。

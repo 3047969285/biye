@@ -1,12 +1,13 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="80px">
-      <el-form-item label="设备ID" prop="deviceId">
-        <el-input
-          v-model="queryParams.deviceId"
-          placeholder="请输入设备ID"
+      <el-form-item label="设备" prop="deviceId">
+        <device-select
+          :value="queryParams.deviceId"
+          placeholder="请选择设备（数据获取共用）"
           clearable
-          @keyup.enter.native="handleQuery"
+          style="width: 260px"
+          @input="handleDataAcquisitionDeviceChange"
         />
       </el-form-item>
       <el-form-item label="故障代码" prop="faultCode">
@@ -18,8 +19,8 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -29,7 +30,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+          size="small"
           @click="handleAdd"
           v-hasPermi="['equipment:faultRecord:add']"
         >新增</el-button>
@@ -39,7 +40,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+          size="small"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['equipment:faultRecord:remove']"
@@ -49,21 +50,20 @@
 
     <el-table v-loading="loading" :data="dataList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="故障ID" align="center" prop="faultId" width="80" />
-      <el-table-column label="设备ID" align="center" prop="deviceId" width="100" />
-      <el-table-column label="设备编号" align="center" prop="deviceNo" width="140" show-overflow-tooltip>
+      <el-table-column label="故障ID" align="center" prop="faultId" min-width="80" />
+      <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceNo || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="设备名称" align="center" prop="deviceName" width="180" show-overflow-tooltip>
+      <el-table-column label="设备名称" align="center" prop="deviceName" min-width="132" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="故障代码" align="center" prop="faultCode" width="120" />
-      <el-table-column label="故障描述" align="center" prop="faultDescription" width="200" show-overflow-tooltip />
-      <el-table-column label="故障等级" align="center" prop="faultLevel" width="100">
+      <el-table-column label="故障代码" align="center" prop="faultCode" min-width="120" />
+      <el-table-column label="故障描述" align="center" prop="faultDescription" min-width="200" show-overflow-tooltip />
+      <el-table-column label="故障等级" align="center" prop="faultLevel" min-width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.faultLevel === '1'" type="danger">紧急</el-tag>
           <el-tag v-else-if="scope.row.faultLevel === '2'" type="warning">严重</el-tag>
@@ -71,9 +71,17 @@
           <el-tag v-else-if="scope.row.faultLevel === '4'" type="success">轻微</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="发现时间" align="center" prop="detectedTime" width="160" />
-      <el-table-column label="解决时间" align="center" prop="resolvedTime" width="160" />
-      <el-table-column label="状态" align="center" prop="status" width="100">
+      <el-table-column label="发现时间" align="center" prop="detectedTime" min-width="170" show-overflow-tooltip>
+        <template slot-scope="scope">
+          {{ formatDateTimeDisplay(scope.row.detectedTime) }}
+        </template>
+      </el-table-column>
+      <el-table-column label="解决时间" align="center" prop="resolvedTime" min-width="170" show-overflow-tooltip>
+        <template slot-scope="scope">
+          {{ formatDateTimeDisplay(scope.row.resolvedTime) }}
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" align="center" prop="status" min-width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === 1" type="warning">待处理</el-tag>
           <el-tag v-else-if="scope.row.status === 2" type="success">已解决</el-tag>
@@ -83,14 +91,14 @@
       <el-table-column label="操作" align="center" width="160" fixed="right">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['equipment:faultRecord:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -113,8 +121,8 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="140px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="设备ID" prop="deviceId">
-              <el-input-number v-model="form.deviceId" placeholder="请输入设备ID" style="width: 100%" />
+            <el-form-item label="设备" prop="deviceId">
+              <device-select v-model="form.deviceId" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -159,6 +167,7 @@
                 type="datetime"
                 placeholder="选择故障发现时间"
                 style="width: 100%"
+                format="yyyy-MM-dd HH:mm:ss"
                 value-format="yyyy-MM-dd HH:mm:ss"
               />
             </el-form-item>
@@ -170,6 +179,7 @@
                 type="datetime"
                 placeholder="选择故障解决时间"
                 style="width: 100%"
+                format="yyyy-MM-dd HH:mm:ss"
                 value-format="yyyy-MM-dd HH:mm:ss"
               />
             </el-form-item>
@@ -226,9 +236,11 @@
 
 <script>
 import { listFaultRecord, getFaultRecord, delFaultRecord, addFaultRecord, updateFaultRecord } from "@/api/equipment/faultRecord";
+import dataAcquisitionDevice from '@/mixins/dataAcquisitionDevice'
 
 export default {
   name: "FaultRecord",
+  mixins: [dataAcquisitionDevice],
   data() {
     return {
       loading: true,
@@ -248,7 +260,7 @@ export default {
       },
       rules: {
         deviceId: [
-          { required: true, message: "设备ID不能为空", trigger: "blur" }
+          { required: true, message: "请选择设备", trigger: "blur" }
         ],
         faultCode: [
           { required: true, message: "故障代码不能为空", trigger: "blur" }
@@ -263,6 +275,39 @@ export default {
     this.getList();
   },
   methods: {
+    /** 统一显示为 yyyy-MM-dd HH:mm:ss */
+    formatDateTimeDisplay(val) {
+      if (val === null || val === undefined || val === "") {
+        return "—";
+      }
+      try {
+        const d = val instanceof Date ? val : new Date(val);
+        if (Number.isNaN(d.getTime())) {
+          return String(val);
+        }
+        if (typeof this.parseTime === "function") {
+          return this.parseTime(d, "{y}-{m}-{d} {h}:{i}:{s}");
+        }
+        const pad = n => (n < 10 ? "0" + n : "" + n);
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+      } catch (e) {
+        return String(val);
+      }
+    },
+    normalizeFormDateTimeFields() {
+      if (this.form.detectedTime) {
+        const s = this.formatDateTimeDisplay(this.form.detectedTime);
+        if (s !== "—") {
+          this.form.detectedTime = s;
+        }
+      }
+      if (this.form.resolvedTime) {
+        const s = this.formatDateTimeDisplay(this.form.resolvedTime);
+        if (s !== "—") {
+          this.form.resolvedTime = s;
+        }
+      }
+    },
     getList() {
       this.loading = true;
       listFaultRecord(this.queryParams).then(response => {
@@ -277,6 +322,7 @@ export default {
     },
     resetQuery() {
       this.resetForm("queryForm");
+      this.clearDataAcquisitionDeviceFilter();
       this.handleQuery();
     },
     handleSelectionChange(selection) {
@@ -293,7 +339,8 @@ export default {
       this.reset();
       const faultId = row.faultId || this.ids[0];
       getFaultRecord(faultId).then(response => {
-        this.form = response.data;
+        this.form = response.data || {};
+        this.normalizeFormDateTimeFields();
         this.open = true;
         this.title = "修改故障记录";
       });

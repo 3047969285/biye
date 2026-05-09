@@ -8,7 +8,7 @@ import com.ruoyi.system.domain.EqDeviceStatus;
 /**
  * 设备运行状态Mapper接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2025-01-07
  */
 @Mapper
@@ -68,7 +68,7 @@ public interface EqDeviceStatusMapper
      * @param deviceId 设备ID
      * @return 结果
      */
-    public int deleteEqDeviceStatusByDeviceId(@Param("deviceId") Long deviceId);
+    public int deleteEqDeviceStatusByDeviceId(@Param("deviceId") String deviceId);
     
     /**
      * 批量根据设备ID删除设备运行状态
@@ -76,7 +76,7 @@ public interface EqDeviceStatusMapper
      * @param deviceIds 设备ID数组
      * @return 结果
      */
-    public int deleteEqDeviceStatusByDeviceIds(@Param("deviceIds") Long[] deviceIds);
+    public int deleteEqDeviceStatusByDeviceIds(@Param("deviceIds") String[] deviceIds);
     
     /**
      * 查询需要维护的设备（状态不好）
@@ -86,7 +86,10 @@ public interface EqDeviceStatusMapper
     public List<EqDeviceStatus> selectDevicesRequiringMaintenance();
 
     /**
-     * 某设备最新一条运行状态（按采集时间倒序）
+     * 查询设备最新一条运行状态（按采集时间倒序）
+     *
+     * @param deviceId 设备ID
+     * @return 最新状态，无数据时返回null
      */
-    public EqDeviceStatus selectLatestByDeviceId(@Param("deviceId") Long deviceId);
+    public EqDeviceStatus selectLatestByDeviceId(@Param("deviceId") String deviceId);
 }

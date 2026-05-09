@@ -35,7 +35,7 @@
             <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
             <if test="timestamp != null"> and t.timestamp = #{timestamp}</if>
         </where>
-        order by t.device_id, t.tech_id desc
+        order by t.timestamp desc
     </select>
     
     <select id="selectEqTechnologyDataByTechId" parameterType="Long" resultMap="EqTechnologyDataResult">
@@ -43,10 +43,10 @@
         where t.tech_id = #{techId}
     </select>
 
-    <select id="selectEqTechnologyDataListByDeviceId" parameterType="Long" resultMap="EqTechnologyDataResult">
+    <select id="selectEqTechnologyDataListByDeviceId" parameterType="String" resultMap="EqTechnologyDataResult">
         <include refid="selectEqTechnologyDataVo"/>
         where t.device_id = #{deviceId}
-        order by t.device_id, t.tech_id desc
+        order by t.timestamp desc
     </select>
         
     <insert id="insertEqTechnologyData" parameterType="com.ruoyi.system.domain.EqTechnologyData">
@@ -116,7 +116,7 @@
         </foreach>
     </delete>
 
-    <delete id="deleteEqTechnologyDataByDeviceId" parameterType="Long">
+    <delete id="deleteEqTechnologyDataByDeviceId" parameterType="String">
         delete from eq_technology_data where device_id = #{deviceId}
     </delete>
 

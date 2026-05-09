@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
             <if test="timestamp != null"> and ec.timestamp = #{timestamp}</if>
         </where>
-        order by ec.device_id, ec.economic_id desc
+        order by ec.timestamp desc
     </select>
     
     <select id="selectEqEconomicDataByEconomicId" parameterType="Long" resultMap="EqEconomicDataResult">
@@ -48,10 +48,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where ec.economic_id = #{economicId}
     </select>
 
-    <select id="selectEqEconomicDataListByDeviceId" parameterType="Long" resultMap="EqEconomicDataResult">
+    <select id="selectEqEconomicDataListByDeviceId" parameterType="String" resultMap="EqEconomicDataResult">
         <include refid="selectEqEconomicDataVo"/>
         where ec.device_id = #{deviceId}
-        order by ec.device_id, ec.economic_id desc
+        order by ec.timestamp desc
     </select>
         
     <insert id="insertEqEconomicData" parameterType="com.ruoyi.system.domain.EqEconomicData">
@@ -127,7 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <delete id="deleteEqEconomicDataByDeviceId" parameterType="Long">
+    <delete id="deleteEqEconomicDataByDeviceId" parameterType="String">
         delete from eq_economic_data where device_id = #{deviceId}
     </delete>
 

@@ -35,7 +35,7 @@ import com.ruoyi.system.service.ISysUserService;
 /**
  * 用户信息
  * 
- * @author ruoyi
+ * @author wangchangzhen
  */
 @RestController
 @RequestMapping("/system/user")

@@ -14,10 +14,15 @@ public interface WindForecastExcelFileService {
      * @param kind {@code feature} 或 {@code real}
      * @return 规范化后的绝对路径；未配置或 kind 非法时返回 {@code null}
      */
-    Path resolveExcelPath(long deviceId, String kind);
+    Path resolveExcelPath(String deviceId, String kind);
 
     /**
      * 用于上传落盘：绑定中已配置路径则覆盖该路径；否则写入 {@code wind-device-data/{deviceId}/}，避免覆盖全局默认 Excel。
      */
-    Path resolveUploadTargetPath(long deviceId, String kind);
+    Path resolveUploadTargetPath(String deviceId, String kind);
+
+    /**
+     * 下载用：优先返回当前设备可读 Excel；若无则尝试 yml 中配置的全局示例文件（便于导出模板）。
+     */
+    Path resolveExcelPathForDownload(String deviceId, String kind);
 }

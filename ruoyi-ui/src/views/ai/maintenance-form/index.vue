@@ -246,7 +246,7 @@
                 :name="'batch-' + i"
               >
                 <template slot="title">
-                  <span class="batch-form-picker__item-title">{{ f.deviceName || "设备" }} · #{{ f.deviceId }}</span>
+                  <span class="batch-form-picker__item-title">{{ f.deviceName || "设备" }}{{ f.deviceNo ? "（" + f.deviceNo + "）" : "" }}</span>
                   <el-tag size="mini" :type="getMaintenanceTypeTagType(f.maintenanceType)">{{ f.maintenanceType }}</el-tag>
                   <el-tag size="mini" type="info">{{ f.priorityLevel }}</el-tag>
                 </template>
@@ -263,9 +263,6 @@
               <el-descriptions :column="2" border class="form-descriptions">
                 <el-descriptions-item label="设备名称" :span="2">
                   <strong class="device-name">{{ currentForm.deviceName }}</strong>
-                </el-descriptions-item>
-                <el-descriptions-item label="设备ID">
-                  <span class="form-value">{{ currentForm.deviceId }}</span>
                 </el-descriptions-item>
                 <el-descriptions-item label="表单ID" v-if="currentForm.formId">
                   <span class="form-value">{{ currentForm.formId }}</span>
@@ -1022,7 +1019,7 @@ export default {
         // 确保数据类型正确
         const updateData = {
           formId: Number(this.currentForm.formId),
-          deviceId: this.currentForm.deviceId ? Number(this.currentForm.deviceId) : null,
+          deviceId: this.currentForm.deviceId ? String(this.currentForm.deviceId).trim() : null,
           deviceName: this.currentForm.deviceName,
           faultDescription: this.currentForm.faultDescription,
           maintenanceType: this.currentForm.maintenanceType,
@@ -1072,8 +1069,8 @@ export default {
       if (this.editForm.formId) {
         this.editForm.formId = Number(this.editForm.formId);
       }
-      if (this.editForm.deviceId) {
-        this.editForm.deviceId = Number(this.editForm.deviceId);
+      if (this.editForm.deviceId != null && this.editForm.deviceId !== "") {
+        this.editForm.deviceId = String(this.editForm.deviceId).trim();
       }
       if (this.editForm.estimatedTime !== null && this.editForm.estimatedTime !== undefined) {
         this.editForm.estimatedTime = Number(this.editForm.estimatedTime);
@@ -1092,7 +1089,7 @@ export default {
           // 确保数据类型正确
           const updateData = {
             formId: this.editForm.formId,
-            deviceId: this.editForm.deviceId ? Number(this.editForm.deviceId) : null,
+            deviceId: this.editForm.deviceId ? String(this.editForm.deviceId).trim() : null,
             deviceName: this.editForm.deviceName,
             faultDescription: this.editForm.faultDescription,
             maintenanceType: this.editForm.maintenanceType,
@@ -1290,7 +1287,7 @@ export default {
     formatFormText(form) {
       let text = "=== 运维表单 ===\n\n";
       text += `设备名称：${form.deviceName}\n`;
-      text += `设备ID：${form.deviceId}\n`;
+      if (form.deviceNo) text += `设备编号：${form.deviceNo}\n`;
       if (form.formId) text += `表单ID：${form.formId}\n`;
       text += `维护类型：${form.maintenanceType}\n`;
       text += `优先级：${form.priorityLevel}\n`;
@@ -1344,7 +1341,7 @@ export default {
       }
       const did = this.currentForm.deviceId;
       const i = this.batchGeneratedForms.findIndex(
-        (f) => f && (f.deviceId === did || Number(f.deviceId) === Number(did))
+        (f) => f && String(f.deviceId) === String(did)
       );
       if (i >= 0) {
         this.$set(this.batchGeneratedForms, i, this.currentForm);

@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.AiMaintenanceForm;
 import com.ruoyi.system.domain.SysUserMessage;
 import com.ruoyi.system.domain.vo.MaintenanceDevicePendingVo;
@@ -16,7 +17,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -58,7 +58,7 @@ public class SysUserMessageServiceImpl implements ISysUserMessageService {
             if (uid == null) {
                 continue;
             }
-            if (sysUserMessageMapper.countByUserMsgTypeBizId(uid, MSG_TYPE_MAINTENANCE_FORM, formBizId) > 0) {
+            if (sysUserMessageMapper.countByUserMsgTypeBizId(uid, MSG_TYPE_MAINTENANCE_FORM, String.valueOf(formBizId)) > 0) {
                 continue;
             }
             toNotify.add(uid);
@@ -79,7 +79,7 @@ public class SysUserMessageServiceImpl implements ISysUserMessageService {
             m.setMsgType(MSG_TYPE_MAINTENANCE_FORM);
             m.setTitle(title);
             m.setContent(content);
-            m.setBizId(formBizId);
+            m.setBizId(String.valueOf(formBizId));
             m.setReadFlag("0");
             m.setCreateTime(now);
             batch.add(m);
@@ -110,10 +110,11 @@ public class SysUserMessageServiceImpl implements ISysUserMessageService {
             sysUserMessageMapper.deleteUnreadByMsgType(MSG_TYPE_MAINTENANCE_DEVICE_PENDING);
             return;
         }
-        List<Long> bizIds = devices.stream()
+        List<String> bizIds = devices.stream()
             .map(MaintenanceDevicePendingVo::getDeviceId)
-            .filter(Objects::nonNull)
-            .filter(id -> id > 0)
+            .filter(StringUtils::isNotEmpty)
+            .map(String::trim)
+            .filter(s -> !s.isEmpty())
             .distinct()
             .collect(Collectors.toList());
         if (!bizIds.isEmpty()) {
@@ -131,10 +132,11 @@ public class SysUserMessageServiceImpl implements ISysUserMessageService {
                 continue;
             }
             for (MaintenanceDevicePendingVo d : devices) {
-                if (d.getDeviceId() == null || d.getDeviceId() <= 0) {
+                String deviceBizId = d.getDeviceId() != null ? d.getDeviceId().trim() : "";
+                if (deviceBizId.isEmpty()) {
                     continue;
                 }
-                if (sysUserMessageMapper.countByUserMsgTypeBizId(uid, MSG_TYPE_MAINTENANCE_DEVICE_PENDING, d.getDeviceId()) > 0) {
+                if (sysUserMessageMapper.countByUserMsgTypeBizId(uid, MSG_TYPE_MAINTENANCE_DEVICE_PENDING, deviceBizId) > 0) {
                     continue;
                 }
                 SysUserMessage m = new SysUserMessage();
@@ -142,7 +144,7 @@ public class SysUserMessageServiceImpl implements ISysUserMessageService {
                 m.setMsgType(MSG_TYPE_MAINTENANCE_DEVICE_PENDING);
                 m.setTitle(title);
                 m.setContent(String.format("设备「%s」当前需维护（优先级：%s），请到运维表单页处理。", d.getDeviceName(), d.getPriority()));
-                m.setBizId(d.getDeviceId());
+                m.setBizId(deviceBizId);
                 m.setReadFlag("0");
                 m.setCreateTime(now);
                 batch.add(m);
@@ -185,5 +187,13 @@ public class SysUserMessageServiceImpl implements ISysUserMessageService {
             return 0;
         }
         return sysUserMessageMapper.updateAllReadByUserId(userId);
+    }
+
+    @Override
+    public int deleteMessage(Long msgId, Long userId) {
+        if (msgId == null || userId == null) {
+            return 0;
+        }
+        return sysUserMessageMapper.deleteByMsgIdAndUserId(msgId, userId);
     }
 }

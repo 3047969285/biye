@@ -25,14 +25,32 @@
             :key="item.msgId"
             class="message-item"
             :class="{ 'is-unread': item.readFlag === '0' }"
-            @click="handleItemClick(item)"
           >
-            <div class="message-item-title">
-              <span>{{ item.title }}</span>
-              <el-tag v-if="item.readFlag === '0'" type="primary" size="mini" effect="plain">未读</el-tag>
+            <div class="message-item-inner">
+              <div class="message-item-body" @click="handleItemClick(item)">
+                <div class="message-item-title">
+                  <span>{{ item.title }}</span>
+                  <el-tag v-if="item.readFlag === '0'" type="primary" size="mini" effect="plain">未读</el-tag>
+                </div>
+                <div class="message-item-content">{{ item.content }}</div>
+                <div class="message-item-time">{{ parseTime(item.createTime, '{y}-{m}-{d} {h}:{i}') }}</div>
+              </div>
+              <div class="message-item-actions" @click.stop>
+                <el-button
+                  v-if="item.readFlag === '0'"
+                  type="text"
+                  size="mini"
+                  class="msg-action-read"
+                  @click="handleMarkReadOnly(item)"
+                >标为已读</el-button>
+                <el-button
+                  type="text"
+                  size="mini"
+                  class="msg-action-delete"
+                  @click="handleDelete(item)"
+                >删除</el-button>
+              </div>
             </div>
-            <div class="message-item-content">{{ item.content }}</div>
-            <div class="message-item-time">{{ parseTime(item.createTime, '{y}-{m}-{d} {h}:{i}') }}</div>
           </div>
         </div>
         <div v-if="messageList.length" class="message-center-footer">
@@ -49,7 +67,7 @@
 </template>
 
 <script>
-import { listUserMessage, getUnreadMessageCount, markMessageRead, markAllMessagesRead } from '@/api/system/userMessage'
+import { listUserMessage, getUnreadMessageCount, markMessageRead, markAllMessagesRead, deleteUserMessage } from '@/api/system/userMessage'
 import { getConfigKey } from '@/api/system/config'
 import { getClientPollIntervalSec, CLIENT_POLL_INTERVAL_EVENT } from '@/utils/clientPoll'
 
@@ -130,6 +148,32 @@ export default {
           this.unreadCount = 0
           this.loadList()
         }
+      }).catch(() => {})
+    },
+    handleMarkReadOnly(item) {
+      if (!item || item.readFlag !== '0') {
+        return
+      }
+      markMessageRead(item.msgId).then(res => {
+        if (res && res.code === 200) {
+          item.readFlag = '1'
+          this.fetchUnread()
+          this.$modal.msgSuccess('已标为已读')
+        }
+      }).catch(() => {})
+    },
+    handleDelete(item) {
+      if (!item || item.msgId == null) {
+        return
+      }
+      this.$modal.confirm('是否确认删除该条消息？删除后不可恢复。').then(() => {
+        deleteUserMessage(item.msgId).then(res => {
+          if (res && res.code === 200) {
+            this.$modal.msgSuccess('删除成功')
+            this.messageList = this.messageList.filter(m => m.msgId !== item.msgId)
+            this.fetchUnread()
+          }
+        }).catch(() => {})
       }).catch(() => {})
     },
     handleItemClick(item) {
@@ -251,19 +295,57 @@ export default {
 }
 
 .message-item {
-  padding: 10px 4px;
   border-bottom: 1px solid $border-color;
-  cursor: pointer;
   border-radius: 4px;
-
-  &:hover {
-    background: $hover-bg;
-  }
 
   &.is-unread {
     background: rgba(94, 161, 255, 0.12);
     border-left: 3px solid $accent-color;
-    padding-left: 8px;
+  }
+}
+
+.message-item-inner {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  padding: 10px 4px;
+}
+
+.message-item-body {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+
+  &:hover {
+    background: $hover-bg;
+  }
+}
+
+.message-item-actions {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding-left: 2px;
+}
+
+::v-deep .msg-action-read {
+  color: $accent-color !important;
+  padding: 4px 6px !important;
+  margin: 0 !important;
+}
+
+::v-deep .msg-action-delete {
+  color: $text-secondary !important;
+  padding: 4px 6px !important;
+  margin: 0 !important;
+
+  &:hover {
+    color: #f56c6c !important;
   }
 }
 

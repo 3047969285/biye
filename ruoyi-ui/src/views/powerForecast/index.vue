@@ -16,18 +16,17 @@
           class="hidden-file-input"
           @change="onServerExcelUpload($event, 'real')"
         />
+        <input
+          ref="modelUpload"
+          type="file"
+          accept=".h5"
+          class="hidden-file-input"
+          @change="onModelUpload"
+        />
         <div class="wind-toolbar-compact">
           <el-button type="primary" size="small" icon="el-icon-video-play" :loading="runLoading" @click="handleRunNow">
             立即预测
           </el-button>
-          <el-button
-            type="success"
-            size="small"
-            icon="el-icon-cpu"
-            :loading="runDeviceLoading"
-            :disabled="!selectedWindDeviceId"
-            @click="handleRunForDevice"
-          >按设备</el-button>
           <el-button size="small" icon="el-icon-refresh" :loading="latestLoading" @click="refreshForecastLatest">刷新</el-button>
           <el-button size="small" icon="el-icon-document" :loading="summaryLoading" @click="handleAiSummary">AI</el-button>
           <el-switch v-model="autoRefresh" class="wind-auto-switch" />
@@ -45,6 +44,8 @@
             />
             <span class="wind-poll-unit">秒</span>
           </span>
+          <el-tooltip content="先选设备：特征/功率按设备目录保存；未上传该设备 gru_FD.h5 时使用 application.yml 中的默认模型。立即预测对当前所选设备执行。" placement="bottom">
+            <span class="wind-dev-tooltip-wrap">
           <el-select
             v-model="selectedWindDeviceId"
             clearable
@@ -57,10 +58,12 @@
             <el-option
               v-for="item in deviceOptions"
               :key="item.deviceId"
-              :label="(item.deviceName || '设备') + ' #' + item.deviceId"
+              :label="formatWindDeviceLabel(item)"
               :value="item.deviceId"
             />
           </el-select>
+            </span>
+          </el-tooltip>
           <el-button
             size="small"
             plain
@@ -93,6 +96,15 @@
             icon="el-icon-upload2"
             @click="$refs.excelUploadReal.click()"
           >上传功率</el-button>
+          <el-button
+            size="small"
+            plain
+            type="warning"
+            :disabled="!selectedWindDeviceId"
+            :loading="modelUploadLoading"
+            icon="el-icon-folder-add"
+            @click="$refs.modelUpload.click()"
+          >上传模型</el-button>
         </div>
 
         <el-card v-if="aiSummaryText" shadow="never" class="summary-card">
@@ -120,7 +132,7 @@
                 <el-option
                   v-for="item in deviceOptions"
                   :key="item.deviceId"
-                  :label="item.deviceName || ('设备' + item.deviceId)"
+                  :label="formatWindDeviceLabel(item)"
                   :value="item.deviceId"
                 />
               </el-select>
@@ -185,7 +197,7 @@
               <el-option
                 v-for="item in deviceOptions"
                 :key="item.deviceId"
-                :label="item.deviceName || '设备' + item.deviceId"
+                :label="formatWindDeviceLabel(item)"
                 :value="item.deviceId"
               />
             </el-select>
@@ -195,9 +207,9 @@
           </el-form-item>
         </el-form>
         <el-table v-loading="dataLoading" :data="dataStatRows" border size="small" class="data-stat-table">
-          <el-table-column label="设备" min-width="140">
+          <el-table-column label="设备" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
-              {{ scope.row.deviceName || '—' }} #{{ scope.row.deviceId }}
+              {{ windStatDeviceLabel(scope.row) }}
             </template>
           </el-table-column>
           <el-table-column label="统计日期" prop="statDate" min-width="120" />
@@ -231,6 +243,7 @@ import {
   runWindForecastNow,
   runWindForecastForDevice,
   uploadWindForecastExcel,
+  uploadWindForecastModel,
   windForecastSummary
 } from '@/api/windForecast'
 import { getClientPollIntervalSec, setClientPollIntervalSec } from '@/utils/clientPoll'
@@ -249,6 +262,7 @@ export default {
       _defaultDeviceApplied: false,
       excelDownloadLoading: { feature: false, real: false },
       excelUploadLoading: { feature: false, real: false },
+      modelUploadLoading: false,
       aiSummaryText: '',
       autoRefresh: true,
       pollSec: 180,
@@ -340,6 +354,16 @@ export default {
     }
   },
   methods: {
+    formatWindDeviceLabel(item) {
+      if (!item) return '设备'
+      const name = item.deviceName || '设备'
+      const no = item.deviceNo
+      return no ? `${name}（${no}）` : name
+    },
+    windStatDeviceLabel(row) {
+      if (!row) return '—'
+      return this.formatWindDeviceLabel(row)
+    },
     formatDateTime(d) {
       if (this.$parseTime) return this.$parseTime(d, '{y}-{m}-{d} {h}:{i}:{s}')
       const pad = (n) => (n < 10 ? '0' + n : '' + n)
@@ -436,11 +460,13 @@ export default {
             }
           }
           const bid = cfg.bindDeviceId
-          this.windBindDeviceId = bid != null && Number(bid) > 0 ? Number(bid) : null
+          const bidStr = bid != null && String(bid).trim() !== '' ? String(bid).trim() : null
+          this.windBindDeviceId = bidStr
           if (!this._defaultDeviceApplied && this.selectedWindDeviceId == null && this.windBindDeviceId) {
             this._defaultDeviceApplied = true
             this.selectedWindDeviceId = this.windBindDeviceId
           }
+          this.syncWindDeviceSelectionWithOptions()
           const curAt = this.windMeta.lastPredictionAt || 0
           const prevAt = this._lastPredictionAtSeen || 0
           if (
@@ -469,20 +495,28 @@ export default {
       }
     },
     async handleRunNow() {
+      const id = this.selectedWindDeviceId
+      const useDevice = id != null && id !== ''
       this.runLoading = true
       try {
-        const res = await runWindForecastNow()
+        const res = useDevice
+          ? await runWindForecastForDevice({ deviceId: id })
+          : await runWindForecastNow()
         if (res.code === 200) {
           const body = res.data || {}
           if (body.success) {
-            this.$modal.msgSuccess('预测完成')
+            this.$modal.msgSuccess(useDevice ? '当前设备预测完成' : '预测完成（系统默认配置）')
             this._suppressAutoPredictNotify = true
             await this.loadLatest(false, false)
             await this.getForecastData()
           } else {
             this.$modal.msgError(body.message || '预测失败')
           }
+        } else {
+          this.$modal.msgError(res.msg || '请求失败')
         }
+      } catch (e) {
+        this.$modal.msgError('预测请求失败')
       } finally {
         this.runLoading = false
       }
@@ -507,7 +541,11 @@ export default {
           } else {
             this.$modal.msgError(body.message || '预测失败')
           }
+        } else {
+          this.$modal.msgError(res.msg || '请求失败')
         }
+      } catch (e) {
+        this.$modal.msgError('预测请求失败')
       } finally {
         this.runDeviceLoading = false
       }
@@ -564,11 +602,29 @@ export default {
         this.excelDownloadLoading[kind] = false
       }
     },
+    uploadExcelErrorMessage(err) {
+      const d = err && err.response && err.response.data
+      if (!d) {
+        return (err && err.message) || '上传失败'
+      }
+      if (typeof d === 'string') {
+        return d
+      }
+      if (typeof d.msg === 'string' && d.msg) {
+        return d.msg
+      }
+      return '上传失败'
+    },
     async onServerExcelUpload(ev, kind) {
       const input = ev && ev.target
       const file = input && input.files && input.files[0]
       if (input) input.value = ''
       if (!file) return
+      const lower = (file.name || '').toLowerCase()
+      if (!lower.endsWith('.xlsx') && !lower.endsWith('.xls')) {
+        this.$modal.msgWarning('请上传 .xlsx 或 .xls 文件')
+        return
+      }
       const id = this.selectedWindDeviceId
       if (id == null || id === '') {
         this.$modal.msgWarning('请先选择设备')
@@ -581,7 +637,7 @@ export default {
           const saved = res.data && res.data.savedPath
           this.$modal.msgSuccess(
             saved
-              ? `${kind === 'feature' ? '特征表' : '实际功率表'}已写入服务器，正在按新文件重新预测…`
+              ? `${kind === 'feature' ? '特征表' : '实际功率表'}已写入设备目录，正在按该设备重新预测…`
               : kind === 'feature'
                 ? '特征表已保存，正在重新预测…'
                 : '实际功率表已保存，正在重新预测…'
@@ -601,9 +657,45 @@ export default {
           this.$modal.msgError(res.msg || '上传失败')
         }
       } catch (e) {
-        this.$modal.msgError('上传失败')
+        this.$modal.msgError(this.uploadExcelErrorMessage(e))
       } finally {
         this.excelUploadLoading[kind] = false
+      }
+    },
+    async onModelUpload(ev) {
+      const input = ev && ev.target
+      const file = input && input.files && input.files[0]
+      if (input) input.value = ''
+      if (!file) return
+      const id = this.selectedWindDeviceId
+      if (id == null || id === '') {
+        this.$modal.msgWarning('请先选择设备')
+        return
+      }
+      this.modelUploadLoading = true
+      try {
+        const res = await uploadWindForecastModel(id, file)
+        if (res.code === 200) {
+          const saved = res.data && res.data.savedPath
+          this.$modal.msgSuccess('模型已保存到该设备目录')
+          if (saved) {
+            this.$notify({
+              title: '模型路径',
+              message: saved,
+              type: 'success',
+              duration: 6000,
+              position: 'bottom-right'
+            })
+          }
+          this._suppressAutoPredictNotify = true
+          await this.handleRunForDevice()
+        } else {
+          this.$modal.msgError(res.msg || '上传失败')
+        }
+      } catch (e) {
+        this.$modal.msgError('上传失败')
+      } finally {
+        this.modelUploadLoading = false
       }
     },
     renderChart() {
@@ -749,18 +841,47 @@ export default {
     },
     async initStatTab() {
       await Promise.all([this.loadDevices(), this.loadLatest(false, false)])
+      this.syncWindDeviceSelectionWithOptions()
       this.applyWindDeviceDefaultFilter()
       await this.getForecastData()
     },
     applyWindDeviceDefaultFilter() {
       const id = this.windBindDeviceId
-      if (id != null && id > 0) {
+      if (id != null && String(id).trim() !== '') {
         this.queryParams.deviceId = id
       }
     },
     async loadDevices() {
       const res = await listDevice({ pageNum: 1, pageSize: 1000 })
       this.deviceOptions = (res && res.rows) || []
+      this.syncWindDeviceSelectionWithOptions()
+    },
+    /** 当前选中设备若已在库中删除，下拉会只显示数字；纠正为 bind 设备或列表首项 */
+    syncWindDeviceSelectionWithOptions() {
+      const rows = this.deviceOptions || []
+      if (!rows.length) {
+        return
+      }
+      const ids = new Set(rows.map((d) => String(d.deviceId)))
+      const cur =
+        this.selectedWindDeviceId != null && this.selectedWindDeviceId !== ''
+          ? String(this.selectedWindDeviceId)
+          : ''
+      if (!cur) {
+        return
+      }
+      if (ids.has(cur)) {
+        return
+      }
+      const bid =
+        this.windBindDeviceId != null && this.windBindDeviceId !== ''
+          ? String(this.windBindDeviceId)
+          : ''
+      if (bid && ids.has(bid)) {
+        this.selectedWindDeviceId = bid
+        return
+      }
+      this.selectedWindDeviceId = rows[0].deviceId
     },
     handleQuery() {
       this.getForecastData()
@@ -901,6 +1022,10 @@ export default {
     .wind-poll-unit {
       white-space: nowrap;
     }
+  }
+  .wind-dev-tooltip-wrap {
+    display: inline-flex;
+    align-items: center;
   }
   .wind-dev-select {
     width: 220px;

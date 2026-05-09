@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * 维护记录对象 eq_maintenance_record
  *
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-07
  */
 @Data
@@ -27,7 +27,7 @@ public class EqMaintenanceRecord extends BaseEntity {
     private Long recordId;
 
     /** 设备ID */
-    private Long deviceId;
+    private String deviceId;
 
     /** 设备编号（关联查询） */
     private String deviceNo;

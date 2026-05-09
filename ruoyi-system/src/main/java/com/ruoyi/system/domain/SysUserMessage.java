@@ -11,7 +11,8 @@ public class SysUserMessage extends BaseEntity {
     private String msgType;
     private String title;
     private String content;
-    private Long bizId;
+    /** 业务主键：运维表单为 formId 字符串，待维护设备同步为 deviceId（UUID） */
+    private String bizId;
     private String readFlag;
 
     public Long getMsgId() {
@@ -54,11 +55,11 @@ public class SysUserMessage extends BaseEntity {
         this.content = content;
     }
 
-    public Long getBizId() {
+    public String getBizId() {
         return bizId;
     }
 
-    public void setBizId(Long bizId) {
+    public void setBizId(String bizId) {
         this.bizId = bizId;
     }
 

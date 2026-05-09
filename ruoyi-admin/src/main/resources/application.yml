@@ -213,5 +213,5 @@ wind:
     # 自动预测间隔（毫秒），默认 3 分钟，与前端轮询、运维表单扫描周期对齐
     schedule-interval-ms: 180000
     http-timeout-seconds: 300
-    # 与 sql 中 WIND-FD001 设备 device_id=21 对应；预测成功会更新该设备当日 eq_device_stat.average_power
-    bind-device-id: 21
+    # 与 sql 中「发电机1号」device_id=7（DEV-007）对应；预测成功会更新该设备当日 eq_device_stat.average_power
+    bind-device-id: "57330e93-592e-5318-b0c2-6d3ff8846bb6"

@@ -10,7 +10,7 @@ import com.ruoyi.system.service.IEqEnvironmentDataService;
 /**
  * 环境数据Service业务层处理
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-08
  */
 @Service
@@ -50,7 +50,7 @@ public class EqEnvironmentDataServiceImpl implements IEqEnvironmentDataService
      * @return 环境数据集合
      */
     @Override
-    public List<EqEnvironmentData> selectEqEnvironmentDataListByDeviceId(Long deviceId)
+    public List<EqEnvironmentData> selectEqEnvironmentDataListByDeviceId(String deviceId)
     {
         return eqEnvironmentDataMapper.selectEqEnvironmentDataListByDeviceId(deviceId);
     }
@@ -110,7 +110,7 @@ public class EqEnvironmentDataServiceImpl implements IEqEnvironmentDataService
      * @return 结果
      */
     @Override
-    public int deleteEqEnvironmentDataByDeviceId(Long deviceId)
+    public int deleteEqEnvironmentDataByDeviceId(String deviceId)
     {
         return eqEnvironmentDataMapper.deleteEqEnvironmentDataByDeviceId(deviceId);
     }
@@ -122,7 +122,7 @@ public class EqEnvironmentDataServiceImpl implements IEqEnvironmentDataService
      * @return 结果
      */
     @Override
-    public int deleteEqEnvironmentDataByDeviceIds(Long[] deviceIds)
+    public int deleteEqEnvironmentDataByDeviceIds(String[] deviceIds)
     {
         return eqEnvironmentDataMapper.deleteEqEnvironmentDataByDeviceIds(deviceIds);
     }

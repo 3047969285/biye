@@ -1,8 +1,8 @@
 {
-  "name": "wcz",
+  "name": "smart-grid-maintenance-ui",
   "version": "1.0.0",
   "description": "智能电网运维系统",
-  "author": "wcz",
+  "author": "wangchangzhen",
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",

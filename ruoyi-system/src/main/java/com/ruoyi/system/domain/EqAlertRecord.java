@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * 设备告警记录对象 eq_alert_record
  *
- * @author wcz
+ * @author wangchangzhen
  * @date 2025-12-19
  */
 @Data
@@ -20,7 +20,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class EqAlertRecord extends BaseEntity {
     private Long alertId;
-    private Long deviceId;
+    private String deviceId;
     
     /** 设备编号（关联查询） */
     private String deviceNo;
@@ -30,6 +30,10 @@ public class EqAlertRecord extends BaseEntity {
     
     private Long ruleId;
     private Integer alertLevel;
+
+    /** 告警类型（如规则名、规则告警、手工录入；规则引擎写入时常为规则名称） */
+    private String alertType;
+
     private String alertMessage;
     private Date   triggeredTime;
     private Date   resolvedTime;

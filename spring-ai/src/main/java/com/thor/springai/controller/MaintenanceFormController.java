@@ -28,7 +28,7 @@ public class MaintenanceFormController extends BaseController {
     }
     
     @PostMapping("/generate")
-    public AjaxResult generateForm(@RequestParam("deviceId") Long deviceId,
+    public AjaxResult generateForm(@RequestParam("deviceId") String deviceId,
                                    @RequestParam(value = "saveToDb", defaultValue = "false") boolean saveToDb) {
         logger.info("为设备生成运维表单，设备ID: {}, 保存到数据库: {}", deviceId, saveToDb);
         return maintenanceFormService.generateFormForDevice(deviceId, saveToDb);
@@ -37,7 +37,7 @@ public class MaintenanceFormController extends BaseController {
     @PostMapping("/batch-generate")
     public AjaxResult batchGenerateForms(@RequestParam("deviceIds") String deviceIdsStr,
                                         @RequestParam(value = "saveToDb", defaultValue = "false") boolean saveToDb) {
-        List<Long> deviceIds = maintenanceFormService.parseDeviceIds(deviceIdsStr);
+        List<String> deviceIds = maintenanceFormService.parseDeviceIds(deviceIdsStr);
         logger.info("批量生成运维表单，设备数量: {}, 保存到数据库: {}", deviceIds.size(), saveToDb);
         return maintenanceFormService.batchGenerateForms(deviceIds, saveToDb);
     }

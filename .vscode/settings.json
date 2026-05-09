@@ -1,4 +1,6 @@
 {
+    "python.defaultInterpreterPath": "D:\\xiazai\\anaconda\\python.exe",
+    "python.terminal.activateEnvironment": false,
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "interactive",
     "cSpell.words": [

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  * 
  * 注意：Spring Boot 3.x 的 MyBatis Spring Boot Starter 已支持通配符包扫描
  * 
- * @author ruoyi
+ * @author wangchangzhen
  */
 @Configuration
 public class MyBatisConfig

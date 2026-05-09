@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deviceName"    column="device_name"    />
         <result property="ruleId"    column="rule_id"    />
         <result property="alertLevel"    column="alert_level"    />
+        <result property="alertType"    column="alert_type"    />
         <result property="alertMessage"    column="alert_message"    />
         <result property="triggeredTime"    column="triggered_time"    />
         <result property="resolvedTime"    column="resolved_time"    />
@@ -21,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectEqAlertRecordVo">
-        select a.alert_id, a.device_id, a.rule_id, a.alert_level, a.alert_message, a.triggered_time, a.resolved_time, a.status, a.resolved_by, a.resolution_notes, a.remark,
+        select a.alert_id, a.device_id, a.rule_id, a.alert_level, a.alert_type, a.alert_message, a.triggered_time, a.resolved_time, a.status, a.resolved_by, a.resolution_notes, a.remark,
         d.device_no, d.device_name
         from eq_alert_record a
         left join eq_device d on a.device_id = d.device_id
@@ -34,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
             <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
             <if test="alertLevel != null "> and a.alert_level = #{alertLevel}</if>
+            <if test="alertType != null and alertType != ''"> and a.alert_type like concat('%', #{alertType}, '%')</if>
             <if test="status != null "> and a.status = #{status}</if>
         </where>
         order by 
@@ -47,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where a.alert_id = #{alertId}
     </select>
 
-    <select id="selectEqAlertRecordListByDeviceId" parameterType="Long" resultMap="EqAlertRecordResult">
+    <select id="selectEqAlertRecordListByDeviceId" parameterType="String" resultMap="EqAlertRecordResult">
         <include refid="selectEqAlertRecordVo"/>
         where a.device_id = #{deviceId}
         order by 
@@ -70,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceId != null">device_id,</if>
             <if test="ruleId != null">rule_id,</if>
             <if test="alertLevel != null">alert_level,</if>
+            <if test="alertType != null">alert_type,</if>
             <if test="alertMessage != null">alert_message,</if>
             <if test="triggeredTime != null">triggered_time,</if>
             <if test="resolvedTime != null">resolved_time,</if>
@@ -83,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceId != null">#{deviceId},</if>
             <if test="ruleId != null">#{ruleId},</if>
             <if test="alertLevel != null">#{alertLevel},</if>
+            <if test="alertType != null">#{alertType},</if>
             <if test="alertMessage != null">#{alertMessage},</if>
             <if test="triggeredTime != null">#{triggeredTime},</if>
             <if test="resolvedTime != null">#{resolvedTime},</if>
@@ -99,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceId != null">device_id = #{deviceId},</if>
             <if test="ruleId != null">rule_id = #{ruleId},</if>
             <if test="alertLevel != null">alert_level = #{alertLevel},</if>
+            <if test="alertType != null">alert_type = #{alertType},</if>
             <if test="alertMessage != null">alert_message = #{alertMessage},</if>
             <if test="triggeredTime != null">triggered_time = #{triggeredTime},</if>
             <if test="resolvedTime != null">resolved_time = #{resolvedTime},</if>
@@ -121,7 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <delete id="deleteEqAlertRecordByDeviceId" parameterType="Long">
+    <delete id="deleteEqAlertRecordByDeviceId" parameterType="String">
         delete from eq_alert_record where device_id = #{deviceId}
     </delete>
 

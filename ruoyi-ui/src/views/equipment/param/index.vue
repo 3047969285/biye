@@ -1,12 +1,13 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="80px">
-      <el-form-item label="设备ID" prop="deviceId">
-        <el-input
-          v-model="queryParams.deviceId"
-          placeholder="请输入设备ID"
+      <el-form-item label="设备" prop="deviceId">
+        <device-select
+          :value="queryParams.deviceId"
+          placeholder="请选择设备（数据获取共用）"
           clearable
-          @keyup.enter.native="handleQuery"
+          style="width: 260px"
+          @input="handleDataAcquisitionDeviceChange"
         />
       </el-form-item>
       <el-form-item label="参数名称" prop="parameterName">
@@ -18,8 +19,8 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -29,7 +30,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+          size="small"
           @click="handleAdd"
           v-hasPermi="['equipment:param:add']"
         >新增</el-button>
@@ -39,7 +40,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+          size="small"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['equipment:param:remove']"
@@ -49,37 +50,36 @@
 
     <el-table v-loading="loading" :data="paramList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="参数ID" align="center" prop="paramId" width="80" />
-      <el-table-column label="设备ID" align="center" prop="deviceId" width="100" />
-      <el-table-column label="设备编号" align="center" prop="deviceNo" width="140" show-overflow-tooltip>
+      <el-table-column label="参数ID" align="center" prop="paramId" min-width="80" />
+      <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceNo || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="设备名称" align="center" prop="deviceName" width="180" show-overflow-tooltip>
+      <el-table-column label="设备名称" align="center" prop="deviceName" min-width="132" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="参数名称" align="center" prop="parameterName" width="150" />
-      <el-table-column label="参数值" align="center" prop="parameterValue" width="120" />
-      <el-table-column label="单位" align="center" prop="unit" width="80" />
-      <el-table-column label="默认值" align="center" prop="defaultValue" width="120" />
-      <el-table-column label="最小值" align="center" prop="minValue" width="120" />
-      <el-table-column label="最大值" align="center" prop="maxValue" width="120" />
-      <el-table-column label="临界阈值" align="center" prop="criticalThreshold" width="120" />
-      <el-table-column label="警告阈值" align="center" prop="warningThreshold" width="120" />
+      <el-table-column label="参数名称" align="center" prop="parameterName" min-width="150" />
+      <el-table-column label="参数值" align="center" prop="parameterValue" min-width="120" />
+      <el-table-column label="单位" align="center" prop="unit" min-width="80" />
+      <el-table-column label="默认值" align="center" prop="defaultValue" min-width="120" />
+      <el-table-column label="最小值" align="center" prop="minValue" min-width="120" />
+      <el-table-column label="最大值" align="center" prop="maxValue" min-width="120" />
+      <el-table-column label="临界阈值" align="center" prop="criticalThreshold" min-width="120" />
+      <el-table-column label="警告阈值" align="center" prop="warningThreshold" min-width="120" />
       <el-table-column label="操作" align="center" width="160" fixed="right">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['equipment:param:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
+            size="small"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -100,8 +100,8 @@
     <!-- 添加或修改设备参数对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <el-form-item label="设备ID" prop="deviceId">
-          <el-input v-model="form.deviceId" placeholder="请输入设备ID" />
+        <el-form-item label="设备" prop="deviceId">
+          <device-select v-model="form.deviceId" :disabled="form.paramId != null" />
         </el-form-item>
         <el-form-item label="参数名称" prop="parameterName">
           <el-input v-model="form.parameterName" placeholder="请输入参数名称" />
@@ -141,9 +141,11 @@
 
 <script>
 import { listDeviceParam, getDeviceParam, delDeviceParam, addDeviceParam, updateDeviceParam } from "@/api/equipment/deviceParam";
+import dataAcquisitionDevice from '@/mixins/dataAcquisitionDevice'
 
 export default {
   name: "DeviceParam",
+  mixins: [dataAcquisitionDevice],
   data() {
     return {
       loading: true,
@@ -163,7 +165,7 @@ export default {
       },
       rules: {
         deviceId: [
-          { required: true, message: "设备ID不能为空", trigger: "blur" }
+          { required: true, message: "请选择设备", trigger: "blur" }
         ],
         parameterName: [
           { required: true, message: "参数名称不能为空", trigger: "blur" }
@@ -189,6 +191,7 @@ export default {
     },
     resetQuery() {
       this.resetForm("queryForm");
+      this.clearDataAcquisitionDeviceFilter();
       this.handleQuery();
     },
     handleSelectionChange(selection) {

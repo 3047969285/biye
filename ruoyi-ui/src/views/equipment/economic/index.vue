@@ -1,45 +1,66 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="80px">
-      <el-form-item label="设备ID" prop="deviceId">
-        <el-input v-model="queryParams.deviceId" placeholder="请输入设备ID" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="设备" prop="deviceId">
+        <device-select
+          :value="queryParams.deviceId"
+          placeholder="请选择设备（数据获取共用）"
+          clearable
+          style="width: 260px"
+          @input="handleDataAcquisitionDeviceChange"
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['equipment:economicData:add']">新增</el-button>
+        <el-button type="primary" plain icon="el-icon-plus" size="small" @click="handleAdd" v-hasPermi="['equipment:economicData:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['equipment:economicData:remove']">删除</el-button>
+        <el-button type="danger" plain icon="el-icon-delete" size="small" :disabled="multiple" @click="handleDelete" v-hasPermi="['equipment:economicData:remove']">删除</el-button>
       </el-col>
     </el-row>
 
     <el-table v-loading="loading" :data="dataList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="economicId" width="80" />
-      <el-table-column label="设备ID" align="center" prop="deviceId" width="100" />
-      <el-table-column label="设备编号" align="center" prop="deviceNo" width="140" show-overflow-tooltip>
+      <el-table-column label="ID" align="center" prop="economicId" min-width="80" />
+      <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceNo || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="设备名称" align="center" prop="deviceName" width="180" show-overflow-tooltip>
+      <el-table-column label="设备名称" align="center" prop="deviceName" min-width="132" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.deviceName || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="记录时间" align="center" prop="timestamp" width="180" :formatter="formatTableTime" />
-      <el-table-column label="维护成本" align="center" prop="maintainanceCost" width="120" />
-      <el-table-column label="能耗" align="center" prop="energyConsumption" width="120" />
-      <el-table-column label="人工成本" align="center" prop="laborCost" width="120" />
-      <el-table-column label="配件成本" align="center" prop="partCost" width="120" />
-      <el-table-column label="投资回报率" align="center" prop="roi" width="120" />
-      <el-table-column label="环境影响" align="center" prop="environmentalImpact" width="100">
+      <el-table-column label="记录时间" align="center" prop="timestamp" min-width="180" :formatter="formatTableTime" />
+      <el-table-column label="维护成本" align="center" prop="maintenanceCost" min-width="120">
+        <template slot-scope="scope">
+          {{ formatMoneyCell(scope.row.maintenanceCost) }}
+        </template>
+      </el-table-column>
+      <el-table-column label="能耗" align="center" prop="energyConsumption" min-width="120">
+        <template slot-scope="scope">
+          {{ formatMoneyCell(scope.row.energyConsumption) }}
+        </template>
+      </el-table-column>
+      <el-table-column label="人工成本" align="center" prop="laborCost" min-width="120">
+        <template slot-scope="scope">
+          {{ formatMoneyCell(scope.row.laborCost) }}
+        </template>
+      </el-table-column>
+      <el-table-column label="配件成本" align="center" prop="partsCost" min-width="120">
+        <template slot-scope="scope">
+          {{ formatMoneyCell(scope.row.partsCost) }}
+        </template>
+      </el-table-column>
+      <el-table-column label="投资回报率" align="center" prop="roi" min-width="120" />
+      <el-table-column label="环境影响" align="center" prop="environmentalImpact" min-width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.environmentalImpact === 1" type="success">优秀</el-tag>
           <el-tag v-else-if="scope.row.environmentalImpact === 2" type="info">良好</el-tag>
@@ -49,8 +70,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="160" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['equipment:economicData:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['equipment:economicData:remove']">删除</el-button>
+          <el-button size="small" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['equipment:economicData:edit']">修改</el-button>
+          <el-button size="small" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['equipment:economicData:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -61,8 +82,8 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="140px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="设备ID" prop="deviceId">
-              <el-input-number v-model="form.deviceId" placeholder="请输入设备ID" style="width: 100%" />
+            <el-form-item label="设备" prop="deviceId">
+              <device-select v-model="form.deviceId" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -79,8 +100,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="维护成本" prop="maintainanceCost">
-              <el-input-number v-model="form.maintainanceCost" :precision="2" style="width: 100%" />
+            <el-form-item label="维护成本" prop="maintenanceCost">
+              <el-input-number v-model="form.maintenanceCost" :precision="2" style="width: 100%" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -96,8 +117,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="配件成本" prop="partCost">
-              <el-input-number v-model="form.partCost" :precision="2" style="width: 100%" />
+            <el-form-item label="配件成本" prop="partsCost">
+              <el-input-number v-model="form.partsCost" :precision="2" style="width: 100%" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -144,8 +165,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="法规符合率" prop="regulatoryImpact">
-              <el-input-number v-model="form.regulatoryImpact" style="width: 100%" />
+            <el-form-item label="法规符合率" prop="regulatoryCompliance">
+              <el-input-number v-model="form.regulatoryCompliance" :min="0" :max="100" style="width: 100%" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -172,9 +193,11 @@
 
 <script>
 import { listEconomicData, getEconomicData, delEconomicData, addEconomicData, updateEconomicData } from "@/api/equipment/economicData";
+import dataAcquisitionDevice from '@/mixins/dataAcquisitionDevice'
 
 export default {
   name: "EconomicData",
+  mixins: [dataAcquisitionDevice],
   data() {
     return {
       loading: true,
@@ -192,7 +215,7 @@ export default {
         deviceId: null
       },
       rules: {
-        deviceId: [{ required: true, message: "设备ID不能为空", trigger: "blur" }]
+        deviceId: [{ required: true, message: "请选择设备", trigger: "blur" }]
       }
     };
   },
@@ -200,6 +223,12 @@ export default {
     this.getList();
   },
   methods: {
+    formatMoneyCell(v) {
+      if (v === null || v === undefined || v === "") {
+        return "—";
+      }
+      return v;
+    },
     // 表格时间字段格式化
     formatTableTime(row, column, cellValue) {
       if (!cellValue) {
@@ -229,6 +258,7 @@ export default {
     },
     resetQuery() {
       this.resetForm("queryForm");
+      this.clearDataAcquisitionDeviceFilter();
       this.handleQuery();
     },
     handleSelectionChange(selection) {
@@ -287,10 +317,10 @@ export default {
         economicId: null,
         deviceId: null,
         timestamp: null,
-        maintainanceCost: null,
+        maintenanceCost: null,
         energyConsumption: null,
         laborCost: null,
-        partCost: null,
+        partsCost: null,
         downtimeCost: null,
         roi: null,
         npv: null,
@@ -298,7 +328,7 @@ export default {
         annualBudget: null,
         actualSpending: null,
         budgetUtilization: null,
-        regulatoryImpact: null,
+        regulatoryCompliance: null,
         environmentalImpact: null
       };
       this.resetForm("form");

@@ -35,8 +35,8 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -47,7 +47,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+          size="small"
           @click="handleAdd"
         >新增</el-button>
       </el-col>
@@ -56,7 +56,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+          size="small"
           :disabled="multiple"
           @click="handleDelete"
         >删除</el-button>
@@ -66,15 +66,14 @@
     <!-- 数据表格 -->
     <el-table v-loading="loading" :data="deviceList" @selection-change="handleSelectionChange" border>
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="设备ID" align="center" prop="deviceId" width="80" />
-      <el-table-column label="设备编号" align="center" prop="deviceNo" width="140" />
-      <el-table-column label="设备名称" align="center" prop="deviceName" width="140" />
-      <el-table-column label="设备类型" align="center" prop="deviceType" width="120" />
-      <el-table-column label="设备型号" align="center" prop="model" width="120" />
-      <el-table-column label="制造商" align="center" prop="manufacturer" width="140" />
-      <el-table-column label="安装位置" align="center" prop="location" width="140" />
-      <el-table-column label="所属部门" align="center" prop="department" width="120" />
-      <el-table-column label="设备状态" align="center" prop="status" width="100">
+      <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" />
+      <el-table-column label="设备名称" align="center" prop="deviceName" min-width="128" />
+      <el-table-column label="设备类型" align="center" prop="deviceType" min-width="120" />
+      <el-table-column label="设备型号" align="center" prop="model" min-width="120" />
+      <el-table-column label="制造商" align="center" prop="manufacturer" min-width="140" />
+      <el-table-column label="安装位置" align="center" prop="location" min-width="140" />
+      <el-table-column label="所属部门" align="center" prop="department" min-width="120" />
+      <el-table-column label="设备状态" align="center" prop="status" min-width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === 1" type="success" @click="handleStatusChange(scope.row)">正常</el-tag>
           <el-tag v-else-if="scope.row.status === 2" type="info" @click="handleStatusChange(scope.row)">停用</el-tag>
@@ -82,11 +81,11 @@
           <el-tag v-else-if="scope.row.status === 4" type="danger" @click="handleStatusChange(scope.row)">报废</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="责任人" align="center" prop="responsiblePerson" width="100" />
+      <el-table-column label="责任人" align="center" prop="responsiblePerson" min-width="100" />
       <el-table-column label="操作" align="center" width="180" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button size="mini" type="text" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button size="small" type="text" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button size="small" type="text" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -350,8 +349,14 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const deviceIds = row.deviceId || this.ids;
-      this.$modal.confirm('是否确认删除设备编号为"' + deviceIds + '"的数据项？').then(function() {
+      const deviceIds = row ? row.deviceId : this.ids;
+      let confirmMsg = '是否确认删除所选设备？';
+      if (row && row.deviceId) {
+        const name = row.deviceName || '';
+        const no = row.deviceNo ? '（编号 ' + row.deviceNo + '）' : '';
+        confirmMsg = '是否确认删除设备「' + name + '」' + no + '？';
+      }
+      this.$modal.confirm(confirmMsg).then(function() {
         return delDevice(deviceIds);
       }).then(() => {
         this.getList();

@@ -37,7 +37,7 @@
         where s.sensor_id = #{sensorId}
     </select>
 
-    <select id="selectEqSensorListByDeviceId" parameterType="Long" resultMap="EqSensorResult">
+    <select id="selectEqSensorListByDeviceId" parameterType="String" resultMap="EqSensorResult">
         <include refid="selectEqSensorVo"/>
         where s.device_id = #{deviceId}
         order by s.device_id, s.sensor_id desc
@@ -89,7 +89,7 @@
         </foreach>
     </delete>
 
-    <delete id="deleteEqSensorByDeviceId" parameterType="Long">
+    <delete id="deleteEqSensorByDeviceId" parameterType="String">
         delete from eq_sensor where device_id = #{deviceId}
     </delete>
 

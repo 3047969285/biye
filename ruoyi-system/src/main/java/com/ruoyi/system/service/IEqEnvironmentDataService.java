@@ -6,7 +6,7 @@ import com.ruoyi.system.domain.EqEnvironmentData;
 /**
  * 环境数据Service接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-08
  */
 public interface IEqEnvironmentDataService 
@@ -33,7 +33,7 @@ public interface IEqEnvironmentDataService
      * @param deviceId 设备ID
      * @return 环境数据集合
      */
-    public List<EqEnvironmentData> selectEqEnvironmentDataListByDeviceId(Long deviceId);
+    public List<EqEnvironmentData> selectEqEnvironmentDataListByDeviceId(String deviceId);
 
     /**
      * 新增环境数据
@@ -73,7 +73,7 @@ public interface IEqEnvironmentDataService
      * @param deviceId 设备ID
      * @return 结果
      */
-    public int deleteEqEnvironmentDataByDeviceId(Long deviceId);
+    public int deleteEqEnvironmentDataByDeviceId(String deviceId);
 
     /**
      * 批量根据设备ID删除环境数据
@@ -81,5 +81,5 @@ public interface IEqEnvironmentDataService
      * @param deviceIds 设备ID数组
      * @return 结果
      */
-    public int deleteEqEnvironmentDataByDeviceIds(Long[] deviceIds);
+    public int deleteEqEnvironmentDataByDeviceIds(String[] deviceIds);
 }

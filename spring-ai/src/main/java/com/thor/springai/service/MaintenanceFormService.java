@@ -5,6 +5,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.domain.vo.MaintenanceDevicePendingVo;
 import com.ruoyi.system.mapper.*;
+import com.ruoyi.framework.websocket.BaseWebSocketHandler;
 import com.ruoyi.system.service.ISysUserMessageService;
 import com.ruoyi.system.task.MaintenanceFormNotifyTask;
 import org.slf4j.Logger;
@@ -20,7 +21,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-@Service
+/** Bean 名固定为 springAiMaintenanceFormService；Quartz 使用的 maintenanceFormService 见 ruoyi-quartz 门面类。 */
+@Service("springAiMaintenanceFormService")
 public class MaintenanceFormService {
     
     private static final Logger logger = LoggerFactory.getLogger(MaintenanceFormService.class);
@@ -30,7 +32,7 @@ public class MaintenanceFormService {
         + "statusFaultHint（状态表上的故障说明，可能为空）、faultCode（状态表故障码）、statusTime（状态更新时间）、"
         + "pendingFaults（待处理故障记录文案数组）、alerts（未恢复告警文案数组）。"
         + "请综合以上信息，用 1～2 句中文概括当前风险与处理关注点，不要堆砌字段名、不要复述长原文。"
-        + "输出必须是 JSON 数组且仅含数组，元素形如 {\"deviceId\":数字,\"summary\":\"概括\"}，不要 Markdown、不要代码围栏、不要其它说明。";
+        + "输出必须是 JSON 数组且仅含数组，元素形如 {\"deviceId\":\"设备UUID字符串\",\"summary\":\"概括\"}，deviceId 必须与输入完全一致，不要 Markdown、不要代码围栏、不要其它说明。";
 
     private static final DateTimeFormatter STATUS_TIME_FMT =
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(ZoneId.systemDefault());
@@ -59,8 +61,11 @@ public class MaintenanceFormService {
     @Autowired(required = false)
     private ChatClient chatClient;
 
-    public List<Long> parseDeviceIds(String deviceIdsStr) {
-        List<Long> deviceIds = new ArrayList<>();
+    @Autowired(required = false)
+    private BaseWebSocketHandler baseWebSocketHandler;
+
+    public List<String> parseDeviceIds(String deviceIdsStr) {
+        List<String> deviceIds = new ArrayList<>();
         if (deviceIdsStr == null || deviceIdsStr.trim().isEmpty()) {
             return deviceIds;
         }
@@ -69,11 +74,7 @@ public class MaintenanceFormService {
             if (id == null || id.trim().isEmpty()) {
                 continue;
             }
-            try {
-                deviceIds.add(Long.parseLong(id.trim()));
-            } catch (NumberFormatException e) {
-                logger.warn("无效的设备ID: {}", id);
-            }
+            deviceIds.add(id.trim());
         }
         return deviceIds;
     }
@@ -153,10 +154,13 @@ public class MaintenanceFormService {
             alertQuery.setStatus(1);
             List<EqAlertRecord> alertList = alertRecordMapper.selectEqAlertRecordList(alertQuery);
             
-            Map<Long, Map<String, Object>> deviceMap = new HashMap<>();
+            Map<String, Map<String, Object>> deviceMap = new HashMap<>();
             
             for (EqDeviceStatus status : statusList) {
-                Long deviceId = status.getDeviceId();
+                String deviceId = status.getDeviceId();
+                if (deviceId == null || deviceId.isBlank()) {
+                    continue;
+                }
                 if (!deviceMap.containsKey(deviceId)) {
                     deviceMap.put(deviceId, new HashMap<>());
                 }
@@ -177,7 +181,10 @@ public class MaintenanceFormService {
             }
             
             for (EqFaultRecord fault : faultList) {
-                Long deviceId = fault.getDeviceId();
+                String deviceId = fault.getDeviceId();
+                if (deviceId == null || deviceId.isBlank()) {
+                    continue;
+                }
                 if (!deviceMap.containsKey(deviceId)) {
                     deviceMap.put(deviceId, new HashMap<>());
                     deviceMap.get(deviceId).put("deviceId", deviceId);
@@ -212,7 +219,10 @@ public class MaintenanceFormService {
             }
             
             for (EqAlertRecord alert : alertList) {
-                Long deviceId = alert.getDeviceId();
+                String deviceId = alert.getDeviceId();
+                if (deviceId == null || deviceId.isBlank()) {
+                    continue;
+                }
                 if (!deviceMap.containsKey(deviceId)) {
                     deviceMap.put(deviceId, new HashMap<>());
                     Map<String, Object> ni = deviceMap.get(deviceId);
@@ -271,23 +281,45 @@ public class MaintenanceFormService {
      */
     public AjaxResult notifyDevicesRequiringMaintenance() {
         AjaxResult result = buildDevicesRequiringMaintenance(false);
-        if (sysUserMessageService != null) {
+        if (!result.isSuccess()) {
+            logger.warn("[检查报警] 聚合设备数据失败，已跳过站内消息同步（避免误清空待维护消息）。msg={}", result.get(AjaxResult.MSG_TAG));
+        } else if (sysUserMessageService != null) {
             try {
-                sysUserMessageService.syncMaintenanceDevicePendingMessages(parseMaintenanceDevicePendingList(result));
+                List<MaintenanceDevicePendingVo> pending = parseMaintenanceDevicePendingList(result);
+                sysUserMessageService.syncMaintenanceDevicePendingMessages(pending);
+                logger.info("[检查报警] 已同步待维护设备站内消息，设备数={}", pending.size());
+                broadcastMaintenanceNoticeIfNeeded(pending.size());
             } catch (Exception e) {
-                logger.warn("同步待维护设备站内消息失败: {}", e.getMessage());
+                logger.warn("[检查报警] 同步待维护设备站内消息失败: {}", e.getMessage(), e);
             }
         }
         if (maintenanceFormNotifyTask != null) {
             try {
                 maintenanceFormNotifyTask.scanPendingFormsAndNotify();
             } catch (Exception e) {
-                logger.warn("检查报警后扫描运维表单站内消息失败: {}", e.getMessage());
+                logger.warn("[检查报警] 扫描运维表单站内消息失败: {}", e.getMessage(), e);
             }
         } else {
             logger.debug("MaintenanceFormNotifyTask 未注入，跳过运维表单草稿扫描");
         }
         return result;
+    }
+
+    /** 与前端 main.js WebSocket 约定字段一致：type=maintenance_notice */
+    private void broadcastMaintenanceNoticeIfNeeded(int deviceCount) {
+        if (baseWebSocketHandler == null || deviceCount <= 0) {
+            return;
+        }
+        try {
+            JSONObject payload = new JSONObject();
+            payload.put("type", "maintenance_notice");
+            payload.put("title", "智能运维提醒");
+            payload.put("message", String.format("当前有 %d 台设备待维护或存在告警，请及时查看消息中心。", deviceCount));
+            payload.put("count", deviceCount);
+            baseWebSocketHandler.broadcast(payload.toJSONString());
+        } catch (Exception e) {
+            logger.debug("检查报警 WebSocket 广播跳过: {}", e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -311,17 +343,11 @@ public class MaintenanceFormService {
             }
             Map<String, Object> m = (Map<String, Object>) o;
             Object id = m.get("deviceId");
-            Long deviceId = null;
-            if (id instanceof Number) {
-                deviceId = ((Number) id).longValue();
-            } else if (id != null) {
-                try {
-                    deviceId = Long.parseLong(String.valueOf(id).trim());
-                } catch (NumberFormatException ignored) {
-                    continue;
-                }
+            if (id == null) {
+                continue;
             }
-            if (deviceId == null || deviceId <= 0) {
+            String deviceId = String.valueOf(id).trim();
+            if (deviceId.isEmpty()) {
                 continue;
             }
             String name = m.get("deviceName") != null ? String.valueOf(m.get("deviceName")) : "设备";
@@ -331,7 +357,7 @@ public class MaintenanceFormService {
         return out;
     }
     
-    public AjaxResult generateFormForDevice(Long deviceId, boolean saveToDb) {
+    public AjaxResult generateFormForDevice(String deviceId, boolean saveToDb) {
         try {
             EqDevice device = deviceMapper.selectEqDeviceByDeviceId(deviceId);
             if (device == null) {
@@ -370,12 +396,12 @@ public class MaintenanceFormService {
         }
     }
     
-    public AjaxResult batchGenerateForms(List<Long> deviceIds, boolean saveToDb) {
+    public AjaxResult batchGenerateForms(List<String> deviceIds, boolean saveToDb) {
         List<Map<String, Object>> results = new ArrayList<>();
         int successCount = 0;
         int failCount = 0;
         
-        for (Long deviceId : deviceIds) {
+        for (String deviceId : deviceIds) {
             try {
                 AjaxResult result = generateFormForDevice(deviceId, saveToDb);
                 Integer code = (Integer) result.get(AjaxResult.CODE_TAG);
@@ -814,10 +840,11 @@ public class MaintenanceFormService {
                 .user(payload)
                 .call()
                 .content();
-            Map<Long, String> byId = parseIssueAiBatchReply(reply);
+            Map<String, String> byId = parseIssueAiBatchReply(reply);
             for (Map<String, Object> d : need) {
-                long id = ((Number) d.get("deviceId")).longValue();
-                String sum = byId.get(id);
+                Object rawDid = d.get("deviceId");
+                String idStr = rawDid == null ? "" : String.valueOf(rawDid).trim();
+                String sum = byId.get(idStr);
                 if (sum == null || sum.isBlank()) {
                     sum = ruleBasedCombinedSummary(d);
                 }
@@ -980,8 +1007,8 @@ public class MaintenanceFormService {
         return JSON.toJSONString(payload);
     }
 
-    private static Map<Long, String> parseIssueAiBatchReply(String reply) {
-        Map<Long, String> out = new HashMap<>();
+    private static Map<String, String> parseIssueAiBatchReply(String reply) {
+        Map<String, String> out = new HashMap<>();
         if (reply == null) {
             return out;
         }
@@ -1008,9 +1035,10 @@ public class MaintenanceFormService {
             if (o == null) {
                 continue;
             }
-            Long id = o.getLong("deviceId");
+            Object rawId = o.get("deviceId");
+            String id = rawId == null ? null : String.valueOf(rawId).trim();
             String summary = o.getString("summary");
-            if (id != null && summary != null && !summary.isBlank()) {
+            if (id != null && !id.isEmpty() && summary != null && !summary.isBlank()) {
                 out.put(id, summary.trim());
             }
         }

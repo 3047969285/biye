@@ -37,7 +37,7 @@
             <if test="statDate != null"> and s.stat_date = #{statDate}</if>
             <if test="windForecastOnly != null and windForecastOnly == true"> and s.remark like 'WIND_FORECAST%'</if>
         </where>
-        order by s.device_id, s.stat_id desc
+        order by s.stat_date desc
     </select>
     
     <select id="selectEqDeviceStatByStatId" parameterType="Long" resultMap="EqDeviceStatResult">
@@ -45,10 +45,77 @@
         where s.stat_id = #{statId}
     </select>
 
-    <select id="selectEqDeviceStatListByDeviceId" parameterType="Long" resultMap="EqDeviceStatResult">
+    <select id="selectEqDeviceStatListByDeviceId" parameterType="String" resultMap="EqDeviceStatResult">
         <include refid="selectEqDeviceStatVo"/>
         where s.device_id = #{deviceId}
-        order by s.device_id, s.stat_id desc
+        order by s.stat_date desc
+    </select>
+
+    <!-- 设备统计页「单行汇总」：由业务表实时计算，stat_id 为空，remark=COMPUTED_AGGREGATE -->
+    <select id="selectComputedAggregateByDeviceId" parameterType="String" resultMap="EqDeviceStatResult">
+        SELECT
+            CAST(NULL AS UNSIGNED) AS stat_id,
+            d.device_id,
+            NOW() AS stat_date,
+            ROUND(IFNULL((
+                SELECT SUM(CASE WHEN o.operation_type = 1 THEN o.operation_duration ELSE 0 END)
+                FROM eq_operational_data o
+                WHERE o.device_id = d.device_id
+            ), 0) / 3600, 2) AS total_runtime_hours,
+            IFNULL((SELECT COUNT(*) FROM eq_fault_record f WHERE f.device_id = d.device_id), 0) AS total_fault_count,
+            IFNULL((SELECT COUNT(*) FROM eq_maintenance_record m WHERE m.device_id = d.device_id), 0) AS total_maintenance_count,
+            (SELECT ROUND(AVG(COALESCE(e.device_temperature, e.ambient_temperature)), 2)
+               FROM eq_environment_data e
+              WHERE e.device_id = d.device_id
+                AND (e.device_temperature IS NOT NULL OR e.ambient_temperature IS NOT NULL)
+            ) AS average_temperature,
+            (SELECT ROUND(MAX(COALESCE(e.device_temperature, e.ambient_temperature)), 2)
+               FROM eq_environment_data e
+              WHERE e.device_id = d.device_id
+                AND (e.device_temperature IS NOT NULL OR e.ambient_temperature IS NOT NULL)
+            ) AS maximum_temperature,
+            (SELECT ROUND(MIN(COALESCE(e.device_temperature, e.ambient_temperature)), 2)
+               FROM eq_environment_data e
+              WHERE e.device_id = d.device_id
+                AND (e.device_temperature IS NOT NULL OR e.ambient_temperature IS NOT NULL)
+            ) AS minimum_temperature,
+            (SELECT ROUND(AVG(el.active_power), 4)
+               FROM eq_electrical_data el
+              WHERE el.device_id = d.device_id AND el.active_power IS NOT NULL
+            ) AS average_power,
+            (SELECT CASE
+                    WHEN IFNULL(SUM(CASE WHEN x.operation_type = 1 THEN x.operation_duration ELSE 0 END), 0)
+                       + IFNULL(SUM(CASE WHEN x.operation_type = 2 THEN x.operation_duration ELSE 0 END), 0) &gt; 0
+                    THEN ROUND(100.0 * SUM(CASE WHEN x.operation_type = 1 THEN x.operation_duration ELSE 0 END)
+                        / (SUM(CASE WHEN x.operation_type = 1 THEN x.operation_duration ELSE 0 END)
+                         + SUM(CASE WHEN x.operation_type = 2 THEN x.operation_duration ELSE 0 END)), 2)
+                    ELSE NULL END
+               FROM eq_operational_data x
+              WHERE x.device_id = d.device_id
+            ) AS uptime_percentage,
+            CAST(ROUND(IFNULL((
+                SELECT SUM(CASE WHEN o2.operation_type = 2 THEN o2.operation_duration ELSE 0 END)
+                FROM eq_operational_data o2
+                WHERE o2.device_id = d.device_id
+            ), 0) / 60, 0) AS SIGNED) AS downtime_minutes,
+            (SELECT ROUND(SUM(m2.maintenance_cost), 2)
+               FROM eq_maintenance_record m2
+              WHERE m2.device_id = d.device_id
+            ) AS maintenance_cost,
+            ROUND(
+                IFNULL((SELECT COUNT(*) FROM eq_fault_record fx WHERE fx.device_id = d.device_id), 0)
+                / NULLIF(IFNULL((
+                    SELECT SUM(CASE WHEN ox.operation_type = 1 THEN ox.operation_duration ELSE 0 END)
+                    FROM eq_operational_data ox
+                    WHERE ox.device_id = d.device_id
+                ), 0) / 3600.0, 0),
+                4
+            ) AS fault_rate_per_hour,
+            'COMPUTED_AGGREGATE' AS remark,
+            d.device_no,
+            d.device_name
+        FROM eq_device d
+        WHERE d.device_id = #{deviceId}
     </select>
         
     <insert id="insertEqDeviceStat" parameterType="com.ruoyi.system.domain.EqDeviceStat">
@@ -121,7 +188,7 @@
         </foreach>
     </delete>
 
-    <delete id="deleteEqDeviceStatByDeviceId" parameterType="Long">
+    <delete id="deleteEqDeviceStatByDeviceId" parameterType="String">
         delete from eq_device_stat where device_id = #{deviceId}
     </delete>
 

@@ -23,8 +23,11 @@ public interface SysUserMessageMapper {
     int deleteUnreadByMsgType(@Param("msgType") String msgType);
 
     /** 是否已有该业务维度的消息（任意已读状态，用于同一表单/设备只推一次） */
-    int countByUserMsgTypeBizId(@Param("userId") Long userId, @Param("msgType") String msgType, @Param("bizId") Long bizId);
+    int countByUserMsgTypeBizId(@Param("userId") Long userId, @Param("msgType") String msgType, @Param("bizId") String bizId);
 
     /** 删除 biz_id 不在集合中的消息（含已读），用于待维护设备列表收缩时去掉过期设备 */
-    int deleteByMsgTypeAndBizIdNotIn(@Param("msgType") String msgType, @Param("bizIds") List<Long> bizIds);
+    int deleteByMsgTypeAndBizIdNotIn(@Param("msgType") String msgType, @Param("bizIds") List<String> bizIds);
+
+    /** 当前用户删除自己的一条消息 */
+    int deleteByMsgIdAndUserId(@Param("msgId") Long msgId, @Param("userId") Long userId);
 }

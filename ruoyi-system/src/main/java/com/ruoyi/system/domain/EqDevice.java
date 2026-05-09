@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 设备信息对象 eq_device
  *
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-07
  */
 public class EqDevice extends BaseEntity {
@@ -16,7 +16,7 @@ public class EqDevice extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** 设备ID */
-    private Long deviceId;
+    private String deviceId;
 
     /** 设备编号 */
     private String deviceNo;
@@ -61,11 +61,11 @@ public class EqDevice extends BaseEntity {
     private String responsiblePerson;
 
     // Getter and Setter methods
-    public Long getDeviceId() {
+    public String getDeviceId() {
         return deviceId;
     }
 
-    public void setDeviceId(Long deviceId) {
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
 

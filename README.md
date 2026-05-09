@@ -1,5 +1,7 @@
 # 智能电网运维系统（毕业设计）
 
+**作者：** wangchangzhen
+
 ## 技术栈
 
 - 后端：Spring Boot 3、Spring AI、MyBatis、MySQL  

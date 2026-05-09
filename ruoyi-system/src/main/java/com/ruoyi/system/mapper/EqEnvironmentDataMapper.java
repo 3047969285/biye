@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 环境数据Mapper接口
  * 
- * @author ruoyi
+ * @author wangchangzhen
  * @date 2026-01-08
  */
 @Mapper
@@ -37,7 +37,7 @@ public interface EqEnvironmentDataMapper
      * @param deviceId 设备ID
      * @return 环境数据集合
      */
-    public List<EqEnvironmentData> selectEqEnvironmentDataListByDeviceId(@Param("deviceId") Long deviceId);
+    public List<EqEnvironmentData> selectEqEnvironmentDataListByDeviceId(@Param("deviceId") String deviceId);
 
     /**
      * 新增环境数据
@@ -77,7 +77,7 @@ public interface EqEnvironmentDataMapper
      * @param deviceId 设备ID
      * @return 结果
      */
-    public int deleteEqEnvironmentDataByDeviceId(@Param("deviceId") Long deviceId);
+    public int deleteEqEnvironmentDataByDeviceId(@Param("deviceId") String deviceId);
 
     /**
      * 批量根据设备ID删除环境数据
@@ -85,5 +85,5 @@ public interface EqEnvironmentDataMapper
      * @param deviceIds 设备ID数组
      * @return 结果
      */
-    public int deleteEqEnvironmentDataByDeviceIds(@Param("deviceIds") Long[] deviceIds);
+    public int deleteEqEnvironmentDataByDeviceIds(@Param("deviceIds") String[] deviceIds);
 }

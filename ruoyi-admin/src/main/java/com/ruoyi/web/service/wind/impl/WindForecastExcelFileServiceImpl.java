@@ -25,8 +25,8 @@ public class WindForecastExcelFileServiceImpl implements WindForecastExcelFileSe
     }
 
     @Override
-    public Path resolveExcelPath(long deviceId, String kind) {
-        if (deviceId <= 0) {
+    public Path resolveExcelPath(String deviceId, String kind) {
+        if (StringUtils.isEmpty(deviceId)) {
             return null;
         }
         Path bound = resolveBoundPath(deviceId, kind);
@@ -49,8 +49,27 @@ public class WindForecastExcelFileServiceImpl implements WindForecastExcelFileSe
     }
 
     @Override
-    public Path resolveUploadTargetPath(long deviceId, String kind) {
-        if (deviceId <= 0) {
+    public Path resolveExcelPathForDownload(String deviceId, String kind) {
+        Path p = resolveExcelPath(deviceId, kind);
+        if (p != null && Files.isRegularFile(p)) {
+            return p;
+        }
+        Path target = resolveUploadTargetPath(deviceId, kind);
+        if (target != null && Files.isRegularFile(target)) {
+            return target;
+        }
+        String global = "feature".equalsIgnoreCase(kind) ? props.getFeatureExcel() : props.getRealExcel();
+        String abs = WindForecastPathResolver.toAbsolutePath(global);
+        if (StringUtils.isEmpty(abs)) {
+            return null;
+        }
+        Path g = Paths.get(abs).normalize();
+        return Files.isRegularFile(g) ? g : null;
+    }
+
+    @Override
+    public Path resolveUploadTargetPath(String deviceId, String kind) {
+        if (StringUtils.isEmpty(deviceId)) {
             return null;
         }
         Path bound = resolveBoundPath(deviceId, kind);
@@ -73,7 +92,7 @@ public class WindForecastExcelFileServiceImpl implements WindForecastExcelFileSe
     }
 
     /** 仅当绑定表里配置了该 kind 的路径时返回，否则 null（由调用方决定用设备目录或全局） */
-    private Path resolveBoundPath(long deviceId, String kind) {
+    private Path resolveBoundPath(String deviceId, String kind) {
         EqWindForecastBind bind = bindService.selectByDeviceId(deviceId);
         String raw = null;
         if ("feature".equalsIgnoreCase(kind)) {

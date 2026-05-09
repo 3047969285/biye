@@ -19,23 +19,23 @@ public interface WindForecastBridgeService {
     /**
      * 按设备（及可选路径覆盖）预测；成功后将当日平均预测功率写入该 deviceId 的 eq_device_stat，remark={@link #REMARK_WIND_FORECAST}。
      */
-    Map<String, Object> runPredict(Long deviceId, String modelPath, String featureExcel, String realExcel);
+    Map<String, Object> runPredict(String deviceId, String modelPath, String featureExcel, String realExcel);
 
     /**
      * 同上；若 {@code requestRows} 非空则优先生成临时 Excel（与页面表格一致），无需调用 /rows 存库。
      */
-    Map<String, Object> runPredict(Long deviceId, String modelPath, String featureExcel, String realExcel,
+    Map<String, Object> runPredict(String deviceId, String modelPath, String featureExcel, String realExcel,
                                    List<Map<String, Object>> requestRows);
 
     /** 上次成功预测（未指定设备时为全局/调度使用的最后一次） */
     Map<String, Object> getLastPrediction();
 
     /** 指定设备的上次成功预测，无则空 Map */
-    Map<String, Object> getLastPrediction(Long deviceId);
+    Map<String, Object> getLastPrediction(String deviceId);
 
     long getLastPredictionAtMillis();
 
-    long getLastPredictionAtMillis(Long deviceId);
+    long getLastPredictionAtMillis(String deviceId);
 
     String getLastError();
 

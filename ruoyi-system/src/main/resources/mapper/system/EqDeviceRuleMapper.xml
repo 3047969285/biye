@@ -40,7 +40,7 @@
         where r.rule_id = #{ruleId}
     </select>
 
-    <select id="selectEqDeviceRuleListByDeviceId" parameterType="Long" resultMap="EqDeviceRuleResult">
+    <select id="selectEqDeviceRuleListByDeviceId" parameterType="String" resultMap="EqDeviceRuleResult">
         <include refid="selectEqDeviceRuleVo"/>
         where r.device_id = #{deviceId}
         order by r.device_id, r.rule_id desc
@@ -101,7 +101,7 @@
         </foreach>
     </delete>
 
-    <delete id="deleteEqDeviceRuleByDeviceId" parameterType="Long">
+    <delete id="deleteEqDeviceRuleByDeviceId" parameterType="String">
         delete from eq_device_rule where device_id = #{deviceId}
     </delete>
 

@@ -17,7 +17,7 @@
         insert into sys_user_message (user_id, msg_type, title, content, biz_id, read_flag, create_time)
         values
         <foreach collection="list" item="item" separator=",">
-            (#{item.userId}, #{item.msgType}, #{item.title}, #{item.content}, #{item.bizId}, #{item.readFlag}, #{item.createTime})
+            (#{item.userId}, #{item.msgType}, #{item.title}, #{item.content}, #{item.bizId,jdbcType=VARCHAR}, #{item.readFlag}, #{item.createTime})
         </foreach>
     </insert>
 
@@ -64,8 +64,12 @@
         <if test="bizIds != null and bizIds.size() &gt; 0">
             and biz_id not in
             <foreach collection="bizIds" item="id" open="(" separator="," close=")">
-                #{id}
+                #{id,jdbcType=VARCHAR}
             </foreach>
         </if>
+    </delete>
+
+    <delete id="deleteByMsgIdAndUserId">
+        delete from sys_user_message where msg_id = #{msgId} and user_id = #{userId}
     </delete>
 </mapper>

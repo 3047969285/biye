@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * 故障记录  eq_fault_record
  *
- * @author wcz
+ * @author wangchangzhen
  * @date 2025-12-19
  */
 @Data
@@ -21,7 +21,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class EqFaultRecord extends BaseEntity {
     private Long faultId;      //故障记录ID
-    private Long deviceId;     //设备ID
+    private String deviceId;     //设备ID
     
     /** 设备编号（关联查询） */
     private String deviceNo;
