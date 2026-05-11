@@ -65,6 +65,16 @@
       <el-table-column label="传感器名称" align="center" prop="sensorName" min-width="150" />
       <el-table-column label="安装位置" align="center" prop="location" min-width="150" />
       <el-table-column label="单位" align="center" prop="unit" min-width="80" />
+      <el-table-column label="校准时间" align="center" prop="calibrationTime" min-width="160">
+        <template slot-scope="scope">
+          {{ scope.row.calibrationTime ? parseTime(scope.row.calibrationTime, '{y}-{m}-{d} {h}:{i}:{s}') : '-' }}
+        </template>
+      </el-table-column>
+      <el-table-column label="下次校准" align="center" prop="nextCalibrationTime" min-width="160">
+        <template slot-scope="scope">
+          {{ scope.row.nextCalibrationTime ? parseTime(scope.row.nextCalibrationTime, '{y}-{m}-{d} {h}:{i}:{s}') : '-' }}
+        </template>
+      </el-table-column>
       <el-table-column label="传感器状态" align="center" prop="status" min-width="120">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === 1" type="success">启用</el-tag>

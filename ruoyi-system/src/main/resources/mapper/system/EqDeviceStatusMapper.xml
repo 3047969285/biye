@@ -35,10 +35,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="faultDescription"    column="fault_description"    />
         <result property="maintenanceRequired"    column="maintenance_required"    />
         <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <sql id="selectEqDeviceStatusVo">
-        select s.status_id, s.device_id, s.timestamp, s.temperature, s.humidity, s.pressure, s.vibration, s.`current`, s.voltage, s.power, s.rpm, s.flow_rate, s.liquid_level, s.status, s.runtime_hours, s.start_count, s.fault_count, s.alarm_count, s.efficiency, s.load_factor, s.ambient_temp, s.ambient_humidity, s.noise_level, s.air_quality, s.fault_code, s.fault_description, s.maintenance_required, s.remark,
+        select s.status_id, s.device_id, s.timestamp, s.temperature, s.humidity, s.pressure, s.vibration, s.`current`, s.voltage, s.power, s.rpm, s.flow_rate, s.liquid_level, s.status, s.runtime_hours, s.start_count, s.fault_count, s.alarm_count, s.efficiency, s.load_factor, s.ambient_temp, s.ambient_humidity, s.noise_level, s.air_quality, s.fault_code, s.fault_description, s.maintenance_required, s.remark, s.create_time,
         d.device_no, d.device_name
         from eq_device_status s
         left join eq_device d on s.device_id = d.device_id
@@ -91,6 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="faultDescription != null">fault_description,</if>
             <if test="maintenanceRequired != null">maintenance_required,</if>
             <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="statusId != null">#{statusId},</if>
@@ -121,6 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="faultDescription != null">#{faultDescription},</if>
             <if test="maintenanceRequired != null">#{maintenanceRequired},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
          </trim>
     </insert>
 
@@ -154,6 +157,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="faultDescription != null">fault_description = #{faultDescription},</if>
             <if test="maintenanceRequired != null">maintenance_required = #{maintenanceRequired},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where status_id = #{statusId}
     </update>

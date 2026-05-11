@@ -26,10 +26,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="shockImpact"    column="shock_impact"    />
         <result property="maxVibrationLevel"    column="max_vibration_level"    />
         <result property="environmentGrade"    column="environment_grade"    />
+        <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <sql id="selectEqEnvironmentDataVo">
-        select e.env_id, e.device_id, e.timestamp, e.ambient_temperature, e.device_temperature, e.temperature_change_rate, e.extreme_high_temp, e.extreme_low_temp, e.humidity, e.dew_point, e.moisture_content, e.humidity_fluctuation, e.vibration_x, e.vibration_y, e.vibration_z, e.vibration_frequency, e.shock_impact, e.max_vibration_level, e.environment_grade,
+        select e.env_id, e.device_id, e.timestamp, e.ambient_temperature, e.device_temperature, e.temperature_change_rate, e.extreme_high_temp, e.extreme_low_temp, e.humidity, e.dew_point, e.moisture_content, e.humidity_fluctuation, e.vibration_x, e.vibration_y, e.vibration_z, e.vibration_frequency, e.shock_impact, e.max_vibration_level, e.environment_grade, e.create_time,
         d.device_no, d.device_name
         from eq_environment_data e
         left join eq_device d on e.device_id = d.device_id
@@ -79,6 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shockImpact != null">shock_impact,</if>
             <if test="maxVibrationLevel != null">max_vibration_level,</if>
             <if test="environmentGrade != null">environment_grade,</if>
+            <if test="createTime != null">create_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="envId != null">#{envId},</if>
@@ -100,6 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shockImpact != null">#{shockImpact},</if>
             <if test="maxVibrationLevel != null">#{maxVibrationLevel},</if>
             <if test="environmentGrade != null">#{environmentGrade},</if>
+            <if test="createTime != null">#{createTime},</if>
          </trim>
     </insert>
 
@@ -124,6 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shockImpact != null">shock_impact = #{shockImpact},</if>
             <if test="maxVibrationLevel != null">max_vibration_level = #{maxVibrationLevel},</if>
             <if test="environmentGrade != null">environment_grade = #{environmentGrade},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where env_id = #{envId}
     </update>

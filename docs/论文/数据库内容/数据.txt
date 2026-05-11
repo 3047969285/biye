@@ -62,7 +62,12 @@ INSERT INTO eq_device_stat (device_id, stat_date, total_runtime_hours, total_fau
 (@pump_id, '2023-11-30', 1251.50, 2, 2, 72.85, 75.20, 68.30, 43.0000, 98.50, 720, 4300.00),
 (@motor_id, '2023-11-30', 1251.50, 1, 2, 68.70, 71.50, 65.20, 42.1000, 99.20, 432, 2600.00);
 
--- 设备规则（eq_device_rule）种子数据已统一维护在 sql/biye.sql，通知渠道为 websocket
+-- 插入告警规则
+INSERT INTO eq_alert_rule (device_id, rule_name, parameter_name, condition_type, threshold_value, threshold_unit, alert_level, enabled) VALUES 
+(@pump_id, '出口压力过低', 'pressure', 2, 0.3000, 'MPa', 2, 1),
+(@pump_id, '温度过高', 'temperature', 1, 80.0000, '°C', 3, 1),
+(@motor_id, '电机电流过大', 'current', 1, 90.0000, 'A', 2, 1),
+(@motor_id, '振动超标', 'vibration', 1, 5.0000, 'mm/s', 2, 1);
 
 -- 插入告警记录
 INSERT INTO eq_alert_record (device_id, rule_id, alert_level, alert_message, triggered_time, resolved_time, status) VALUES 

@@ -23,6 +23,17 @@ public class WindForecastSummaryService {
         this.chatClient = chatClient;
     }
 
+    /**
+     * 仅规则/统计摘要，不调大模型；用于预测成功后写入 {@code eq_prediction.notes} 等落库字段。
+     */
+    public String summarizeLocalOnly(Map<String, Object> prediction) {
+        if (prediction == null || prediction.isEmpty()) {
+            return "";
+        }
+        String ctx = buildContext(prediction);
+        return ruleBasedSummary(prediction, ctx);
+    }
+
     public String summarize(Map<String, Object> prediction) {
         if (prediction == null || prediction.isEmpty()) {
             return "暂无预测数据，请先点击预测或等待自动预测完成。";

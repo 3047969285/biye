@@ -40,4 +40,7 @@ public interface WindForecastBridgeService {
     String getLastError();
 
     boolean isPythonReachable();
+
+    /** 组装 /latest 完整响应（状态 + 预测 + 配置），供 Controller 直接返回 */
+    Map<String, Object> buildLatestResponse(String deviceId, boolean live);
 }

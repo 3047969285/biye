@@ -14,10 +14,11 @@
         <result property="alertLevel" column="alert_level"/>
         <result property="enabled" column="enabled"/>
         <result property="notificationChannels" column="notification_channels"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectEqDeviceRuleVo">
-        select r.rule_id, r.device_id, r.rule_name, r.parameter_name, r.condition_type, r.threshold_value, r.threshold_unit, r.alert_level, r.enabled, r.notification_channels,
+        select r.rule_id, r.device_id, r.rule_name, r.parameter_name, r.condition_type, r.threshold_value, r.threshold_unit, r.alert_level, r.enabled, r.notification_channels, r.create_time,
         d.device_no, d.device_name
         from eq_device_rule r
         left join eq_device d on r.device_id = d.device_id
@@ -59,6 +60,7 @@
             <if test="alertLevel != null">alert_level,</if>
             <if test="enabled != null">enabled,</if>
             <if test="notificationChannels != null">notification_channels,</if>
+            <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="ruleId != null">#{ruleId},</if>
@@ -71,6 +73,7 @@
             <if test="alertLevel != null">#{alertLevel},</if>
             <if test="enabled != null">#{enabled},</if>
             <if test="notificationChannels != null">#{notificationChannels},</if>
+            <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 
@@ -86,6 +89,7 @@
             <if test="alertLevel != null">alert_level = #{alertLevel},</if>
             <if test="enabled != null">enabled = #{enabled},</if>
             <if test="notificationChannels != null">notification_channels = #{notificationChannels},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where rule_id = #{ruleId}
     </update>

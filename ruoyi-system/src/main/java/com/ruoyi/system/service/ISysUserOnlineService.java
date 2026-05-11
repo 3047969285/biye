@@ -1,5 +1,6 @@
 package com.ruoyi.system.service;
 
+import java.util.List;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.system.domain.SysUserOnline;
 
@@ -45,4 +46,7 @@ public interface ISysUserOnlineService
      * @return 在线用户
      */
     public SysUserOnline loginUserToUserOnline(LoginUser user);
+
+    /** 从 Redis 扫描所有在线用户 token 键，反序列化并按 ipaddr/userName 过滤 */
+    List<SysUserOnline> selectUserOnlineList(String ipaddr, String userName);
 }

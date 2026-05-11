@@ -2,17 +2,23 @@ package com.ruoyi.web.service.wind.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.EqDeviceStat;
+import com.ruoyi.system.domain.EqPrediction;
 import com.ruoyi.system.domain.EqWindForecastBind;
 import com.ruoyi.system.service.IEqDeviceStatService;
+import com.ruoyi.system.service.IEqPredictionService;
 import com.ruoyi.system.service.IEqWindForecastBindService;
+import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.web.config.properties.WindForecastProperties;
 import com.ruoyi.web.service.wind.WindForecastBridgeService;
 import com.ruoyi.web.service.wind.WindForecastDeviceDataPaths;
 import com.ruoyi.web.service.wind.WindForecastExcelFileService;
 import com.ruoyi.web.service.wind.WindForecastInlineExcelWriter;
 import com.ruoyi.web.service.wind.WindForecastPathResolver;
+import com.ruoyi.web.service.wind.WindForecastSummaryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,7 +32,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,6 +42,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
@@ -47,8 +56,11 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
     private final IEqDeviceStatService eqDeviceStatService;
+    private final IEqPredictionService eqPredictionService;
     private final IEqWindForecastBindService windForecastBindService;
     private final WindForecastExcelFileService windForecastExcelFileService;
+    private final ISysConfigService configService;
+    private final WindForecastSummaryService windForecastSummaryService;
 
     private final AtomicReference<Map<String, Object>> lastPrediction = new AtomicReference<>();
     private final AtomicReference<Long> lastPredictionAt = new AtomicReference<>(0L);
@@ -59,13 +71,19 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
 
     public WindForecastBridgeServiceImpl(WindForecastProperties props, ObjectMapper objectMapper,
                                          IEqDeviceStatService eqDeviceStatService,
+                                         IEqPredictionService eqPredictionService,
                                          IEqWindForecastBindService windForecastBindService,
-                                         WindForecastExcelFileService windForecastExcelFileService) {
+                                         WindForecastExcelFileService windForecastExcelFileService,
+                                         ISysConfigService configService,
+                                         WindForecastSummaryService windForecastSummaryService) {
         this.props = props;
         this.objectMapper = objectMapper;
         this.eqDeviceStatService = eqDeviceStatService;
+        this.eqPredictionService = eqPredictionService;
         this.windForecastBindService = windForecastBindService;
         this.windForecastExcelFileService = windForecastExcelFileService;
+        this.configService = configService;
+        this.windForecastSummaryService = windForecastSummaryService;
         this.httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .version(HttpClient.Version.HTTP_1_1)
@@ -250,7 +268,7 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
                 err.put("httpStatus", sc);
                 return err;
             }
-            if (Boolean.TRUE.equals(parsed.get("success"))) {
+            if (isPythonPredictSuccess(parsed)) {
                 parsed.put("run_device_id", statDeviceId);
                 lastPrediction.set(parsed);
                 lastPredictionAt.set(System.currentTimeMillis());
@@ -259,6 +277,12 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
                     lastPredictionAtByDevice.put(statDeviceId, System.currentTimeMillis());
                 }
                 syncWindStatToDevice(parsed, statDeviceId);
+                if (props.isPersistEqPrediction()) {
+                    persistEqPredictionFromPython(parsed, statDeviceId);
+                } else {
+                    parsed.put("eq_prediction_persisted", Boolean.FALSE);
+                    parsed.put("eq_prediction_skip", "wind.forecast.persist-eq-prediction=false");
+                }
             } else {
                 lastError.set(String.valueOf(parsed.getOrDefault("message", responseBody)));
             }
@@ -435,6 +459,252 @@ public class WindForecastBridgeServiceImpl implements WindForecastBridgeService 
             }
         } catch (Exception e) {
             log.warn("写入风力设备统计失败 deviceId={}: {}", targetDeviceId, e.getMessage());
+        }
+    }
+
+    /**
+     * 将 Python FastAPI {@code /predict} 成功返回的指标写入 {@code eq_prediction}，与「设备预测」菜单打通。
+     */
+    private void persistEqPredictionFromPython(Map<String, Object> parsed, String targetDeviceId) {
+        if (StringUtils.isEmpty(targetDeviceId)) {
+            parsed.put("eq_prediction_persisted", Boolean.FALSE);
+            parsed.put("eq_prediction_skip", "no_device_id");
+            return;
+        }
+        try {
+            Date now = DateUtils.getNowDate();
+            Double r2 = toDouble(parsed.get("r2"));
+            Double rmse = toDouble(parsed.get("rmse"));
+            Double mae = toDouble(parsed.get("mae"));
+
+            EqPrediction row = new EqPrediction();
+            row.setDeviceId(targetDeviceId.trim());
+            row.setPredictionTime(now);
+            if (r2 != null) {
+                double c = Math.max(0d, Math.min(1d, r2));
+                row.setPredictionConfidence(BigDecimal.valueOf(c).setScale(4, RoundingMode.HALF_UP));
+            }
+            int status;
+            if (r2 == null) {
+                status = 1;
+            } else if (r2 >= 0.75) {
+                status = 1;
+            } else if (r2 >= 0.5) {
+                status = 2;
+            } else {
+                status = 3;
+            }
+            row.setPredictedStatus(status);
+            int risk;
+            if (r2 == null) {
+                risk = 1;
+            } else if (r2 >= 0.75) {
+                risk = 1;
+            } else if (r2 >= 0.5) {
+                risk = 2;
+            } else {
+                risk = 3;
+            }
+            row.setRiskLevel(risk);
+            row.setExpectedFailureTime(parsePythonSegmentTimeToDate(parsed.get("segment_time_end")));
+
+            Object futObj = parsed.get("future_points");
+            int futurePts = futObj instanceof Number ? ((Number) futObj).intValue() : 0;
+            row.setRecommendedAction(String.format(Locale.CHINA,
+                "【风电功率预测】R²=%s，RMSE=%s，MAE=%s；总点数=%s（含未来延长约 %s 点）。请结合曲线核查偏差。",
+                fmt4(r2), fmt4(rmse), fmt4(mae),
+                String.valueOf(parsed.getOrDefault("predict_length", "")),
+                futurePts));
+            row.setActionTaken(1);
+            try {
+                row.setNotes(buildPythonPredictionNotesJson(parsed));
+            } catch (Exception ex) {
+                log.warn("构建预测 notes JSON 失败，使用占位: {}", ex.getMessage());
+                row.setNotes("{\"build_notes_error\":true,\"message\":\"" + escapeJsonFragment(safeExMessage(ex)) + "\"}");
+            }
+            row.setCreateBy(resolveWindPredictionCreateBy());
+            row.setCreateTime(now);
+            int n = eqPredictionService.insertEqPrediction(row);
+            if (n < 1) {
+                throw new IllegalStateException("insertEqPrediction 影响行数为 " + n + "，请检查 eq_prediction 表与 Mapper");
+            }
+            parsed.put("eq_prediction_persisted", Boolean.TRUE);
+            parsed.put("eq_prediction_insert_rows", n);
+            log.info("eq_prediction 已写入：deviceId={} predictionTime={} rows={}", targetDeviceId, now, n);
+        } catch (Exception e) {
+            log.error("eq_prediction 落库失败 deviceId={}", targetDeviceId, e);
+            parsed.put("eq_prediction_persisted", Boolean.FALSE);
+            parsed.put("eq_prediction_error", safeExMessage(e));
+        }
+    }
+
+    private static String escapeJsonFragment(String raw) {
+        if (raw == null) {
+            return "";
+        }
+        return raw.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", " ").replace("\n", " ").substring(0, Math.min(500, raw.length()));
+    }
+
+    /** Python 返回的 success 可能是 Boolean / 数值 / 字符串，统一判断。 */
+    private static boolean isPythonPredictSuccess(Map<String, Object> parsed) {
+        if (parsed == null) {
+            return false;
+        }
+        Object s = parsed.get("success");
+        if (Boolean.TRUE.equals(s)) {
+            return true;
+        }
+        if (s instanceof Number) {
+            return ((Number) s).intValue() != 0;
+        }
+        if (s instanceof String) {
+            String t = ((String) s).trim();
+            return "true".equalsIgnoreCase(t) || "1".equals(t);
+        }
+        return false;
+    }
+
+    private static String fmt4(Double d) {
+        return d == null ? "—" : String.format(Locale.CHINA, "%.4f", d);
+    }
+
+    private static String resolveWindPredictionCreateBy() {
+        try {
+            String u = SecurityUtils.getUsername();
+            return StringUtils.isNotEmpty(u) ? u : "wind_python";
+        } catch (Exception e) {
+            return "wind_python";
+        }
+    }
+
+    private String buildPythonPredictionNotesJson(Map<String, Object> parsed) {
+        Map<String, Object> slim = new HashMap<>();
+        slim.put("rmse", parsed.get("rmse"));
+        slim.put("mae", parsed.get("mae"));
+        slim.put("r2", parsed.get("r2"));
+        slim.put("predict_length", parsed.get("predict_length"));
+        slim.put("compare_length", parsed.get("compare_length"));
+        slim.put("future_points", parsed.get("future_points"));
+        slim.put("segment_time_start", parsed.get("segment_time_start"));
+        slim.put("segment_time_end", parsed.get("segment_time_end"));
+        slim.put("align_note", parsed.get("align_note"));
+        slim.put("excel_meta", parsed.get("excel_meta"));
+        try {
+            String local = windForecastSummaryService.summarizeLocalOnly(parsed);
+            if (StringUtils.isNotEmpty(local)) {
+                slim.put("local_summary", local);
+            }
+        } catch (Exception ignored) {
+            // 摘要失败不影响落库
+        }
+        try {
+            String s = objectMapper.writeValueAsString(slim);
+            final int max = 12000;
+            return s.length() > max ? s.substring(0, max) + "…" : s;
+        } catch (Exception e) {
+            return String.valueOf(parsed.get("message"));
+        }
+    }
+
+    private static Date parsePythonSegmentTimeToDate(Object o) {
+        if (o == null) {
+            return null;
+        }
+        String s = String.valueOf(o).trim();
+        if (s.isEmpty()) {
+            return null;
+        }
+        try {
+            LocalDateTime ldt = LocalDateTime.parse(s);
+            return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+        } catch (Exception ignored) {
+            // fall through
+        }
+        try {
+            return Date.from(Instant.parse(s));
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    private static Double toDouble(Object o) {
+        if (o == null) {
+            return null;
+        }
+        if (o instanceof Number) {
+            return ((Number) o).doubleValue();
+        }
+        try {
+            return Double.parseDouble(String.valueOf(o).trim());
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Map<String, Object> buildLatestResponse(String deviceId, boolean live) {
+        if (live && props.isEnabled() && isPythonReachable()) {
+            String runId = (deviceId != null && !deviceId.isBlank()) ? deviceId.trim() : props.getBindDeviceId();
+            if (StringUtils.isNotEmpty(runId)) {
+                runPredict(runId, null, null, null, null);
+            } else {
+                runPredict();
+            }
+        }
+
+        boolean hasDeviceId = StringUtils.isNotEmpty(deviceId);
+        Map<String, Object> prediction = hasDeviceId
+            ? getLastPrediction(deviceId.trim())
+            : getLastPrediction();
+        long at = hasDeviceId
+            ? getLastPredictionAtMillis(deviceId.trim())
+            : getLastPredictionAtMillis();
+
+        Map<String, Object> out = new HashMap<>();
+        out.put("enabled", props.isEnabled());
+        out.put("pythonBaseUrl", props.baseUrl());
+        out.put("reachable", isPythonReachable());
+        out.put("pythonStatus", fetchPythonStatus());
+        out.put("lastPredictionAt", at);
+        out.put("prediction", prediction);
+        out.put("lastError", getLastError());
+        out.put("queryDeviceId", deviceId != null ? deviceId : "");
+
+        Map<String, Object> cfg = new HashMap<>();
+        cfg.put("modelPath", props.getModelPath() != null ? props.getModelPath() : "");
+        cfg.put("featureExcel", props.getFeatureExcel() != null ? props.getFeatureExcel() : "");
+        cfg.put("realExcel", props.getRealExcel() != null ? props.getRealExcel() : "");
+        cfg.put("predictLength", props.getPredictLength());
+        cfg.put("predictStartIndex", props.getPredictStartIndex());
+        cfg.put("forecastPointIntervalMinutes", props.getForecastPointIntervalMinutes());
+        cfg.put("forecastExtraMinutes", props.getForecastExtraMinutes());
+        cfg.put("beyondDataPoints", props.getBeyondDataPoints());
+        cfg.put("scheduleIntervalMs", props.getScheduleIntervalMs());
+        cfg.put("scheduleInitialDelayMs", props.getScheduleInitialDelayMs());
+        cfg.put("bindDeviceId", props.getBindDeviceId() != null ? props.getBindDeviceId() : "");
+        cfg.put("persistEqPrediction", props.isPersistEqPrediction());
+        cfg.put("clientPollIntervalSec", resolveClientPollIntervalSec());
+        out.put("config", cfg);
+        return out;
+    }
+
+    private int resolveClientPollIntervalSec() {
+        final int min = 30;
+        final int max = 3600;
+        String raw = configService.selectConfigByKey("client.poll.interval.seconds");
+        int sec = (raw != null && !raw.isBlank()) ? safeParseInt(raw.trim(), -1) : -1;
+        if (sec < min || sec > max) {
+            long ms = props.getScheduleIntervalMs();
+            sec = (int) Math.max(min, Math.min(max, ms / 1000L));
+        }
+        return sec;
+    }
+
+    private static int safeParseInt(String s, int dflt) {
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return dflt;
         }
     }
 

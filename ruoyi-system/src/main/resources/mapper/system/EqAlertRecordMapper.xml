@@ -19,10 +19,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="resolvedBy"    column="resolved_by"    />
         <result property="resolutionNotes"    column="resolution_notes"    />
         <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <sql id="selectEqAlertRecordVo">
-        select a.alert_id, a.device_id, a.rule_id, a.alert_level, a.alert_type, a.alert_message, a.triggered_time, a.resolved_time, a.status, a.resolved_by, a.resolution_notes, a.remark,
+        select a.alert_id, a.device_id, a.rule_id, a.alert_level, a.alert_type, a.alert_message, a.triggered_time, a.resolved_time, a.status, a.resolved_by, a.resolution_notes, a.remark, a.create_time,
         d.device_no, d.device_name
         from eq_alert_record a
         left join eq_device d on a.device_id = d.device_id
@@ -80,6 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="resolvedBy != null">resolved_by,</if>
             <if test="resolutionNotes != null">resolution_notes,</if>
             <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="alertId != null">#{alertId},</if>
@@ -94,6 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="resolvedBy != null">#{resolvedBy},</if>
             <if test="resolutionNotes != null">#{resolutionNotes},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
          </trim>
     </insert>
 
@@ -111,6 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="resolvedBy != null">resolved_by = #{resolvedBy},</if>
             <if test="resolutionNotes != null">resolution_notes = #{resolutionNotes},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where alert_id = #{alertId}
     </update>

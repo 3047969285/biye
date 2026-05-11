@@ -18,10 +18,14 @@
         <result property="partsReplaced" column="parts_replaced"/>
         <result property="status" column="status"/>
         <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="selectEqFaultRecordVo">
-        select f.fault_id, f.device_id, f.fault_code, f.fault_description, f.fault_level, f.detected_time, f.resolved_time, f.resolution_notes, f.root_cause, f.repair_duration, f.repair_cost, f.parts_replaced, f.status, f.remark,
+        select f.fault_id, f.device_id, f.fault_code, f.fault_description, f.fault_level, f.detected_time, f.resolved_time, f.resolution_notes, f.root_cause, f.repair_duration, f.repair_cost, f.parts_replaced, f.status, f.remark, f.create_by, f.create_time, f.update_by, f.update_time,
         d.device_no, d.device_name
         from eq_fault_record f
         left join eq_device d on f.device_id = d.device_id
@@ -34,7 +38,7 @@
             <if test="deviceNo != null and deviceNo != ''"> and d.device_no like concat('%', #{deviceNo}, '%')</if>
             <if test="deviceName != null and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
             <if test="faultCode != null and faultCode != ''"> and f.fault_code like concat('%', #{faultCode}, '%')</if>
-            <if test="faultLevel != null and faultLevel != ''"> and f.fault_level = #{faultLevel}</if>
+            <if test="faultLevel != null"> and f.fault_level = #{faultLevel}</if>
             <if test="status != null"> and f.status = #{status}</if>
         </where>
         order by f.detected_time desc
@@ -58,7 +62,7 @@
             <if test="deviceId != null">device_id,</if>
             <if test="faultCode != null and faultCode != ''">fault_code,</if>
             <if test="faultDescription != null">fault_description,</if>
-            <if test="faultLevel != null and faultLevel != ''">fault_level,</if>
+            <if test="faultLevel != null">fault_level,</if>
             <if test="detectedTime != null">detected_time,</if>
             <if test="resolvedTime != null">resolved_time,</if>
             <if test="resolutionNotes != null">resolution_notes,</if>
@@ -68,13 +72,17 @@
             <if test="partsReplaced != null">parts_replaced,</if>
             <if test="status != null">status,</if>
             <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="faultId != null">#{faultId},</if>
             <if test="deviceId != null">#{deviceId},</if>
             <if test="faultCode != null and faultCode != ''">#{faultCode},</if>
             <if test="faultDescription != null">#{faultDescription},</if>
-            <if test="faultLevel != null and faultLevel != ''">#{faultLevel},</if>
+            <if test="faultLevel != null">#{faultLevel},</if>
             <if test="detectedTime != null">#{detectedTime},</if>
             <if test="resolvedTime != null">#{resolvedTime},</if>
             <if test="resolutionNotes != null">#{resolutionNotes},</if>
@@ -84,6 +92,10 @@
             <if test="partsReplaced != null">#{partsReplaced},</if>
             <if test="status != null">#{status},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
         </trim>
     </insert>
 
@@ -93,7 +105,7 @@
             <if test="deviceId != null">device_id = #{deviceId},</if>
             <if test="faultCode != null and faultCode != ''">fault_code = #{faultCode},</if>
             <if test="faultDescription != null">fault_description = #{faultDescription},</if>
-            <if test="faultLevel != null and faultLevel != ''">fault_level = #{faultLevel},</if>
+            <if test="faultLevel != null">fault_level = #{faultLevel},</if>
             <if test="detectedTime != null">detected_time = #{detectedTime},</if>
             <if test="resolvedTime != null">resolved_time = #{resolvedTime},</if>
             <if test="resolutionNotes != null">resolution_notes = #{resolutionNotes},</if>
@@ -103,6 +115,10 @@
             <if test="partsReplaced != null">parts_replaced = #{partsReplaced},</if>
             <if test="status != null">status = #{status},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where fault_id = #{faultId}
     </update>

@@ -1,5 +1,6 @@
 package com.ruoyi.framework.web.service;
 
+import java.util.Date;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -172,5 +173,25 @@ public class SysLoginService
     public void recordLoginInfo(Long userId)
     {
         userService.updateLoginInfo(userId, IpUtils.getIpAddr(), DateUtils.getNowDate());
+    }
+
+    /** 检查初始密码是否需要提醒修改 */
+    public boolean isInitPasswordModify(Date pwdUpdateDate) {
+        Integer initPasswordModify = com.ruoyi.common.core.text.Convert.toInt(
+            configService.selectConfigByKey("sys.account.initPasswordModify"));
+        return initPasswordModify != null && initPasswordModify == 1 && pwdUpdateDate == null;
+    }
+
+    /** 检查密码是否过期 */
+    public boolean isPasswordExpired(Date pwdUpdateDate) {
+        Integer passwordValidateDays = com.ruoyi.common.core.text.Convert.toInt(
+            configService.selectConfigByKey("sys.account.passwordValidateDays"));
+        if (passwordValidateDays != null && passwordValidateDays > 0) {
+            if (StringUtils.isNull(pwdUpdateDate)) {
+                return true;
+            }
+            return DateUtils.differentDaysByMillisecond(DateUtils.getNowDate(), pwdUpdateDate) > passwordValidateDays;
+        }
+        return false;
     }
 }

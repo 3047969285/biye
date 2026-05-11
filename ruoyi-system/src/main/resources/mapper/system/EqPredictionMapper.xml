@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EqPredictionMapper">
+
+    <resultMap type="com.ruoyi.system.domain.EqPrediction" id="EqPredictionResult">
+        <result property="predictionId" column="prediction_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="predictionTime" column="prediction_time"/>
+        <result property="predictedStatus" column="predicted_status"/>
+        <result property="predictionConfidence" column="prediction_confidence"/>
+        <result property="riskLevel" column="risk_level"/>
+        <result property="expectedFailureTime" column="expected_failure_time"/>
+        <result property="recommendedAction" column="recommended_action"/>
+        <result property="preventiveCost" column="preventive_cost"/>
+        <result property="actionTaken" column="action_taken"/>
+        <result property="actionTakenDate" column="action_taken_date"/>
+        <result property="notes" column="notes"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectEqPredictionVo">
+        select p.prediction_id, p.device_id, p.prediction_time, p.predicted_status, p.prediction_confidence,
+               p.risk_level, p.expected_failure_time, p.recommended_action, p.preventive_cost, p.action_taken,
+               p.action_taken_date, p.notes, p.create_by, p.create_time, p.update_by, p.update_time,
+               d.device_no, d.device_name
+        from eq_prediction p
+        left join eq_device d on p.device_id = d.device_id
+    </sql>
+
+    <select id="selectEqPredictionList" parameterType="com.ruoyi.system.domain.EqPrediction" resultMap="EqPredictionResult">
+        <include refid="selectEqPredictionVo"/>
+        <where>
+            <if test="deviceId != null and deviceId != ''">and p.device_id = #{deviceId}</if>
+            <if test="deviceNo != null and deviceNo != ''">and d.device_no like concat('%', #{deviceNo}, '%')</if>
+            <if test="deviceName != null and deviceName != ''">and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="predictedStatus != null">and p.predicted_status = #{predictedStatus}</if>
+            <if test="riskLevel != null">and p.risk_level = #{riskLevel}</if>
+        </where>
+        order by p.prediction_time desc, p.prediction_id desc
+    </select>
+
+    <select id="selectEqPredictionByPredictionId" parameterType="Long" resultMap="EqPredictionResult">
+        <include refid="selectEqPredictionVo"/>
+        where p.prediction_id = #{predictionId}
+    </select>
+
+    <select id="selectEqPredictionListByDeviceId" parameterType="String" resultMap="EqPredictionResult">
+        <include refid="selectEqPredictionVo"/>
+        where p.device_id = #{deviceId}
+        order by p.prediction_time desc, p.prediction_id desc
+    </select>
+
+    <!-- 固定列插入，避免动态 trim 在部分环境下生成空列/错列导致静默失败 -->
+    <insert id="insertEqPrediction" parameterType="com.ruoyi.system.domain.EqPrediction"
+            useGeneratedKeys="true" keyProperty="predictionId" keyColumn="prediction_id">
+        insert into eq_prediction (
+            device_id, prediction_time, predicted_status, prediction_confidence, risk_level,
+            expected_failure_time, recommended_action, preventive_cost, action_taken, action_taken_date,
+            notes, create_by, create_time, update_by, update_time
+        ) values (
+            #{deviceId}, #{predictionTime}, #{predictedStatus}, #{predictionConfidence}, #{riskLevel},
+            #{expectedFailureTime}, #{recommendedAction}, #{preventiveCost}, #{actionTaken}, #{actionTakenDate},
+            #{notes}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
+        )
+    </insert>
+
+    <update id="updateEqPrediction" parameterType="com.ruoyi.system.domain.EqPrediction">
+        update eq_prediction
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="predictionTime != null">prediction_time = #{predictionTime},</if>
+            <if test="predictedStatus != null">predicted_status = #{predictedStatus},</if>
+            <if test="predictionConfidence != null">prediction_confidence = #{predictionConfidence},</if>
+            <if test="riskLevel != null">risk_level = #{riskLevel},</if>
+            <if test="expectedFailureTime != null">expected_failure_time = #{expectedFailureTime},</if>
+            <if test="recommendedAction != null">recommended_action = #{recommendedAction},</if>
+            <if test="preventiveCost != null">preventive_cost = #{preventiveCost},</if>
+            <if test="actionTaken != null">action_taken = #{actionTaken},</if>
+            <if test="actionTakenDate != null">action_taken_date = #{actionTakenDate},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where prediction_id = #{predictionId}
+    </update>
+
+    <delete id="deleteEqPredictionByPredictionId" parameterType="Long">
+        delete from eq_prediction where prediction_id = #{predictionId}
+    </delete>
+
+    <delete id="deleteEqPredictionByPredictionIds">
+        delete from eq_prediction where prediction_id in
+        <foreach item="id" collection="predictionIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteEqPredictionByDeviceId" parameterType="String">
+        delete from eq_prediction where device_id = #{deviceId}
+    </delete>
+
+    <delete id="deleteEqPredictionByDeviceIds">
+        delete from eq_prediction where device_id in
+        <foreach item="deviceId" collection="deviceIds" open="(" separator="," close=")">
+            #{deviceId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,7 +1,6 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -50,11 +49,8 @@ public class SysDeptController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:dept:list')")
     @GetMapping("/list/exclude/{deptId}")
-    public AjaxResult excludeChild(@PathVariable(value = "deptId", required = false) Long deptId)
-    {
-        List<SysDept> depts = deptService.selectDeptList(new SysDept());
-        depts.removeIf(d -> d.getDeptId().intValue() == deptId || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""));
-        return success(depts);
+    public AjaxResult excludeChild(@PathVariable(value = "deptId", required = false) Long deptId) {
+        return success(deptService.selectDeptListExcludingChild(deptId));
     }
 
     /**

@@ -18,10 +18,11 @@
         <result property="connectivityLevel" column="connectivity_level"/>
         <result property="technologyMaturity" column="technology_maturity"/>
         <result property="obsolescenceRisk" column="obsolescence_risk"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectEqTechnologyDataVo">
-        select t.tech_id, t.device_id, t.timestamp, t.technology_level, t.upgrade_status, t.standard_compliance, t.certification_status, t.software_version, t.firmware_version, t.system_updates, t.digitalization_level, t.connectivity_level, t.technology_maturity, t.obsolescence_risk,
+        select t.tech_id, t.device_id, t.timestamp, t.technology_level, t.upgrade_status, t.standard_compliance, t.certification_status, t.software_version, t.firmware_version, t.system_updates, t.digitalization_level, t.connectivity_level, t.technology_maturity, t.obsolescence_risk, t.create_time,
         d.device_no, d.device_name
         from eq_technology_data t
         left join eq_device d on t.device_id = d.device_id
@@ -66,6 +67,7 @@
             <if test="connectivityLevel != null">connectivity_level,</if>
             <if test="technologyMaturity != null">technology_maturity,</if>
             <if test="obsolescenceRisk != null">obsolescence_risk,</if>
+            <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="techId != null">#{techId},</if>
@@ -82,6 +84,7 @@
             <if test="connectivityLevel != null">#{connectivityLevel},</if>
             <if test="technologyMaturity != null">#{technologyMaturity},</if>
             <if test="obsolescenceRisk != null">#{obsolescenceRisk},</if>
+            <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 
@@ -101,6 +104,7 @@
             <if test="connectivityLevel != null">connectivity_level = #{connectivityLevel},</if>
             <if test="technologyMaturity != null">technology_maturity = #{technologyMaturity},</if>
             <if test="obsolescenceRisk != null">obsolescence_risk = #{obsolescenceRisk},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where tech_id = #{techId}
     </update>

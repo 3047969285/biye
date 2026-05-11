@@ -11,14 +11,24 @@
         <result property="weatherCondition" column="weather_condition"/>
         <result property="precipitation" column="precipitation"/>
         <result property="windSpeed" column="wind_speed"/>
+        <result property="windDirection" column="wind_direction"/>
+        <result property="extremeWeather" column="extreme_weather"/>
+        <result property="weatherDuration" column="weather_duration"/>
         <result property="temperatureExtreme" column="temperature_extreme"/>
+        <result property="naturalDisasters" column="natural_disaster"/>
+        <result property="disasterIntensity" column="disaster_intensity"/>
+        <result property="disasterDuration" column="disaster_duration"/>
         <result property="airQualityIndex" column="air_quality_index"/>
         <result property="pollutionLevel" column="pollution_level"/>
+        <result property="uvIndex" column="uv_index"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectEqClimateDataVo">
-        select c.climate_id, c.device_id, c.timestamp, c.season, c.weather_condition, c.precipitation, c.wind_speed, c.temperature_extreme, c.air_quality_index, c.pollution_level,
-        d.device_no, d.device_name
+        select c.climate_id, c.device_id, c.timestamp, c.season, c.weather_condition, c.precipitation, c.wind_speed,
+               c.wind_direction, c.extreme_weather, c.weather_duration, c.temperature_extreme,
+               c.natural_disaster, c.disaster_intensity, c.disaster_duration, c.air_quality_index, c.pollution_level, c.uv_index, c.create_time,
+               d.device_no, d.device_name
         from eq_climate_data c
         left join eq_device d on c.device_id = d.device_id
     </sql>
@@ -34,7 +44,7 @@
         </where>
         order by c.timestamp desc
     </select>
-    
+
     <select id="selectEqClimateDataByClimateId" parameterType="Long" resultMap="EqClimateDataResult">
         <include refid="selectEqClimateDataVo"/>
         where c.climate_id = #{climateId}
@@ -45,7 +55,7 @@
         where c.device_id = #{deviceId}
         order by c.timestamp desc
     </select>
-        
+
     <insert id="insertEqClimateData" parameterType="com.ruoyi.system.domain.EqClimateData">
         insert into eq_climate_data
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -56,9 +66,17 @@
             <if test="weatherCondition != null">weather_condition,</if>
             <if test="precipitation != null">precipitation,</if>
             <if test="windSpeed != null">wind_speed,</if>
+            <if test="windDirection != null">wind_direction,</if>
+            <if test="extremeWeather != null">extreme_weather,</if>
+            <if test="weatherDuration != null">weather_duration,</if>
             <if test="temperatureExtreme != null">temperature_extreme,</if>
+            <if test="naturalDisasters != null">natural_disaster,</if>
+            <if test="disasterIntensity != null">disaster_intensity,</if>
+            <if test="disasterDuration != null">disaster_duration,</if>
             <if test="airQualityIndex != null">air_quality_index,</if>
             <if test="pollutionLevel != null">pollution_level,</if>
+            <if test="uvIndex != null">uv_index,</if>
+            <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="climateId != null">#{climateId},</if>
@@ -68,9 +86,17 @@
             <if test="weatherCondition != null">#{weatherCondition},</if>
             <if test="precipitation != null">#{precipitation},</if>
             <if test="windSpeed != null">#{windSpeed},</if>
+            <if test="windDirection != null">#{windDirection},</if>
+            <if test="extremeWeather != null">#{extremeWeather},</if>
+            <if test="weatherDuration != null">#{weatherDuration},</if>
             <if test="temperatureExtreme != null">#{temperatureExtreme},</if>
+            <if test="naturalDisasters != null">#{naturalDisasters},</if>
+            <if test="disasterIntensity != null">#{disasterIntensity},</if>
+            <if test="disasterDuration != null">#{disasterDuration},</if>
             <if test="airQualityIndex != null">#{airQualityIndex},</if>
             <if test="pollutionLevel != null">#{pollutionLevel},</if>
+            <if test="uvIndex != null">#{uvIndex},</if>
+            <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 
@@ -83,9 +109,17 @@
             <if test="weatherCondition != null">weather_condition = #{weatherCondition},</if>
             <if test="precipitation != null">precipitation = #{precipitation},</if>
             <if test="windSpeed != null">wind_speed = #{windSpeed},</if>
+            <if test="windDirection != null">wind_direction = #{windDirection},</if>
+            <if test="extremeWeather != null">extreme_weather = #{extremeWeather},</if>
+            <if test="weatherDuration != null">weather_duration = #{weatherDuration},</if>
             <if test="temperatureExtreme != null">temperature_extreme = #{temperatureExtreme},</if>
+            <if test="naturalDisasters != null">natural_disaster = #{naturalDisasters},</if>
+            <if test="disasterIntensity != null">disaster_intensity = #{disasterIntensity},</if>
+            <if test="disasterDuration != null">disaster_duration = #{disasterDuration},</if>
             <if test="airQualityIndex != null">air_quality_index = #{airQualityIndex},</if>
             <if test="pollutionLevel != null">pollution_level = #{pollutionLevel},</if>
+            <if test="uvIndex != null">uv_index = #{uvIndex},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where climate_id = #{climateId}
     </update>

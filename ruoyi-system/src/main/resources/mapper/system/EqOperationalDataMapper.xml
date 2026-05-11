@@ -21,10 +21,11 @@
         <result property="partsUsed" column="parts_used"/>
         <result property="operatorPerformanceScore" column="operator_performance_score"/>
         <result property="safetyCompliance" column="safety_compliance"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectEqOperationalDataVo">
-        select o.operational_id, o.device_id, o.timestamp, o.operator_id, o.operator_name, o.operator_skill_level, o.training_completion, o.operation_type, o.operation_duration, o.operation_result, o.operation_notes, o.maintenance_type, o.maintenance_duration, o.maintenance_cost, o.parts_used, o.operator_performance_score, o.safety_compliance,
+        select o.operational_id, o.device_id, o.timestamp, o.operator_id, o.operator_name, o.operator_skill_level, o.training_completion, o.operation_type, o.operation_duration, o.operation_result, o.operation_notes, o.maintenance_type, o.maintenance_duration, o.maintenance_cost, o.parts_used, o.operator_performance_score, o.safety_compliance, o.create_time,
         d.device_no, d.device_name
         from eq_operational_data o
         left join eq_device d on o.device_id = d.device_id
@@ -74,6 +75,7 @@
             <if test="partsUsed != null">parts_used,</if>
             <if test="operatorPerformanceScore != null">operator_performance_score,</if>
             <if test="safetyCompliance != null">safety_compliance,</if>
+            <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="operationalId != null">#{operationalId},</if>
@@ -93,6 +95,7 @@
             <if test="partsUsed != null">#{partsUsed},</if>
             <if test="operatorPerformanceScore != null">#{operatorPerformanceScore},</if>
             <if test="safetyCompliance != null">#{safetyCompliance},</if>
+            <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 
@@ -115,6 +118,7 @@
             <if test="partsUsed != null">parts_used = #{partsUsed},</if>
             <if test="operatorPerformanceScore != null">operator_performance_score = #{operatorPerformanceScore},</if>
             <if test="safetyCompliance != null">safety_compliance = #{safetyCompliance},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where operational_id = #{operationalId}
     </update>

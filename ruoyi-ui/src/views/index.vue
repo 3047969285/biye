@@ -103,9 +103,29 @@
                     <span class="info-value">{{ device.location || '—' }}</span>
                   </div>
                   <div class="device-info-row device-info-row--foot">
-                    <span class="info-label">记录</span>
-                    <span class="info-value highlight-count">{{ device.totalCount || 0 }}</span>
-                    <span class="info-meta">{{ Object.keys(device.tableCounts || {}).filter(k => device.tableCounts[k] > 0).length }}/15 表</span>
+                    <span class="info-label">数据</span>
+                    <div class="device-data-summary">
+                      <span class="summary-total">
+                        <strong class="highlight-count">{{ device.totalCount || 0 }}</strong>
+                        <span class="summary-unit">条</span>
+                      </span>
+                      <span class="summary-sep" aria-hidden="true">·</span>
+                      <el-tooltip
+                        effect="dark"
+                        placement="top"
+                        :open-delay="280"
+                        popper-class="device-dim-tooltip"
+                      >
+                        <div slot="content" class="dim-tooltip-body">
+                          「类」表示系统为该设备统计的<strong>业务数据表种类</strong>（如设备状态、参数、告警等）。<br>
+                          形如「3/{{ dataDimensionTotal }}」表示：共有 {{ dataDimensionTotal }} 类表参与统计，其中 3 类里已有数据。<br>
+                          这与<strong>设备总台数</strong>无关；您当前列表里的设备台数见分组标题上的「N 台」。
+                        </div>
+                        <span class="summary-dim">
+                          {{ deviceActiveDataTypeCount(device) }}/{{ dataDimensionTotal }} 类有数据
+                        </span>
+                      </el-tooltip>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -189,7 +209,10 @@
             >
               <div class="tab-pane-inner">
                 <div v-if="!tab.data || tab.data.length === 0" class="empty-data-tip">
-                  暂无数据
+                  <template v-if="tab.name === 'prediction'">
+                    暂无预测记录。本页展示库表 eq_prediction：由「发电预测」对该设备的 device_id 预测成功且后端开启落库后写入；若在其它设备（如变压器）下查看而从未对该设备跑过预测，此处为空属正常。请在「发电预测」中选择<strong>当前设备</strong>执行「立即预测」后，再切换回本标签或重新打开本窗口。
+                  </template>
+                  <template v-else>暂无数据</template>
                 </div>
                 <el-table 
                   v-else
@@ -207,6 +230,7 @@
                     :label="col.label"
                     :width="col.width"
                     :min-width="col.minWidth || 120"
+                    :formatter="col.formatter"
                     align="center"
                     show-overflow-tooltip
                   />
@@ -236,7 +260,41 @@ import { listSensorByDeviceId } from '@/api/equipment/sensor'
 import { listClimateDataByDeviceId } from '@/api/equipment/climateData'
 import { listFaultRecordByDeviceId } from '@/api/equipment/faultRecord'
 import { listDeviceRuleByDeviceId } from '@/api/equipment/deviceRule'
+import { listPredictionByDeviceId } from '@/api/equipment/prediction'
 import { listDeviceStatus } from '@/api/equipment/deviceStatus'
+
+/** 详情表空值显示（与 el-table formatter 签名一致） */
+function fmtDash(row, column, cellValue) {
+  if (cellValue === null || cellValue === undefined || cellValue === '') return '—'
+  return cellValue
+}
+
+function mkEnumFormatter(map) {
+  return (row, column, cellValue) => {
+    if (cellValue === null || cellValue === undefined || cellValue === '') return '—'
+    return map[cellValue] != null ? map[cellValue] : String(cellValue)
+  }
+}
+
+const MAP_MAINT_TYPE = { 1: '预防性', 2: '纠正性', 3: '预测性', 4: '紧急' }
+const MAP_MAINT_STATUS = { 1: '已完成', 2: '安排中', 3: '进行中', 4: '已取消' }
+const MAP_ALERT_STATUS = { 1: '已触发', 2: '已解决', 3: '已确认' }
+const MAP_DEVICE_STATUS = { 1: '正常', 2: '警告', 3: '错误', 4: '离线' }
+const MAP_OPERATION_TYPE = { 1: '开机', 2: '关机', 3: '调试', 4: '维护', 5: '故障处理' }
+const MAP_OPERATION_RESULT = { 1: '成功', 2: '失败', 3: '警告' }
+const MAP_RULE_COND = { 1: '大于', 2: '小于', 3: '等于', 4: '区间' }
+const MAP_RULE_ALERT = { 1: '警报', 2: '严重', 3: '紧急' }
+const MAP_ENABLED = { 0: '禁用', 1: '启用' }
+const MAP_FAULT_STATUS = { 1: '待处理', 2: '已解决', 3: '处理中' }
+const MAP_SENSOR_STATUS = { 1: '启用', 2: '停用', 3: '校准中' }
+const MAP_TECH_LEVEL = { 1: '落后', 2: '一般', 3: '先进', 4: '领先' }
+const MAP_GRADE_4 = { 1: '优良', 2: '良好', 3: '一般', 4: '较差' }
+const MAP_CERT = { 1: '有效', 2: '过期', 3: '待审核' }
+const MAP_POLLUTION = { 1: '优', 2: '良', 3: '轻度污染', 4: '中度污染', 5: '重度污染' }
+const MAP_SEASON = { 1: '春', 2: '夏', 3: '秋', 4: '冬' }
+const MAP_PREDICTED_STATUS = { 1: '正常', 2: '警告', 3: '错误', 4: '离线' }
+const MAP_RISK_LEVEL = { 1: '低', 2: '中', 3: '高' }
+const MAP_ACTION_TAKEN = { 1: '待处理', 2: '已处理', 3: '忽略' }
 
 export default {
   name: 'Dashboard',
@@ -262,7 +320,9 @@ export default {
       pageSize: 24,
       totalDevices: 0,
       /** 按类型折叠面板：当前页切换或筛选后默认全部展开 */
-      collapseActiveNames: []
+      collapseActiveNames: [],
+      /** 后台参与统计的数据表种类数（与设备台数无关） */
+      dataDimensionTotal: 16
     }
   },
   computed: {
@@ -302,7 +362,16 @@ export default {
       try {
         const response = await getDeviceDashboardData()
         if (response.code === 200) {
-          this.originalDeviceData = response.data.devices || []
+          const payload = response.data || {}
+          this.originalDeviceData = payload.devices || []
+          const tables = payload.tables
+          if (Array.isArray(tables) && tables.length > 0) {
+            this.dataDimensionTotal = tables.length
+          } else if (this.originalDeviceData[0] && this.originalDeviceData[0].tableCounts) {
+            this.dataDimensionTotal = Object.keys(this.originalDeviceData[0].tableCounts).length
+          } else {
+            this.dataDimensionTotal = 16
+          }
           this.deviceData = [...this.originalDeviceData]
           this.calculateStatistics()
           this.applyPagination()
@@ -381,7 +450,8 @@ export default {
         'eq_sensor': '传感器',
         'eq_climate_data': '气候数据',
         'eq_fault_record': '故障记录',
-        'eq_device_rule': '设备规则'
+        'eq_device_rule': '设备规则',
+        'eq_prediction': '预测结果'
       }
       return nameMap[tableName] || tableName
     },
@@ -411,20 +481,21 @@ export default {
       }
     },
     initializeDataTabs() {
+      // 列 prop 须与 ruoyi-system/domain 下实体字段一致，否则表格会一直空白
       this.dataTabs = [
         {
           name: 'deviceStatus',
           label: '设备状态',
           api: (id) => listDeviceStatus({ deviceId: id }),
           columns: [
-            { prop: 'timestamp', label: '采集时间', width: 180 },
-            { prop: 'temperature', label: '温度(℃)', width: 100 },
-            { prop: 'humidity', label: '湿度(%)', width: 100 },
-            { prop: 'pressure', label: '压力(Pa)', width: 120 },
-            { prop: 'current', label: '电流(A)', width: 100 },
-            { prop: 'voltage', label: '电压(V)', width: 100 },
-            { prop: 'power', label: '功率(kW)', width: 100 },
-            { prop: 'status', label: '状态', width: 100 }
+            { prop: 'timestamp', label: '采集时间', minWidth: 168 },
+            { prop: 'temperature', label: '温度(℃)', width: 100, formatter: fmtDash },
+            { prop: 'humidity', label: '湿度(%)', width: 100, formatter: fmtDash },
+            { prop: 'pressure', label: '压力(Pa)', width: 110, formatter: fmtDash },
+            { prop: 'current', label: '电流(A)', width: 100, formatter: fmtDash },
+            { prop: 'voltage', label: '电压(V)', width: 100, formatter: fmtDash },
+            { prop: 'power', label: '功率(kW)', width: 100, formatter: fmtDash },
+            { prop: 'status', label: '状态', width: 100, formatter: mkEnumFormatter(MAP_DEVICE_STATUS) }
           ],
           data: [],
           loading: false
@@ -434,15 +505,16 @@ export default {
           label: '设备参数',
           api: listDeviceParamByDeviceId,
           columns: [
-            { prop: 'paramId', label: '参数ID', width: 100 },
-            { prop: 'parameterName', label: '参数名称', width: 150 },
-            { prop: 'parameterValue', label: '参数值', width: 120 },
-            { prop: 'unit', label: '单位', width: 80 },
-            { prop: 'defaultValue', label: '默认值', width: 120 },
-            { prop: 'minValue', label: '最小值', width: 120 },
-            { prop: 'maxValue', label: '最大值', width: 120 },
-            { prop: 'criticalThreshold', label: '临界阈值', width: 120 },
-            { prop: 'warningThreshold', label: '警告阈值', width: 120 }
+            { prop: 'paramId', label: '参数ID', width: 90 },
+            { prop: 'parameterName', label: '参数名称', minWidth: 130 },
+            { prop: 'parameterValue', label: '参数值', width: 100, formatter: fmtDash },
+            { prop: 'unit', label: '单位', width: 72, formatter: fmtDash },
+            { prop: 'defaultValue', label: '默认值', width: 100, formatter: fmtDash },
+            { prop: 'minValue', label: '最小值', width: 100, formatter: fmtDash },
+            { prop: 'maxValue', label: '最大值', width: 100, formatter: fmtDash },
+            { prop: 'criticalThreshold', label: '临界阈值', width: 110, formatter: fmtDash },
+            { prop: 'warningThreshold', label: '警告阈值', width: 110, formatter: fmtDash },
+            { prop: 'lastUpdated', label: '最后更新', minWidth: 160, formatter: fmtDash }
           ],
           data: [],
           loading: false
@@ -452,14 +524,16 @@ export default {
           label: '统计数据',
           api: listDeviceStatByDeviceId,
           columns: [
-            { prop: 'statId', label: '统计ID', width: 100 },
-            { prop: 'statDate', label: '统计日期', width: 150 },
-            { prop: 'totalRuntimeHours', label: '总运行时间(小时)', width: 150 },
-            { prop: 'totalFaultCount', label: '总故障次数', width: 120 },
-            { prop: 'totalMaintenanceCount', label: '总维护次数', width: 130 },
-            { prop: 'averageTemperature', label: '平均温度(℃)', width: 130 },
-            { prop: 'uptimePercentage', label: '运行率(%)', width: 120 },
-            { prop: 'faultRatePerHour', label: '故障率(/小时)', width: 140 }
+            { prop: 'statId', label: '统计ID', width: 90 },
+            { prop: 'statDate', label: '统计日期', minWidth: 160 },
+            { prop: 'totalRuntimeHours', label: '总运行时间(小时)', width: 140, formatter: fmtDash },
+            { prop: 'totalFaultCount', label: '总故障次数', width: 100, formatter: fmtDash },
+            { prop: 'totalMaintenanceCount', label: '总维护次数', width: 110, formatter: fmtDash },
+            { prop: 'averageTemperature', label: '平均温度(℃)', width: 120, formatter: fmtDash },
+            { prop: 'maximumTemperature', label: '最高温度(℃)', width: 120, formatter: fmtDash },
+            { prop: 'minimumTemperature', label: '最低温度(℃)', width: 120, formatter: fmtDash },
+            { prop: 'uptimePercentage', label: '运行率(%)', width: 110, formatter: fmtDash },
+            { prop: 'faultRatePerHour', label: '故障率(/小时)', width: 120, formatter: fmtDash }
           ],
           data: [],
           loading: false
@@ -469,12 +543,14 @@ export default {
           label: '维护记录',
           api: listMaintenanceRecordByDeviceId,
           columns: [
-            { prop: 'recordId', label: '记录ID', width: 100 },
-            { prop: 'maintenanceDate', label: '维护日期', width: 150 },
-            { prop: 'maintenanceType', label: '维护类型', width: 120 },
-            { prop: 'maintenancePerson', label: '维护人员', width: 120 },
-            { prop: 'maintenanceCost', label: '维护费用', width: 120 },
-            { prop: 'maintenanceDescription', label: '维护描述', minWidth: 200 }
+            { prop: 'recordId', label: '记录ID', width: 90 },
+            { prop: 'maintenanceDate', label: '维护日期', minWidth: 160 },
+            { prop: 'maintenanceType', label: '维护类型', width: 100, formatter: mkEnumFormatter(MAP_MAINT_TYPE) },
+            { prop: 'performedBy', label: '执行人员', minWidth: 100, formatter: fmtDash },
+            { prop: 'maintenanceCost', label: '维护费用', width: 110, formatter: fmtDash },
+            { prop: 'description', label: '维护描述', minWidth: 160, formatter: fmtDash },
+            { prop: 'nextMaintenanceDate', label: '下次维护', minWidth: 160, formatter: fmtDash },
+            { prop: 'status', label: '记录状态', width: 100, formatter: mkEnumFormatter(MAP_MAINT_STATUS) }
           ],
           data: [],
           loading: false
@@ -484,12 +560,13 @@ export default {
           label: '告警记录',
           api: listAlertRecordByDeviceId,
           columns: [
-            { prop: 'alertId', label: '告警ID', width: 100 },
-            { prop: 'alertTime', label: '告警时间', width: 180 },
-            { prop: 'alertLevel', label: '告警级别', width: 120 },
-            { prop: 'alertType', label: '告警类型', width: 120 },
-            { prop: 'alertMessage', label: '告警信息', minWidth: 200 },
-            { prop: 'alertStatus', label: '告警状态', width: 120 }
+            { prop: 'alertId', label: '告警ID', width: 90 },
+            { prop: 'triggeredTime', label: '告警时间', minWidth: 168 },
+            { prop: 'alertLevel', label: '告警级别', width: 100, formatter: fmtDash },
+            { prop: 'alertType', label: '告警类型', minWidth: 130, formatter: fmtDash },
+            { prop: 'alertMessage', label: '告警信息', minWidth: 200, formatter: fmtDash },
+            { prop: 'status', label: '告警状态', width: 100, formatter: mkEnumFormatter(MAP_ALERT_STATUS) },
+            { prop: 'resolvedTime', label: '解决时间', minWidth: 168, formatter: fmtDash }
           ],
           data: [],
           loading: false
@@ -499,13 +576,15 @@ export default {
           label: '环境数据',
           api: listEnvironmentDataByDeviceId,
           columns: [
-            { prop: 'envId', label: '环境ID', width: 100 },
-            { prop: 'timestamp', label: '时间戳', width: 180 },
-            { prop: 'temperature', label: '温度(℃)', width: 120 },
-            { prop: 'humidity', label: '湿度(%)', width: 120 },
-            { prop: 'pressure', label: '压力(Pa)', width: 120 },
-            { prop: 'airQuality', label: '空气质量', width: 120 },
-            { prop: 'noiseLevel', label: '噪音水平(dB)', width: 140 }
+            { prop: 'envId', label: '环境ID', width: 90 },
+            { prop: 'timestamp', label: '采集时间', minWidth: 168 },
+            { prop: 'ambientTemperature', label: '环境温度(℃)', width: 120, formatter: fmtDash },
+            { prop: 'deviceTemperature', label: '设备温度(℃)', width: 120, formatter: fmtDash },
+            { prop: 'humidity', label: '湿度(%)', width: 100, formatter: fmtDash },
+            { prop: 'dewPoint', label: '露点(℃)', width: 100, formatter: fmtDash },
+            { prop: 'vibrationX', label: '振动X(mm/s)', width: 120, formatter: fmtDash },
+            { prop: 'vibrationY', label: '振动Y(mm/s)', width: 120, formatter: fmtDash },
+            { prop: 'environmentGrade', label: '环境等级', width: 100, formatter: mkEnumFormatter(MAP_GRADE_4) }
           ],
           data: [],
           loading: false
@@ -515,12 +594,15 @@ export default {
           label: '经济数据',
           api: listEconomicDataByDeviceId,
           columns: [
-            { prop: 'economicId', label: '经济ID', width: 100 },
-            { prop: 'timestamp', label: '时间戳', width: 180 },
-            { prop: 'energyCost', label: '能耗成本', width: 120 },
-            { prop: 'maintenanceCost', label: '维护成本', width: 120 },
-            { prop: 'operatingCost', label: '运营成本', width: 120 },
-            { prop: 'totalCost', label: '总成本', width: 120 }
+            { prop: 'economicId', label: '经济ID', width: 90 },
+            { prop: 'timestamp', label: '记录时间', minWidth: 168 },
+            { prop: 'maintenanceCost', label: '维护成本', width: 110, formatter: fmtDash },
+            { prop: 'energyConsumption', label: '能耗', width: 110, formatter: fmtDash },
+            { prop: 'laborCost', label: '人工成本', width: 110, formatter: fmtDash },
+            { prop: 'partsCost', label: '配件成本', width: 110, formatter: fmtDash },
+            { prop: 'downtimeCost', label: '停机损失', width: 110, formatter: fmtDash },
+            { prop: 'actualSpending', label: '实际支出', width: 110, formatter: fmtDash },
+            { prop: 'roi', label: 'ROI', width: 90, formatter: fmtDash }
           ],
           data: [],
           loading: false
@@ -530,13 +612,18 @@ export default {
           label: '电气数据',
           api: listElectricalDataByDeviceId,
           columns: [
-            { prop: 'electricalId', label: '电气ID', width: 100 },
-            { prop: 'timestamp', label: '时间戳', width: 180 },
-            { prop: 'voltage', label: '电压(V)', width: 120 },
-            { prop: 'current', label: '电流(A)', width: 120 },
-            { prop: 'power', label: '功率(kW)', width: 120 },
-            { prop: 'frequency', label: '频率(Hz)', width: 120 },
-            { prop: 'powerFactor', label: '功率因数', width: 120 }
+            { prop: 'electricalId', label: '电气ID', width: 90 },
+            { prop: 'timestamp', label: '采集时间', minWidth: 168 },
+            { prop: 'voltageL1', label: 'L1电压', width: 100, formatter: fmtDash },
+            { prop: 'voltageL2', label: 'L2电压', width: 100, formatter: fmtDash },
+            { prop: 'voltageL3', label: 'L3电压', width: 100, formatter: fmtDash },
+            { prop: 'currentL1', label: 'L1电流', width: 100, formatter: fmtDash },
+            { prop: 'currentL2', label: 'L2电流', width: 100, formatter: fmtDash },
+            { prop: 'currentL3', label: 'L3电流', width: 100, formatter: fmtDash },
+            { prop: 'activePower', label: '有功功率(kW)', width: 120, formatter: fmtDash },
+            { prop: 'frequency', label: '频率(Hz)', width: 100, formatter: fmtDash },
+            { prop: 'powerFactor', label: '功率因数', width: 100, formatter: fmtDash },
+            { prop: 'electricalGrade', label: '电气等级', width: 100, formatter: mkEnumFormatter(MAP_GRADE_4) }
           ],
           data: [],
           loading: false
@@ -546,11 +633,15 @@ export default {
           label: '技术数据',
           api: listTechnologyDataByDeviceId,
           columns: [
-            { prop: 'techId', label: '技术ID', width: 100 },
-            { prop: 'timestamp', label: '时间戳', width: 180 },
-            { prop: 'technologyType', label: '技术类型', width: 150 },
-            { prop: 'technologyValue', label: '技术值', width: 150 },
-            { prop: 'technologyUnit', label: '技术单位', width: 130 }
+            { prop: 'techId', label: '技术ID', width: 90 },
+            { prop: 'timestamp', label: '更新时间', minWidth: 168 },
+            { prop: 'technologyLevel', label: '技术等级', width: 100, formatter: mkEnumFormatter(MAP_TECH_LEVEL) },
+            { prop: 'softwareVersion', label: '软件版本', minWidth: 110, formatter: fmtDash },
+            { prop: 'firmwareVersion', label: '固件版本', minWidth: 110, formatter: fmtDash },
+            { prop: 'digitalizationLevel', label: '数字化等级', width: 110, formatter: fmtDash },
+            { prop: 'technologyMaturity', label: '技术成熟度', width: 110, formatter: fmtDash },
+            { prop: 'certificationStatus', label: '认证状态', width: 100, formatter: mkEnumFormatter(MAP_CERT) },
+            { prop: 'obsolescenceRisk', label: '淘汰风险', width: 100, formatter: fmtDash }
           ],
           data: [],
           loading: false
@@ -560,12 +651,14 @@ export default {
           label: '机械数据',
           api: listMechanicalDataByDeviceId,
           columns: [
-            { prop: 'mechanicalId', label: '机械ID', width: 100 },
-            { prop: 'timestamp', label: '时间戳', width: 180 },
-            { prop: 'vibration', label: '振动(mm/s)', width: 140 },
-            { prop: 'rpm', label: '转速(rpm)', width: 120 },
-            { prop: 'torque', label: '扭矩(N·m)', width: 120 },
-            { prop: 'temperature', label: '温度(℃)', width: 120 }
+            { prop: 'mechanicalId', label: '机械ID', width: 90 },
+            { prop: 'timestamp', label: '采集时间', minWidth: 168 },
+            { prop: 'vibrationVelocity', label: '振动速度(mm/s)', width: 130, formatter: fmtDash },
+            { prop: 'vibrationAmplitude', label: '振动振幅(mm)', width: 120, formatter: fmtDash },
+            { prop: 'materialTemperature', label: '材料温度(℃)', width: 120, formatter: fmtDash },
+            { prop: 'loadWeight', label: '载荷(kg)', width: 100, formatter: fmtDash },
+            { prop: 'fatigueCycles', label: '疲劳循环', width: 100, formatter: fmtDash },
+            { prop: 'mechanicalGrade', label: '机械等级', width: 100, formatter: mkEnumFormatter(MAP_GRADE_4) }
           ],
           data: [],
           loading: false
@@ -575,11 +668,13 @@ export default {
           label: '操作数据',
           api: listOperationalDataByDeviceId,
           columns: [
-            { prop: 'operationalId', label: '操作ID', width: 100 },
-            { prop: 'timestamp', label: '时间戳', width: 180 },
-            { prop: 'operationType', label: '操作类型', width: 150 },
-            { prop: 'operationValue', label: '操作值', width: 150 },
-            { prop: 'operator', label: '操作员', width: 120 }
+            { prop: 'operationalId', label: '操作ID', width: 90 },
+            { prop: 'timestamp', label: '操作时间', minWidth: 168 },
+            { prop: 'operationType', label: '操作类型', width: 100, formatter: mkEnumFormatter(MAP_OPERATION_TYPE) },
+            { prop: 'operationDuration', label: '时长(秒)', width: 100, formatter: fmtDash },
+            { prop: 'operationResult', label: '操作结果', width: 100, formatter: mkEnumFormatter(MAP_OPERATION_RESULT) },
+            { prop: 'operatorName', label: '操作员', minWidth: 100, formatter: fmtDash },
+            { prop: 'operationNotes', label: '操作备注', minWidth: 160, formatter: fmtDash }
           ],
           data: [],
           loading: false
@@ -589,11 +684,14 @@ export default {
           label: '传感器',
           api: listSensorByDeviceId,
           columns: [
-            { prop: 'sensorId', label: '传感器ID', width: 120 },
-            { prop: 'sensorType', label: '传感器类型', width: 150 },
-            { prop: 'sensorValue', label: '传感器值', width: 150 },
-            { prop: 'sensorUnit', label: '传感器单位', width: 140 },
-            { prop: 'sensorStatus', label: '传感器状态', width: 130 }
+            { prop: 'sensorId', label: '传感器ID', width: 100 },
+            { prop: 'sensorType', label: '传感器类型', minWidth: 120, formatter: fmtDash },
+            { prop: 'sensorName', label: '传感器名称', minWidth: 120, formatter: fmtDash },
+            { prop: 'location', label: '安装位置', minWidth: 120, formatter: fmtDash },
+            { prop: 'unit', label: '单位', width: 72, formatter: fmtDash },
+            { prop: 'status', label: '状态', width: 90, formatter: mkEnumFormatter(MAP_SENSOR_STATUS) },
+            { prop: 'calibrationTime', label: '校准时间', minWidth: 160, formatter: fmtDash },
+            { prop: 'nextCalibrationTime', label: '下次校准', minWidth: 160, formatter: fmtDash }
           ],
           data: [],
           loading: false
@@ -603,13 +701,22 @@ export default {
           label: '气候数据',
           api: listClimateDataByDeviceId,
           columns: [
-            { prop: 'climateId', label: '气候ID', width: 100 },
-            { prop: 'timestamp', label: '时间戳', width: 180 },
-            { prop: 'season', label: '季节', width: 100 },
-            { prop: 'weatherCondition', label: '天气状况', width: 150 },
-            { prop: 'precipitation', label: '降水量(mm)', width: 130 },
-            { prop: 'windSpeed', label: '风速(m/s)', width: 130 },
-            { prop: 'temperature', label: '温度(℃)', width: 120 }
+            { prop: 'climateId', label: '气候ID', width: 90 },
+            { prop: 'timestamp', label: '采集时间', minWidth: 168 },
+            { prop: 'season', label: '季节(库)', width: 80, formatter: mkEnumFormatter(MAP_SEASON) },
+            { prop: 'weatherCondition', label: '天气状况', minWidth: 100, formatter: fmtDash },
+            { prop: 'precipitation', label: '降水量(mm)', width: 110, formatter: fmtDash },
+            { prop: 'windSpeed', label: '风速(m/s)', width: 100, formatter: fmtDash },
+            { prop: 'windDirection', label: '风向', minWidth: 90, formatter: fmtDash },
+            { prop: 'extremeWeather', label: '极端天气', width: 100, formatter: fmtDash },
+            { prop: 'weatherDuration', label: '天气持续(h)', width: 110, formatter: fmtDash },
+            { prop: 'temperatureExtreme', label: '极端温度', width: 100, formatter: fmtDash },
+            { prop: 'naturalDisasters', label: '自然灾害', width: 100, formatter: fmtDash },
+            { prop: 'disasterIntensity', label: '灾害强度', width: 100, formatter: fmtDash },
+            { prop: 'disasterDuration', label: '灾害持续(h)', width: 110, formatter: fmtDash },
+            { prop: 'airQualityIndex', label: '空气质量指数', width: 120, formatter: fmtDash },
+            { prop: 'pollutionLevel', label: '污染等级', width: 110, formatter: mkEnumFormatter(MAP_POLLUTION) },
+            { prop: 'uvIndex', label: '紫外线指数', width: 110, formatter: fmtDash }
           ],
           data: [],
           loading: false
@@ -619,12 +726,33 @@ export default {
           label: '故障记录',
           api: listFaultRecordByDeviceId,
           columns: [
-            { prop: 'faultId', label: '故障ID', width: 100 },
-            { prop: 'faultTime', label: '故障时间', width: 180 },
-            { prop: 'faultType', label: '故障类型', width: 150 },
-            { prop: 'faultDescription', label: '故障描述', minWidth: 200 },
-            { prop: 'faultStatus', label: '故障状态', width: 120 },
-            { prop: 'repairTime', label: '修复时间', width: 180 }
+            { prop: 'faultId', label: '故障ID', width: 90 },
+            { prop: 'detectedTime', label: '发现时间', minWidth: 168, formatter: fmtDash },
+            { prop: 'faultCode', label: '故障代码', minWidth: 100, formatter: fmtDash },
+            { prop: 'faultLevel', label: '故障等级', width: 100, formatter: fmtDash },
+            { prop: 'faultDescription', label: '故障描述', minWidth: 180, formatter: fmtDash },
+            { prop: 'status', label: '处理状态', width: 100, formatter: mkEnumFormatter(MAP_FAULT_STATUS) },
+            { prop: 'resolvedTime', label: '解决时间', minWidth: 168, formatter: fmtDash },
+            { prop: 'repairCost', label: '修复成本', width: 100, formatter: fmtDash }
+          ],
+          data: [],
+          loading: false
+        },
+        {
+          name: 'prediction',
+          label: '预测结果',
+          api: listPredictionByDeviceId,
+          columns: [
+            { prop: 'predictionId', label: '预测ID', width: 90 },
+            { prop: 'predictionTime', label: '预测时间', minWidth: 168, formatter: fmtDash },
+            { prop: 'predictedStatus', label: '预测状态', width: 100, formatter: mkEnumFormatter(MAP_PREDICTED_STATUS) },
+            { prop: 'predictionConfidence', label: '置信度', width: 100, formatter: fmtDash },
+            { prop: 'riskLevel', label: '风险', width: 80, formatter: mkEnumFormatter(MAP_RISK_LEVEL) },
+            { prop: 'expectedFailureTime', label: '预计故障时间', minWidth: 168, formatter: fmtDash },
+            { prop: 'preventiveCost', label: '预防成本', width: 100, formatter: fmtDash },
+            { prop: 'actionTaken', label: '行动', width: 90, formatter: mkEnumFormatter(MAP_ACTION_TAKEN) },
+            { prop: 'recommendedAction', label: '建议措施', minWidth: 160, formatter: fmtDash },
+            { prop: 'notes', label: '备注(notes)', minWidth: 120, formatter: fmtDash }
           ],
           data: [],
           loading: false
@@ -634,20 +762,41 @@ export default {
           label: '设备规则',
           api: listDeviceRuleByDeviceId,
           columns: [
-            { prop: 'ruleId', label: '规则ID', width: 100 },
-            { prop: 'ruleName', label: '规则名称', width: 200 },
-            { prop: 'ruleType', label: '规则类型', width: 150 },
-            { prop: 'ruleCondition', label: '规则条件', minWidth: 200 },
-            { prop: 'ruleAction', label: '规则动作', minWidth: 200 },
-            { prop: 'ruleStatus', label: '规则状态', width: 120 }
+            { prop: 'ruleId', label: '规则ID', width: 90 },
+            { prop: 'ruleName', label: '规则名称', minWidth: 140, formatter: fmtDash },
+            { prop: 'parameterName', label: '参数名称', minWidth: 120, formatter: fmtDash },
+            { prop: 'conditionType', label: '条件类型', width: 100, formatter: mkEnumFormatter(MAP_RULE_COND) },
+            { prop: 'thresholdValue', label: '阈值', width: 100, formatter: fmtDash },
+            { prop: 'thresholdUnit', label: '阈值单位', width: 100, formatter: fmtDash },
+            { prop: 'alertLevel', label: '告警等级', width: 100, formatter: mkEnumFormatter(MAP_RULE_ALERT) },
+            { prop: 'enabled', label: '启用', width: 80, formatter: mkEnumFormatter(MAP_ENABLED) },
+            { prop: 'notificationChannels', label: '通知渠道', minWidth: 140, formatter: fmtDash }
           ],
           data: [],
           loading: false
         }
       ]
     },
-    handleTabClick(tab) {
-      // 标签页切换，不做任何操作，数据已全部加载
+    /** 切换分项 Tab 时重新拉取该 Tab 数据（避免先打开详情再跑预测时「预测结果」一直显示暂无数据） */
+    async handleTabClick(tab) {
+      if (!this.selectedDevice || !tab || !tab.name) return
+      const tabConfig = this.dataTabs.find((t) => t.name === tab.name)
+      if (!tabConfig || typeof tabConfig.api !== 'function') return
+      try {
+        const response = await tabConfig.api(this.selectedDevice.deviceId)
+        if (response && response.code === 200) {
+          let data = response.data
+          if (data == null && response.rows != null) {
+            data = response.rows
+          }
+          tabConfig.data = Array.isArray(data) ? data : []
+        } else {
+          tabConfig.data = []
+        }
+      } catch (error) {
+        console.error(`刷新「${tabConfig.label}」失败:`, error)
+        tabConfig.data = []
+      }
     },
     async loadAllTabData() {
       if (!this.selectedDevice) return
@@ -690,7 +839,8 @@ export default {
         '传感器': 'eq_sensor',
         '气候数据': 'eq_climate_data',
         '故障记录': 'eq_fault_record',
-        '设备规则': 'eq_device_rule'
+        '设备规则': 'eq_device_rule',
+        '预测结果': 'eq_prediction'
       }
       return map[category] || ''
     },
@@ -710,6 +860,11 @@ export default {
       if (status === 3) return 'warning'
       if (status === 4) return 'danger'
       return ''
+    },
+    /** 该设备在多少类业务表中已有至少一条记录 */
+    deviceActiveDataTypeCount(device) {
+      const tc = device.tableCounts || {}
+      return Object.keys(tc).filter(k => (tc[k] || 0) > 0).length
     }
   }
 }
@@ -728,13 +883,13 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 
   .dashboard-title {
-    color: $text-primary;
-    font-size: 18px;
-    font-weight: 600;
     margin: 0;
+    color: $text-primary;
+    font-size: 16px;
+    font-weight: 600;
   }
 }
 
@@ -743,11 +898,18 @@ export default {
 }
 
 .stat-card {
+  border-radius: 0;
   background: $primary-bg;
   border: 1px solid $border-color;
   border-left: 3px solid $text-disabled;
   padding: 12px 14px;
-  margin-bottom: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: rgba(94, 161, 255, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
 
   .stat-value {
     font-size: 22px;
@@ -901,9 +1063,13 @@ export default {
       cursor: pointer;
       border: 1px solid $border-color;
       border-left: 3px solid $accent-color;
+      transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
 
       &:hover {
         background: $primary-bg;
+        border-color: rgba(94, 161, 255, 0.28);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
       }
 
       &.status-normal {
@@ -933,11 +1099,12 @@ export default {
         .device-name {
           font-size: 14px;
           font-weight: 600;
-          color: $text-primary;
+          color: #eef2f8;
           flex: 1;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          letter-spacing: 0.01em;
         }
       }
       
@@ -972,19 +1139,50 @@ export default {
 
           &.device-info-row--foot {
             margin-top: 6px;
-            padding-top: 6px;
+            padding-top: 8px;
             border-top: 1px solid $border-color;
-            align-items: baseline;
-            gap: 6px;
+            align-items: center;
+            gap: 8px;
 
             .info-label {
               width: 36px;
             }
 
-            .info-meta {
+            .device-data-summary {
+              flex: 1;
+              min-width: 0;
+              display: flex;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 2px 6px;
+              font-size: 12px;
+              color: $text-primary;
+            }
+
+            .summary-total {
+              display: inline-flex;
+              align-items: baseline;
+            }
+
+            .summary-unit {
+              margin-left: 2px;
               font-size: 11px;
+              color: $text-secondary;
+              font-weight: 400;
+            }
+
+            .summary-sep {
               color: $text-disabled;
-              flex-shrink: 0;
+              margin: 0 2px;
+              user-select: none;
+            }
+
+            .summary-dim {
+              font-size: 11px;
+              color: #9aa6bf;
+              cursor: help;
+              border-bottom: 1px dashed rgba(154, 166, 191, 0.45);
+              line-height: 1.3;
             }
           }
         }
@@ -1294,5 +1492,18 @@ export default {
       color: #F5F7FB;
     }
   }
+}
+</style>
+
+<style lang="scss">
+/* el-tooltip 挂载在 body，与 scoped 分离 */
+.device-dim-tooltip {
+  max-width: 340px;
+  line-height: 1.6;
+  font-size: 12px;
+}
+
+.device-dim-tooltip .dim-tooltip-body {
+  text-align: left;
 }
 </style>

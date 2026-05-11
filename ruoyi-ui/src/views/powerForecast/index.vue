@@ -118,71 +118,6 @@
         </el-card>
       </el-tab-pane>
 
-      <el-tab-pane label="统计概览" name="stat">
-        <el-card shadow="never" class="filter-card">
-          <el-form :model="queryParams" size="small" :inline="true" label-width="90px">
-            <el-form-item label="设备">
-              <el-select
-                v-model="queryParams.deviceId"
-                clearable
-                filterable
-                placeholder="全部设备"
-                style="width: 240px"
-              >
-                <el-option
-                  v-for="item in deviceOptions"
-                  :key="item.deviceId"
-                  :label="formatWindDeviceLabel(item)"
-                  :value="item.deviceId"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="统计日期">
-              <el-date-picker
-                v-model="queryParams.dateRange"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                value-format="yyyy-MM-dd"
-                style="width: 300px"
-              />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
-              <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
-            </el-form-item>
-          </el-form>
-        </el-card>
-
-        <el-row v-loading="statLoading" :gutter="12" class="metric-row">
-          <el-col :xs="24" :sm="12" :md="6">
-            <div class="metric-card">
-              <div class="label">统计记录数</div>
-              <div class="value">{{ summary.totalRecords }}</div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="6">
-            <div class="metric-card">
-              <div class="label">设备数</div>
-              <div class="value">{{ summary.totalDevices }}</div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="6">
-            <div class="metric-card">
-              <div class="label">平均功率(kW)</div>
-              <div class="value">{{ summary.avgPower }}</div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="6">
-            <div class="metric-card highlight">
-              <div class="label">预计明日发电量(kWh)</div>
-              <div class="value">{{ summary.totalPredictedEnergy }}</div>
-            </div>
-          </el-col>
-        </el-row>
-      </el-tab-pane>
-
       <el-tab-pane label="预测记录" name="data">
         <el-form size="small" :inline="true" class="data-toolbar">
           <el-form-item label="设备">
@@ -192,7 +127,7 @@
               filterable
               placeholder="全部"
               style="width: 220px"
-              @change="loadDataRecords"
+              @change="loadForecastRecordPanels"
             >
               <el-option
                 v-for="item in deviceOptions"
@@ -203,30 +138,66 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" icon="el-icon-refresh" @click="loadDataRecords">刷新</el-button>
+            <el-button type="primary" icon="el-icon-refresh" @click="loadForecastRecordPanels">刷新</el-button>
           </el-form-item>
         </el-form>
-        <el-table v-loading="dataLoading" :data="dataStatRows" border size="small" class="data-stat-table">
-          <el-table-column label="设备" min-width="200" show-overflow-tooltip>
-            <template slot-scope="scope">
-              {{ windStatDeviceLabel(scope.row) }}
-            </template>
-          </el-table-column>
-          <el-table-column label="统计日期" prop="statDate" min-width="120" />
-          <el-table-column label="平均功率(kW)" prop="averagePower" min-width="120" />
-          <el-table-column label="运行率(%)" prop="uptimePercentage" min-width="100" />
-          <el-table-column label="区间时长(h)" prop="totalRuntimeHours" min-width="110" />
-          <el-table-column label="操作" width="100" align="center" fixed="right">
-            <template slot-scope="scope">
-              <el-button
-                v-hasPermi="['equipment:deviceStat:remove']"
-                type="text"
-                size="small"
-                @click="handleDeleteStat(scope.row)"
-              >删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+
+        <el-card shadow="never" class="record-block-card">
+          <div slot="header" class="record-card-header">
+            <span>预测落库（eq_prediction）</span>
+            <span class="record-card-sub">每次「立即预测」成功且后端开启落库后自动写入，供设备详情与报表使用</span>
+          </div>
+          <el-table
+            v-loading="predictionHistoryLoading"
+            :data="predictionHistoryRows"
+            border
+            size="small"
+            class="data-stat-table"
+            max-height="360"
+            empty-text="暂无落库记录（请确认已选设备并点击「立即预测」，且 wind.forecast.persist-eq-prediction=true）"
+          >
+            <el-table-column label="预测时间" prop="predictionTime" min-width="160" show-overflow-tooltip />
+            <el-table-column label="状态" width="88" align="center">
+              <template slot-scope="scope">
+                {{ formatPredStatus(scope.row.predictedStatus) }}
+              </template>
+            </el-table-column>
+            <el-table-column label="置信度" prop="predictionConfidence" width="96" align="center" />
+            <el-table-column label="风险" width="72" align="center">
+              <template slot-scope="scope">
+                {{ formatRiskLevel(scope.row.riskLevel) }}
+              </template>
+            </el-table-column>
+            <el-table-column label="建议措施" prop="recommendedAction" min-width="200" show-overflow-tooltip />
+          </el-table>
+        </el-card>
+
+        <el-card shadow="never" class="record-block-card">
+          <div slot="header" class="record-card-header">
+            <span>日统计（eq_device_stat · 风力预测写入）</span>
+          </div>
+          <el-table v-loading="dataLoading" :data="dataStatRows" border size="small" class="data-stat-table">
+            <el-table-column label="设备" min-width="200" show-overflow-tooltip>
+              <template slot-scope="scope">
+                {{ windStatDeviceLabel(scope.row) }}
+              </template>
+            </el-table-column>
+            <el-table-column label="统计日期" prop="statDate" min-width="120" />
+            <el-table-column label="平均功率(kW)" prop="averagePower" min-width="120" />
+            <el-table-column label="运行率(%)" prop="uptimePercentage" min-width="100" />
+            <el-table-column label="区间时长(h)" prop="totalRuntimeHours" min-width="110" />
+            <el-table-column label="操作" width="100" align="center" fixed="right">
+              <template slot-scope="scope">
+                <el-button
+                  v-hasPermi="['equipment:deviceStat:remove']"
+                  type="text"
+                  size="small"
+                  @click="handleDeleteStat(scope.row)"
+                >删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-card>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -247,6 +218,7 @@ import {
   windForecastSummary
 } from '@/api/windForecast'
 import { getClientPollIntervalSec, setClientPollIntervalSec } from '@/utils/clientPoll'
+import { listPrediction, listPredictionByDeviceId } from '@/api/equipment/prediction'
 
 export default {
   name: 'PowerForecast',
@@ -257,7 +229,6 @@ export default {
       runLoading: false,
       runDeviceLoading: false,
       summaryLoading: false,
-      statLoading: false,
       selectedWindDeviceId: undefined,
       _defaultDeviceApplied: false,
       excelDownloadLoading: { feature: false, real: false },
@@ -274,20 +245,12 @@ export default {
       },
       prediction: {},
       deviceOptions: [],
-      queryParams: {
-        deviceId: undefined,
-        dateRange: []
-      },
-      summary: {
-        totalRecords: 0,
-        totalDevices: 0,
-        avgPower: '0.00',
-        totalPredictedEnergy: '0.00'
-      },
       windBindDeviceId: null,
       windForecastConfig: {},
       dataStatRows: [],
       dataLoading: false,
+      predictionHistoryRows: [],
+      predictionHistoryLoading: false,
       dataTableDeviceId: undefined,
       _lastPredictionAtSeen: 0,
       _firstLatestLoaded: false,
@@ -316,7 +279,8 @@ export default {
   },
   created() {
     this.pollSec = getClientPollIntervalSec(180)
-    this.initStatTab()
+    this.loadDevices()
+    this.loadLatest(false, false)
     this.startPoll()
   },
   mounted() {
@@ -349,11 +313,19 @@ export default {
         if (this.dataTableDeviceId == null && this.windBindDeviceId) {
           this.dataTableDeviceId = this.windBindDeviceId
         }
-        this.loadDataRecords()
+        this.loadForecastRecordPanels()
       }
     }
   },
   methods: {
+    formatPredStatus(v) {
+      const m = { 1: '正常', 2: '警告', 3: '错误', 4: '离线' }
+      return m[v] != null ? m[v] : v == null || v === '' ? '—' : String(v)
+    },
+    formatRiskLevel(v) {
+      const m = { 1: '低', 2: '中', 3: '高' }
+      return m[v] != null ? m[v] : v == null || v === '' ? '—' : String(v)
+    },
     formatWindDeviceLabel(item) {
       if (!item) return '设备'
       const name = item.deviceName || '设备'
@@ -508,7 +480,11 @@ export default {
             this.$modal.msgSuccess(useDevice ? '当前设备预测完成' : '预测完成（系统默认配置）')
             this._suppressAutoPredictNotify = true
             await this.loadLatest(false, false)
-            await this.getForecastData()
+            this.syncDataTableDeviceFromSelection()
+            await this.loadForecastRecordPanels()
+            if (body.eq_prediction_persisted === false && body.eq_prediction_error) {
+              this.$modal.msgWarning('曲线已更新，但写入预测库失败：' + body.eq_prediction_error)
+            }
           } else {
             this.$modal.msgError(body.message || '预测失败')
           }
@@ -536,8 +512,11 @@ export default {
             this.$modal.msgSuccess('设备预测完成')
             this._suppressAutoPredictNotify = true
             await this.loadLatest(false, false)
-            await this.getForecastData()
-            await this.loadDataRecords()
+            this.syncDataTableDeviceFromSelection()
+            await this.loadForecastRecordPanels()
+            if (body.eq_prediction_persisted === false && body.eq_prediction_error) {
+              this.$modal.msgWarning('曲线已更新，但写入预测库失败：' + body.eq_prediction_error)
+            }
           } else {
             this.$modal.msgError(body.message || '预测失败')
           }
@@ -810,6 +789,31 @@ export default {
       while (out.length < len) out.push(null)
       return out
     },
+    syncDataTableDeviceFromSelection() {
+      const id = this.selectedWindDeviceId || this.windBindDeviceId
+      if (id != null && id !== '') {
+        this.dataTableDeviceId = id
+      }
+    },
+    async loadForecastRecordPanels() {
+      await Promise.all([this.loadDataRecords(), this.loadPredictionHistory()])
+    },
+    async loadPredictionHistory() {
+      this.predictionHistoryLoading = true
+      try {
+        if (this.dataTableDeviceId != null && this.dataTableDeviceId !== '') {
+          const res = await listPredictionByDeviceId(this.dataTableDeviceId)
+          this.predictionHistoryRows = res && res.code === 200 && Array.isArray(res.data) ? res.data : []
+        } else {
+          const res = await listPrediction({ pageNum: 1, pageSize: 200 })
+          this.predictionHistoryRows = res && res.rows ? res.rows : []
+        }
+      } catch (e) {
+        this.predictionHistoryRows = []
+      } finally {
+        this.predictionHistoryLoading = false
+      }
+    },
     async loadDataRecords() {
       this.dataLoading = true
       try {
@@ -831,25 +835,12 @@ export default {
         .then(() => delDeviceStat(id))
         .then(() => {
           this.$modal.msgSuccess('已删除')
-          this.loadDataRecords()
-          this.getForecastData()
+          this.loadForecastRecordPanels()
         })
         .catch(() => {})
     },
     resizeChart() {
       if (this.chart) this.chart.resize()
-    },
-    async initStatTab() {
-      await Promise.all([this.loadDevices(), this.loadLatest(false, false)])
-      this.syncWindDeviceSelectionWithOptions()
-      this.applyWindDeviceDefaultFilter()
-      await this.getForecastData()
-    },
-    applyWindDeviceDefaultFilter() {
-      const id = this.windBindDeviceId
-      if (id != null && String(id).trim() !== '') {
-        this.queryParams.deviceId = id
-      }
     },
     async loadDevices() {
       const res = await listDevice({ pageNum: 1, pageSize: 1000 })
@@ -883,83 +874,6 @@ export default {
       }
       this.selectedWindDeviceId = rows[0].deviceId
     },
-    handleQuery() {
-      this.getForecastData()
-    },
-    resetQuery() {
-      this.queryParams.deviceId = undefined
-      this.queryParams.dateRange = []
-      this.getForecastData()
-    },
-    async getForecastData() {
-      this.statLoading = true
-      try {
-        const query = { pageNum: 1, pageSize: 1000, windForecastOnly: true }
-        if (this.queryParams.deviceId) {
-          query.deviceId = this.queryParams.deviceId
-        }
-        const res = await listDeviceStat(query)
-        const rows = (res && res.rows) || []
-        const filteredRows = this.filterByDateRange(rows)
-        this.buildSummary(filteredRows)
-      } finally {
-        this.statLoading = false
-      }
-    },
-    filterByDateRange(rows) {
-      const range = this.queryParams.dateRange || []
-      if (!range.length) return rows
-      const [startDate, endDate] = range
-      return rows.filter((item) => {
-        const date = this.normalizeDate(item.statDate)
-        return date >= startDate && date <= endDate
-      })
-    },
-    normalizeDate(value) {
-      if (!value) return ''
-      return String(value).slice(0, 10)
-    },
-    toNumber(value) {
-      const n = Number(value)
-      return Number.isFinite(n) ? n : 0
-    },
-    toFixed(value, digits = 2) {
-      return this.toNumber(value).toFixed(digits)
-    },
-    buildSummary(rows) {
-      this.summary.totalRecords = rows.length
-      if (!rows.length) {
-        this.summary.totalDevices = 0
-        this.summary.avgPower = '0.00'
-        this.summary.totalPredictedEnergy = '0.00'
-        return
-      }
-      const latestByDevice = {}
-      rows.forEach((item) => {
-        const key = item.deviceId
-        if (!latestByDevice[key]) {
-          latestByDevice[key] = item
-          return
-        }
-        const curDate = this.normalizeDate(item.statDate)
-        const oldDate = this.normalizeDate(latestByDevice[key].statDate)
-        if (curDate > oldDate) {
-          latestByDevice[key] = item
-        }
-      })
-      const deviceRows = Object.values(latestByDevice)
-      this.summary.totalDevices = deviceRows.length
-      const totalPower = rows.reduce((sum, item) => sum + this.toNumber(item.averagePower), 0)
-      this.summary.avgPower = this.toFixed(totalPower / rows.length)
-      let totalPred = 0
-      deviceRows.forEach((item) => {
-        const avgPower = this.toNumber(item.averagePower)
-        const uptime = this.toNumber(item.uptimePercentage)
-        const predictedDailyEnergy = avgPower * 24 * (uptime > 0 ? uptime / 100 : 0)
-        totalPred += predictedDailyEnergy
-      })
-      this.summary.totalPredictedEnergy = this.toFixed(totalPred)
-    }
   }
 }
 </script>
@@ -1049,40 +963,6 @@ export default {
   }
   .data-toolbar {
     margin-bottom: 10px;
-  }
-  .filter-card {
-    margin-bottom: 12px;
-  }
-  .metric-row {
-    margin-bottom: 12px;
-  }
-  .metric-card {
-    padding: 14px;
-    border: 1px solid $border-color;
-    border-radius: 4px;
-    background: $secondary-bg;
-    .label {
-      color: $text-secondary;
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-    .value {
-      font-size: 22px;
-      font-weight: 600;
-      color: $text-primary;
-      line-height: 1.2;
-    }
-    .value.text-sm {
-      font-size: 14px;
-      font-weight: 500;
-    }
-    &.highlight .value {
-      color: $accent-color;
-    }
-    .value-multiline {
-      font-size: 15px;
-      font-weight: 600;
-    }
   }
   .chart-card {
     .sub {

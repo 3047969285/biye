@@ -19,10 +19,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="warningThreshold"    column="warning_threshold"    />
         <result property="lastUpdated"    column="last_updated"    />
         <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
     </resultMap>
 
     <sql id="selectEqDeviceParamVo">
-        select p.param_id, p.device_id, p.parameter_name, p.parameter_value, p.unit, p.default_value, p.min_value, p.max_value, p.critical_threshold, p.warning_threshold, p.last_updated, p.remark,
+        select p.param_id, p.device_id, p.parameter_name, p.parameter_value, p.unit, p.default_value, p.min_value, p.max_value, p.critical_threshold, p.warning_threshold, p.last_updated, p.remark, p.create_by, p.create_time, p.update_by, p.update_time,
         d.device_no, d.device_name
         from eq_device_param p
         left join eq_device d on p.device_id = d.device_id
@@ -65,6 +69,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="warningThreshold != null">warning_threshold,</if>
             <if test="lastUpdated != null">last_updated,</if>
             <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="paramId != null">#{paramId},</if>
@@ -79,6 +87,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="warningThreshold != null">#{warningThreshold},</if>
             <if test="lastUpdated != null">#{lastUpdated},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
          </trim>
     </insert>
 
@@ -96,6 +108,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="warningThreshold != null">warning_threshold = #{warningThreshold},</if>
             <if test="lastUpdated != null">last_updated = #{lastUpdated},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where param_id = #{paramId}
     </update>

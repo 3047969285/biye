@@ -41,6 +41,10 @@ public class SysRegisterService
      */
     public String register(RegisterBody registerBody)
     {
+        if (!"true".equals(configService.selectConfigByKey("sys.account.registerUser")))
+        {
+            return "当前系统没有开启注册功能！";
+        }
         String msg = "", username = registerBody.getUsername(), password = registerBody.getPassword();
         SysUser sysUser = new SysUser();
         sysUser.setUserName(username);

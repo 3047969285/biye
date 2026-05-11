@@ -1,5 +1,6 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,5 +138,17 @@ public class EqDeviceStatServiceImpl implements IEqDeviceStatService
     public int deleteEqDeviceStatByDeviceIds(String[] deviceIds)
     {
         return eqDeviceStatMapper.deleteEqDeviceStatByDeviceIds(deviceIds);
+    }
+
+    @Override
+    public List<EqDeviceStat> selectListOrComputedSummary(EqDeviceStat eqDeviceStat)
+    {
+        if (Boolean.TRUE.equals(eqDeviceStat.getComputedSummary())
+            && StringUtils.isNotEmpty(eqDeviceStat.getDeviceId()))
+        {
+            EqDeviceStat row = selectComputedAggregateByDeviceId(eqDeviceStat.getDeviceId());
+            return row != null ? Collections.singletonList(row) : Collections.emptyList();
+        }
+        return selectEqDeviceStatList(eqDeviceStat);
     }
 }

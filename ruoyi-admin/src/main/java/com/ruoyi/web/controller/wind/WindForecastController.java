@@ -7,7 +7,6 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.domain.EqWindForecastBind;
 import com.ruoyi.system.service.IEqWindForecastBindService;
-import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.web.config.properties.WindForecastProperties;
 import com.ruoyi.web.controller.wind.dto.WindForecastBindPayload;
 import com.ruoyi.web.controller.wind.dto.WindForecastRowsPayload;
@@ -55,21 +54,18 @@ public class WindForecastController extends BaseController {
     private final WindForecastSummaryService summaryService;
     private final ObjectMapper objectMapper;
     private final WindForecastExcelFileService excelFileService;
-    private final ISysConfigService configService;
 
     public WindForecastController(WindForecastProperties props, WindForecastBridgeService bridge,
                                   IEqWindForecastBindService windForecastBindService,
                                   WindForecastSummaryService summaryService,
                                   ObjectMapper objectMapper,
-                                  WindForecastExcelFileService excelFileService,
-                                  ISysConfigService configService) {
+                                  WindForecastExcelFileService excelFileService) {
         this.props = props;
         this.bridge = bridge;
         this.windForecastBindService = windForecastBindService;
         this.summaryService = summaryService;
         this.objectMapper = objectMapper;
         this.excelFileService = excelFileService;
-        this.configService = configService;
     }
 
     /**
@@ -83,44 +79,7 @@ public class WindForecastController extends BaseController {
     public AjaxResult latest(
         @RequestParam(required = false) String deviceId,
         @RequestParam(defaultValue = "false") boolean live) {
-        if (live && props.isEnabled() && bridge.isPythonReachable()) {
-            String runId = StringUtils.isNotEmpty(deviceId) ? deviceId.trim() : props.getBindDeviceId();
-            if (StringUtils.isNotEmpty(runId)) {
-                bridge.runPredict(runId, null, null, null, null);
-            } else {
-                bridge.runPredict();
-            }
-        }
-        Map<String, Object> prediction = StringUtils.isNotEmpty(deviceId)
-            ? bridge.getLastPrediction(deviceId.trim())
-            : bridge.getLastPrediction();
-        long at = StringUtils.isNotEmpty(deviceId)
-            ? bridge.getLastPredictionAtMillis(deviceId.trim())
-            : bridge.getLastPredictionAtMillis();
-        Map<String, Object> out = new HashMap<>();
-        out.put("enabled", props.isEnabled());
-        out.put("pythonBaseUrl", props.baseUrl());
-        out.put("reachable", bridge.isPythonReachable());
-        out.put("pythonStatus", bridge.fetchPythonStatus());
-        out.put("lastPredictionAt", at);
-        out.put("prediction", prediction);
-        out.put("lastError", bridge.getLastError());
-        out.put("queryDeviceId", deviceId != null ? deviceId : "");
-        Map<String, Object> cfg = new HashMap<>();
-        cfg.put("modelPath", nullToEmpty(props.getModelPath()));
-        cfg.put("featureExcel", nullToEmpty(props.getFeatureExcel()));
-        cfg.put("realExcel", nullToEmpty(props.getRealExcel()));
-        cfg.put("predictLength", props.getPredictLength());
-        cfg.put("predictStartIndex", props.getPredictStartIndex());
-        cfg.put("forecastPointIntervalMinutes", props.getForecastPointIntervalMinutes());
-        cfg.put("forecastExtraMinutes", props.getForecastExtraMinutes());
-        cfg.put("beyondDataPoints", props.getBeyondDataPoints());
-        cfg.put("scheduleIntervalMs", props.getScheduleIntervalMs());
-        cfg.put("scheduleInitialDelayMs", props.getScheduleInitialDelayMs());
-        cfg.put("bindDeviceId", props.getBindDeviceId() != null ? props.getBindDeviceId() : "");
-        cfg.put("clientPollIntervalSec", resolveClientPollIntervalSec());
-        out.put("config", cfg);
-        return success(out);
+        return success(bridge.buildLatestResponse(deviceId, live));
     }
 
     @PreAuthorize("@ss.hasPermi('power:forecast:list')")
@@ -347,36 +306,6 @@ public class WindForecastController extends BaseController {
             p = bridge.getLastPrediction();
         }
         return success(summaryService.summarize(p));
-    }
-
-    /**
-     * 与参数键 {@code client.poll.interval.seconds} 一致；缺省或未配置时按自动预测间隔（秒）推算，范围 30～3600。
-     */
-    private int resolveClientPollIntervalSec() {
-        final int min = 30;
-        final int max = 3600;
-        String raw = configService.selectConfigByKey("client.poll.interval.seconds");
-        int sec = parsePositiveInt(raw, -1);
-        if (sec < min || sec > max) {
-            long ms = props.getScheduleIntervalMs();
-            sec = (int) Math.max(min, Math.min(max, ms / 1000L));
-        }
-        return sec;
-    }
-
-    private static int parsePositiveInt(String s, int dflt) {
-        if (StringUtils.isEmpty(s)) {
-            return dflt;
-        }
-        try {
-            return Integer.parseInt(s.trim());
-        } catch (NumberFormatException e) {
-            return dflt;
-        }
-    }
-
-    private static String nullToEmpty(String s) {
-        return s == null ? "" : s;
     }
 
     private static String emptyToNull(String s) {

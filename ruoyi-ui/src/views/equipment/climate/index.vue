@@ -54,17 +54,26 @@
         </template>
       </el-table-column>
       <el-table-column label="采集时间" align="center" prop="timestamp" min-width="180" :formatter="formatTableTime" />
-      <el-table-column label="季节" align="center" prop="season" min-width="80">
+      <el-table-column label="季节" align="center" prop="season" min-width="72">
         <template slot-scope="scope">
           <span v-if="scope.row.season === 1">春</span>
           <span v-else-if="scope.row.season === 2">夏</span>
           <span v-else-if="scope.row.season === 3">秋</span>
           <span v-else-if="scope.row.season === 4">冬</span>
+          <span v-else>{{ scope.row.season != null && scope.row.season !== '' ? scope.row.season : '—' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="天气情况" align="center" prop="weatherCondition" min-width="120" />
-      <el-table-column label="降水量" align="center" prop="precipitation" min-width="100" />
-      <el-table-column label="风速" align="center" prop="windSpeed" min-width="100" />
+      <el-table-column label="天气情况" align="center" prop="weatherCondition" min-width="120" show-overflow-tooltip />
+      <el-table-column label="降水量(mm)" align="center" prop="precipitation" min-width="100" />
+      <el-table-column label="风速(m/s)" align="center" prop="windSpeed" min-width="100" />
+      <el-table-column label="风向" align="center" prop="windDirection" min-width="90" show-overflow-tooltip />
+      <el-table-column label="极端天气" align="center" prop="extremeWeather" min-width="90" />
+      <el-table-column label="天气持续(h)" align="center" prop="weatherDuration" min-width="110" />
+      <el-table-column label="极端温度" align="center" prop="temperatureExtreme" min-width="96" />
+      <el-table-column label="自然灾害" align="center" prop="naturalDisasters" min-width="96" />
+      <el-table-column label="灾害强度" align="center" prop="disasterIntensity" min-width="96" />
+      <el-table-column label="灾害持续(h)" align="center" prop="disasterDuration" min-width="110" />
+      <el-table-column label="空气质量指数" align="center" prop="airQualityIndex" min-width="120" />
       <el-table-column label="污染等级" align="center" prop="pollutionLevel" min-width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pollutionLevel === 1" type="success">优</el-tag>
@@ -74,6 +83,7 @@
           <el-tag v-else-if="scope.row.pollutionLevel === 5" type="danger">重度污染</el-tag>
         </template>
       </el-table-column>
+      <el-table-column label="紫外线指数" align="center" prop="uvIndex" min-width="110" />
       <el-table-column label="操作" align="center" width="160" fixed="right">
         <template slot-scope="scope">
           <el-button

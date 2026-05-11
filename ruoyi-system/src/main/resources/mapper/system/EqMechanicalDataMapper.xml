@@ -25,10 +25,11 @@
         <result property="thermalExpansion" column="thermal_expansion"/>
         <result property="materialHardness" column="material_hardness"/>
         <result property="mechanicalGrade" column="mechanical_grade"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectEqMechanicalDataVo">
-        select m.mechanical_id, m.device_id, m.timestamp, m.load_weight, m.load_ratio, m.stress_level, m.fatigue_cycles, m.overload_times, m.vibration_amplitude, m.vibration_velocity, m.vibration_acceleration, m.vibration_spectrum, m.vibration_direction, m.corrosion_rate, m.corrosion_depth, m.surface_condition, m.coating_thickness, m.material_temperature, m.thermal_expansion, m.material_hardness, m.mechanical_grade,
+        select m.mechanical_id, m.device_id, m.timestamp, m.load_weight, m.load_ratio, m.stress_level, m.fatigue_cycles, m.overload_times, m.vibration_amplitude, m.vibration_velocity, m.vibration_acceleration, m.vibration_spectrum, m.vibration_direction, m.corrosion_rate, m.corrosion_depth, m.surface_condition, m.coating_thickness, m.material_temperature, m.thermal_expansion, m.material_hardness, m.mechanical_grade, m.create_time,
         d.device_no, d.device_name
         from eq_mechanical_data m
         left join eq_device d on m.device_id = d.device_id
@@ -80,6 +81,7 @@
             <if test="thermalExpansion != null">thermal_expansion,</if>
             <if test="materialHardness != null">material_hardness,</if>
             <if test="mechanicalGrade != null">mechanical_grade,</if>
+            <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="mechanicalId != null">#{mechanicalId},</if>
@@ -103,6 +105,7 @@
             <if test="thermalExpansion != null">#{thermalExpansion},</if>
             <if test="materialHardness != null">#{materialHardness},</if>
             <if test="mechanicalGrade != null">#{mechanicalGrade},</if>
+            <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 
@@ -129,6 +132,7 @@
             <if test="thermalExpansion != null">thermal_expansion = #{thermalExpansion},</if>
             <if test="materialHardness != null">material_hardness = #{materialHardness},</if>
             <if test="mechanicalGrade != null">mechanical_grade = #{mechanicalGrade},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where mechanical_id = #{mechanicalId}
     </update>

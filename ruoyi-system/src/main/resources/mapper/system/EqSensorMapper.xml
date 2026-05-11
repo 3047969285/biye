@@ -10,12 +10,21 @@
         <result property="sensorName" column="sensor_name"/>
         <result property="location" column="location"/>
         <result property="unit" column="unit"/>
+        <result property="calibrationTime" column="calibration_date"/>
+        <result property="nextCalibrationTime" column="next_calibration_date"/>
         <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="selectEqSensorVo">
-        select s.sensor_id, s.device_id, s.sensor_type, s.sensor_name, s.location, s.unit, s.status,
-        d.device_no, d.device_name
+        select s.sensor_id, s.device_id, s.sensor_type, s.sensor_name, s.location, s.unit,
+               s.calibration_date, s.next_calibration_date, s.status, s.remark,
+               s.create_by, s.create_time, s.update_by, s.update_time,
+               d.device_no, d.device_name
         from eq_sensor s
         left join eq_device d on s.device_id = d.device_id
     </sql>
@@ -52,7 +61,14 @@
             <if test="sensorName != null and sensorName != ''">sensor_name,</if>
             <if test="location != null">location,</if>
             <if test="unit != null">unit,</if>
+            <if test="calibrationTime != null">calibration_date,</if>
+            <if test="nextCalibrationTime != null">next_calibration_date,</if>
             <if test="status != null">status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="sensorId != null">#{sensorId},</if>
@@ -61,7 +77,14 @@
             <if test="sensorName != null and sensorName != ''">#{sensorName},</if>
             <if test="location != null">#{location},</if>
             <if test="unit != null">#{unit},</if>
+            <if test="calibrationTime != null">#{calibrationTime},</if>
+            <if test="nextCalibrationTime != null">#{nextCalibrationTime},</if>
             <if test="status != null">#{status},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
         </trim>
     </insert>
 
@@ -73,7 +96,14 @@
             <if test="sensorName != null and sensorName != ''">sensor_name = #{sensorName},</if>
             <if test="location != null">location = #{location},</if>
             <if test="unit != null">unit = #{unit},</if>
+            <if test="calibrationTime != null">calibration_date = #{calibrationTime},</if>
+            <if test="nextCalibrationTime != null">next_calibration_date = #{nextCalibrationTime},</if>
             <if test="status != null">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where sensor_id = #{sensorId}
     </update>

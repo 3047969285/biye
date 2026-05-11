@@ -32,10 +32,11 @@
         <result property="groundingResistance" column="grounding_resistance"/>
         <result property="shieldingEffectiveness" column="shielding_effectiveness"/>
         <result property="electricalGrade" column="electrical_grade"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectEqElectricalDataVo">
-        select el.electrical_id, el.device_id, el.timestamp, el.voltage_l1, el.voltage_l2, el.voltage_l3, el.voltage_unbalance, el.frequency, el.voltage_fluctuation, el.current_l1, el.current_l2, el.current_l3, el.current_unbalance, el.total_current, el.active_power, el.reactive_power, el.apparent_power, el.power_factor, el.efficiency, el.harmonics_voltage, el.harmonics_current, el.total_harmonic_distortion, el.voltage_thd, el.current_thd, el.electromagnetic_interference, el.grounding_resistance, el.shielding_effectiveness, el.electrical_grade,
+        select el.electrical_id, el.device_id, el.timestamp, el.voltage_l1, el.voltage_l2, el.voltage_l3, el.voltage_unbalance, el.frequency, el.voltage_fluctuation, el.current_l1, el.current_l2, el.current_l3, el.current_unbalance, el.total_current, el.active_power, el.reactive_power, el.apparent_power, el.power_factor, el.efficiency, el.harmonics_voltage, el.harmonics_current, el.total_harmonic_distortion, el.voltage_thd, el.current_thd, el.electromagnetic_interference, el.grounding_resistance, el.shielding_effectiveness, el.electrical_grade, el.create_time,
         d.device_no, d.device_name
         from eq_electrical_data el
         left join eq_device d on el.device_id = d.device_id
@@ -94,6 +95,7 @@
             <if test="groundingResistance != null">grounding_resistance,</if>
             <if test="shieldingEffectiveness != null">shielding_effectiveness,</if>
             <if test="electricalGrade != null">electrical_grade,</if>
+            <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="electricalId != null">#{electricalId},</if>
@@ -124,6 +126,7 @@
             <if test="groundingResistance != null">#{groundingResistance},</if>
             <if test="shieldingEffectiveness != null">#{shieldingEffectiveness},</if>
             <if test="electricalGrade != null">#{electricalGrade},</if>
+            <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 
@@ -157,6 +160,7 @@
             <if test="groundingResistance != null">grounding_resistance = #{groundingResistance},</if>
             <if test="shieldingEffectiveness != null">shielding_effectiveness = #{shieldingEffectiveness},</if>
             <if test="electricalGrade != null">electrical_grade = #{electricalGrade},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where electrical_id = #{electricalId}
     </update>

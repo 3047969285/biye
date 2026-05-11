@@ -90,4 +90,7 @@ public interface IEqDeviceStatService
      * @return 结果
      */
     public int deleteEqDeviceStatByDeviceIds(String[] deviceIds);
+
+    /** 根据 computedSummary 标志切换查询：汇总模式 vs 分页列表模式 */
+    List<EqDeviceStat> selectListOrComputedSummary(EqDeviceStat eqDeviceStat);
 }

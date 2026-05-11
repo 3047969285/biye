@@ -1,7 +1,5 @@
 package com.ruoyi.web.controller.equipment;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -38,27 +35,16 @@ public class EqDeviceStatController extends BaseController
     @Autowired
     private IEqDeviceStatService eqDeviceStatService;
 
-    /** startPage 后分页查询。 */
+    /** startPage 后分页查询；汇总模式不走分页。 */
     @GetMapping("/list")
     public TableDataInfo list(EqDeviceStat eqDeviceStat)
     {
         if (Boolean.TRUE.equals(eqDeviceStat.getComputedSummary()))
         {
-            if (StringUtils.isEmpty(eqDeviceStat.getDeviceId()))
-            {
-                return getDataTable(Collections.emptyList());
-            }
-            EqDeviceStat row = eqDeviceStatService.selectComputedAggregateByDeviceId(eqDeviceStat.getDeviceId());
-            List<EqDeviceStat> list = new ArrayList<>();
-            if (row != null)
-            {
-                list.add(row);
-            }
-            return getDataTable(list);
+            return getDataTable(eqDeviceStatService.selectListOrComputedSummary(eqDeviceStat));
         }
         startPage();
-        List<EqDeviceStat> list = eqDeviceStatService.selectEqDeviceStatList(eqDeviceStat);
-        return getDataTable(list);
+        return getDataTable(eqDeviceStatService.selectEqDeviceStatList(eqDeviceStat));
     }
 
     /** 按 deviceId 不分页列表。 */
@@ -74,17 +60,7 @@ public class EqDeviceStatController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, EqDeviceStat eqDeviceStat)
     {
-        List<EqDeviceStat> list;
-        if (Boolean.TRUE.equals(eqDeviceStat.getComputedSummary())
-            && StringUtils.isNotEmpty(eqDeviceStat.getDeviceId()))
-        {
-            EqDeviceStat row = eqDeviceStatService.selectComputedAggregateByDeviceId(eqDeviceStat.getDeviceId());
-            list = row != null ? Collections.singletonList(row) : Collections.emptyList();
-        }
-        else
-        {
-            list = eqDeviceStatService.selectEqDeviceStatList(eqDeviceStat);
-        }
+        List<EqDeviceStat> list = eqDeviceStatService.selectListOrComputedSummary(eqDeviceStat);
         ExcelUtil<EqDeviceStat> util = new ExcelUtil<EqDeviceStat>(EqDeviceStat.class);
         util.exportExcel(response, list, "设备统计数据");
     }

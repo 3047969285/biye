@@ -59,6 +59,11 @@ public class WindForecastProperties {
     private String bindDeviceId;
 
     /**
+     * Python 预测成功且能解析到设备 ID 时，是否追加写入 eq_prediction（供「设备预测」菜单与报表使用）。
+     */
+    private boolean persistEqPrediction = true;
+
+    /**
      * 每个预测输出点对应的时间间隔（分钟），仅用于前端把「点数」换算成时长；须与 Excel 行时间分辨率一致（常见 15）。
      */
     private int forecastPointIntervalMinutes = 15;
@@ -205,6 +210,14 @@ public class WindForecastProperties {
 
     public void setBindDeviceId(String bindDeviceId) {
         this.bindDeviceId = bindDeviceId;
+    }
+
+    public boolean isPersistEqPrediction() {
+        return persistEqPrediction;
+    }
+
+    public void setPersistEqPrediction(boolean persistEqPrediction) {
+        this.persistEqPrediction = persistEqPrediction;
     }
 
     /**

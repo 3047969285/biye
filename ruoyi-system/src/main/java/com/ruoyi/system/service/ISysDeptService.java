@@ -121,4 +121,7 @@ public interface ISysDeptService
      * @return 结果
      */
     public int deleteDeptById(Long deptId);
+
+    /** 查询部门列表，排除指定节点及其所有子孙节点 */
+    List<SysDept> selectDeptListExcludingChild(Long deptId);
 }

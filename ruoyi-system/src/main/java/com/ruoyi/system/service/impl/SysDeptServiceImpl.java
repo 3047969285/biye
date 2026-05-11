@@ -335,4 +335,13 @@ public class SysDeptServiceImpl implements ISysDeptService
     {
         return getChildList(list, t).size() > 0;
     }
+
+    @Override
+    public List<SysDept> selectDeptListExcludingChild(Long deptId) {
+        List<SysDept> depts = selectDeptList(new SysDept());
+        depts.removeIf(d -> d.getDeptId().intValue() == deptId
+            || org.apache.commons.lang3.ArrayUtils.contains(
+                com.ruoyi.common.utils.StringUtils.split(d.getAncestors(), ","), deptId + ""));
+        return depts;
+    }
 }

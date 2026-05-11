@@ -67,6 +67,8 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
     private EqClimateDataMapper eqClimateDataMapper;
     @Autowired
     private EqDeviceRuleMapper eqDeviceRuleMapper;
+    @Autowired
+    private EqPredictionMapper eqPredictionMapper;
 
     /**
      * 查询设备信息列表
@@ -228,6 +230,7 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
         eqFaultRecordMapper.deleteEqFaultRecordByDeviceIds(deviceIds);
         eqClimateDataMapper.deleteEqClimateDataByDeviceIds(deviceIds);
         eqDeviceRuleMapper.deleteEqDeviceRuleByDeviceIds(deviceIds);
+        eqPredictionMapper.deleteEqPredictionByDeviceIds(deviceIds);
 
         int result = eqDeviceMapper.deleteEqDeviceByDeviceIds(deviceIds);
         logger.info("批量删除 {} 个设备及其所有关联数据", result);
@@ -263,6 +266,7 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
         eqFaultRecordMapper.deleteEqFaultRecordByDeviceId(deviceId);
         eqClimateDataMapper.deleteEqClimateDataByDeviceId(deviceId);
         eqDeviceRuleMapper.deleteEqDeviceRuleByDeviceId(deviceId);
+        eqPredictionMapper.deleteEqPredictionByDeviceId(deviceId);
 
         int result = eqDeviceMapper.deleteEqDeviceByDeviceId(deviceId);
         if (result > 0) {
@@ -331,7 +335,8 @@ public class EqDeviceServiceImpl implements IEqDeviceService {
                 "eq_maintenance_record", "eq_alert_record", "eq_environment_data",
                 "eq_economic_data", "eq_electrical_data", "eq_technology_data",
                 "eq_mechanical_data", "eq_operational_data", "eq_sensor",
-                "eq_climate_data", "eq_fault_record", "eq_device_rule"
+                "eq_climate_data", "eq_fault_record", "eq_device_rule",
+                "eq_prediction"
             };
 
             for (EqDevice device : devices) {

@@ -23,10 +23,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="budgetUtilization" column="budget_utilization"/>
         <result property="regulatoryCompliance" column="regulatory_compliance"/>
         <result property="environmentalImpact" column="environmental_impact"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectEqEconomicDataVo">
-        select ec.economic_id, ec.device_id, ec.timestamp, ec.maintenance_cost, ec.energy_consumption, ec.labor_cost, ec.parts_cost, ec.downtime_cost, ec.roi, ec.npv, ec.payback_period, ec.annual_budget, ec.actual_spending, ec.budget_utilization, ec.regulatory_compliance, ec.environmental_impact,
+        select ec.economic_id, ec.device_id, ec.timestamp, ec.maintenance_cost, ec.energy_consumption, ec.labor_cost, ec.parts_cost, ec.downtime_cost, ec.roi, ec.npv, ec.payback_period, ec.annual_budget, ec.actual_spending, ec.budget_utilization, ec.regulatory_compliance, ec.environmental_impact, ec.create_time,
         d.device_no, d.device_name
         from eq_economic_data ec
         left join eq_device d on ec.device_id = d.device_id
@@ -73,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="budgetUtilization != null">budget_utilization,</if>
             <if test="regulatoryCompliance != null">regulatory_compliance,</if>
             <if test="environmentalImpact != null">environmental_impact,</if>
+            <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="economicId != null">#{economicId},</if>
@@ -91,6 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="budgetUtilization != null">#{budgetUtilization},</if>
             <if test="regulatoryCompliance != null">#{regulatoryCompliance},</if>
             <if test="environmentalImpact != null">#{environmentalImpact},</if>
+            <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 
@@ -112,6 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="budgetUtilization != null">budget_utilization = #{budgetUtilization},</if>
             <if test="regulatoryCompliance != null">regulatory_compliance = #{regulatoryCompliance},</if>
             <if test="environmentalImpact != null">environmental_impact = #{environmentalImpact},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where economic_id = #{economicId}
     </update>

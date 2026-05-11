@@ -261,11 +261,9 @@ public class SysUserServiceImpl implements ISysUserService
     @Transactional
     public int insertUser(SysUser user)
     {
-        // 新增用户信息
+        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         int rows = userMapper.insertUser(user);
-        // 新增用户岗位关联
         insertUserPost(user);
-        // 新增用户与角色管理
         insertUserRole(user);
         return rows;
     }
@@ -377,6 +375,7 @@ public class SysUserServiceImpl implements ISysUserService
     @Override
     public int resetPwd(SysUser user)
     {
+        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         return userMapper.resetUserPwd(user.getUserId(), user.getPassword());
     }
 
@@ -476,21 +475,29 @@ public class SysUserServiceImpl implements ISysUserService
     @Transactional
     public int deleteUserByIds(Long[] userIds)
     {
+        if (org.apache.commons.lang3.ArrayUtils.contains(userIds, SecurityUtils.getUserId()))
+        {
+            throw new ServiceException("当前用户不能删除");
+        }
         for (Long userId : userIds)
         {
             checkUserAllowed(new SysUser(userId));
             checkUserDataScope(userId);
         }
-        // 删除用户与角色关联
         userRoleMapper.deleteUserRole(userIds);
-        // 删除用户与岗位关联
         userPostMapper.deleteUserPost(userIds);
         return userMapper.deleteUserByIds(userIds);
     }
 
+    @Override
+    public List<SysRole> filterRolesForUser(Long userId, List<SysRole> roles)
+    {
+        return SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList());
+    }
+
     /**
      * 导入用户数据
-     * 
+     *
      * @param userList 用户数据列表
      * @param isUpdateSupport 是否更新支持，如果已存在，则进行更新数据
      * @param operName 操作用户
