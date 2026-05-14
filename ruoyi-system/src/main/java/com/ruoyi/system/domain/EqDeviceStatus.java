@@ -1,6 +1,8 @@
 package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.domain.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,6 +18,8 @@ public class EqDeviceStatus extends BaseEntity {
     private String deviceId; //设备ID
     private String deviceNo; //设备编号（关联查询）
     private String deviceName; //设备名称（关联查询）
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date timestamp;  //采集时间
     private BigDecimal temperature; //温度
     private BigDecimal humidity; //湿度

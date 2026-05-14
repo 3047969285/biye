@@ -75,7 +75,7 @@
       <el-table-column label="阈值单位" align="center" prop="thresholdUnit" min-width="100" />
       <el-table-column label="报警等级" align="center" prop="alertLevel" min-width="100">
         <template slot-scope="scope">
-          <span v-if="scope.row.alertLevel === 1">警报</span>
+          <span v-if="scope.row.alertLevel === 1">一般</span>
           <span v-else-if="scope.row.alertLevel === 2">严重</span>
           <span v-else-if="scope.row.alertLevel === 3">紧急</span>
         </template>
@@ -142,7 +142,7 @@
         </el-form-item>
         <el-form-item label="报警等级" prop="alertLevel">
           <el-select v-model="form.alertLevel" placeholder="请选择报警等级" style="width: 100%">
-            <el-option label="警报" :value="1" />
+            <el-option label="一般" :value="1" />
             <el-option label="严重" :value="2" />
             <el-option label="紧急" :value="3" />
           </el-select>

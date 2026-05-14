@@ -1,10 +1,13 @@
 package com.thor.springai.service;
 
 import com.alibaba.fastjson2.JSON;
+import com.ruoyi.common.constant.EquipmentRuleConstants;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.system.domain.*;
+import com.ruoyi.system.domain.dto.RuleTriggerResult;
 import com.ruoyi.system.domain.vo.MaintenanceDevicePendingVo;
 import com.ruoyi.system.mapper.*;
+import com.ruoyi.system.service.IEqDeviceRuleTriggerService;
 import com.ruoyi.framework.websocket.BaseWebSocketHandler;
 import com.ruoyi.system.service.ISysUserMessageService;
 import com.ruoyi.system.task.MaintenanceFormNotifyTask;
@@ -63,6 +66,9 @@ public class MaintenanceFormService {
 
     @Autowired(required = false)
     private BaseWebSocketHandler baseWebSocketHandler;
+
+    @Autowired(required = false)
+    private IEqDeviceRuleTriggerService eqDeviceRuleTriggerService;
 
     public List<String> parseDeviceIds(String deviceIdsStr) {
         List<String> deviceIds = new ArrayList<>();
@@ -144,7 +150,7 @@ public class MaintenanceFormService {
 
     private AjaxResult buildDevicesRequiringMaintenance(boolean useAiIssueSummary) {
         try {
-            List<EqDeviceStatus> statusList = deviceStatusMapper.selectDevicesRequiringMaintenance();
+            List<EqDeviceStatus> statusList = loadRuleBasedLatestStatuses();
             
             EqFaultRecord faultQuery = new EqFaultRecord();
             faultQuery.setStatus(1);
@@ -161,6 +167,8 @@ public class MaintenanceFormService {
                 if (deviceId == null || deviceId.isBlank()) {
                     continue;
                 }
+                RuleTriggerResult ruleResult = evaluateRuleSnapshot(status);
+                int runningStatus = resolveRunningStatusFromRule(ruleResult);
                 if (!deviceMap.containsKey(deviceId)) {
                     deviceMap.put(deviceId, new HashMap<>());
                 }
@@ -168,16 +176,17 @@ public class MaintenanceFormService {
                 deviceInfo.put("deviceId", deviceId);
                 deviceInfo.put("deviceNo", status.getDeviceNo());
                 deviceInfo.put("deviceName", status.getDeviceName());
-                deviceInfo.put("status", status.getStatus());
-                deviceInfo.put("statusText", getStatusText(status.getStatus()));
-                deviceInfo.put("maintenanceRequired", status.getMaintenanceRequired());
+                deviceInfo.put("status", runningStatus);
+                deviceInfo.put("statusText", getStatusText(runningStatus));
+                deviceInfo.put("maintenanceRequired", isMaintenanceRequiredByRule(ruleResult)
+                    ? EquipmentRuleConstants.MAINTENANCE_YES : EquipmentRuleConstants.MAINTENANCE_NO);
                 deviceInfo.put("faultDescription", status.getFaultDescription());
                 deviceInfo.put("faultCode", status.getFaultCode());
                 deviceInfo.put("timestamp", status.getTimestamp());
                 
                 deviceInfo.put("issues", new ArrayList<>());
                 deviceInfo.put("pendingFaults", new ArrayList<String>());
-                deviceInfo.put("priority", calculatePriority(status));
+                deviceInfo.put("priority", calculatePriority(ruleResult, Collections.emptyList()));
             }
             
             for (EqFaultRecord fault : faultList) {
@@ -186,12 +195,7 @@ public class MaintenanceFormService {
                     continue;
                 }
                 if (!deviceMap.containsKey(deviceId)) {
-                    deviceMap.put(deviceId, new HashMap<>());
-                    deviceMap.get(deviceId).put("deviceId", deviceId);
-                    deviceMap.get(deviceId).put("deviceNo", fault.getDeviceNo());
-                    deviceMap.get(deviceId).put("deviceName", fault.getDeviceName());
-                    deviceMap.get(deviceId).put("issues", new ArrayList<>());
-                    deviceMap.get(deviceId).put("pendingFaults", new ArrayList<String>());
+                    continue;
                 }
                 Map<String, Object> deviceInfo = deviceMap.get(deviceId);
                 @SuppressWarnings("unchecked")
@@ -211,16 +215,14 @@ public class MaintenanceFormService {
                     String lv = faultLevelLabel(fault.getFaultLevel());
                     pendingFaults.add(lv == null ? fdesc.trim() : fdesc.trim() + "（" + lv + "）");
                 }
-                String currentPriority = (String) deviceInfo.get("priority");
-                String faultPriority = getPriorityFromFaultLevel(fault.getFaultLevel());
-                if (comparePriority(faultPriority, currentPriority) > 0) {
-                    deviceInfo.put("priority", faultPriority);
-                }
             }
             
             for (EqAlertRecord alert : alertList) {
                 String deviceId = alert.getDeviceId();
                 if (deviceId == null || deviceId.isBlank()) {
+                    continue;
+                }
+                if (!isRuleAlert(alert)) {
                     continue;
                 }
                 if (!deviceMap.containsKey(deviceId)) {
@@ -231,8 +233,11 @@ public class MaintenanceFormService {
                     ni.put("deviceName", alert.getDeviceName());
                     ni.put("issues", new ArrayList<>());
                     ni.put("pendingFaults", new ArrayList<String>());
-                    ni.put("status", 2);
-                    ni.put("statusText", "告警");
+                    int statusFromAlert = runningStatusFromAlertLevel(alert.getAlertLevel());
+                    ni.put("status", statusFromAlert);
+                    ni.put("statusText", getStatusText(statusFromAlert));
+                    ni.put("maintenanceRequired", isMaintenanceRequiredByAlert(alert.getAlertLevel())
+                        ? EquipmentRuleConstants.MAINTENANCE_YES : EquipmentRuleConstants.MAINTENANCE_NO);
                     ni.put("priority", getPriorityFromAlertLevel(alert.getAlertLevel()));
                 }
                 Map<String, Object> deviceInfo = deviceMap.get(deviceId);
@@ -251,6 +256,15 @@ public class MaintenanceFormService {
                 String cur = (String) deviceInfo.get("priority");
                 if (comparePriority(ap, cur != null ? cur : "中") > 0) {
                     deviceInfo.put("priority", ap);
+                }
+                Integer currentStatus = (Integer) deviceInfo.get("status");
+                int statusFromAlert = runningStatusFromAlertLevel(alert.getAlertLevel());
+                if (currentStatus == null || statusFromAlert > currentStatus) {
+                    deviceInfo.put("status", statusFromAlert);
+                    deviceInfo.put("statusText", getStatusText(statusFromAlert));
+                }
+                if (isMaintenanceRequiredByAlert(alert.getAlertLevel())) {
+                    deviceInfo.put("maintenanceRequired", EquipmentRuleConstants.MAINTENANCE_YES);
                 }
             }
             
@@ -364,10 +378,7 @@ public class MaintenanceFormService {
                 return AjaxResult.error("设备不存在");
             }
             
-            EqDeviceStatus statusQuery = new EqDeviceStatus();
-            statusQuery.setDeviceId(deviceId);
-            List<EqDeviceStatus> statusList = deviceStatusMapper.selectEqDeviceStatusList(statusQuery);
-            EqDeviceStatus latestStatus = statusList.isEmpty() ? null : statusList.get(0);
+            EqDeviceStatus latestStatus = deviceStatusMapper.selectLatestByDeviceId(deviceId);
             
             EqFaultRecord faultQuery = new EqFaultRecord();
             faultQuery.setDeviceId(deviceId);
@@ -379,7 +390,8 @@ public class MaintenanceFormService {
             alertQuery.setStatus(1);
             List<EqAlertRecord> alertList = alertRecordMapper.selectEqAlertRecordList(alertQuery);
             
-            AiMaintenanceForm form = generateForm(device, latestStatus, faultList, alertList);
+            RuleTriggerResult ruleResult = evaluateRuleSnapshot(latestStatus);
+            AiMaintenanceForm form = generateForm(device, latestStatus, ruleResult, faultList, alertList);
             
             if (saveToDb) {
                 maintenanceFormMapper.insertAiMaintenanceForm(form);
@@ -439,9 +451,11 @@ public class MaintenanceFormService {
         return AjaxResult.success("批量生成完成", summary);
     }
     
-    private AiMaintenanceForm generateForm(EqDevice device, EqDeviceStatus status, 
+    private AiMaintenanceForm generateForm(EqDevice device, EqDeviceStatus status,
+                                          RuleTriggerResult ruleResult,
                                           List<EqFaultRecord> faultList, 
                                           List<EqAlertRecord> alertList) {
+        List<EqAlertRecord> ruleAlerts = filterRuleAlerts(alertList);
         AiMaintenanceForm form = new AiMaintenanceForm();
         form.setDeviceId(device.getDeviceId());
         form.setDeviceName(device.getDeviceName());
@@ -452,13 +466,13 @@ public class MaintenanceFormService {
         String compactFacts = buildCompactFaultFacts(status, faultList, alertList);
         form.setFaultDescription(summarizeFaultDescriptionAi(compactFacts));
         
-        String maintenanceType = determineMaintenanceType(status, faultList, alertList);
+        String maintenanceType = determineMaintenanceType(ruleResult, ruleAlerts);
         form.setMaintenanceType(maintenanceType);
         
-        String priority = determinePriority(status, faultList, alertList);
+        String priority = determinePriority(ruleResult, ruleAlerts);
         form.setPriorityLevel(priority);
         
-        Integer estimatedTime = estimateTime(status, faultList, alertList);
+        Integer estimatedTime = estimateTime(ruleResult, ruleAlerts);
         form.setEstimatedTime(estimatedTime);
         
         List<String> tools = determineRequiredTools(device, status, faultList);
@@ -578,80 +592,67 @@ public class MaintenanceFormService {
         return t.substring(0, Math.max(0, maxLen - 1)) + "…";
     }
     
-    private String determineMaintenanceType(EqDeviceStatus status, 
-                                          List<EqFaultRecord> faultList, 
-                                          List<EqAlertRecord> alertList) {
-        if (faultList != null && !faultList.isEmpty()) {
-            for (EqFaultRecord fault : faultList) {
-                if ("1".equals(fault.getFaultLevel())) {
-                    return "紧急";
+    private String determineMaintenanceType(RuleTriggerResult ruleResult, List<EqAlertRecord> ruleAlerts) {
+        if (ruleAlerts != null && !ruleAlerts.isEmpty()) {
+            Integer maxLevel = null;
+            for (EqAlertRecord alert : ruleAlerts) {
+                if (alert.getAlertLevel() == null) {
+                    continue;
+                }
+                if (maxLevel == null || alert.getAlertLevel() > maxLevel) {
+                    maxLevel = alert.getAlertLevel();
                 }
             }
-            return "纠正性";
-        }
-        
-        if (alertList != null && !alertList.isEmpty()) {
+            if (maxLevel != null && maxLevel >= EquipmentRuleConstants.ALERT_LEVEL_CRITICAL) {
+                return "紧急";
+            }
+            if (maxLevel != null && maxLevel >= EquipmentRuleConstants.ALERT_LEVEL_SERIOUS) {
+                return "纠正性";
+            }
             return "预测性";
         }
-        
-        if (status != null && status.getStatus() != null && status.getStatus() == 2) {
+        if (ruleResult != null && ruleResult.getRulesHit() > 0) {
+            return "预测性";
+        }
+        if (isMaintenanceRequiredByRule(ruleResult)) {
             return "预防性";
         }
-        
-        if (status != null && status.getMaintenanceRequired() != null && status.getMaintenanceRequired() == 1) {
-            return "预防性";
-        }
-        
         return "预防性";
     }
     
-    private String determinePriority(EqDeviceStatus status, 
-                                     List<EqFaultRecord> faultList, 
-                                     List<EqAlertRecord> alertList) {
-        if (faultList != null && !faultList.isEmpty()) {
-            for (EqFaultRecord fault : faultList) {
-                String level = fault.getFaultLevel();
-                if ("1".equals(level)) return "高";
-                if ("2".equals(level)) return "高";
-            }
-        }
-        
-        if (status != null && status.getStatus() != null) {
-            if (status.getStatus() == 3) return "高";
-            if (status.getStatus() == 4) return "高";
-            if (status.getStatus() == 2) return "中";
-        }
-        
-        if (alertList != null && !alertList.isEmpty()) {
-            for (EqAlertRecord alert : alertList) {
-                if (alert.getAlertLevel() != null && alert.getAlertLevel() <= 2) {
-                    return "高";
-                }
-            }
-        }
-        
-        return "中";
+    private String determinePriority(RuleTriggerResult ruleResult, List<EqAlertRecord> ruleAlerts) {
+        return calculatePriority(ruleResult, ruleAlerts);
     }
     
-    private Integer estimateTime(EqDeviceStatus status, 
-                                 List<EqFaultRecord> faultList, 
-                                 List<EqAlertRecord> alertList) {
+    private Integer estimateTime(RuleTriggerResult ruleResult, List<EqAlertRecord> ruleAlerts) {
         int baseTime = 30;
-        
-        if (faultList != null && !faultList.isEmpty()) {
-            for (EqFaultRecord fault : faultList) {
-                if (fault.getRepairDuration() != null) {
-                    baseTime = Math.max(baseTime, fault.getRepairDuration());
+        int runningStatus = resolveRunningStatusFromRule(ruleResult);
+        if (runningStatus == EquipmentRuleConstants.RUNNING_WARNING) {
+            baseTime += 30;
+        } else if (runningStatus == EquipmentRuleConstants.RUNNING_ERROR) {
+            baseTime += 90;
+        } else if (runningStatus == EquipmentRuleConstants.RUNNING_OFFLINE) {
+            baseTime += 120;
+        }
+        if (isMaintenanceRequiredByRule(ruleResult)) {
+            baseTime += 30;
+        }
+        if (ruleAlerts != null && !ruleAlerts.isEmpty()) {
+            for (EqAlertRecord alert : ruleAlerts) {
+                Integer level = alert.getAlertLevel();
+                if (level == null) {
+                    continue;
+                }
+                if (level >= EquipmentRuleConstants.ALERT_LEVEL_CRITICAL) {
+                    baseTime += 120;
+                    continue;
+                }
+                if (level >= EquipmentRuleConstants.ALERT_LEVEL_SERIOUS) {
+                    baseTime += 60;
                 }
             }
         }
-        
-        if (status != null && status.getStatus() != null) {
-            if (status.getStatus() == 3) baseTime += 60;
-            if (status.getStatus() == 4) baseTime += 120;
-        }
-        
-        return baseTime;
+        return Math.min(baseTime, 480);
     }
     
     private List<String> determineRequiredTools(EqDevice device, 
@@ -771,37 +772,40 @@ public class MaintenanceFormService {
         }
     }
     
-    private String calculatePriority(EqDeviceStatus status) {
-        if (status == null) return "中";
-        if (status.getStatus() != null) {
-            if (status.getStatus() == 3 || status.getStatus() == 4) return "高";
-            if (status.getStatus() == 2) return "中";
+    private String calculatePriority(RuleTriggerResult ruleResult, List<EqAlertRecord> ruleAlerts) {
+        String priority = "低";
+        int runningStatus = resolveRunningStatusFromRule(ruleResult);
+        if (runningStatus == EquipmentRuleConstants.RUNNING_ERROR
+            || runningStatus == EquipmentRuleConstants.RUNNING_OFFLINE) {
+            priority = "高";
+        } else if (runningStatus == EquipmentRuleConstants.RUNNING_WARNING) {
+            priority = "中";
         }
-        return "中";
+        if (isMaintenanceRequiredByRule(ruleResult)) {
+            priority = "高";
+        }
+        if (ruleAlerts != null && !ruleAlerts.isEmpty()) {
+            for (EqAlertRecord alert : ruleAlerts) {
+                String fromAlert = getPriorityFromAlertLevel(alert.getAlertLevel());
+                if (comparePriority(fromAlert, priority) > 0) {
+                    priority = fromAlert;
+                }
+            }
+        }
+        return priority;
     }
 
     private static String getPriorityFromAlertLevel(Integer level) {
         if (level == null) {
             return "中";
         }
-        if (level <= 2) {
+        if (level >= EquipmentRuleConstants.ALERT_LEVEL_SERIOUS) {
             return "高";
         }
-        if (level <= 3) {
+        if (level >= EquipmentRuleConstants.ALERT_LEVEL_NORMAL) {
             return "中";
         }
         return "低";
-    }
-    
-    private String getPriorityFromFaultLevel(String level) {
-        if (level == null) return "中";
-        switch (level) {
-            case "1": return "高";
-            case "2": return "高";
-            case "3": return "中";
-            case "4": return "低";
-            default: return "中";
-        }
     }
     
     private int comparePriority(String priority1, String priority2) {
@@ -813,6 +817,105 @@ public class MaintenanceFormService {
         int p1 = priorityMap.getOrDefault(priority1, 2);
         int p2 = priorityMap.getOrDefault(priority2, 2);
         return Integer.compare(p1, p2);
+    }
+
+    private List<EqDeviceStatus> loadRuleBasedLatestStatuses() {
+        List<EqDeviceStatus> statusList = new ArrayList<>();
+        List<EqDevice> devices = deviceMapper.selectEqDeviceList(new EqDevice());
+        if (devices == null || devices.isEmpty()) {
+            return statusList;
+        }
+        for (EqDevice device : devices) {
+            if (device == null || device.getDeviceId() == null || device.getDeviceId().isBlank()) {
+                continue;
+            }
+            EqDeviceStatus latest = deviceStatusMapper.selectLatestByDeviceId(device.getDeviceId());
+            RuleTriggerResult ruleResult = evaluateRuleSnapshot(latest);
+            if (!shouldIncludeByRule(ruleResult)) {
+                continue;
+            }
+            statusList.add(latest);
+        }
+        return statusList;
+    }
+
+    private boolean shouldIncludeByRule(RuleTriggerResult ruleResult) {
+        if (ruleResult == null || !hasConfiguredRules(ruleResult)) {
+            return false;
+        }
+        return ruleResult.getRulesHit() > 0 || isMaintenanceRequiredByRule(ruleResult);
+    }
+
+    private RuleTriggerResult evaluateRuleSnapshot(EqDeviceStatus status) {
+        if (status == null || eqDeviceRuleTriggerService == null) {
+            return null;
+        }
+        try {
+            return eqDeviceRuleTriggerService.fireRulesForSnapshot(status);
+        } catch (Exception e) {
+            logger.debug("规则引擎计算失败，返回空结果: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    private int resolveRunningStatusFromRule(RuleTriggerResult ruleResult) {
+        if (ruleResult == null || !hasConfiguredRules(ruleResult) || ruleResult.getRulesHit() <= 0) {
+            return EquipmentRuleConstants.RUNNING_NORMAL;
+        }
+        int target = ruleResult.getTargetRunningStatus();
+        if (target <= 0) {
+            return EquipmentRuleConstants.RUNNING_WARNING;
+        }
+        if (target >= EquipmentRuleConstants.RUNNING_ERROR) {
+            return EquipmentRuleConstants.RUNNING_ERROR;
+        }
+        return EquipmentRuleConstants.RUNNING_WARNING;
+    }
+
+    private static boolean hasConfiguredRules(RuleTriggerResult ruleResult) {
+        return ruleResult != null && ruleResult.getRulesEvaluated() > 0;
+    }
+
+    private static boolean isMaintenanceRequiredByRule(RuleTriggerResult ruleResult) {
+        return ruleResult != null && ruleResult.isNeedMaintenance();
+    }
+
+    private static int runningStatusFromAlertLevel(Integer alertLevel) {
+        if (alertLevel == null) {
+            return EquipmentRuleConstants.RUNNING_WARNING;
+        }
+        if (alertLevel >= EquipmentRuleConstants.ALERT_LEVEL_SERIOUS) {
+            return EquipmentRuleConstants.RUNNING_ERROR;
+        }
+        return EquipmentRuleConstants.RUNNING_WARNING;
+    }
+
+    private static boolean isMaintenanceRequiredByAlert(Integer alertLevel) {
+        return alertLevel != null && alertLevel >= EquipmentRuleConstants.ALERT_LEVEL_SERIOUS;
+    }
+
+    private static boolean isRuleAlert(EqAlertRecord alert) {
+        if (alert == null) {
+            return false;
+        }
+        if (alert.getRuleId() != null) {
+            return true;
+        }
+        String remark = alert.getRemark();
+        return remark != null && remark.contains("规则引擎");
+    }
+
+    private static List<EqAlertRecord> filterRuleAlerts(List<EqAlertRecord> alertList) {
+        List<EqAlertRecord> out = new ArrayList<>();
+        if (alertList == null || alertList.isEmpty()) {
+            return out;
+        }
+        for (EqAlertRecord alert : alertList) {
+            if (isRuleAlert(alert)) {
+                out.add(alert);
+            }
+        }
+        return out;
     }
 
     private void fillIssueAiSummaries(List<Map<String, Object>> deviceList, boolean useAiIssueSummary) {

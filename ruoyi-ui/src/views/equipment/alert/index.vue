@@ -52,10 +52,10 @@
       </el-table-column>
       <el-table-column label="告警级别" align="center" prop="alertLevel" min-width="100">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.alertLevel === 1" type="danger" size="small">紧急</el-tag>
+          <el-tag v-if="scope.row.alertLevel === 1" type="info" size="small">一般</el-tag>
           <el-tag v-else-if="scope.row.alertLevel === 2" type="warning" size="small">严重</el-tag>
-          <el-tag v-else-if="scope.row.alertLevel === 3" type="info" size="small">一般</el-tag>
-          <el-tag v-else type="" size="small">轻微</el-tag>
+          <el-tag v-else-if="scope.row.alertLevel === 3" type="danger" size="small">紧急</el-tag>
+          <el-tag v-else type="success" size="small">轻微</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="告警时间" align="center" prop="triggeredTime" min-width="170" show-overflow-tooltip>
@@ -110,9 +110,9 @@
         </el-form-item>
         <el-form-item label="告警级别" prop="alertLevel">
           <el-select v-model="form.alertLevel" placeholder="请选择告警级别">
-            <el-option label="紧急" :value="1" />
+            <el-option label="一般" :value="1" />
             <el-option label="严重" :value="2" />
-            <el-option label="一般" :value="3" />
+            <el-option label="紧急" :value="3" />
             <el-option label="轻微" :value="4" />
           </el-select>
         </el-form-item>
@@ -239,11 +239,17 @@ export default {
           if (statusA !== statusB) {
             return statusA - statusB;
           }
-          // 然后按告警级别排序：级别越小（1=紧急）越靠前
-          const levelA = a.alertLevel || 999;
-          const levelB = b.alertLevel || 999;
-          if (levelA !== levelB) {
-            return levelA - levelB;
+          // 然后按告警级别排序：紧急(3) > 严重(2) > 一般(1) > 其他
+          const weight = level => {
+            if (level === 3) return 3;
+            if (level === 2) return 2;
+            if (level === 1) return 1;
+            return 0;
+          };
+          const weightA = weight(a.alertLevel);
+          const weightB = weight(b.alertLevel);
+          if (weightA !== weightB) {
+            return weightB - weightA;
           }
           // 最后按触发时间倒序：最新的排在前面
           const timeA = a.triggeredTime ? new Date(a.triggeredTime).getTime() : 0;

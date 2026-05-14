@@ -885,7 +885,7 @@ CREATE TABLE `eq_alert_record`  (
   `alert_id` bigint NOT NULL AUTO_INCREMENT COMMENT '告警ID',
   `device_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '设备ID',
   `rule_id` bigint NULL DEFAULT NULL COMMENT '规则ID',
-  `alert_level` tinyint NULL DEFAULT NULL COMMENT '告警级别 1-警告 2-严重 3-紧急',
+  `alert_level` tinyint NULL DEFAULT NULL COMMENT '告警级别 1-一般 2-严重 3-紧急',
   `alert_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '告警类型',
   `alert_message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '告警消息',
   `triggered_time` datetime NOT NULL COMMENT '触发时间',
@@ -1055,7 +1055,7 @@ CREATE TABLE `eq_device_rule`  (
   `condition_type` int NULL DEFAULT NULL COMMENT '条件类型1大于 2小于 3等于 4区间',
   `threshold_value` decimal(18, 2) NULL DEFAULT NULL COMMENT '阈值',
   `threshold_unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '阈值单位',
-  `alert_level` int NULL DEFAULT NULL COMMENT '报警等级 1警报 2严重 3紧急',
+  `alert_level` int NULL DEFAULT NULL COMMENT '报警等级 1一般 2严重 3紧急',
   `enabled` int NULL DEFAULT NULL COMMENT '是否启用 1启用 0禁用',
   `notification_channels` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '通知渠道（前端/WebSocket 推送填 websocket）',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
@@ -4388,5 +4388,35 @@ WHERE alert_type IS NULL OR TRIM(alert_type) = '';
 ALTER TABLE sys_user_message
     MODIFY COLUMN biz_id varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL
     COMMENT '业务主键：运维表单 form_id 或设备 device_id（UUID），统一字符串存储';
+
+-- ----------------------------
+-- 告警等级历史数据口径统一（1=一般 2=严重 3=紧急）
+-- 仅修正非规则引擎历史告警：rule_id 为空且 remark 不含“规则引擎”
+-- ----------------------------
+START TRANSACTION;
+
+CREATE TABLE IF NOT EXISTS `eq_alert_record_bak_alert_level_20260514` LIKE `eq_alert_record`;
+
+INSERT INTO `eq_alert_record_bak_alert_level_20260514`
+SELECT a.*
+FROM `eq_alert_record` a
+LEFT JOIN `eq_alert_record_bak_alert_level_20260514` b
+  ON b.alert_id = a.alert_id
+WHERE b.alert_id IS NULL
+  AND a.alert_level IN (1, 3)
+  AND a.rule_id IS NULL
+  AND (a.remark IS NULL OR a.remark NOT LIKE '%规则引擎%');
+
+UPDATE `eq_alert_record`
+SET `alert_level` = CASE
+    WHEN `alert_level` = 1 THEN 3
+    WHEN `alert_level` = 3 THEN 1
+    ELSE `alert_level`
+END
+WHERE `alert_level` IN (1, 3)
+  AND `rule_id` IS NULL
+  AND (`remark` IS NULL OR `remark` NOT LIKE '%规则引擎%');
+
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

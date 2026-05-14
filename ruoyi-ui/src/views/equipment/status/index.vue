@@ -41,6 +41,19 @@
       </el-form-item>
     </el-form>
 
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="small"
+          @click="handleAdd"
+          v-hasPermi="['equipment:deviceStatus:add']"
+        >新增</el-button>
+      </el-col>
+    </el-row>
+
     <!-- 数据表格 -->
     <el-table v-loading="loading" :data="statusList" border>
       <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" show-overflow-tooltip>
@@ -331,7 +344,7 @@
 </template>
 
 <script>
-import { listDeviceStatus, getDeviceStatus, updateDeviceStatus } from "@/api/equipment/deviceStatus";
+import { listDeviceStatus, getDeviceStatus, addDeviceStatus, updateDeviceStatus } from "@/api/equipment/deviceStatus";
 import { getDevice } from "@/api/equipment/device";
 import dataAcquisitionDevice from '@/mixins/dataAcquisitionDevice'
 
@@ -460,6 +473,12 @@ export default {
       this.currentStatus = row;
       this.detailVisible = true;
     },
+    /** 新增按钮操作 */
+    handleAdd() {
+      this.reset();
+      this.open = true;
+      this.title = "新增设备状态";
+    },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
@@ -519,6 +538,12 @@ export default {
           if (this.form.statusId != null) {
             updateDeviceStatus(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
+              this.open = false;
+              this.getList();
+            });
+          } else {
+            addDeviceStatus(this.form).then(() => {
+              this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
             });
