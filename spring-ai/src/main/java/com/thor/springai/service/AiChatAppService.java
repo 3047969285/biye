@@ -11,6 +11,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * AI 对话应用服务
+ *
+ * @author thor
+ */
 @Service
 public class AiChatAppService {
 
@@ -26,6 +31,14 @@ public class AiChatAppService {
         this.aiChatRecordService = aiChatRecordService;
     }
 
+    /**
+     * 普通对话
+     *
+     * @param input 用户输入
+     * @param userId 用户ID
+     * @param userName 用户名
+     * @return 对话结果
+     */
     public AjaxResult chat(String input, Long userId, String userName) {
         try {
             AiChatRecord record = new AiChatRecord();
@@ -60,6 +73,14 @@ public class AiChatAppService {
         }
     }
 
+    /**
+     * 流式对话
+     *
+     * @param input 用户输入
+     * @param userId 用户ID
+     * @param userName 用户名
+     * @return SSE 推送器
+     */
     public SseEmitter chatStream(String input, Long userId, String userName) {
         SseEmitter emitter = new SseEmitter(0L);
         Long safeUserId = userId == null ? 0L : userId;

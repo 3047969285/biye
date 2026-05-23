@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
  *   <li>POST /springai/power/predict — 快速推理（已训练后毫秒响应）</li>
  *   <li>GET  /springai/power/status  — 查询训练状态/进度</li>
  * </ul>
+ *
+ * @author thor
  */
 @RestController
 @RequestMapping("/springai/power")
@@ -23,19 +25,33 @@ public class PowerPredictController extends BaseController {
     @Autowired
     private PowerPredictService powerPredictService;
 
-    /** 异步启动训练，立即返回；前端通过 /status 轮询进度 */
+    /**
+     * 启动模型训练
+     *
+     * @param request 训练参数
+     * @return 训练启动结果
+     */
     @PostMapping("/train")
     public AjaxResult train(@RequestBody PowerPredictDto.TrainRequest request) {
         return powerPredictService.train(request);
     }
 
-    /** 快速预测：模型已持久化，推理毫秒级响应 */
+    /**
+     * 执行快速预测
+     *
+     * @param request 预测参数
+     * @return 预测结果
+     */
     @PostMapping("/predict")
     public AjaxResult predict(@RequestBody PowerPredictDto.QuickPredictRequest request) {
         return powerPredictService.quickPredict(request);
     }
 
-    /** 查询模型状态 / 训练进度 */
+    /**
+     * 查询训练状态
+     *
+     * @return 状态结果
+     */
     @GetMapping("/status")
     public AjaxResult status() {
         return powerPredictService.getStatus();

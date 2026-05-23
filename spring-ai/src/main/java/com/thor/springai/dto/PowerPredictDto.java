@@ -8,6 +8,8 @@ import java.util.List;
 /**
  * 与 Python 风电预测服务对接的请求/响应 DTO。
  * Python 服务返回 snake_case，使用 @JsonProperty 完成映射。
+ *
+ * @author thor
  */
 public class PowerPredictDto {
 

@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 对话历史管理控制器
+ *
+ * @author thor
+ */
 @RestController
 @RequestMapping("/springai/history")
 public class ChatHistoryController extends BaseController {
@@ -26,6 +31,12 @@ public class ChatHistoryController extends BaseController {
         }
     }
 
+    /**
+     * 获取对话历史列表
+     *
+     * @param chatType 对话类型
+     * @return 历史记录列表
+     */
     @GetMapping("/list")
     public AjaxResult getHistoryList(@RequestParam(name = "chatType", required = false) String chatType) {
         Long userId = getUserIdSafely();
@@ -33,11 +44,23 @@ public class ChatHistoryController extends BaseController {
         return chatHistoryAppService.getHistoryList(userId, chatType);
     }
 
+    /**
+     * 获取对话历史详情
+     *
+     * @param recordId 记录ID
+     * @return 对话详情
+     */
     @GetMapping("/{recordId}")
     public AjaxResult getHistoryById(@PathVariable Long recordId) {
         return chatHistoryAppService.getHistoryById(recordId);
     }
 
+    /**
+     * 删除对话历史
+     *
+     * @param recordIds 记录ID数组
+     * @return 删除结果
+     */
     @DeleteMapping("/delete")
     public AjaxResult deleteRecords(@RequestBody Long[] recordIds) {
         return chatHistoryAppService.deleteRecords(getUserIdSafely(), recordIds);

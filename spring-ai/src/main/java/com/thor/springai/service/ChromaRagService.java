@@ -17,6 +17,11 @@ import java.io.File;
 import java.util.*;
 import java.util.Optional;
 
+/**
+ * Chroma 向量库 RAG 服务
+ *
+ * @author thor
+ */
 @Service
 public class ChromaRagService {
 
@@ -37,6 +42,13 @@ public class ChromaRagService {
         this.textSplitter = textSplitter;
     }
 
+    /**
+     * 新增文档到向量库
+     *
+     * @param documentId 文档ID
+     * @param content 文档内容
+     * @param metadata 文档元数据
+     */
     public void addDocument(String documentId, String content, Map<String, String> metadata) {
         if (vectorStore == null) {
             throw new RuntimeException("向量存储未配置，请检查 EmbeddingModel 配置");
@@ -74,6 +86,13 @@ public class ChromaRagService {
         }
     }
 
+    /**
+     * 执行 RAG 问答
+     *
+     * @param question 问题
+     * @param topK 召回条数
+     * @return 回答内容
+     */
     public String askWithRag(String question, int topK) {
         String prompt = buildRagPrompt(question, topK);
         String systemPrompt = "你是智能电网运维专家，请基于参考资料回答，先给结论再给步骤和注意事项。";
@@ -94,6 +113,13 @@ public class ChromaRagService {
         }
     }
 
+    /**
+     * 构建 RAG 提示词
+     *
+     * @param question 问题
+     * @param topK 召回条数
+     * @return 提示词
+     */
     public String buildRagPrompt(String question, int topK) {
         if (vectorStore == null) {
             logger.warn("向量存储未配置，使用原始问题作为提示词");
@@ -127,6 +153,13 @@ public class ChromaRagService {
         }
     }
 
+    /**
+     * 按固定结构生成运维表单内容
+     *
+     * @param question 问题
+     * @param topK 召回条数
+     * @return 运维表单响应
+     */
     public MaintenanceFormResponse askWithFixedFormat(String question, int topK) {
         if (vectorStore == null) {
             logger.warn("向量存储未配置，使用默认 AI 回答");
@@ -240,6 +273,11 @@ public class ChromaRagService {
         return parseAiResponse(aiResponse);
     }
 
+    /**
+     * 删除知识库文档
+     *
+     * @param documentId 文档ID
+     */
     public void deleteDocument(String documentId) {
         if (vectorStore == null) {
             throw new RuntimeException("向量存储未配置");
@@ -255,6 +293,9 @@ public class ChromaRagService {
         }
     }
 
+    /**
+     * 清空知识库
+     */
     public void clearKnowledgeBase() {
         if (vectorStore == null) {
             throw new RuntimeException("向量存储未配置");

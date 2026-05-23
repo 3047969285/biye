@@ -32,15 +32,20 @@ import java.util.regex.Pattern;
 @Service
 public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerService {
 
+    /** 日志记录器 */
     private static final Logger log = LoggerFactory.getLogger(EqDeviceRuleTriggerServiceImpl.class);
 
+    /** 等值比较容差（用于浮点阈值比较） */
     private static final BigDecimal EPS = new BigDecimal("0.0001");
 
+    /** 区间解析正则：支持 "a-b" 或 "a,b" 形式 */
     private static final Pattern RANGE_IN_UNIT = Pattern.compile(
         "^\\s*(-?\\d+(?:\\.\\d+)?)\\s*[-,]\\s*(-?\\d+(?:\\.\\d+)?)\\s*$");
 
+    /** 规则参数中文名与状态字段键名映射 */
     private static final Map<String, String> PARAM_ALIASES = new HashMap<>();
 
+    /** 初始化规则参数别名 */
     static {
         PARAM_ALIASES.put("温度", "temperature");
         PARAM_ALIASES.put("湿度", "humidity");
@@ -58,9 +63,11 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
         PARAM_ALIASES.put("报警次数", "alarmCount");
     }
 
+    /** 设备规则数据访问层 */
     @Autowired
     private EqDeviceRuleMapper eqDeviceRuleMapper;
 
+    /** 告警记录数据访问层 */
     @Autowired
     private EqAlertRecordMapper eqAlertRecordMapper;
 
@@ -141,18 +148,42 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
         return result;
     }
 
+    /**
+     * 解析基线运行状态
+     *
+     * @param status 状态值
+     * @return 运行状态
+     */
     private static int defaultRunningStatus(Integer status) {
         return status != null ? status : EquipmentRuleConstants.RUNNING_NORMAL;
     }
 
+    /**
+     * 判断规则是否禁用
+     *
+     * @param rule 设备规则
+     * @return true表示禁用
+     */
     private static boolean isRuleDisabled(EqDeviceRule rule) {
         return rule.getEnabled() != null && rule.getEnabled() == EquipmentRuleConstants.RULE_DISABLED;
     }
 
+    /**
+     * 判断规则配置是否完整
+     *
+     * @param rule 设备规则
+     * @return true表示配置不完整
+     */
     private static boolean isRuleConfigIncomplete(EqDeviceRule rule) {
         return rule.getConditionType() == null || rule.getThresholdValue() == null;
     }
 
+    /**
+     * 告警等级映射为运行状态
+     *
+     * @param alertLevel 告警等级
+     * @return 运行状态
+     */
     private static int mapAlertLevelToRunningStatus(Integer alertLevel) {
         if (alertLevel == null) {
             return EquipmentRuleConstants.RUNNING_WARNING;
@@ -168,6 +199,14 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
         }
     }
 
+    /**
+     * 写入告警记录
+     *
+     * @param status 设备状态快照
+     * @param rule 命中规则
+     * @param actual 参数实际值
+     * @return true表示写入成功
+     */
     private boolean insertAlert(EqDeviceStatus status, EqDeviceRule rule, BigDecimal actual) {
         EqAlertRecord rec = new EqAlertRecord();
         rec.setDeviceId(status.getDeviceId());
@@ -195,6 +234,12 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
         }
     }
 
+    /**
+     * 获取条件类型描述文本
+     *
+     * @param rule 设备规则
+     * @return 条件描述
+     */
     private static String describeCondition(EqDeviceRule rule) {
         Integer t = rule.getConditionType();
         if (t == null) {
@@ -214,6 +259,12 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
         }
     }
 
+    /**
+     * 格式化阈值展示文本
+     *
+     * @param rule 设备规则
+     * @return 阈值文本
+     */
     private static String formatThreshold(EqDeviceRule rule) {
         if (rule.getConditionType() != null && rule.getConditionType() == EquipmentRuleConstants.CONDITION_OUT_OF_RANGE) {
             BigDecimal[] range = parseRangeBounds(rule);
@@ -226,6 +277,13 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
             ? rule.getThresholdValue().stripTrailingZeros().toPlainString() : "";
     }
 
+    /**
+     * 判断规则是否命中
+     *
+     * @param rule 设备规则
+     * @param value 实际值
+     * @return true表示命中
+     */
     private boolean matches(EqDeviceRule rule, BigDecimal value) {
         Integer ct = rule.getConditionType();
         BigDecimal th = rule.getThresholdValue();
@@ -252,6 +310,12 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
         }
     }
 
+    /**
+     * 解析区间阈值上下界
+     *
+     * @param rule 设备规则
+     * @return 区间数组，解析失败返回null
+     */
     private static BigDecimal[] parseRangeBounds(EqDeviceRule rule) {
         String u = rule.getThresholdUnit();
         if (u != null) {
@@ -263,6 +327,12 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
         return null;
     }
 
+    /**
+     * 规范化规则参数名
+     *
+     * @param parameterName 原始参数名
+     * @return 标准参数键
+     */
     private static String normalizeParameterKey(String parameterName) {
         if (parameterName == null) {
             return "";
@@ -271,6 +341,13 @@ public class EqDeviceRuleTriggerServiceImpl implements IEqDeviceRuleTriggerServi
         return PARAM_ALIASES.getOrDefault(t, t);
     }
 
+    /**
+     * 根据参数名提取状态快照中的实际值
+     *
+     * @param s 设备状态快照
+     * @param parameterName 规则参数名
+     * @return 参数实际值
+     */
     private BigDecimal resolveParameterValue(EqDeviceStatus s, String parameterName) {
         String key = normalizeParameterKey(parameterName);
         switch (key) {

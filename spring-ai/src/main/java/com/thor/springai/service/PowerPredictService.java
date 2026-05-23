@@ -21,6 +21,8 @@ import org.springframework.web.client.RestTemplate;
  *   <li>/predict — 快速推理，毫秒级响应，无需重训练</li>
  *   <li>/status  — 查询训练进度 / 模型指标</li>
  * </ul>
+ *
+ * @author thor
  */
 @Service
 public class PowerPredictService {
@@ -51,9 +53,12 @@ public class PowerPredictService {
         return h;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  训练：异步启动，立即返回
-    // ─────────────────────────────────────────────────────────────────────────
+    /**
+     * 启动模型训练
+     *
+     * @param request 训练参数
+     * @return 训练启动结果
+     */
     public AjaxResult train(PowerPredictDto.TrainRequest request) {
         try {
             String url = pythonBaseUrl + "/train";
@@ -75,9 +80,12 @@ public class PowerPredictService {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  快速预测（模型已训练后调用，毫秒级响应）
-    // ─────────────────────────────────────────────────────────────────────────
+    /**
+     * 执行快速预测
+     *
+     * @param request 预测参数
+     * @return 预测结果
+     */
     public AjaxResult quickPredict(PowerPredictDto.QuickPredictRequest request) {
         try {
             String url = pythonBaseUrl + "/predict";
@@ -99,9 +107,11 @@ public class PowerPredictService {
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  查询模型状态 / 训练进度
-    // ─────────────────────────────────────────────────────────────────────────
+    /**
+     * 查询模型状态
+     *
+     * @return 状态信息
+     */
     public AjaxResult getStatus() {
         try {
             String url = pythonBaseUrl + "/status";

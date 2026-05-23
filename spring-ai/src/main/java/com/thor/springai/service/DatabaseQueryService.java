@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**
+ * 数据库查询核心服务
+ *
+ * @author thor
+ */
 @Service
 public class DatabaseQueryService {
 
@@ -28,6 +33,12 @@ public class DatabaseQueryService {
         this.chatClient = chatClientBuilder.build();
     }
 
+    /**
+     * 执行查询 SQL
+     *
+     * @param sql SQL语句
+     * @return 查询结果
+     */
     public Map<String, Object> executeQuery(String sql) {
         try {
             String sqlLower = sql.trim().toLowerCase();
@@ -57,6 +68,11 @@ public class DatabaseQueryService {
         }
     }
 
+    /**
+     * 获取所有数据表
+     *
+     * @return 表名列表
+     */
     public List<String> getAllTables() {
         try {
             String sql = "SHOW TABLES";
@@ -77,6 +93,12 @@ public class DatabaseQueryService {
         }
     }
 
+    /**
+     * 获取数据表结构
+     *
+     * @param tableName 表名
+     * @return 表结构JSON
+     */
     public String getTableStructure(String tableName) {
         try {
             String sql = "DESC " + tableName;
@@ -97,6 +119,11 @@ public class DatabaseQueryService {
         }
     }
 
+    /**
+     * 获取数据库统计信息
+     *
+     * @return 统计信息文本
+     */
     public String getMaintenanceFormStats() {
         try {
             StringBuilder stats = new StringBuilder();
@@ -209,6 +236,11 @@ public class DatabaseQueryService {
         }
     }
 
+    /**
+     * 获取数据库上下文描述
+     *
+     * @return 上下文文本
+     */
     public String getDatabaseContext() {
         StringBuilder context = new StringBuilder();
         context.append("=== 数据库结构信息 ===\n\n");
@@ -242,6 +274,14 @@ public class DatabaseQueryService {
         return context.toString();
     }
 
+    /**
+     * 生成查询结果摘要
+     *
+     * @param question 用户问题
+     * @param sql 执行SQL
+     * @param result 查询结果
+     * @return 摘要文本
+     */
     @SuppressWarnings({ "DataFlowIssue", "null" })
     public String summarizeResult(String question, String sql, Map<String, Object> result) {
         try {
@@ -281,6 +321,12 @@ public class DatabaseQueryService {
         }
     }
 
+    /**
+     * 构建可读性摘要
+     *
+     * @param result 查询结果
+     * @return 可读摘要
+     */
     public String buildReadableSummary(Map<String, Object> result) {
         if (!Boolean.TRUE.equals(result.get("success"))) {
             return "查询失败：" + result.getOrDefault("error", "未知错误");

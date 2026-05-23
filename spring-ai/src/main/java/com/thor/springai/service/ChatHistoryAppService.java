@@ -12,6 +12,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 对话历史应用服务
+ *
+ * @author thor
+ */
 @Service
 public class ChatHistoryAppService {
 
@@ -22,6 +27,13 @@ public class ChatHistoryAppService {
         this.aiChatRecordService = aiChatRecordService;
     }
 
+    /**
+     * 获取对话历史列表
+     *
+     * @param userId 用户ID
+     * @param chatType 对话类型
+     * @return 历史记录
+     */
     public AjaxResult getHistoryList(Long userId, String chatType) {
         try {
             List<AiChatRecord> allRecords = new ArrayList<>();
@@ -66,6 +78,12 @@ public class ChatHistoryAppService {
         }
     }
 
+    /**
+     * 获取对话历史详情
+     *
+     * @param recordId 记录ID
+     * @return 记录详情
+     */
     public AjaxResult getHistoryById(Long recordId) {
         try {
             AiChatRecord record = aiChatRecordService.selectAiChatRecordByRecordId(recordId);
@@ -79,6 +97,13 @@ public class ChatHistoryAppService {
         }
     }
 
+    /**
+     * 删除对话历史
+     *
+     * @param userId 用户ID
+     * @param recordIds 记录ID数组
+     * @return 删除结果
+     */
     public AjaxResult deleteRecords(Long userId, Long[] recordIds) {
         try {
             if (recordIds == null || recordIds.length == 0) {

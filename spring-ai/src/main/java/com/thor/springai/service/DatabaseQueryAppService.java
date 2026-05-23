@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 数据库查询应用服务
+ *
+ * @author thor
+ */
 @Service
 public class DatabaseQueryAppService {
 
@@ -27,6 +32,14 @@ public class DatabaseQueryAppService {
         this.chatClient = builder.build();
     }
 
+    /**
+     * 自然语言查询数据库
+     *
+     * @param question 用户问题
+     * @param userId 用户ID
+     * @param userName 用户名
+     * @return 查询结果
+     */
     public AjaxResult askDatabase(String question, Long userId, String userName) {
         try {
             AiChatRecord record = new AiChatRecord();
@@ -87,6 +100,12 @@ public class DatabaseQueryAppService {
         }
     }
 
+    /**
+     * 执行指定 SQL
+     *
+     * @param sql SQL语句
+     * @return 查询结果
+     */
     public AjaxResult executeQuery(String sql) {
         try {
             return AjaxResult.success(databaseQueryService.executeQuery(sql));
@@ -96,6 +115,11 @@ public class DatabaseQueryAppService {
         }
     }
 
+    /**
+     * 获取所有表名
+     *
+     * @return 表列表
+     */
     public AjaxResult getTables() {
         try {
             return AjaxResult.success(databaseQueryService.getAllTables());
@@ -104,6 +128,12 @@ public class DatabaseQueryAppService {
         }
     }
 
+    /**
+     * 获取表结构
+     *
+     * @param tableName 表名
+     * @return 表结构
+     */
     public AjaxResult getTableStructure(String tableName) {
         try {
             return AjaxResult.success(databaseQueryService.getTableStructure(tableName));
@@ -112,6 +142,11 @@ public class DatabaseQueryAppService {
         }
     }
 
+    /**
+     * 获取数据库统计信息
+     *
+     * @return 统计信息
+     */
     public AjaxResult getStats() {
         try {
             String stats = databaseQueryService.getMaintenanceFormStats();
@@ -128,6 +163,11 @@ public class DatabaseQueryAppService {
         }
     }
 
+    /**
+     * 获取数据库上下文信息
+     *
+     * @return 上下文内容
+     */
     public AjaxResult getDatabaseContext() {
         try {
             return AjaxResult.success(databaseQueryService.getDatabaseContext());

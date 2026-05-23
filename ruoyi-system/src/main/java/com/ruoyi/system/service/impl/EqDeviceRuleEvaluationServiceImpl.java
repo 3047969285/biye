@@ -69,6 +69,12 @@ public class EqDeviceRuleEvaluationServiceImpl implements IEqDeviceRuleEvaluatio
         applyRunningStateFromTrigger(latest, trigger);
     }
 
+    /**
+     * 解析用于规则计算的状态快照
+     *
+     * @param status 输入状态对象
+     * @return 优先返回持久化快照，其次返回设备最新状态，兜底返回原对象
+     */
     private EqDeviceStatus resolveSnapshot(EqDeviceStatus status) {
         if (status.getStatusId() != null) {
             EqDeviceStatus loaded = eqDeviceStatusMapper.selectEqDeviceStatusByStatusId(status.getStatusId());
@@ -83,6 +89,12 @@ public class EqDeviceRuleEvaluationServiceImpl implements IEqDeviceRuleEvaluatio
         return status;
     }
 
+    /**
+     * 将规则触发结果回写到设备状态
+     *
+     * @param data 状态快照
+     * @param trigger 规则触发结果
+     */
     private void applyRunningStateFromTrigger(EqDeviceStatus data, RuleTriggerResult trigger) {
         if (data.getStatusId() == null || trigger == null) {
             return;

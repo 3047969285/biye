@@ -24,7 +24,12 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-/** Bean 名固定为 springAiMaintenanceFormService；Quartz 使用的 maintenanceFormService 见 ruoyi-quartz 门面类。 */
+/**
+ * 智能运维表单服务
+ * Bean 名固定为 springAiMaintenanceFormService；Quartz 使用的 maintenanceFormService 见 ruoyi-quartz 门面类。
+ *
+ * @author thor
+ */
 @Service("springAiMaintenanceFormService")
 public class MaintenanceFormService {
     
@@ -70,6 +75,12 @@ public class MaintenanceFormService {
     @Autowired(required = false)
     private IEqDeviceRuleTriggerService eqDeviceRuleTriggerService;
 
+    /**
+     * 解析设备ID字符串
+     *
+     * @param deviceIdsStr 设备ID字符串（逗号分隔）
+     * @return 设备ID列表
+     */
     public List<String> parseDeviceIds(String deviceIdsStr) {
         List<String> deviceIds = new ArrayList<>();
         if (deviceIdsStr == null || deviceIdsStr.trim().isEmpty()) {
@@ -85,10 +96,22 @@ public class MaintenanceFormService {
         return deviceIds;
     }
 
+    /**
+     * 查询运维表单列表
+     *
+     * @param form 查询条件
+     * @return 表单列表
+     */
     public List<AiMaintenanceForm> selectFormList(AiMaintenanceForm form) {
         return maintenanceFormMapper.selectAiMaintenanceFormList(form);
     }
 
+    /**
+     * 查询运维表单详情
+     *
+     * @param formId 表单ID
+     * @return 查询结果
+     */
     public AjaxResult getFormById(Long formId) {
         try {
             AiMaintenanceForm form = maintenanceFormMapper.selectAiMaintenanceFormById(formId);
@@ -102,6 +125,12 @@ public class MaintenanceFormService {
         }
     }
 
+    /**
+     * 更新运维表单
+     *
+     * @param form 表单信息
+     * @return 更新结果
+     */
     public AjaxResult updateForm(AiMaintenanceForm form) {
         try {
             int result = maintenanceFormMapper.updateAiMaintenanceForm(form);
@@ -115,6 +144,12 @@ public class MaintenanceFormService {
         }
     }
 
+    /**
+     * 删除运维表单
+     *
+     * @param formId 表单ID
+     * @return 删除结果
+     */
     public AjaxResult deleteForm(Long formId) {
         try {
             int result = maintenanceFormMapper.deleteAiMaintenanceFormById(formId);
@@ -128,6 +163,12 @@ public class MaintenanceFormService {
         }
     }
 
+    /**
+     * 批量删除运维表单
+     *
+     * @param formIds 表单ID数组
+     * @return 删除结果
+     */
     public AjaxResult batchDeleteForms(Long[] formIds) {
         try {
             if (formIds == null || formIds.length == 0) {
@@ -144,6 +185,12 @@ public class MaintenanceFormService {
         }
     }
     
+    /**
+     * 查询需要维护的设备
+     *
+     * @param useAiIssueSummary 是否启用AI问题摘要
+     * @return 设备列表
+     */
     public AjaxResult getDevicesRequiringMaintenance(boolean useAiIssueSummary) {
         return buildDevicesRequiringMaintenance(useAiIssueSummary);
     }
@@ -292,6 +339,8 @@ public class MaintenanceFormService {
     /**
      * 供 Quartz「检查报警」调用：先聚合查询需维护/告警设备（供前端等使用），再扫描 draft/pending 运维表单并推送站内消息。
      * 与 {@link MaintenanceFormNotifyTask#scanPendingFormsAndNotify()} 共用同一套发消息逻辑；若仅想发消息也可单独配置该 Task。
+     *
+     * @return 聚合结果
      */
     public AjaxResult notifyDevicesRequiringMaintenance() {
         AjaxResult result = buildDevicesRequiringMaintenance(false);
@@ -371,6 +420,13 @@ public class MaintenanceFormService {
         return out;
     }
     
+    /**
+     * 为单台设备生成运维表单
+     *
+     * @param deviceId 设备ID
+     * @param saveToDb 是否保存到数据库
+     * @return 生成结果
+     */
     public AjaxResult generateFormForDevice(String deviceId, boolean saveToDb) {
         try {
             EqDevice device = deviceMapper.selectEqDeviceByDeviceId(deviceId);
@@ -408,6 +464,13 @@ public class MaintenanceFormService {
         }
     }
     
+    /**
+     * 批量生成运维表单
+     *
+     * @param deviceIds 设备ID列表
+     * @param saveToDb 是否保存到数据库
+     * @return 生成结果
+     */
     public AjaxResult batchGenerateForms(List<String> deviceIds, boolean saveToDb) {
         List<Map<String, Object>> results = new ArrayList<>();
         int successCount = 0;

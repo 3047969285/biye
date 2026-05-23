@@ -12,17 +12,34 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 
+/**
+ * Spring AI 配置
+ *
+ * @author thor
+ */
 @Configuration
 public class AiConfig {
 
     @Value("${spring.ai.vectorstore.simple.store-file:data/vector-store.json}")
     private String vectorStoreFile;
 
+    /**
+     * 创建 AI 对话客户端
+     *
+     * @param builder ChatClient 构建器
+     * @return ChatClient
+     */
     @Bean
     public ChatClient chatClient(ChatClient.Builder builder) {
         return builder.build();
     }
 
+    /**
+     * 创建向量存储实例
+     *
+     * @param embeddingModel 向量模型
+     * @return 向量存储
+     */
     @Bean
     public VectorStore vectorStore(@Autowired(required = false) EmbeddingModel embeddingModel) {
         if (embeddingModel == null) {
@@ -47,6 +64,11 @@ public class AiConfig {
         return vectorStore;
     }
 
+    /**
+     * 创建文本切分器
+     *
+     * @return TokenTextSplitter
+     */
     @Bean
     public TokenTextSplitter textSplitter() {
         return new TokenTextSplitter();

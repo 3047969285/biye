@@ -12,6 +12,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * AI 基础对话控制器
+ *
+ * @author thor
+ */
 @RestController
 @RequestMapping("/springai")
 public class AiDeomController extends BaseController {
@@ -42,11 +47,23 @@ public class AiDeomController extends BaseController {
         }
     }
 
+    /**
+     * 基础对话
+     *
+     * @param input 用户输入
+     * @return 对话结果
+     */
     @GetMapping("/chat")
     public AjaxResult chat(@RequestParam(name = "input") String input) {
         return aiChatAppService.chat(input, getUserIdSafely(), getUsernameSafely());
     }
 
+    /**
+     * 基础对话（流式）
+     *
+     * @param input 用户输入
+     * @return SSE 推送器
+     */
     @GetMapping(value = "/chat/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter chatStream(@RequestParam(name = "input") String input) {
         return aiChatAppService.chatStream(input, getUserIdSafely(), getUsernameSafely());

@@ -20,6 +20,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * RAG 应用服务
+ *
+ * @author thor
+ */
 @Service
 public class RagAppService {
 
@@ -40,6 +45,14 @@ public class RagAppService {
         this.chatClient = builder.build();
     }
 
+    /**
+     * 新增知识库文档
+     *
+     * @param content 文档内容
+     * @param title 文档标题
+     * @param category 文档分类
+     * @return 处理结果
+     */
     public AjaxResult addDocument(String content, String title, String category) {
         try {
             String documentId = UUID.randomUUID().toString();
@@ -55,6 +68,15 @@ public class RagAppService {
         }
     }
 
+    /**
+     * RAG 问答
+     *
+     * @param question 问题
+     * @param topK 召回条数
+     * @param userId 用户ID
+     * @param userName 用户名
+     * @return 回答结果
+     */
     public AjaxResult askWithRag(String question, int topK, Long userId, String userName) {
         try {
             AiChatRecord record = new AiChatRecord();
@@ -82,6 +104,15 @@ public class RagAppService {
         }
     }
 
+    /**
+     * RAG 问答（流式）
+     *
+     * @param question 问题
+     * @param topK 召回条数
+     * @param userId 用户ID
+     * @param userName 用户名
+     * @return SSE 推送器
+     */
     public SseEmitter askWithRagStream(String question, int topK, Long userId, String userName) {
         SseEmitter emitter = new SseEmitter(0L);
         Long safeUserId = userId == null ? 0L : userId;
@@ -139,6 +170,14 @@ public class RagAppService {
         return emitter;
     }
 
+    /**
+     * 生成运维表单
+     *
+     * @param question 问题
+     * @param topK 召回条数
+     * @param saveToDb 是否保存到数据库
+     * @return 生成结果
+     */
     public AjaxResult generateMaintenanceForm(String question, int topK, boolean saveToDb) {
         try {
             ChromaRagService.MaintenanceFormResponse response = chromaRagService.askWithFixedFormat(question, topK);
@@ -171,6 +210,12 @@ public class RagAppService {
         }
     }
 
+    /**
+     * 删除知识库文档
+     *
+     * @param documentId 文档ID
+     * @return 删除结果
+     */
     public AjaxResult deleteDocument(String documentId) {
         try {
             chromaRagService.deleteDocument(documentId);
@@ -180,6 +225,11 @@ public class RagAppService {
         }
     }
 
+    /**
+     * 清空知识库
+     *
+     * @return 清空结果
+     */
     public AjaxResult clearKnowledgeBase() {
         try {
             chromaRagService.clearKnowledgeBase();
@@ -189,10 +239,22 @@ public class RagAppService {
         }
     }
 
+    /**
+     * 查询运维表单列表
+     *
+     * @param form 查询条件
+     * @return 表单列表
+     */
     public List<AiMaintenanceForm> selectForms(AiMaintenanceForm form) {
         return maintenanceFormMapper.selectAiMaintenanceFormList(form);
     }
 
+    /**
+     * 查询运维表单详情
+     *
+     * @param formId 表单ID
+     * @return 表单详情
+     */
     public AjaxResult getForm(Long formId) {
         try {
             AiMaintenanceForm form = maintenanceFormMapper.selectAiMaintenanceFormById(formId);
