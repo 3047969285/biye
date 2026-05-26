@@ -1,0 +1,139 @@
+spring:
+  application:
+    name: ProtocolTrans
+  
+  messages:
+    basename: i18n/messages
+
+  devtools:
+    restart:
+      enabled: true
+
+logging:
+  level:
+    root: info
+    com.example: debug
+    org.springframework: warn
+  file:
+    name: logs/protocol-trans.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+  logback:
+    rolling-policy:
+      max-file-size: 100MB
+      max-history: 30
+
+# modbus从站配置
+modbus:
+  client:
+    enabled: true
+    timeout: 5000
+    retries: 3
+    max-connections: 10
+    idle-timeout: 30000
+  tcp:
+    enabled: true
+    port: 502
+    encapsulated: false
+
+# Modbus寄存器映射数据类型
+register-types:
+  "combinedActiveTotalElectric":          "float32"   # 占用偏移 0-1
+  "rightActiveTotalElectric":             "uint32"    # 占用偏移 2-3
+  "reverseActiveRotalElectric":           "uint32"    # 占用偏移 4-5
+  "instantaneousActivePower":             "float32"   # 占用偏移 6-7
+  "combinedActivePowerRateOneElectric":   "float32"   # 占用偏移 8-9
+  "maximumForwardActiveDemand":           "float32"   # 占用偏移 10-11
+  "phaseACurrent":                        "float32"   # A相电流，占用偏移 12-13
+  "phaseALoseVoltageRecord":              "float32"   # A相失压记录（上一次）14-15
+  "tableNumber":                          "float32"   # 表号，占用偏移 16-17
+  "ActiveEnergyConstantOfMeter":          "float32"   # 电表有功常数，占用偏移 18-19
+
+# 电表采集配置
+meter:
+  collection:
+    cron: "0/2 * * * * ?"
+    devices:
+#      - name: "电表1 (645串口)"
+#        type: serial
+#        protocol: dl645
+#        index: 0
+#        comPort: COM3
+#        address: "000071447565"
+#        timeout: 1000
+#        baudRate: 2400
+#        di-mapping:
+#          "combinedActiveTotalElectric":        "00000000"  # 组合有功总电能
+#          "rightActiveTotalElectric":           "00010000"  # 正向有功总电能
+#          "reverseActiveRotalElectric":         "00020000"  # 反向有功总电能
+#          "instantaneousActivePower":           "02030000"  # 瞬时有功功率
+#          "combinedActivePowerRateOneElectric": "00000101"  # 组合有功费率（1）电能（上1结算日）
+#          "maximumForwardActiveDemand":         "01010000"  # 正向有功最大需量
+#          "phaseACurrent":                      "02020100"  # A相电流
+#          "phaseALoseVoltageRecord":            "03010101"  # A相失压记录（上一次）
+#          "tableNumber":                        "04000402"  # 表号
+#          "ActiveEnergyConstantOfMeter":        "04000409"  # 电表有功常数
+      - name: "电表2 (645串口)"
+        type: serial
+        protocol: dl645
+        index: 0
+        comPort: COM3
+        address: "003403889900"
+        timeout: 1000
+        baudRate: 2400
+        di-mapping:
+          "combinedActiveTotalElectric":        "00000000"  # 组合有功总电能
+          "rightActiveTotalElectric":           "00010000"  # 正向有功总电能
+          "reverseActiveRotalElectric":         "00020000"  # 反向有功总电能
+          "instantaneousActivePower":           "02030000"  # 瞬时有功功率
+          "combinedActivePowerRateOneElectric": "00000101"  # 组合有功费率（1）电能（上1结算日）
+          "maximumForwardActiveDemand":         "01010000"  # 正向有功最大需量
+          "phaseACurrent":                      "02020100"  # A相电流
+          "phaseALoseVoltageRecord":            "03010101"  # A相失压记录（上一次）
+          "tableNumber":                        "04000402"  # 表号
+          "ActiveEnergyConstantOfMeter":        "04000409"  # 电表有功常数
+
+#      - name: "电表3 (modbus串口)"
+#        type: serial
+#        protocol: modbus
+#        index: 1
+#        comPort: COM3
+#        address: "72"
+#        timeout: 1000
+#        baudRate: 9600
+#        dataBits: 8
+#        stopBits: 1
+#        parity: 0
+#        addr-mapping:
+#          "combinedActiveTotalElectric": "0000H"
+#          "rightActiveTotalElectric": "0002H"
+#          "reverseActiveRotalElectric": "0004H"
+#          "ACurrentVoltage": "0061H"
+
+#      - name: "电表11 (TCP-DL645)"
+#        type: tcp
+#        protocol: dl645
+#        index: 0
+#        ip: "127.0.0.1"
+#        port: 9988
+#        address: "000000000001"
+#        timeout: 300
+#        di-mapping:
+#          "combinedActiveTotalElectric": "00000000"
+#          "rightActiveTotalElectric": "00010000"
+#          "tableNumber": "04000402"
+#
+#      - name: "电表12 (TCP-DL698)"
+#        type: tcp
+#        protocol: dl698
+#        index: 1
+#        ip: "127.0.0.1"
+#        port: 8803
+#        address: "000000000001"
+#        timeout: 300
+#        clientAddress: 1
+#        oad-mapping:
+#          "combinedActiveTotalElectric":        "00000201"  # 组合有功总电能
+#          "rightActiveTotalElectric":           "00100201"  # 正向有功总电能
+#          "reverseActiveRotalElectric":         "00100202"  # 反向有功总电能

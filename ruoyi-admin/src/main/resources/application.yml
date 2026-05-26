@@ -18,14 +18,53 @@ ruoyi:
   # 验证码类型 math 数字计算 char 字符验证
   captchaType: math
 
-# 电表 Modbus：网口接收与开放汇总接口（点表见 /meter/point，执行 sql/meter_modbus.sql）
-meter:
+# ProtocolTrans 协议转换统一配置（按原项目配置迁移）
+protocol-trans:
+  enabled: true
   modbus:
-    tcp-enabled: false
-    tcp-port: 5021
-    tcp-binary: false
-    ingest-api-key: ""
-    summary-include-point-table: true
+    client:
+      enabled: true
+      timeout: 5000
+      retries: 3
+      max-connections: 10
+      idle-timeout: 30000
+    tcp:
+      enabled: true
+      port: 502
+      encapsulated: false
+  register-types:
+    "combinedActiveTotalElectric": "float32"
+    "rightActiveTotalElectric": "uint32"
+    "reverseActiveRotalElectric": "uint32"
+    "instantaneousActivePower": "float32"
+    "combinedActivePowerRateOneElectric": "float32"
+    "maximumForwardActiveDemand": "float32"
+    "phaseACurrent": "float32"
+    "phaseALoseVoltageRecord": "float32"
+    "tableNumber": "float32"
+    "ActiveEnergyConstantOfMeter": "float32"
+  collection:
+    cron: "0/2 * * * * ?"
+    devices:
+      - name: "电表2 (645串口)"
+        type: serial
+        protocol: dl645
+        index: 0
+        comPort: COM3
+        address: "003403889900"
+        timeout: 1000
+        baudRate: 2400
+        di-mapping:
+          "combinedActiveTotalElectric": "00000000"
+          "rightActiveTotalElectric": "00010000"
+          "reverseActiveRotalElectric": "00020000"
+          "instantaneousActivePower": "02030000"
+          "combinedActivePowerRateOneElectric": "00000101"
+          "maximumForwardActiveDemand": "01010000"
+          "phaseACurrent": "02020100"
+          "phaseALoseVoltageRecord": "03010101"
+          "tableNumber": "04000402"
+          "ActiveEnergyConstantOfMeter": "04000409"
 
 # 开发环境配置
 server:
@@ -49,6 +88,7 @@ server:
 logging:
   level:
     com.ruoyi: debug
+    com.example: debug
     org.springframework: warn
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

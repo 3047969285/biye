@@ -12,7 +12,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @EnableScheduling
 @SpringBootApplication(
-    scanBasePackages = {"com.ruoyi", "com.thor.springai"},
+    scanBasePackages = {
+        "com.ruoyi",
+        "com.thor.springai",
+        "com.example.dl645",
+        "com.example.modbus",
+        "com.example.protocoltrans.config",
+        "com.example.protocoltrans.service",
+        "com.example.protocoltrans.task"
+    },
     excludeName = {
         "com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAgentAutoConfiguration"
     })

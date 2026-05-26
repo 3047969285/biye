@@ -250,13 +250,6 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
-            <!-- 电表模块-->
-            <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-meter</artifactId>
-                <version>${ruoyi.version}</version>
-            </dependency>
-
             <!-- 通用工具-->
             <dependency>
                 <groupId>com.ruoyi</groupId>
@@ -271,10 +264,10 @@
         <module>ruoyi-admin</module>
         <module>ruoyi-framework</module>
         <module>ruoyi-system</module>
-        <module>ruoyi-meter</module>
         <module>ruoyi-quartz</module>
         <module>ruoyi-common</module>
         <module>spring-ai</module>
+        <module>ProtocolTrans</module>
     </modules>
     <packaging>pom</packaging>
 
