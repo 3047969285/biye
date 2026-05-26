@@ -1,12 +1,3 @@
-"""
-风电功率 GRU 离线训练脚本。
-读取 FD001.xlsx（风速特征）和 FD001_real.xlsx（真实功率），
-训练 GRU 模型并导出 gru_FD.h5，供 predict.py 推理服务加载。
-
-用法：python train.py
-输出：model/gru_FD.h5
-"""
-
 import os
 import numpy as np
 import pandas as pd
@@ -14,7 +5,7 @@ import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.layers import GRU, Dense, Dropout, Input
 
-# ── 常量 ──────────────────────────────────────────────────────────────────
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "model")
 

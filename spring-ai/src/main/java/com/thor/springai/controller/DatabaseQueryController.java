@@ -47,8 +47,9 @@ public class DatabaseQueryController extends BaseController {
      * @return 查询结果
      */
     @GetMapping("/ask")
-    public AjaxResult askDatabase(@RequestParam(name = "question") String question) {
-        return databaseQueryAppService.askDatabase(question, getUserIdSafely(), getUsernameSafely());
+    public AjaxResult askDatabase(@RequestParam(name = "question") String question,
+                                  @RequestParam(name = "conversationId", required = false) String conversationId) {
+        return databaseQueryAppService.askDatabase(question, getUserIdSafely(), getUsernameSafely(), conversationId);
     }
 
     /**

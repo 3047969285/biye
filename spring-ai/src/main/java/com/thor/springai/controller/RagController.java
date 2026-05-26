@@ -63,8 +63,9 @@ public class RagController extends BaseController {
      */
     @GetMapping("/ask")
     public AjaxResult askWithRag(@RequestParam(name = "question") String question,
-                                  @RequestParam(name = "topK", defaultValue = "3") int topK) {
-        return ragAppService.askWithRag(question, topK, getUserIdSafely(), getUsernameSafely());
+                                  @RequestParam(name = "topK", defaultValue = "3") int topK,
+                                  @RequestParam(name = "conversationId", required = false) String conversationId) {
+        return ragAppService.askWithRag(question, topK, getUserIdSafely(), getUsernameSafely(), conversationId);
     }
 
     /**
@@ -76,8 +77,9 @@ public class RagController extends BaseController {
      */
     @GetMapping(value = "/ask/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter askWithRagStream(@RequestParam(name = "question") String question,
-                                       @RequestParam(name = "topK", defaultValue = "3") int topK) {
-        return ragAppService.askWithRagStream(question, topK, getUserIdSafely(), getUsernameSafely());
+                                       @RequestParam(name = "topK", defaultValue = "3") int topK,
+                                       @RequestParam(name = "conversationId", required = false) String conversationId) {
+        return ragAppService.askWithRagStream(question, topK, getUserIdSafely(), getUsernameSafely(), conversationId);
     }
 
     /**
@@ -114,6 +116,16 @@ public class RagController extends BaseController {
     @PostMapping("/clear")
     public AjaxResult clearKnowledgeBase() {
         return ragAppService.clearKnowledgeBase();
+    }
+
+    /**
+     * RAG 运行状态自检
+     *
+     * @return 运行状态
+     */
+    @GetMapping("/status")
+    public AjaxResult getRagStatus() {
+        return ragAppService.getRagRuntimeStatus();
     }
 
     /**

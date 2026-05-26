@@ -9,13 +9,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userId"       column="user_id"       />
         <result property="userName"     column="user_name"     />
         <result property="chatType"     column="chat_type"     />
+        <result property="conversationId" column="conversation_id" />
         <result property="userMessage"  column="user_message"  />
         <result property="aiMessage"    column="ai_message"     />
         <result property="createTime"   column="create_time"   />
     </resultMap>
 
     <sql id="selectAiChatRecordVo">
-        select record_id, user_id, user_name, chat_type, user_message, ai_message, create_time
+        select record_id, user_id, user_name, chat_type, conversation_id, user_message, ai_message, create_time
         from ai_chat_record
     </sql>
 
@@ -24,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="userId != null"> and user_id = #{userId}</if>
             <if test="chatType != null and chatType != ''"> and chat_type = #{chatType}</if>
+            <if test="conversationId != null and conversationId != ''"> and conversation_id = #{conversationId}</if>
             <if test="userName != null and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
         </where>
         order by create_time desc
@@ -40,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null">user_id,</if>
             <if test="userName != null">user_name,</if>
             <if test="chatType != null">chat_type,</if>
+            <if test="conversationId != null">conversation_id,</if>
             <if test="userMessage != null">user_message,</if>
             <if test="aiMessage != null">ai_message,</if>
             create_time
@@ -48,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null">#{userId},</if>
             <if test="userName != null">#{userName},</if>
             <if test="chatType != null">#{chatType},</if>
+            <if test="conversationId != null">#{conversationId},</if>
             <if test="userMessage != null">#{userMessage},</if>
             <if test="aiMessage != null">#{aiMessage},</if>
             NOW()

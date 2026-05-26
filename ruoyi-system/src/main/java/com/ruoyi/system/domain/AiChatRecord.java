@@ -25,6 +25,9 @@ public class AiChatRecord extends BaseEntity {
     /** 对话类型：basic-基础对话，rag-知识库问答，db-数据库查询 */
     private String chatType;
 
+    /** 会话ID（用于多轮记忆隔离） */
+    private String conversationId;
+
     /** 用户消息 */
     private String userMessage;
 
@@ -63,6 +66,14 @@ public class AiChatRecord extends BaseEntity {
         return chatType;
     }
 
+    public void setConversationId(String conversationId) {
+        this.conversationId = conversationId;
+    }
+
+    public String getConversationId() {
+        return conversationId;
+    }
+
     public void setUserMessage(String userMessage) {
         this.userMessage = userMessage;
     }
@@ -86,6 +97,7 @@ public class AiChatRecord extends BaseEntity {
             .append("userId", getUserId())
             .append("userName", getUserName())
             .append("chatType", getChatType())
+            .append("conversationId", getConversationId())
             .append("userMessage", getUserMessage())
             .append("aiMessage", getAiMessage())
             .append("createTime", getCreateTime())

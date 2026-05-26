@@ -1,18 +1,18 @@
 import request from '@/utils/request'
 
-export function chat(input) {
+export function chat(input, conversationId) {
   return request({
     url: '/springai/chat',
     method: 'get',
-    params: { input }
+    params: { input, conversationId }
   })
 }
 
-export function askWithRag(question, topK = 3) {
+export function askWithRag(question, topK = 3, conversationId) {
   return request({
     url: '/springai/rag/ask',
     method: 'get',
-    params: { question, topK }
+    params: { question, topK, conversationId }
   })
 }
 
@@ -46,11 +46,11 @@ export function clearKnowledgeBase() {
   })
 }
 
-export function askDatabase(question) {
+export function askDatabase(question, conversationId) {
   return request({
     url: '/springai/db/ask',
     method: 'get',
-    params: { question }
+    params: { question, conversationId }
   })
 }
 

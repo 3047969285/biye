@@ -176,7 +176,7 @@
 </template>
 
 <script>
-import { chat, askWithRag, addDocument, clearKnowledgeBase, askDatabase, getDatabaseStats, getChatHistory, getChatHistoryById } from "@/api/ai/chat";
+import { chat, askWithRag, addDocument, clearKnowledgeBase, askDatabase, getDatabaseStats, getChatHistory, getChatHistoryById, deleteChatRecords } from "@/api/ai/chat";
 
 export default {
   name: "AiChat",
@@ -254,6 +254,9 @@ export default {
       if (!this.inputMessage.trim() || this.loading) return;
 
       const userMessage = this.inputMessage.trim();
+      if (!this.currentConversationId) {
+        this.currentConversationId = this.generateConversationId();
+      }
       this.inputMessage = "";
       
       // 获取当前模式的消息数组
@@ -273,15 +276,15 @@ export default {
         let response;
         if (this.chatMode === "basic") {
           // 基础对话（流式）
-          this.startStream("/springai/chat/stream", { input: userMessage });
+          this.startStream("/springai/chat/stream", { input: userMessage, conversationId: this.currentConversationId });
           return;
         } else if (this.chatMode === "rag") {
           // RAG问答（流式）
-          this.startStream("/springai/rag/ask/stream", { question: userMessage, topK: 3 });
+          this.startStream("/springai/rag/ask/stream", { question: userMessage, topK: 3, conversationId: this.currentConversationId });
           return;
         } else if (this.chatMode === "db") {
           // 数据库查询
-          response = await askDatabase(userMessage);
+          response = await askDatabase(userMessage, this.currentConversationId);
         }
 
         if (response.code === 200) {
@@ -572,6 +575,7 @@ export default {
       const conversations = [];
       let currentConversation = null;
       const TIME_WINDOW = 30 * 60 * 1000; // 30分钟
+      const conversationMap = {};
       
       // 按时间正序处理记录（从最早到最新）
       const sortedRecords = [...records].sort((a, b) => {
@@ -582,6 +586,33 @@ export default {
       
       for (const record of sortedRecords) {
         const recordTime = new Date(record.createTime).getTime();
+        const backendConversationId = record.conversationId;
+        
+        if (backendConversationId) {
+          let conv = conversationMap[backendConversationId];
+          if (!conv) {
+            conv = {
+              id: backendConversationId,
+              title: this.truncateText(record.userMessage || '新对话', 20),
+              preview: this.truncateText(record.aiMessage || record.userMessage || '', 50),
+              lastTime: recordTime,
+              firstTime: recordTime,
+              messageCount: 0,
+              records: [],
+              chatType: record.chatType
+            };
+            conversationMap[backendConversationId] = conv;
+            conversations.push(conv);
+          }
+          conv.records.push(record);
+          conv.messageCount++;
+          conv.lastTime = Math.max(conv.lastTime, recordTime);
+          conv.firstTime = Math.min(conv.firstTime, recordTime);
+          if (record.aiMessage) {
+            conv.preview = this.truncateText(record.aiMessage, 50);
+          }
+          continue;
+        }
         
         // 如果新会话开始时间存在，且记录时间在新会话开始时间之后，创建新会话
         const isNewConversation = this.newConversationStartTime && 
@@ -637,12 +668,13 @@ export default {
       this.inputMessage = "";
       
       // 重置会话ID和选中状态
-      this.currentConversationId = null;
+      this.currentConversationId = this.generateConversationId();
       this.selectedHistoryId = null;
       
       // 设置新会话开始时间（用于区分新会话）
       this.newConversationStartTime = new Date().getTime();
       console.log("新会话开始时间:", this.newConversationStartTime);
+      console.log("新会话ID:", this.currentConversationId);
       
       // 根据当前模式清空对应的消息数组（使用 Vue 的响应式方式）
       switch (this.chatMode) {
@@ -812,6 +844,10 @@ export default {
       if (!text) return '';
       if (text.length <= maxLength) return text;
       return text.substring(0, maxLength) + '...';
+    },
+
+    generateConversationId() {
+      return `conv_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
     },
 
     // 格式化消息 - 去除Markdown符号并处理换行

@@ -73,6 +73,15 @@ INSERT INTO `ai_chat_record` VALUES (32, 0, '匿名用户', 'basic', '你想吃�
 INSERT INTO `ai_chat_record` VALUES (33, 0, '匿名用户', 'basic', '220v更nb还是250v更nb', '220V和250V都是常见的电压等级，它们的“nb”（强大、优秀）取决于具体应用场景。220V是大多数国家的标准家庭用电电压，适用性广；250V通常用于特定工业或高功率设备，能承载更大负载。选择时需根据设备需求和电路设计决定，错误使用可能导致设备损坏或安全隐患。', '2026-04-21 14:09:09');
 
 -- ----------------------------
+-- Upgrade for ai_chat_record conversation memory
+-- ----------------------------
+ALTER TABLE `ai_chat_record`
+  ADD COLUMN `conversation_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '会话ID（用于多轮记忆隔离）' AFTER `chat_type`;
+
+CREATE INDEX `idx_conversation_id` ON `ai_chat_record`(`conversation_id` ASC) USING BTREE;
+CREATE INDEX `idx_user_chat_conversation_time` ON `ai_chat_record`(`user_id` ASC, `chat_type` ASC, `conversation_id` ASC, `create_time` ASC) USING BTREE;
+
+-- ----------------------------
 -- Table structure for ai_maintenance_form
 -- ----------------------------
 DROP TABLE IF EXISTS `ai_maintenance_form`;

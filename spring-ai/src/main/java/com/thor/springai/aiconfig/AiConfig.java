@@ -9,16 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 /**
  * Spring AI 配置
  *
- * @author thor
+ * @author wangchangzhen
  */
 @Configuration
 public class AiConfig {
+    private static final Logger logger = LoggerFactory.getLogger(AiConfig.class);
 
     @Value("${spring.ai.vectorstore.simple.store-file:data/vector-store.json}")
     private String vectorStoreFile;
@@ -43,6 +46,7 @@ public class AiConfig {
     @Bean
     public VectorStore vectorStore(@Autowired(required = false) EmbeddingModel embeddingModel) {
         if (embeddingModel == null) {
+            logger.warn("未注入 EmbeddingModel，VectorStore 不可用，RAG 将退化为无检索回答");
             return null;
         }
 
@@ -58,6 +62,7 @@ public class AiConfig {
             try {
                 vectorStore.load(storeFile);
             } catch (Exception ignored) {
+                logger.warn("向量存储加载失败，将以空库启动: {}", storeFile.getAbsolutePath());
             }
         }
 

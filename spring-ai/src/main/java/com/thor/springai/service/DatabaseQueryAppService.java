@@ -6,10 +6,15 @@ import com.ruoyi.system.service.IAiChatRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 数据库查询应用服务
@@ -24,12 +29,14 @@ public class DatabaseQueryAppService {
     private final DatabaseQueryService databaseQueryService;
     private final IAiChatRecordService aiChatRecordService;
     private final ChatClient chatClient;
+    private final int memoryTurns;
 
     public DatabaseQueryAppService(DatabaseQueryService databaseQueryService, IAiChatRecordService aiChatRecordService,
-        ChatClient.Builder builder) {
+        ChatClient.Builder builder, @Value("${app.chat.memory-turns:6}") int memoryTurns) {
         this.databaseQueryService = databaseQueryService;
         this.aiChatRecordService = aiChatRecordService;
         this.chatClient = builder.build();
+        this.memoryTurns = memoryTurns;
     }
 
     /**
@@ -40,12 +47,14 @@ public class DatabaseQueryAppService {
      * @param userName 用户名
      * @return 查询结果
      */
-    public AjaxResult askDatabase(String question, Long userId, String userName) {
+    public AjaxResult askDatabase(String question, Long userId, String userName, String conversationId) {
         try {
+            String normalizedConversationId = normalizeConversationId(conversationId, userId, "db");
             AiChatRecord record = new AiChatRecord();
             record.setUserId(userId == null ? 0L : userId);
             record.setUserName(userName == null ? "匿名用户" : userName);
             record.setChatType("db");
+            record.setConversationId(normalizedConversationId);
             record.setUserMessage(question);
             try {
                 aiChatRecordService.insertAiChatRecord(record);
@@ -54,9 +63,10 @@ public class DatabaseQueryAppService {
             }
 
             String dbContext = databaseQueryService.getDatabaseContext();
+            String questionWithHistory = buildQuestionWithHistory(record.getUserId(), "db", normalizedConversationId, record.getRecordId(), question);
             String prompt = String.format(
                 "你是一个数据库查询专家。基于以下数据库结构，将用户的问题转换为 SQL 查询语句。\n\n%s\n\n用户问题：%s\n\n请生成对应的 SQL 查询语句（只返回 SQL，不要其他解释，不要使用Markdown格式）：",
-                dbContext, question
+                dbContext, questionWithHistory
             );
             String sql = chatClient.prompt().user(prompt).call().content();
             if (sql == null || sql.trim().isEmpty()) {
@@ -174,6 +184,63 @@ public class DatabaseQueryAppService {
         } catch (Exception e) {
             return AjaxResult.error("获取失败: " + e.getMessage());
         }
+    }
+
+    private String buildQuestionWithHistory(Long userId, String chatType, String conversationId, Long currentRecordId, String currentQuestion) {
+        String question = currentQuestion == null ? "" : currentQuestion;
+        if (memoryTurns <= 0) {
+            return question;
+        }
+        List<AiChatRecord> records = fetchRecentHistory(userId, chatType, conversationId, currentRecordId, memoryTurns);
+        if (records.isEmpty()) {
+            return question;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("以下是最近对话上下文，请结合上下文连续回答。\n");
+        for (AiChatRecord r : records) {
+            if (r.getUserMessage() != null && !r.getUserMessage().trim().isEmpty()) {
+                sb.append("用户：").append(r.getUserMessage().trim()).append("\n");
+            }
+            if (r.getAiMessage() != null && !r.getAiMessage().trim().isEmpty()) {
+                sb.append("助手：").append(r.getAiMessage().trim()).append("\n");
+            }
+        }
+        sb.append("\n当前用户问题：").append(question);
+        return sb.toString();
+    }
+
+    private List<AiChatRecord> fetchRecentHistory(Long userId, String chatType, String conversationId, Long currentRecordId, int maxTurns) {
+        AiChatRecord query = new AiChatRecord();
+        query.setUserId(userId == null ? 0L : userId);
+        query.setChatType(chatType);
+        query.setConversationId(conversationId);
+        List<AiChatRecord> all = aiChatRecordService.selectAiChatRecordList(query);
+        if (all == null || all.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<AiChatRecord> selected = new ArrayList<>();
+        for (AiChatRecord item : all) {
+            if (item == null) {
+                continue;
+            }
+            if (currentRecordId != null && currentRecordId.equals(item.getRecordId())) {
+                continue;
+            }
+            if (selected.size() >= maxTurns) {
+                break;
+            }
+            selected.add(item);
+        }
+        Collections.reverse(selected);
+        return selected;
+    }
+
+    private String normalizeConversationId(String conversationId, Long userId, String chatType) {
+        if (conversationId != null && !conversationId.trim().isEmpty()) {
+            return conversationId.trim();
+        }
+        Long safeUserId = userId == null ? 0L : userId;
+        return "legacy-" + chatType + "-" + safeUserId + "-" + UUID.randomUUID();
     }
 
     private String cleanMarkdown(String text) {

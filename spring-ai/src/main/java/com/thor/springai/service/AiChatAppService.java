@@ -6,9 +6,14 @@ import com.ruoyi.system.service.IAiChatRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -25,10 +30,13 @@ public class AiChatAppService {
 
     private final ChatClient chatClient;
     private final IAiChatRecordService aiChatRecordService;
+    private final int memoryTurns;
 
-    public AiChatAppService(ChatClient.Builder builder, IAiChatRecordService aiChatRecordService) {
+    public AiChatAppService(ChatClient.Builder builder, IAiChatRecordService aiChatRecordService,
+                            @Value("${app.chat.memory-turns:6}") int memoryTurns) {
         this.chatClient = builder.build();
         this.aiChatRecordService = aiChatRecordService;
+        this.memoryTurns = memoryTurns;
     }
 
     /**
@@ -39,12 +47,14 @@ public class AiChatAppService {
      * @param userName 用户名
      * @return 对话结果
      */
-    public AjaxResult chat(String input, Long userId, String userName) {
+    public AjaxResult chat(String input, Long userId, String userName, String conversationId) {
         try {
+            String normalizedConversationId = normalizeConversationId(conversationId, userId, "basic");
             AiChatRecord record = new AiChatRecord();
             record.setUserId(userId);
             record.setUserName(userName);
             record.setChatType("basic");
+            record.setConversationId(normalizedConversationId);
             record.setUserMessage(input);
             try {
                 aiChatRecordService.insertAiChatRecord(record);
@@ -52,9 +62,10 @@ public class AiChatAppService {
                 logger.warn("保存对话记录失败: {}", e.getMessage());
             }
 
+            String promptWithHistory = buildPromptWithHistory(userId, "basic", normalizedConversationId, record.getRecordId(), input);
             String reply = chatClient.prompt()
                 .system(SYSTEM_PROMPT)
-                .user(input == null ? "" : input)
+                .user(promptWithHistory)
                 .call()
                 .content();
 
@@ -81,10 +92,11 @@ public class AiChatAppService {
      * @param userName 用户名
      * @return SSE 推送器
      */
-    public SseEmitter chatStream(String input, Long userId, String userName) {
+    public SseEmitter chatStream(String input, Long userId, String userName, String conversationId) {
         SseEmitter emitter = new SseEmitter(0L);
         Long safeUserId = userId == null ? 0L : userId;
         String safeUserName = userName == null ? "匿名用户" : userName;
+        String normalizedConversationId = normalizeConversationId(conversationId, safeUserId, "basic");
 
         AiChatRecord record = new AiChatRecord();
         Long recordId = null;
@@ -92,6 +104,7 @@ public class AiChatAppService {
             record.setUserId(safeUserId);
             record.setUserName(safeUserName);
             record.setChatType("basic");
+            record.setConversationId(normalizedConversationId);
             record.setUserMessage(input);
             aiChatRecordService.insertAiChatRecord(record);
             recordId = record.getRecordId();
@@ -101,9 +114,10 @@ public class AiChatAppService {
 
         final Long finalRecordId = recordId;
         final AtomicReference<String> fullResponse = new AtomicReference<>("");
+        String promptWithHistory = buildPromptWithHistory(safeUserId, "basic", normalizedConversationId, finalRecordId, input);
         chatClient.prompt()
             .system(SYSTEM_PROMPT)
-            .user(input == null ? "" : input)
+            .user(promptWithHistory)
             .stream()
             .content()
             .subscribe(
@@ -138,6 +152,63 @@ public class AiChatAppService {
         } catch (Exception e) {
             logger.warn("更新AI回复失败: {}", e.getMessage());
         }
+    }
+
+    private String buildPromptWithHistory(Long userId, String chatType, String conversationId, Long currentRecordId, String currentInput) {
+        String input = currentInput == null ? "" : currentInput;
+        if (memoryTurns <= 0) {
+            return input;
+        }
+        List<AiChatRecord> records = fetchRecentHistory(userId, chatType, conversationId, currentRecordId, memoryTurns);
+        if (records.isEmpty()) {
+            return input;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("以下是最近对话上下文，请结合上下文连续回答。\n");
+        for (AiChatRecord r : records) {
+            if (r.getUserMessage() != null && !r.getUserMessage().trim().isEmpty()) {
+                sb.append("用户：").append(r.getUserMessage().trim()).append("\n");
+            }
+            if (r.getAiMessage() != null && !r.getAiMessage().trim().isEmpty()) {
+                sb.append("助手：").append(r.getAiMessage().trim()).append("\n");
+            }
+        }
+        sb.append("\n当前用户问题：").append(input);
+        return sb.toString();
+    }
+
+    private List<AiChatRecord> fetchRecentHistory(Long userId, String chatType, String conversationId, Long currentRecordId, int maxTurns) {
+        AiChatRecord query = new AiChatRecord();
+        query.setUserId(userId == null ? 0L : userId);
+        query.setChatType(chatType);
+        query.setConversationId(conversationId);
+        List<AiChatRecord> all = aiChatRecordService.selectAiChatRecordList(query);
+        if (all == null || all.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<AiChatRecord> selected = new ArrayList<>();
+        for (AiChatRecord item : all) {
+            if (item == null) {
+                continue;
+            }
+            if (currentRecordId != null && currentRecordId.equals(item.getRecordId())) {
+                continue;
+            }
+            if (selected.size() >= maxTurns) {
+                break;
+            }
+            selected.add(item);
+        }
+        Collections.reverse(selected);
+        return selected;
+    }
+
+    private String normalizeConversationId(String conversationId, Long userId, String chatType) {
+        if (conversationId != null && !conversationId.trim().isEmpty()) {
+            return conversationId.trim();
+        }
+        Long safeUserId = userId == null ? 0L : userId;
+        return "legacy-" + chatType + "-" + safeUserId + "-" + UUID.randomUUID();
     }
 
     private String cleanMarkdown(String text) {

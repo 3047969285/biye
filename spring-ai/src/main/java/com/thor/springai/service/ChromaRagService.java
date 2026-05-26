@@ -338,6 +338,30 @@ public class ChromaRagService {
         }
     }
 
+    /**
+     * 获取 RAG 运行时状态（用于健康检查和快速排障）
+     *
+     * @return 状态信息
+     */
+    public Map<String, Object> getRuntimeStatus() {
+        Map<String, Object> status = new LinkedHashMap<>();
+        File storeFile = new File(vectorStoreFile);
+        File parentDir = storeFile.getParentFile();
+        boolean embeddingEnabled = vectorStore != null;
+
+        status.put("embeddingEnabled", embeddingEnabled);
+        status.put("ragMode", embeddingEnabled ? "vector_rag" : "llm_only_fallback");
+        status.put("vectorStoreType", vectorStore == null ? "none" : vectorStore.getClass().getName());
+        status.put("vectorStoreFile", storeFile.getAbsolutePath());
+        status.put("vectorStoreFileExists", storeFile.exists());
+        status.put("vectorStoreFileSizeBytes", storeFile.exists() ? storeFile.length() : 0L);
+        status.put("vectorStoreParentDirWritable", parentDir == null || parentDir.exists() && parentDir.canWrite());
+        status.put("advice", embeddingEnabled
+                ? "向量检索已启用，可正常执行 RAG 相似度召回"
+                : "未注入 EmbeddingModel，请检查 spring.ai.dashscope.api-key 与自动配置排除项");
+        return status;
+    }
+
     public static class MaintenanceFormResponse {
         private String deviceName;
         private String faultDescription;

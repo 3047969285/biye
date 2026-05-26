@@ -54,8 +54,9 @@ public class AiDeomController extends BaseController {
      * @return 对话结果
      */
     @GetMapping("/chat")
-    public AjaxResult chat(@RequestParam(name = "input") String input) {
-        return aiChatAppService.chat(input, getUserIdSafely(), getUsernameSafely());
+    public AjaxResult chat(@RequestParam(name = "input") String input,
+                           @RequestParam(name = "conversationId", required = false) String conversationId) {
+        return aiChatAppService.chat(input, getUserIdSafely(), getUsernameSafely(), conversationId);
     }
 
     /**
@@ -65,7 +66,8 @@ public class AiDeomController extends BaseController {
      * @return SSE 推送器
      */
     @GetMapping(value = "/chat/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter chatStream(@RequestParam(name = "input") String input) {
-        return aiChatAppService.chatStream(input, getUserIdSafely(), getUsernameSafely());
+    public SseEmitter chatStream(@RequestParam(name = "input") String input,
+                                 @RequestParam(name = "conversationId", required = false) String conversationId) {
+        return aiChatAppService.chatStream(input, getUserIdSafely(), getUsernameSafely(), conversationId);
     }
 }
