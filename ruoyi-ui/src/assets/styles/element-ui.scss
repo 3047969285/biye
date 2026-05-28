@@ -98,11 +98,11 @@
     background-color: transparent !important;
     
     &:hover {
-      background-color: rgba(99, 102, 241, 0.1) !important;
+      background-color: rgba(63, 120, 200, 0.12) !important;
     }
     
     &.is-active {
-      background-color: rgba(99, 102, 241, 0.15) !important;
+      background-color: rgba(63, 120, 200, 0.18) !important;
     }
   }
   
@@ -118,11 +118,11 @@
       background-color: transparent !important;
       
       &:hover {
-        background-color: rgba(99, 102, 241, 0.1) !important;
+        background-color: rgba(63, 120, 200, 0.12) !important;
       }
       
       &.is-active {
-        background-color: rgba(99, 102, 241, 0.15) !important;
+        background-color: rgba(63, 120, 200, 0.18) !important;
       }
     }
   }
@@ -138,39 +138,39 @@
   .el-input-number__increase,
   .el-input-number__decrease {
     background-color: transparent !important;
-    color: var(--accent-color, #5B8DEF) !important;
-    border-left-color: var(--border-color, #2D3548) !important;
+    color: var(--accent-color, #3f78c8) !important;
+    border-left-color: var(--border-color, #1e3d6f) !important;
     
     // 图标颜色
     i {
-      color: var(--accent-color, #5B8DEF) !important;
+      color: var(--accent-color, #3f78c8) !important;
     }
     
     &:hover {
-      background-color: rgba(91, 141, 239, 0.2) !important;
-      color: var(--text-primary, #FFFFFF) !important;
+      background-color: rgba(63, 120, 200, 0.2) !important;
+      color: var(--text-primary, #d8e7ff) !important;
       
       i {
-        color: var(--text-primary, #FFFFFF) !important;
+        color: var(--text-primary, #d8e7ff) !important;
       }
     }
     
     &:active {
-      background-color: rgba(91, 141, 239, 0.3) !important;
-      color: var(--text-primary, #FFFFFF) !important;
+      background-color: rgba(63, 120, 200, 0.3) !important;
+      color: var(--text-primary, #d8e7ff) !important;
       
       i {
-        color: var(--text-primary, #FFFFFF) !important;
+        color: var(--text-primary, #d8e7ff) !important;
       }
     }
     
     // 禁用状态
     &.is-disabled {
-      color: var(--text-disabled, #6B7280) !important;
+      color: var(--text-disabled, #6f8fb8) !important;
       background-color: transparent !important;
       
       i {
-        color: var(--text-disabled, #6B7280) !important;
+        color: var(--text-disabled, #6f8fb8) !important;
       }
     }
   }
@@ -179,19 +179,19 @@
   &.is-controls-right {
     .el-input-number__increase,
     .el-input-number__decrease {
-      border-left-color: var(--border-color, #2D3548) !important;
+      border-left-color: var(--border-color, #1e3d6f) !important;
       border-right: none !important;
     }
   }
   
   // 输入框本身的样式
   .el-input__inner {
-    background-color: var(--secondary-bg, #242938) !important;
-    border-color: var(--border-color, #2D3548) !important;
-    color: var(--text-primary, #FFFFFF) !important;
+    background-color: var(--secondary-bg, #13284a) !important;
+    border-color: var(--border-color, #1e3d6f) !important;
+    color: var(--text-primary, #d8e7ff) !important;
     
     &:focus {
-      border-color: var(--accent-color, #5B8DEF) !important;
+      border-color: var(--accent-color, #3f78c8) !important;
     }
   }
 }
@@ -200,36 +200,36 @@
 body .el-input-number__increase,
 body .el-input-number__decrease {
   background-color: transparent !important;
-  color: var(--accent-color, #5B8DEF) !important;
+  color: var(--accent-color, #3f78c8) !important;
   
   i {
-    color: var(--accent-color, #5B8DEF) !important;
+    color: var(--accent-color, #3f78c8) !important;
   }
   
   &:hover {
-    background-color: rgba(91, 141, 239, 0.2) !important;
-    color: var(--text-primary, #FFFFFF) !important;
+    background-color: rgba(63, 120, 200, 0.2) !important;
+    color: var(--text-primary, #d8e7ff) !important;
     
     i {
-      color: var(--text-primary, #FFFFFF) !important;
+      color: var(--text-primary, #d8e7ff) !important;
     }
   }
   
   &:active {
-    background-color: rgba(91, 141, 239, 0.3) !important;
-    color: var(--text-primary, #FFFFFF) !important;
+    background-color: rgba(63, 120, 200, 0.3) !important;
+    color: var(--text-primary, #d8e7ff) !important;
     
     i {
-      color: var(--text-primary, #FFFFFF) !important;
+      color: var(--text-primary, #d8e7ff) !important;
     }
   }
   
   &.is-disabled {
-    color: var(--text-disabled, #6B7280) !important;
+    color: var(--text-disabled, #6f8fb8) !important;
     background-color: transparent !important;
     
     i {
-      color: var(--text-disabled, #6B7280) !important;
+      color: var(--text-disabled, #6f8fb8) !important;
     }
   }
 }

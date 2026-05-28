@@ -157,8 +157,9 @@ spring:
   # Spring AI 阿里巴巴通义千问配置
   ai:
     dashscope:
-      # 建议通过环境变量提供，避免明文密钥泄露
-      api-key: ${DASHSCOPE_API_KEY:}
+      # 仅使用千问 DashScope Key（不再读取 Claude/OpenAI/API_KEY）
+      # 本地启动兜底占位值；真实调用需提供有效 DASHSCOPE_API_KEY
+      api-key: ${DASHSCOPE_API_KEY:local-placeholder-key}
       chat:
         options:
           # 快速版：延迟低、单价低于 qwen-plus；需最新能力可改为 qwen-turbo-latest

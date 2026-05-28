@@ -56,6 +56,12 @@
             <artifactId>ruoyi-system</artifactId>
         </dependency>
 
+        <!-- 业务模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-Business</artifactId>
+        </dependency>
+
         <!-- 定时任务-->
         <dependency>
             <groupId>com.ruoyi</groupId>
@@ -69,12 +75,12 @@
         </dependency>
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>spring-ai</artifactId>
+            <artifactId>ruoyi-spring-ai</artifactId>
             <version>${ruoyi.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example</groupId>
-            <artifactId>registerStart</artifactId>
+            <artifactId>ruoyi-registerStart</artifactId>
             <version>1.0.0</version>
         </dependency>
 

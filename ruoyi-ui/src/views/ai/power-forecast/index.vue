@@ -454,7 +454,7 @@ export default {
             smooth: true,
             showSymbol: false,
             data: this.real,
-            lineStyle: { width: 2, color: '#409EFF' },
+            lineStyle: { width: 2, color: '#4A8EE8' },
             areaStyle: { color: 'rgba(64,158,255,0.08)' }
           },
           {
@@ -463,7 +463,7 @@ export default {
             smooth: true,
             showSymbol: false,
             data: this.predicted,
-            lineStyle: { width: 2, color: '#67C23A', type: 'dashed' }
+            lineStyle: { width: 2, color: '#8FC6FF', type: 'dashed' }
           }
         ]
       }, true)
@@ -518,7 +518,7 @@ export default {
 .metric-value {
   font-size: 20px;
   font-weight: 700;
-  color: #67C23A;
+  color: #8FC6FF;
 }
 .chart-container {
   height: 420px;

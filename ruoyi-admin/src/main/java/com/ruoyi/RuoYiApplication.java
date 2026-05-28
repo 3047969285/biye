@@ -1,6 +1,8 @@
 package com.ruoyi;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -24,22 +26,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
     excludeName = {
         "com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAgentAutoConfiguration"
     })
-@MapperScan(basePackages = {"com.ruoyi.system.mapper", "com.ruoyi.quartz.mapper", "com.ruoyi.qcluser.mapper", "com.ruoyi.deparment.mapper"})
+@MapperScan(basePackages = {"com.ruoyi.system.mapper", "com.ruoyi.quartz.mapper", "com.ruoyi.qcluser.mapper", "com.ruoyi.department.mapper"})
 public class RuoYiApplication
 {
+    private static final Logger LOG = LoggerFactory.getLogger(RuoYiApplication.class);
+
     public static void main(String[] args)
     {
-        // System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(RuoYiApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  智能电网运维系统启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
-                " .-------.       ____     __        \n" +
-                " |  _ _   \\      \\   \\   /  /    \n" +
-                " | ( ' )  |       \\  _. /  '       \n" +
-                " |(_ o _) /        _( )_ .'         \n" +
-                " | (_,_).' __  ___(_ o _)'          \n" +
-                " |  |\\ \\  |  ||   |(_,_)'         \n" +
-                " |  | \\ `'   /|   `-'  /           \n" +
-                " |  |  \\    /  \\      /           \n" +
-                " ''-'   `'-'    `-..-'              ");
+        LOG.info("智能电网运维系统启动成功");
     }
 }

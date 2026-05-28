@@ -13,10 +13,10 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>ProtocolTrans</artifactId>
+    <artifactId>ruoyi-ProtocolTrans</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-    <name>ProtocolTrans</name>
+    <name>ruoyi-ProtocolTrans</name>
     <description>协议转换统一平台</description>
 
     <modules>
@@ -42,17 +42,17 @@
             <!-- 内部模块依赖 -->
             <dependency>
                 <groupId>com.example</groupId>
-                <artifactId>dl645AndDl698</artifactId>
+                <artifactId>ruoyi-dl645AndDl698</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.example</groupId>
-                <artifactId>modbus</artifactId>
+                <artifactId>ruoyi-modbus</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.example</groupId>
-                <artifactId>registerStart</artifactId>
+                <artifactId>ruoyi-registerStart</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

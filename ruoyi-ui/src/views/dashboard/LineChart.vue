@@ -4,7 +4,6 @@
 
 <script>
 import * as echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
 
 export default {
@@ -58,7 +57,7 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
+      this.chart = echarts.init(this.$el, 'ruoyi-deep-blue')
       this.setOptions(this.chartData)
     },
     setOptions({ expectedData, actualData } = {}) {
@@ -95,9 +94,9 @@ export default {
         series: [{
           name: 'expected', itemStyle: {
             normal: {
-              color: '#FF005A',
+              color: '#2F67C3',
               lineStyle: {
-                color: '#FF005A',
+                color: '#2F67C3',
                 width: 2
               }
             }
@@ -114,13 +113,13 @@ export default {
           type: 'line',
           itemStyle: {
             normal: {
-              color: '#3888fa',
+              color: '#78B7F8',
               lineStyle: {
-                color: '#3888fa',
+                color: '#78B7F8',
                 width: 2
               },
               areaStyle: {
-                color: '#f3f8ff'
+                color: 'rgba(88, 143, 232, 0.18)'
               }
             }
           },

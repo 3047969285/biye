@@ -11,16 +11,21 @@
 @import './dropdown-fix.scss';
 
 :root {
-  /* ========== 统一配色：简约高级 ========== */
-  --primary-bg: #1A1F2E;
-  --secondary-bg: #242938;
-  --border-color: #2D3548;
-  --accent-color: #5B8DEF;
-  --text-primary: #FFFFFF;
-  --text-secondary: #B4BAC7;
-  --text-disabled: #6B7280;
-  --hover-bg: rgba(91, 141, 239, 0.08);
-  --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  /* 深蓝单色主题（避免多色/霓虹 AI 风格） */
+  --primary-bg: #0f1f3a;
+  --secondary-bg: #13284a;
+  --border-color: #1e3d6f;
+  --accent-color: #3f78c8;
+  --text-primary: #d8e7ff;
+  --text-secondary: #99b6dc;
+  --text-disabled: #6f8fb8;
+  --hover-bg: rgba(63, 120, 200, 0.14);
+  --shadow: 0 2px 12px rgba(8, 22, 44, 0.45);
+  --motion-fast: 180ms;
+  --motion-normal: 280ms;
+  --motion-slow: 420ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 body {
@@ -52,12 +57,51 @@ label {
 html {
   height: 100%;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 #app {
   height: 100%;
   position: relative;
   z-index: 1;
+}
+
+/* 全局丝滑交互反馈 */
+button,
+.el-button,
+.el-menu-item,
+.el-submenu__title,
+.el-input__inner,
+.el-textarea__inner,
+.el-card,
+.el-table,
+.el-dialog,
+.app-main,
+.navbar,
+.tags-view-container,
+.app-container {
+  transition: background-color var(--motion-normal) var(--motion-ease),
+              border-color var(--motion-normal) var(--motion-ease),
+              color var(--motion-fast) var(--motion-ease),
+              box-shadow var(--motion-normal) var(--motion-ease-soft),
+              transform var(--motion-normal) var(--motion-ease-soft),
+              opacity var(--motion-normal) var(--motion-ease-soft);
+}
+
+.el-button:hover,
+.el-button:focus-visible {
+  transform: translateY(-1px);
+}
+
+.el-card,
+.el-table,
+.el-dialog {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+
+.el-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
 }
 
 *,
@@ -89,7 +133,7 @@ a:hover {
 
 /* 更人性化的可访问焦点态 */
 :focus-visible {
-  outline: 2px solid rgba(99, 102, 241, 0.45);
+  outline: 2px solid rgba(63, 120, 200, 0.45);
   outline-offset: 2px;
 }
 
@@ -182,7 +226,7 @@ aside {
   text-align: right;
   padding-right: 20px;
   transition: 600ms ease position;
-  background: linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%);
+  background: linear-gradient(90deg, #17335c 0%, #1b3f74 100%);
 
   .subtitle {
     font-size: 20px;
@@ -200,11 +244,11 @@ aside {
 
 .link-type,
 .link-type:focus {
-  color: #337ab7;
+  color: #4d86cf;
   cursor: pointer;
 
   &:hover {
-    color: rgb(32, 160, 255);
+    color: #78a7e0;
   }
 }
 
@@ -216,4 +260,171 @@ aside {
     vertical-align: middle;
     margin-bottom: 10px;
   }
+}
+
+/* Bienville-like: 深色大片感 + 玻璃分层 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 700px at 82% -8%, rgba(44, 90, 164, 0.2), transparent 58%),
+    radial-gradient(900px 560px at -15% 12%, rgba(35, 74, 137, 0.16), transparent 60%),
+    linear-gradient(160deg, #0b1a31 0%, #0c1f3a 48%, #09162a 100%);
+}
+
+#app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 22%);
+}
+
+.app-main,
+.app-container,
+.dashboard-container,
+.el-card,
+.el-dialog {
+  backdrop-filter: blur(10px);
+}
+
+.el-card,
+.el-dialog,
+.el-table,
+.el-collapse-item,
+.head-container {
+  border-radius: 0 !important;
+  border-color: rgba(74, 120, 188, 0.28) !important;
+  box-shadow: 0 14px 38px rgba(8, 22, 44, 0.34) !important;
+}
+
+.el-button {
+  border-radius: 0 !important;
+  letter-spacing: 0.01em;
+}
+
+.el-button--primary {
+  background: linear-gradient(120deg, #1d3d70 0%, #24508f 46%, #2a5ea7 100%) !important;
+  border-color: #2f66b2 !important;
+  box-shadow: 0 10px 22px rgba(25, 63, 116, 0.32) !important;
+}
+
+.el-button--primary:hover {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 14px 28px rgba(25, 63, 116, 0.4) !important;
+}
+
+/* 状态色统一为深蓝色系，避免出现绿黄红等多色 */
+.el-tag--success,
+.el-tag--info,
+.el-tag--warning,
+.el-tag--danger {
+  background-color: rgba(33, 77, 139, 0.22) !important;
+  border-color: rgba(63, 120, 200, 0.36) !important;
+  color: #cfe2ff !important;
+}
+
+.el-button--success,
+.el-button--warning,
+.el-button--danger,
+.el-button--info {
+  background: linear-gradient(120deg, #1d3d70 0%, #24508f 100%) !important;
+  border-color: #2f66b2 !important;
+  color: #d8e7ff !important;
+}
+
+/* 消息、通知、告警统一蓝色 */
+.el-message,
+.el-message--success,
+.el-message--warning,
+.el-message--error,
+.el-message--info,
+.el-notification,
+.el-notification.success,
+.el-notification.warning,
+.el-notification.error,
+.el-notification.info,
+.el-alert--success.is-light,
+.el-alert--warning.is-light,
+.el-alert--error.is-light,
+.el-alert--info.is-light {
+  background: rgba(23, 50, 90, 0.92) !important;
+  border-color: rgba(63, 120, 200, 0.36) !important;
+  color: #d8e7ff !important;
+}
+
+.el-message .el-message__icon,
+.el-notification .el-notification__icon,
+.el-alert__icon {
+  color: #7fb0ee !important;
+}
+
+/* 表单校验与状态边框统一蓝色 */
+.el-form-item.is-error .el-input__inner,
+.el-form-item.is-error .el-textarea__inner,
+.el-form-item.is-error .el-input__inner:focus,
+.el-form-item.is-error .el-textarea__inner:focus,
+.el-input.is-active .el-input__inner,
+.el-input__inner:focus,
+.el-textarea__inner:focus {
+  border-color: #3f78c8 !important;
+  box-shadow: 0 0 0 2px rgba(63, 120, 200, 0.18) !important;
+}
+
+.el-form-item__error {
+  color: #9fc2f0 !important;
+}
+
+/* 分页与步骤条等状态色统一 */
+.el-pagination.is-background .el-pager li:not(.disabled).active,
+.el-step__head.is-success,
+.el-step__head.is-process,
+.el-step__title.is-success,
+.el-step__title.is-process,
+.el-step__description.is-success,
+.el-step__description.is-process {
+  color: #d8e7ff !important;
+  border-color: #3f78c8 !important;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: #2b5ea5 !important;
+}
+
+.dashboard-title,
+.card-title,
+.card-header-title {
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* 用户要求：去掉圆角风格（全局统一直角） */
+.el-button,
+.el-card,
+.el-dialog,
+.el-input__inner,
+.el-textarea__inner,
+.el-select-dropdown,
+.el-dropdown-menu,
+.el-tag,
+.el-message,
+.el-notification,
+.el-tooltip__popper,
+.el-pagination .el-pager li,
+.el-pagination .btn-prev,
+.el-pagination .btn-next,
+.sidebar-logo-container,
+.navbar .avatar-container,
+.navbar .navbar-tool-slot,
+.tags-view-container .tags-view-item,
+.tags-view-container .contextmenu,
+.device-list-card,
+.device-card,
+.stat-card,
+.el-collapse-item {
+  border-radius: 0 !important;
 }

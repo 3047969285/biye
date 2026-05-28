@@ -62,9 +62,15 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/intro',
+    component: () => import('@/views/intro/index'),
+    hidden: true,
+    meta: { title: '系统引导' }
+  },
+  {
     path: '',
     component: Layout,
-    redirect: 'index',
+    redirect: 'intro',
     children: [
       {
         path: 'index',
@@ -88,12 +94,22 @@ export const constantRoutes = [
       }
     ]
   },
-  // 与 sys_menu 动态路由一致为 /maintenance-form；兼容旧链接 /ai/maintenance-form
+  // 兼容旧版智能问答链接，统一跳转到当前菜单路径 /ai-chat
   {
-    path: '/ai/maintenance-form',
-    redirect: (to) => ({ path: '/maintenance-form', query: to.query }),
+    path: '/ai/chat',
+    redirect: (to) => ({ path: '/ai-chat', query: to.query }),
     hidden: true
-  }
+  },
+  {
+    path: '/ai/chat/index',
+    redirect: (to) => ({ path: '/ai-chat', query: to.query }),
+    hidden: true
+  },
+  {
+    path: '/chat',
+    redirect: (to) => ({ path: '/ai-chat', query: to.query }),
+    hidden: true
+  },
 ]
 
 // 动态路由，基于用户权限动态去加载

@@ -4,7 +4,6 @@
 
 <script>
 import * as echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
 
 const animationDuration = 3000
@@ -44,7 +43,7 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
+      this.chart = echarts.init(this.$el, 'ruoyi-deep-blue')
 
       this.chart.setOption({
         tooltip: {
@@ -59,10 +58,10 @@ export default {
           splitNumber: 8,
           splitArea: {
             areaStyle: {
-              color: 'rgba(127,95,132,.3)',
+              color: 'rgba(37, 82, 154, 0.26)',
               opacity: 1,
               shadowBlur: 45,
-              shadowColor: 'rgba(0,0,0,.5)',
+              shadowColor: 'rgba(7, 17, 38, 0.6)',
               shadowOffsetX: 0,
               shadowOffsetY: 15
             }

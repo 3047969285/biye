@@ -5,16 +5,16 @@
 
     <parent>
         <groupId>com.example</groupId>
-        <artifactId>ProtocolTrans</artifactId>
+        <artifactId>ruoyi-ProtocolTrans</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>modbus</artifactId>
+    <artifactId>ruoyi-modbus</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>modbus</name>
+    <name>ruoyi-modbus</name>
     <description>modbus</description>
 
     <properties>

@@ -773,7 +773,7 @@ export default {
             smooth: true,
             connectNulls: false,
             data: real,
-            itemStyle: { color: '#5FD68A' },
+            itemStyle: { color: '#8FC6FF' },
             lineStyle: { width: 2 }
           }
         ]

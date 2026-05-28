@@ -1678,7 +1678,7 @@ INSERT INTO `gen_table` VALUES (12, 't_user', '用户表', NULL, NULL, 'TUser', 
 INSERT INTO `gen_table` VALUES (13, 'qcl_user', '用户表', NULL, NULL, 'QclUser', 'crud', 'element-plus', 'com.ruoyi.qcluser', 'qcluser', 'qcluser', '用户', 'ruoyi', '0', '/', '{}', 'admin', '2025-11-03 08:57:15', '', '2025-11-03 08:59:53', NULL);
 INSERT INTO `gen_table` VALUES (14, 'good_type', '商品分类表', 'good', 'type_id', 'GoodType', 'sub', 'element-plus', 'com.qcl.good', 'good', 'type', '分类管理', '风格', '0', '/', '{\"parentMenuId\":2012}', 'admin', '2025-11-03 09:16:23', '', '2025-11-03 15:55:02', NULL);
 INSERT INTO `gen_table` VALUES (15, 'good', '商品信息', NULL, NULL, 'Good', 'crud', 'element-plus', 'com.qcl.good', 'good', 'good', '管理商品', '风格', '0', '/', '{\"parentMenuId\":2012}', 'admin', '2025-11-03 09:20:57', '', '2025-11-03 09:22:59', NULL);
-INSERT INTO `gen_table` VALUES (16, 'department', '部门信息表', '', '', 'Department', 'tree', 'element-plus', 'com.ruoyi.deparment', 'deparment', 'department', '部门信息', 'ruoyi', '0', '/', '{\"treeCode\":\"department_id\",\"treeName\":\"department_name\",\"treeParentCode\":\"parent_id\",\"parentMenuId\":3}', 'admin', '2025-11-03 16:01:44', '', '2025-11-03 16:21:01', NULL);
+INSERT INTO `gen_table` VALUES (16, 'department', '部门信息表', '', '', 'Department', 'tree', 'element-plus', 'com.ruoyi.department', 'department', 'department', '部门信息', 'ruoyi', '0', '/', '{\"treeCode\":\"department_id\",\"treeName\":\"department_name\",\"treeParentCode\":\"parent_id\",\"parentMenuId\":3}', 'admin', '2025-11-03 16:01:44', '', '2025-11-03 16:21:01', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table_column
@@ -3944,7 +3944,7 @@ INSERT INTO `sys_oper_log` VALUES (139, '用户', 1, 'com.ruoyi.qcluser.controll
 INSERT INTO `sys_oper_log` VALUES (144, '菜单管理', 1, 'com.ruoyi.web.controller.system.SysMenuController.add()', 'POST', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"createBy\":\"admin\",\"icon\":\"chart\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuName\":\"商品管理\",\"menuType\":\"M\",\"orderNum\":1,\"params\":{},\"parentId\":0,\"path\":\"good\",\"status\":\"0\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 09:20:11', 9);
 INSERT INTO `sys_oper_log` VALUES (150, '用户', 1, 'com.ruoyi.system.controller.TUserController.add()', 'POST', 1, 'admin', '研发部门', '/jingyes/user', '127.0.0.1', '内网IP', '{\"age\":1,\"gender\":0,\"id\":\"3\",\"name\":\"55\",\"params\":{}}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 10:58:17', 13);
 INSERT INTO `sys_oper_log` VALUES (155, '字典类型', 9, 'com.ruoyi.web.controller.system.SysDictTypeController.refreshCache()', 'DELETE', 1, 'admin', '研发部门', '/system/dict/type/refreshCache', '127.0.0.1', '内网IP', '', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 16:13:49', 15);
-INSERT INTO `sys_oper_log` VALUES (159, '部门信息', 1, 'com.ruoyi.deparment.controller.DepartmentController.add()', 'POST', 1, 'admin', '研发部门', '/deparment/department', '127.0.0.1', '内网IP', '{\"chairman\":\"发我\",\"children\":[],\"departmentId\":1,\"departmentName\":\"uuu\",\"params\":{},\"parentId\":0}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 16:24:02', 110);
+INSERT INTO `sys_oper_log` VALUES (159, '部门信息', 1, 'com.ruoyi.department.controller.DepartmentController.add()', 'POST', 1, 'admin', '研发部门', '/department/department', '127.0.0.1', '内网IP', '{\"chairman\":\"发我\",\"children\":[],\"departmentId\":1,\"departmentName\":\"uuu\",\"params\":{},\"parentId\":0}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-11-03 16:24:02', 110);
 INSERT INTO `sys_oper_log` VALUES (160, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'DELETE', 1, 'admin', '研发部门', '/system/menu/2012', '127.0.0.1', '内网IP', '2012', '{\"msg\":\"存在子菜单,不允许删除\",\"code\":601}', 0, NULL, '2025-12-18 17:41:39', 7);
 INSERT INTO `sys_oper_log` VALUES (161, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'DELETE', 1, 'admin', '研发部门', '/system/menu/2018', '127.0.0.1', '内网IP', '2018', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-12-18 17:41:48', 26);
 INSERT INTO `sys_oper_log` VALUES (162, '菜单管理', 3, 'com.ruoyi.web.controller.system.SysMenuController.remove()', 'DELETE', 1, 'admin', '研发部门', '/system/menu/2017', '127.0.0.1', '内网IP', '2017', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2025-12-18 17:41:51', 14);
@@ -4427,5 +4427,11 @@ WHERE `alert_level` IN (1, 3)
   AND (`remark` IS NULL OR `remark` NOT LIKE '%规则引擎%');
 
 COMMIT;
+
+-- ----------------------------
+-- 清理代码生成模块残留对象
+-- ----------------------------
+DROP TABLE IF EXISTS `gen_table_column`;
+DROP TABLE IF EXISTS `gen_table`;
 
 SET FOREIGN_KEY_CHECKS = 1;

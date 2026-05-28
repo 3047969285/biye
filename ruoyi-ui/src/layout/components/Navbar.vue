@@ -117,23 +117,25 @@ export default {
 @import "~@/assets/styles/variables.scss";
 
 .navbar {
-  height: 50px;
+  height: 56px;
   overflow: hidden;
   position: relative;
-  background: $secondary-bg;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid $border-color;
+  background: linear-gradient(112deg, rgba(17, 27, 46, 0.92) 0%, rgba(21, 32, 56, 0.88) 100%);
+  box-shadow: 0 8px 24px rgba(3, 8, 18, 0.34);
+  border-bottom: 1px solid rgba(146, 163, 201, 0.2);
+  backdrop-filter: blur(10px);
 
   .hamburger-container {
-    line-height: 46px;
+    line-height: 52px;
     height: 100%;
     float: left;
     cursor: pointer;
-    transition: background .3s;
+    transition: background .32s cubic-bezier(0.22, 1, 0.36, 1), transform .28s cubic-bezier(0.2, 0.8, 0.2, 1);
     -webkit-tap-highlight-color:transparent;
 
     &:hover {
-      background: $hover-bg;
+      background: rgba(99, 124, 199, 0.2);
+      transform: translateY(-1px);
     }
   }
 
@@ -174,17 +176,18 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 40px;
-      height: 50px;
-      border-radius: 8px;
-      transition: background 0.2s ease, color 0.2s ease;
+      min-width: 42px;
+      height: 56px;
+      border-radius: 999px;
+      transition: background 0.28s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
 
       &.is-clickable {
         cursor: pointer;
         color: $text-secondary;
 
         &:hover {
-          background: $hover-bg;
+          background: rgba(94, 123, 206, 0.2);
+          transform: translateY(-1px);
           ::v-deep .svg-icon {
             color: $accent-color;
           }
@@ -234,11 +237,12 @@ export default {
       height: 100%;
       padding-left: 8px;
       cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.2s ease;
+      border-radius: 999px;
+      transition: background 0.28s cubic-bezier(0.22, 1, 0.36, 1), transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
 
       &:hover {
-        background: $hover-bg;
+        background: rgba(94, 123, 206, 0.2);
+        transform: translateY(-1px);
       }
 
       .avatar-wrapper {
@@ -253,18 +257,21 @@ export default {
           width: 32px;
           height: 32px;
           border-radius: 50%;
+          border: 1px solid rgba(146, 163, 201, 0.35);
+          box-shadow: 0 0 0 3px rgba(99, 124, 199, 0.14);
           flex-shrink: 0;
         }
 
         .user-nickname {
           font-size: 14px;
-          font-weight: 500;
+          font-weight: 600;
           color: $text-primary;
           line-height: 1;
           max-width: 96px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          letter-spacing: 0.02em;
         }
 
         .el-icon-caret-bottom {

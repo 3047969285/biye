@@ -71,6 +71,7 @@ export default {
     height: 100%;
     width: 100%;
     background: transparent;
+    transition: background-color 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 
     &.mobile.openSidebar {
       position: fixed;
@@ -81,6 +82,7 @@ export default {
   .main-container {
     background: transparent;
     min-height: 100vh;
+    transition: margin-left 0.34s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
   .main-container:has(.fixed-header) {
@@ -90,12 +92,14 @@ export default {
 
   .drawer-bg {
     background: #000;
-    opacity: 0.3;
+    opacity: 0.28;
+    backdrop-filter: blur(1.5px);
     width: 100%;
     top: 0;
     height: 100%;
     position: absolute;
     z-index: 999;
+    transition: opacity 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
   .fixed-header {
@@ -104,7 +108,7 @@ export default {
     right: 0;
     z-index: 9;
     width: calc(100% - #{$base-sidebar-width});
-    transition: width 0.28s;
+    transition: width 0.34s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
   .hideSidebar .fixed-header {

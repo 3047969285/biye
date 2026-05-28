@@ -239,27 +239,29 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 34px;
+  height: 40px;
   width: 100%;
-  background: var(--surface-1);
-  border-bottom: 1px solid var(--border-1);
-  box-shadow: none;
+  background: linear-gradient(102deg, rgba(13, 21, 37, 0.88) 0%, rgba(14, 24, 42, 0.8) 100%);
+  border-bottom: 1px solid rgba(132, 152, 196, 0.2);
+  box-shadow: 0 8px 24px rgba(5, 10, 22, 0.22);
+  backdrop-filter: blur(10px);
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 26px;
-      line-height: 26px;
-      border: 1px solid var(--border-1);
-      color: var(--text-2);
-      background: rgba(15, 23, 42, 0.55);
-      padding: 0 8px;
+      height: 30px;
+      line-height: 30px;
+      border: 1px solid rgba(138, 156, 196, 0.24);
+      color: rgba(228, 234, 247, 0.82);
+      background: rgba(19, 31, 54, 0.6);
+      padding: 0 11px;
       font-size: 12px;
       margin-left: 5px;
       margin-top: 4px;
-      border-radius: 9px;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      border-radius: 999px;
+      transition: background 0.28s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease, border-color 0.28s cubic-bezier(0.22, 1, 0.36, 1), transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(8, 14, 28, 0.24);
       &:first-of-type {
         margin-left: 15px;
       }
@@ -267,19 +269,25 @@ export default {
         margin-right: 15px;
       }
       &.active {
-        background-color: rgba(99, 102, 241, 0.18);
-        color: var(--text-1);
-        border-color: var(--border-2);
+        background: linear-gradient(120deg, rgba(98, 122, 208, 0.36) 0%, rgba(80, 109, 199, 0.3) 100%);
+        color: #f6f8ff;
+        border-color: rgba(132, 158, 238, 0.65);
+        box-shadow: 0 8px 18px rgba(67, 93, 174, 0.32);
         &::before {
           content: '';
-            background: #1E293B;
+          background: #88a8ff;
           display: inline-block;
-          width: 8px;
-          height: 8px;
+          width: 7px;
+          height: 7px;
           border-radius: 50%;
           position: relative;
-          margin-right: 2px;
+          margin-right: 6px;
         }
+      }
+
+      &:hover {
+        transform: translateY(-1px);
+        border-color: rgba(138, 156, 196, 0.4);
       }
     }
   }
@@ -290,23 +298,23 @@ export default {
 
   .contextmenu {
     margin: 0;
-    background: rgba(15, 23, 42, 0.92);
+    background: rgba(13, 21, 38, 0.94);
     z-index: 3000;
     position: absolute;
     list-style-type: none;
     padding: 5px 0;
-    border-radius: 12px;
+    border-radius: 14px;
     font-size: 12px;
     font-weight: 400;
     color: var(--text-1);
-    border: 1px solid var(--border-1);
-    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
+    border: 1px solid rgba(132, 152, 196, 0.24);
+    box-shadow: 0 14px 28px rgba(3, 8, 18, 0.42);
     li {
       margin: 0;
       padding: 7px 16px;
       cursor: pointer;
       &:hover {
-        background: #eee;
+        background: rgba(92, 118, 196, 0.2);
       }
     }
   }

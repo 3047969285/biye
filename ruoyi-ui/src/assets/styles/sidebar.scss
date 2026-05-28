@@ -3,7 +3,7 @@
 /* ========== 侧边栏统一配色 ========== */
 
 .sidebar-container {
-  background: $primary-bg !important;
+  background: linear-gradient(180deg, rgba(11, 18, 32, 0.98) 0%, rgba(12, 19, 35, 0.96) 100%) !important;
   width: $base-sidebar-width !important;
   height: 100%;
   position: fixed;
@@ -12,7 +12,8 @@
   left: 0;
   z-index: 1001;
   overflow: hidden;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 8px 0 28px rgba(3, 8, 18, 0.36);
+  transition: width .34s cubic-bezier(0.22, 1, 0.36, 1), box-shadow .28s cubic-bezier(0.22, 1, 0.36, 1);
 
   .scrollbar-wrapper {
     overflow-x: hidden !important;
@@ -63,17 +64,19 @@
     border: none;
     height: 100%;
     width: 100% !important;
-    background: $primary-bg !important;
+    background: transparent !important;
   }
 
   .submenu-title-noDropdown,
   .el-submenu__title {
     color: $text-secondary !important;
     background: transparent !important;
+    transition: background-color .28s cubic-bezier(0.2, 0.8, 0.2, 1), color .22s cubic-bezier(0.22, 1, 0.36, 1), transform .28s cubic-bezier(0.2, 0.8, 0.2, 1);
 
     &:hover {
-      background: $hover-bg !important;
+      background: rgba(96, 121, 197, 0.16) !important;
       color: $text-primary !important;
+      transform: translateX(2px);
 
       .svg-icon {
         color: $accent-color !important;
@@ -91,11 +94,11 @@
 
   & .nest-menu .el-submenu > .el-submenu__title,
   & .el-submenu .el-menu-item {
-    background: $secondary-bg !important;
+    background: rgba(20, 30, 50, 0.48) !important;
     color: $text-secondary !important;
 
     &:hover {
-      background: $hover-bg !important;
+      background: rgba(96, 121, 197, 0.18) !important;
       color: $text-primary !important;
     }
   }
@@ -103,10 +106,12 @@
   .el-menu-item {
     color: $text-secondary !important;
     background: transparent !important;
+    transition: background-color .28s cubic-bezier(0.2, 0.8, 0.2, 1), color .22s cubic-bezier(0.22, 1, 0.36, 1), transform .28s cubic-bezier(0.2, 0.8, 0.2, 1);
 
     &:hover {
-      background: $hover-bg !important;
+      background: rgba(96, 121, 197, 0.18) !important;
       color: $text-primary !important;
+      transform: translateX(2px);
 
       .svg-icon {
         color: $accent-color !important;
@@ -114,7 +119,7 @@
     }
 
     &.is-active {
-      background: $hover-bg !important;
+      background: rgba(104, 130, 212, 0.24) !important;
       color: $accent-color !important;
 
       .svg-icon {
@@ -126,7 +131,7 @@
 
 .main-container {
   margin-left: $base-sidebar-width;
-  transition: margin-left .28s;
+  transition: margin-left .34s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hideSidebar {
@@ -200,7 +205,7 @@
   }
 
   .sidebar-container {
-    transition: transform .28s;
+    transition: transform .32s cubic-bezier(0.22, 1, 0.36, 1);
     width: $base-sidebar-width !important;
   }
 
@@ -227,7 +232,7 @@
   }
 
   .sidebar-container {
-    transition: transform .28s;
+    transition: transform .32s cubic-bezier(0.22, 1, 0.36, 1);
     width: $base-sidebar-width !important;
   }
 

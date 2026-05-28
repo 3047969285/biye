@@ -107,6 +107,26 @@ export default {
     }
   },
   methods: {
+    resolveMaintenanceFormPath() {
+      const candidates = ['/maintenance-form', '/ai/maintenance-form']
+      for (const path of candidates) {
+        const resolved = this.$router.resolve({ path })
+        const matched = (resolved && resolved.route && resolved.route.matched) || []
+        const hasNon404Match = matched.some(record => {
+          const routePath = record && record.path
+          return routePath && routePath !== '*' && routePath !== '/404'
+        })
+        if (hasNon404Match) {
+          return path
+        }
+      }
+      return '/maintenance-form'
+    },
+    navigateToMaintenanceForm(query) {
+      const path = this.resolveMaintenanceFormPath()
+      const target = query ? { path, query } : { path }
+      this.$router.push(target).catch(() => {})
+    },
     restartUnreadPoll() {
       if (this.pollTimer) {
         clearInterval(this.pollTimer)
@@ -181,9 +201,9 @@ export default {
       const isDevicePending = item.msgType === 'maintenance_device_pending' && item.bizId
       const doNavigate = () => {
         if (isMaintenanceForm) {
-          this.$router.push({ path: '/maintenance-form', query: { formId: String(item.bizId) } }).catch(() => {})
+          this.navigateToMaintenanceForm({ formId: String(item.bizId) })
         } else if (isDevicePending) {
-          this.$router.push({ path: '/maintenance-form', query: { deviceId: String(item.bizId) } }).catch(() => {})
+          this.navigateToMaintenanceForm({ deviceId: String(item.bizId) })
         }
       }
       if (item.readFlag === '0') {
@@ -199,7 +219,7 @@ export default {
       }
     },
     goMaintenancePage() {
-      this.$router.push({ path: '/maintenance-form' }).catch(() => {})
+      this.navigateToMaintenanceForm()
     }
   }
 }

@@ -875,8 +875,24 @@ export default {
 
 .dashboard-container {
   padding: 20px;
-  background: #222D42;
+  background: transparent;
   min-height: calc(100vh - 84px);
+  position: relative;
+  overflow: hidden;
+  animation: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    right: -140px;
+    top: -180px;
+    pointer-events: none;
+    background: radial-gradient(circle at center, rgba(104, 130, 212, 0.24) 0%, rgba(104, 130, 212, 0.08) 38%, rgba(104, 130, 212, 0) 72%);
+    filter: blur(10px);
+    animation: none;
+  }
 }
 
 .dashboard-header {
@@ -887,9 +903,12 @@ export default {
 
   .dashboard-title {
     margin: 0;
-    color: $text-primary;
-    font-size: 16px;
-    font-weight: 600;
+    color: #f4f7ff;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    animation: none;
   }
 }
 
@@ -899,16 +918,19 @@ export default {
 
 .stat-card {
   border-radius: 0;
-  background: $primary-bg;
-  border: 1px solid $border-color;
+  background: linear-gradient(160deg, rgba(24, 36, 61, 0.82) 0%, rgba(17, 28, 49, 0.78) 100%);
+  border: 1px solid rgba(136, 155, 196, 0.24);
   border-left: 3px solid $text-disabled;
   padding: 12px 14px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 12px 26px rgba(3, 8, 18, 0.3);
+  transition: border-color 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  backdrop-filter: blur(8px);
+  animation: none;
 
   &:hover {
-    border-color: rgba(94, 161, 255, 0.22);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    border-color: rgba(123, 152, 239, 0.5);
+    box-shadow: 0 18px 34px rgba(5, 10, 22, 0.36);
+    transform: translateY(-2px);
   }
 
   .stat-value {
@@ -925,25 +947,33 @@ export default {
   }
 
   &--normal {
-    border-left-color: #67c23a;
+    border-left-color: #3f78c8;
   }
 
   &--stopped {
-    border-left-color: #909399;
+    border-left-color: #3569b1;
   }
 
   &--maintenance {
-    border-left-color: #e6a23c;
+    border-left-color: #4a84d2;
   }
 
   &--scrapped {
-    border-left-color: #f56c6c;
+    border-left-color: #2e5fa3;
   }
 }
 
+.stats-row .el-col:nth-child(1) .stat-card { animation-delay: 0s; }
+.stats-row .el-col:nth-child(2) .stat-card { animation-delay: 0s; }
+.stats-row .el-col:nth-child(3) .stat-card { animation-delay: 0s; }
+.stats-row .el-col:nth-child(4) .stat-card { animation-delay: 0s; }
+
 .device-list-card {
-  background: #222D42;
-  border: 1px solid #2E3B55;
+  background: linear-gradient(160deg, rgba(22, 34, 58, 0.84) 0%, rgba(16, 27, 47, 0.8) 100%);
+  border: 1px solid rgba(129, 146, 184, 0.24);
+  border-radius: 0;
+  box-shadow: 0 14px 36px rgba(4, 9, 21, 0.32);
+  animation: none;
   
   .card-header {
     display: flex;
@@ -965,8 +995,8 @@ export default {
     
     ::v-deep .device-search-input {
       .el-input__inner {
-        background: #1B2435;
-        border-color: #2E3B55;
+        background: rgba(16, 26, 44, 0.76);
+        border-color: rgba(129, 146, 184, 0.24);
         color: #F5F7FB;
         
         &::placeholder {
@@ -1058,18 +1088,21 @@ export default {
         }
     
     .device-card {
-      background: $secondary-bg;
+      background: linear-gradient(165deg, rgba(23, 35, 59, 0.82) 0%, rgba(18, 29, 50, 0.78) 100%);
       padding: 10px 12px;
       cursor: pointer;
-      border: 1px solid $border-color;
+      border: 1px solid rgba(136, 155, 196, 0.24);
       border-left: 3px solid $accent-color;
-      transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+      transition: background-color 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 8px 20px rgba(3, 8, 18, 0.24);
+      border-radius: 0;
+      animation: none;
 
       &:hover {
-        background: $primary-bg;
-        border-color: rgba(94, 161, 255, 0.28);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+        background: linear-gradient(165deg, rgba(26, 39, 66, 0.9) 0%, rgba(20, 33, 56, 0.86) 100%);
+        border-color: rgba(132, 158, 238, 0.44);
+        box-shadow: 0 14px 28px rgba(5, 10, 22, 0.36);
+        transform: translateY(-2px);
       }
 
       &.status-normal {
@@ -1081,11 +1114,11 @@ export default {
       }
       
       &.status-maintenance {
-        border-left-color: #E6A23C;
+        border-left-color: #4a84d2;
       }
       
       &.status-scrapped {
-        border-left-color: #F56C6C;
+        border-left-color: #2e5fa3;
       }
       
         .device-card-header {
@@ -1278,14 +1311,26 @@ export default {
   }
 }
 
+.device-grid .device-card:nth-child(1) { animation-delay: 0s; }
+.device-grid .device-card:nth-child(2) { animation-delay: 0s; }
+.device-grid .device-card:nth-child(3) { animation-delay: 0s; }
+.device-grid .device-card:nth-child(4) { animation-delay: 0s; }
+.device-grid .device-card:nth-child(5) { animation-delay: 0s; }
+.device-grid .device-card:nth-child(6) { animation-delay: 0s; }
+.device-grid .device-card:nth-child(7) { animation-delay: 0s; }
+.device-grid .device-card:nth-child(8) { animation-delay: 0s; }
+
 .device-detail-content {
   padding: 10px 0;
+  animation: none;
 }
 
 .device-info-card {
   margin-bottom: 20px;
-  background: #222D42;
-  border: 1px solid #2E3B55;
+  background: linear-gradient(160deg, rgba(22, 34, 58, 0.84) 0%, rgba(16, 27, 47, 0.8) 100%);
+  border: 1px solid rgba(129, 146, 184, 0.24);
+  border-radius: 0;
+  animation: none;
   
   ::v-deep .el-card__body {
     background: #222D42;
@@ -1332,8 +1377,10 @@ export default {
 
 .device-data-card {
   margin-top: 20px;
-  background: #222D42;
-  border: 1px solid #2E3B55;
+  background: linear-gradient(160deg, rgba(22, 34, 58, 0.84) 0%, rgba(16, 27, 47, 0.8) 100%);
+  border: 1px solid rgba(129, 146, 184, 0.24);
+  border-radius: 0;
+  animation: none;
   
   ::v-deep .el-card__body {
     background: #222D42;
@@ -1423,6 +1470,91 @@ export default {
         background-color: #2a3548 !important;
       }
     }
+  }
+}
+
+@keyframes dashboard-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dashboard-title-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes section-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes card-breathe {
+  0%, 100% {
+    box-shadow: 0 12px 26px rgba(3, 8, 18, 0.3);
+  }
+  50% {
+    box-shadow: 0 16px 30px rgba(7, 14, 30, 0.34);
+  }
+}
+
+@keyframes device-card-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5px);
+  }
+}
+
+@keyframes dashboard-aurora-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(-36px, 22px, 0) scale(1.06);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-container,
+  .dashboard-container::before,
+  .dashboard-title,
+  .stat-card,
+  .device-list-card,
+  .device-card,
+  .device-detail-content,
+  .device-info-card,
+  .device-data-card {
+    animation: none !important;
   }
 }
 

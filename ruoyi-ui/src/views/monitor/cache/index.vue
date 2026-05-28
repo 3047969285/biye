@@ -91,7 +91,7 @@ export default {
         this.cache = response.data
         this.$modal.closeLoading()
 
-        this.commandstats = echarts.init(this.$refs.commandstats, "macarons")
+        this.commandstats = echarts.init(this.$refs.commandstats, 'ruoyi-deep-blue')
         this.commandstats.setOption({
           tooltip: {
             trigger: "item",
@@ -110,7 +110,7 @@ export default {
             }
           ]
         })
-        this.usedmemory = echarts.init(this.$refs.usedmemory, "macarons")
+        this.usedmemory = echarts.init(this.$refs.usedmemory, 'ruoyi-deep-blue')
         this.usedmemory.setOption({
           tooltip: {
             formatter: "{b} <br/>{a} : " + this.cache.info.used_memory_human,

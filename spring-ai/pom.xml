@@ -9,7 +9,7 @@
         <version>3.9.0</version>
     </parent>
 
-    <artifactId>spring-ai</artifactId>
+    <artifactId>ruoyi-spring-ai</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -49,6 +49,11 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-framework</artifactId>
+        </dependency>
+        <!-- 设备业务依赖 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-Business</artifactId>
         </dependency>
         <!-- Fastjson2 for JSON processing -->
         <dependency>

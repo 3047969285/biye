@@ -7,14 +7,14 @@
 
     <parent>
         <groupId>com.example</groupId>
-        <artifactId>ProtocolTrans</artifactId>
+        <artifactId>ruoyi-ProtocolTrans</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>registerStart</artifactId>
+    <artifactId>ruoyi-registerStart</artifactId>
     <packaging>jar</packaging>
-    <name>registerStart</name>
+    <name>ruoyi-registerStart</name>
     <description>协议转换平台启动模块</description>
 
     <properties>
@@ -25,13 +25,13 @@
         <!-- 引入DL645模块 -->
         <dependency>
             <groupId>com.example</groupId>
-            <artifactId>dl645AndDl698</artifactId>
+            <artifactId>ruoyi-dl645AndDl698</artifactId>
         </dependency>
 
         <!-- 引入Modbus模块 -->
         <dependency>
             <groupId>com.example</groupId>
-            <artifactId>modbus</artifactId>
+            <artifactId>ruoyi-modbus</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
