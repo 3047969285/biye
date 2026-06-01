@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 /**
  * 数据库查询应用服务
@@ -49,7 +50,7 @@ public class DatabaseQueryAppService {
      */
     public AjaxResult askDatabase(String question, Long userId, String userName, String conversationId) {
         try {
-            String normalizedConversationId = normalizeConversationId(conversationId, userId, "db");
+            String normalizedConversationId = normalizeConversationId(conversationId, userId);
             AiChatRecord record = new AiChatRecord();
             record.setUserId(userId == null ? 0L : userId);
             record.setUserName(userName == null ? "匿名用户" : userName);
@@ -63,7 +64,7 @@ public class DatabaseQueryAppService {
             }
 
             String dbContext = databaseQueryService.getDatabaseContext();
-            String questionWithHistory = buildQuestionWithHistory(record.getUserId(), "db", normalizedConversationId, record.getRecordId(), question);
+            String questionWithHistory = buildQuestionWithHistory(record.getUserId(), normalizedConversationId, record.getRecordId(), question);
             String prompt = String.format(
                 "你是一个数据库查询专家。基于以下数据库结构，将用户的问题转换为 SQL 查询语句。\n\n%s\n\n用户问题：%s\n\n请生成对应的 SQL 查询语句（只返回 SQL，不要其他解释，不要使用Markdown格式）：",
                 dbContext, questionWithHistory
@@ -94,7 +95,7 @@ public class DatabaseQueryAppService {
                     result.get("rowCount") != null ? ((Number) result.get("rowCount")).intValue() : 0,
                     finalSummary);
             } else {
-                aiMessage = "查询失败：" + (result.get("error") != null ? result.get("error").toString() : "未知错误");
+                aiMessage = "查询失败：%s".formatted(result.get("error") != null ? result.get("error").toString() : "未知错误");
             }
             if (record.getRecordId() != null) {
                 try {
@@ -106,7 +107,7 @@ public class DatabaseQueryAppService {
             return AjaxResult.success(resp);
         } catch (Exception e) {
             logger.error("AI 数据库查询失败: ", e);
-            return AjaxResult.error("查询失败: " + e.getMessage());
+            return AjaxResult.error("查询失败: %s".formatted(e.getMessage()));
         }
     }
 
@@ -121,7 +122,7 @@ public class DatabaseQueryAppService {
             return AjaxResult.success(databaseQueryService.executeQuery(sql));
         } catch (Exception e) {
             logger.error("执行 SQL 失败: ", e);
-            return AjaxResult.error("查询失败: " + e.getMessage());
+            return AjaxResult.error("查询失败: %s".formatted(e.getMessage()));
         }
     }
 
@@ -131,11 +132,7 @@ public class DatabaseQueryAppService {
      * @return 表列表
      */
     public AjaxResult getTables() {
-        try {
-            return AjaxResult.success(databaseQueryService.getAllTables());
-        } catch (Exception e) {
-            return AjaxResult.error("获取失败: " + e.getMessage());
-        }
+        return safeExecute(databaseQueryService::getAllTables, "获取表列表失败");
     }
 
     /**
@@ -145,11 +142,7 @@ public class DatabaseQueryAppService {
      * @return 表结构
      */
     public AjaxResult getTableStructure(String tableName) {
-        try {
-            return AjaxResult.success(databaseQueryService.getTableStructure(tableName));
-        } catch (Exception e) {
-            return AjaxResult.error("获取失败: " + e.getMessage());
-        }
+        return safeExecute(() -> databaseQueryService.getTableStructure(tableName), "获取表结构失败");
     }
 
     /**
@@ -169,7 +162,7 @@ public class DatabaseQueryAppService {
             result.put(AjaxResult.DATA_TAG, stats);
             return result;
         } catch (Exception e) {
-            return AjaxResult.error("获取失败: " + e.getMessage());
+            return AjaxResult.error("获取失败: %s".formatted(e.getMessage()));
         }
     }
 
@@ -179,29 +172,25 @@ public class DatabaseQueryAppService {
      * @return 上下文内容
      */
     public AjaxResult getDatabaseContext() {
-        try {
-            return AjaxResult.success(databaseQueryService.getDatabaseContext());
-        } catch (Exception e) {
-            return AjaxResult.error("获取失败: " + e.getMessage());
-        }
+        return safeExecute(databaseQueryService::getDatabaseContext, "获取数据库上下文失败");
     }
 
-    private String buildQuestionWithHistory(Long userId, String chatType, String conversationId, Long currentRecordId, String currentQuestion) {
+    private String buildQuestionWithHistory(Long userId, String conversationId, Long currentRecordId, String currentQuestion) {
         String question = currentQuestion == null ? "" : currentQuestion;
         if (memoryTurns <= 0) {
             return question;
         }
-        List<AiChatRecord> records = fetchRecentHistory(userId, chatType, conversationId, currentRecordId, memoryTurns);
+        List<AiChatRecord> records = fetchRecentHistory(userId, conversationId, currentRecordId, memoryTurns);
         if (records.isEmpty()) {
             return question;
         }
         StringBuilder sb = new StringBuilder();
         sb.append("以下是最近对话上下文，请结合上下文连续回答。\n");
         for (AiChatRecord r : records) {
-            if (r.getUserMessage() != null && !r.getUserMessage().trim().isEmpty()) {
+            if (isNotBlank(r.getUserMessage())) {
                 sb.append("用户：").append(r.getUserMessage().trim()).append("\n");
             }
-            if (r.getAiMessage() != null && !r.getAiMessage().trim().isEmpty()) {
+            if (isNotBlank(r.getAiMessage())) {
                 sb.append("助手：").append(r.getAiMessage().trim()).append("\n");
             }
         }
@@ -209,10 +198,10 @@ public class DatabaseQueryAppService {
         return sb.toString();
     }
 
-    private List<AiChatRecord> fetchRecentHistory(Long userId, String chatType, String conversationId, Long currentRecordId, int maxTurns) {
+    private List<AiChatRecord> fetchRecentHistory(Long userId, String conversationId, Long currentRecordId, int maxTurns) {
         AiChatRecord query = new AiChatRecord();
         query.setUserId(userId == null ? 0L : userId);
-        query.setChatType(chatType);
+        query.setChatType("db");
         query.setConversationId(conversationId);
         List<AiChatRecord> all = aiChatRecordService.selectAiChatRecordList(query);
         if (all == null || all.isEmpty()) {
@@ -235,25 +224,40 @@ public class DatabaseQueryAppService {
         return selected;
     }
 
-    private String normalizeConversationId(String conversationId, Long userId, String chatType) {
-        if (conversationId != null && !conversationId.trim().isEmpty()) {
+    private String normalizeConversationId(String conversationId, Long userId) {
+        if (isNotBlank(conversationId)) {
             return conversationId.trim();
         }
-        Long safeUserId = userId == null ? 0L : userId;
-        return "legacy-" + chatType + "-" + safeUserId + "-" + UUID.randomUUID();
+        long safeUserId = userId == null ? 0L : userId;
+        return "legacy-db-%d-%s".formatted(safeUserId, UUID.randomUUID());
     }
 
     private String cleanMarkdown(String text) {
-        if (text == null) return "";
+        if (text == null) {
+            return "";
+        }
         return text
             .replaceAll("^#+\\s*", "")
             .replaceAll("\\*\\*(.*?)\\*\\*", "$1")
             .replaceAll("\\*(.*?)\\*", "$1")
             .replaceAll("`([^`]+)`", "$1")
             .replaceAll("```[\\s\\S]*?```", "")
-            .replaceAll("\\[([^\\]]+)\\]\\([^\\)]+\\)", "$1")
+            .replaceAll("\\[([^]]+)]\\([^)]+\\)", "$1")
             .replaceAll("^\\s*[-*+]\\s+", "")
             .replaceAll("^\\s*\\d+\\.\\s+", "")
             .trim();
+    }
+
+    private AjaxResult safeExecute(Supplier<Object> supplier, String errorLogPrefix) {
+        try {
+            return AjaxResult.success(supplier.get());
+        } catch (Exception e) {
+            logger.error("{}: {}", errorLogPrefix, e.getMessage(), e);
+            return AjaxResult.error("获取失败: %s".formatted(e.getMessage()));
+        }
+    }
+
+    private boolean isNotBlank(String value) {
+        return value != null && !value.trim().isEmpty();
     }
 }

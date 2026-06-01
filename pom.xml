@@ -283,6 +283,7 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <release>${java.version}</release>
                     <parameters>true</parameters>
+                    <proc>full</proc>
                 </configuration>
             </plugin>
         </plugins>

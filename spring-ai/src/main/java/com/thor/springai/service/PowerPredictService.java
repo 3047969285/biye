@@ -73,7 +73,7 @@ public class PowerPredictService {
                         ? AjaxResult.success(body.getMessage())
                         : AjaxResult.error(body.getMessage());
             }
-            return AjaxResult.error("调用训练接口失败，HTTP " + resp.getStatusCodeValue());
+            return AjaxResult.error("调用训练接口失败，HTTP " + resp.getStatusCode().value());
         } catch (Exception e) {
             log.error("调用 Python 训练服务异常", e);
             return AjaxResult.error("训练服务异常：" + e.getMessage());
@@ -100,7 +100,7 @@ public class PowerPredictService {
                         ? AjaxResult.success("预测成功", body)
                         : AjaxResult.error(body.getMessage());
             }
-            return AjaxResult.error("调用预测接口失败，HTTP " + resp.getStatusCodeValue());
+            return AjaxResult.error("调用预测接口失败，HTTP " + resp.getStatusCode().value());
         } catch (Exception e) {
             log.error("调用 Python 预测服务异常", e);
             return AjaxResult.error("预测服务异常：" + e.getMessage());
@@ -121,7 +121,7 @@ public class PowerPredictService {
             if (resp.getStatusCode().is2xxSuccessful() && resp.getBody() != null) {
                 return AjaxResult.success("查询成功", resp.getBody());
             }
-            return AjaxResult.error("查询状态失败，HTTP " + resp.getStatusCodeValue());
+            return AjaxResult.error("查询状态失败，HTTP " + resp.getStatusCode().value());
         } catch (Exception e) {
             log.warn("查询 Python 状态服务异常（Python 服务可能未启动）：{}", e.getMessage());
             return AjaxResult.error("Python 服务不可达：" + e.getMessage());
