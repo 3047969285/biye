@@ -2,6 +2,7 @@ package com.thor.springai.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,12 +10,15 @@ import java.util.List;
  * 与 Python 风电预测服务对接的请求/响应 DTO。
  * Python 服务返回 snake_case，使用 @JsonProperty 完成映射。
  *
- * @author thor
+ * @author wangchangzhen
  */
 public class PowerPredictDto {
 
     /** 训练请求（发给 Python /train） */
     public static class TrainRequest implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
         @JsonProperty("excel_path")
         private String excelPath;
         @JsonProperty("time_step")
@@ -43,6 +47,9 @@ public class PowerPredictDto {
 
     /** 训练响应（Python /train 返回，异步启动） */
     public static class TrainResponse implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
         private Boolean success;
         private String message;
 
@@ -54,6 +61,9 @@ public class PowerPredictDto {
 
     /** 快速预测请求（模型已训练，仅做推理，发给 Python /predict） */
     public static class QuickPredictRequest implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
         @JsonProperty("predict_length")
         private Integer predictLength = 96;
         @JsonProperty("predict_start_index")
@@ -92,6 +102,9 @@ public class PowerPredictDto {
 
     /** 预测结果（Python /predict 返回） */
     public static class PredictResponse implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
         private Boolean success;
         private String message;
         private Double rmse;
@@ -124,6 +137,9 @@ public class PowerPredictDto {
 
     /** 模型状态（Python /status 返回） */
     public static class StatusResponse implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
         @JsonProperty("model_exists")
         private Boolean modelExists;
         @JsonProperty("is_training")
@@ -156,8 +172,16 @@ public class PowerPredictDto {
 
     // ── 向下兼容别名 ──────────────────────────────────────────────────────────
     /** @deprecated 使用 TrainRequest 替代 */
-    public static class Request extends TrainRequest {}
+    @Deprecated
+    public static class Request extends TrainRequest {
+        @Serial
+        private static final long serialVersionUID = 1L;
+    }
 
     /** @deprecated 使用 PredictResponse 替代 */
-    public static class Response extends PredictResponse {}
+    @Deprecated
+    public static class Response extends PredictResponse {
+        @Serial
+        private static final long serialVersionUID = 1L;
+    }
 }

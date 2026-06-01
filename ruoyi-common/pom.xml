@@ -131,6 +131,13 @@
             <version>5.0.0</version>
         </dependency>
 
+        <!-- 消除 javax.annotation.meta.When.MAYBE 编译告警 -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
     </dependencies>
 
 </project>
