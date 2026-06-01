@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 数据库智能查询控制器
  *
- * @author thor
+ * @author wangchangzhen
  */
 @RestController
 @RequestMapping("/springai/db")

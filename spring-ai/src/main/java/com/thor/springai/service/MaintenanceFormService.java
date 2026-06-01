@@ -28,7 +28,7 @@ import java.util.*;
  * 智能运维表单服务
  * Bean 名固定为 springAiMaintenanceFormService；Quartz 使用的 maintenanceFormService 见 ruoyi-quartz 门面类。
  *
- * @author thor
+ * @author wangchangzhen
  */
 @Service("springAiMaintenanceFormService")
 public class MaintenanceFormService {

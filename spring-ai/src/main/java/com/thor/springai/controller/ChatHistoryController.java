@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 对话历史管理控制器
  *
- * @author thor
+ * @author wangchangzhen
  */
 @RestController
 @RequestMapping("/springai/history")

@@ -1,6 +1,6 @@
 # SQL 脚本说明
 
-**作者：** wangchangzhen
+**作者：wangchangzhen
 
 ## 1. 数据库初始化（仅此一份）
 

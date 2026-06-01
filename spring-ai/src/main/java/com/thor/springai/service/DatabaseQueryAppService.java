@@ -19,7 +19,7 @@ import java.util.UUID;
 /**
  * 数据库查询应用服务
  *
- * @author thor
+ * @author wangchangzhen
  */
 @Service
 public class DatabaseQueryAppService {

@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * AI 对话应用服务
  *
- * @author thor
+ * @author wangchangzhen
  */
 @Service
 public class AiChatAppService {

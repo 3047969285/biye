@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 /**
  * RAG 知识库问答控制器
  *
- * @author thor
+ * @author wangchangzhen
  */
 @RestController
 @RequestMapping("/springai/rag")

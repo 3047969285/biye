@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  *   <li>GET  /springai/power/status  — 查询训练状态/进度</li>
  * </ul>
  *
- * @author thor
+ * @author wangchangzhen
  */
 @RestController
 @RequestMapping("/springai/power")

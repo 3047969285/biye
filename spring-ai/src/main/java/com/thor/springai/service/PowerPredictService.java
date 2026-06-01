@@ -22,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
  *   <li>/status  — 查询训练进度 / 模型指标</li>
  * </ul>
  *
- * @author thor
+ * @author wangchangzhen
  */
 @Service
 public class PowerPredictService {

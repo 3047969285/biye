@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * 对话历史应用服务
  *
- * @author thor
+ * @author wangchangzhen
  */
 @Service
 public class ChatHistoryAppService {

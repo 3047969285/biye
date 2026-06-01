@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * RAG 应用服务
  *
- * @author thor
+ * @author wangchangzhen
  */
 @Service
 public class RagAppService {

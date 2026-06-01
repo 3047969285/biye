@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * AI 基础对话控制器
  *
- * @author thor
+ * @author wangchangzhen
  */
 @RestController
 @RequestMapping("/springai")

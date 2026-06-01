@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * 数据库查询核心服务
  *
- * @author thor
+ * @author wangchangzhen
  */
 @Service
 public class DatabaseQueryService {

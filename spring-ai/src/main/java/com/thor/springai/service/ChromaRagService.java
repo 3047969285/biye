@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * Chroma 向量库 RAG 服务
  *
- * @author thor
+ * @author wangchangzhen
  */
 @Service
 public class ChromaRagService {
