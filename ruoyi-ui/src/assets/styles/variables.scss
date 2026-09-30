@@ -1,21 +1,21 @@
-/* ========== 深蓝单色体系（去多色语义） ========== */
-$primary-bg: #0f1f3a;
-$secondary-bg: #13284a;
-$border-color: #1e3d6f;
-$accent-color: #3f78c8;
-$text-primary: #d8e7ff;
-$text-secondary: #99b6dc;
-$text-disabled: #6f8fb8;
-$hover-bg: rgba(63, 120, 200, 0.14);
+/* Awwwards 能源类案例方向：暖白画布、墨色文字、克制的能源橙 */
+$primary-bg: #f6f4ef;
+$secondary-bg: #ffffff;
+$border-color: #e8e3db;
+$accent-color: #e98235;
+$text-primary: #20252b;
+$text-secondary: #666d73;
+$text-disabled: #969da2;
+$hover-bg: rgba(233, 130, 53, 0.1);
 
-// 状态颜色（全部映射到蓝色阶）
-$blue: $accent-color;
-$light-blue: #5f94df;
-$red: #2e5fa3;
-$pink: #3a6eb8;
-$green: #3f78c8;
-$tiffany: $accent-color;
-$yellow: #4a84d2;
+// 保留清晰的业务状态语义色
+$blue: #547b92;
+$light-blue: #7899ad;
+$red: #cf5c50;
+$pink: #c9697c;
+$green: #37866a;
+$tiffany: #4c8790;
+$yellow: #d49a3f;
 $panGreen: $green;
 
 // 菜单主题
@@ -31,7 +31,7 @@ $base-logo-light-title-color: $text-primary;
 $base-sub-menu-background: $secondary-bg;
 $base-sub-menu-hover: $hover-bg;
 
-$base-sidebar-width: 200px;
+$base-sidebar-width: 228px;
 
 // the :export directive is the magic sauce for webpack
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass

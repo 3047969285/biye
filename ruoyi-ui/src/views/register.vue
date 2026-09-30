@@ -152,39 +152,40 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
   height: 100%;
-  background: linear-gradient(135deg, #0A0E27 0%, #1A1F3A 50%, #0F1419 100%);
+  padding: 24px;
+  background: #f6f4ef;
   background-attachment: fixed;
 }
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
-  color: #1E293B;
+  color: #20252b;
   font-size: 24px;
-  font-weight: 500;
-  letter-spacing: 0;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .register-form {
-  border-radius: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  width: 400px;
-  padding: 30px 30px 15px 30px;
-  border: 1px solid rgba(99, 102, 241, 0.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background: #fff;
+  width: min(400px, calc(100vw - 36px));
+  padding: 34px 34px 20px;
+  border: 1px solid #e9e4dc;
+  box-shadow: 0 16px 48px rgba(45, 39, 32, 0.08);
   .el-input {
     height: 40px;
     input {
       height: 40px;
-      border-radius: 0;
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      background: rgba(15, 23, 42, 0.8);
-      color: #E2E8F0;
+      border-radius: 6px;
+      border: 1px solid #e6e1d9;
+      background: #fff;
+      color: #292f33;
       
       &:focus {
-        border-color: #6366F1;
-        box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.4);
+        border-color: #e98235;
+        box-shadow: 0 0 0 2px rgba(233, 130, 53, 0.1);
       }
     }
   }
@@ -192,13 +193,13 @@ export default {
     height: 40px;
     width: 14px;
     margin-left: 2px;
-    color: #64748B;
+    color: #8f9699;
   }
 }
 .register-tip {
   font-size: 13px;
   text-align: center;
-  color: #bfbfbf;
+  color: #7b8286;
 }
 .register-code {
   width: 33%;
@@ -216,7 +217,7 @@ export default {
   bottom: 0;
   width: 100%;
   text-align: center;
-  color: #CBD5E1;
+  color: #858b8e;
   font-size: 12px;
   letter-spacing: 0;
 }

@@ -120,10 +120,10 @@ export default {
   height: 56px;
   overflow: hidden;
   position: relative;
-  background: linear-gradient(112deg, rgba(17, 27, 46, 0.92) 0%, rgba(21, 32, 56, 0.88) 100%);
-  box-shadow: 0 8px 24px rgba(3, 8, 18, 0.34);
-  border-bottom: 1px solid rgba(146, 163, 201, 0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 1px 0 rgba(32, 37, 43, 0.06);
+  border-bottom: 1px solid rgba(232, 227, 219, 0.85);
+  backdrop-filter: blur(12px);
 
   .hamburger-container {
     line-height: 52px;
@@ -134,8 +134,7 @@ export default {
     -webkit-tap-highlight-color:transparent;
 
     &:hover {
-      background: rgba(99, 124, 199, 0.2);
-      transform: translateY(-1px);
+      background: rgba(233, 130, 53, 0.1);
     }
   }
 
@@ -186,8 +185,7 @@ export default {
         color: $text-secondary;
 
         &:hover {
-          background: rgba(94, 123, 206, 0.2);
-          transform: translateY(-1px);
+          background: rgba(233, 130, 53, 0.1);
           ::v-deep .svg-icon {
             color: $accent-color;
           }
@@ -241,8 +239,7 @@ export default {
       transition: background 0.28s cubic-bezier(0.22, 1, 0.36, 1), transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
 
       &:hover {
-        background: rgba(94, 123, 206, 0.2);
-        transform: translateY(-1px);
+        background: rgba(233, 130, 53, 0.1);
       }
 
       .avatar-wrapper {
@@ -257,8 +254,8 @@ export default {
           width: 32px;
           height: 32px;
           border-radius: 50%;
-          border: 1px solid rgba(146, 163, 201, 0.35);
-          box-shadow: 0 0 0 3px rgba(99, 124, 199, 0.14);
+          border: 1px solid rgba(232, 227, 219, 0.9);
+          box-shadow: 0 0 0 3px rgba(233, 130, 53, 0.08);
           flex-shrink: 0;
         }
 

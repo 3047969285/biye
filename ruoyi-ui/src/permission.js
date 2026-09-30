@@ -14,7 +14,7 @@ NProgress.configure({ showSpinner: false })
 // 初始化页面标题
 document.title = defaultSettings.title || '智能电网运维系统'
 
-const whiteList = ['/login', '/register']
+const whiteList = ['/login', '/register', '/intro']
 
 const isWhiteList = (path) => {
   return whiteList.some(pattern => isPathMatch(pattern, path))

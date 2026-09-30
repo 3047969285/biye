@@ -427,25 +427,25 @@ export default {
         tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
         legend: {
           data: ['真实功率', '预测功率'],
-          textStyle: { color: '#ccc' },
+          textStyle: { color: '#666d73' },
           top: 0
         },
         grid: { left: '5%', right: '4%', bottom: '8%', containLabel: true },
         xAxis: {
           type: 'category',
           data: labels,
-          axisLabel: { color: '#aaa', interval: Math.floor(labels.length / 8) },
-          axisLine: { lineStyle: { color: '#444' } },
+          axisLabel: { color: '#7b8386', interval: Math.floor(labels.length / 8) },
+          axisLine: { lineStyle: { color: '#d8d2c9' } },
           name: '时间点',
-          nameTextStyle: { color: '#aaa' }
+          nameTextStyle: { color: '#7b8386' }
         },
         yAxis: {
           type: 'value',
           name: '功率 (kW)',
-          nameTextStyle: { color: '#aaa' },
-          axisLabel: { color: '#aaa' },
-          axisLine: { lineStyle: { color: '#444' } },
-          splitLine: { lineStyle: { color: '#2a2a3a' } }
+          nameTextStyle: { color: '#7b8386' },
+          axisLabel: { color: '#7b8386' },
+          axisLine: { lineStyle: { color: '#d8d2c9' } },
+          splitLine: { lineStyle: { color: '#eee9e2' } }
         },
         series: [
           {
@@ -454,8 +454,8 @@ export default {
             smooth: true,
             showSymbol: false,
             data: this.real,
-            lineStyle: { width: 2, color: '#4A8EE8' },
-            areaStyle: { color: 'rgba(64,158,255,0.08)' }
+            lineStyle: { width: 2, color: '#527382' },
+            areaStyle: { color: 'rgba(82, 115, 130, 0.08)' }
           },
           {
             name: '预测功率',
@@ -463,7 +463,7 @@ export default {
             smooth: true,
             showSymbol: false,
             data: this.predicted,
-            lineStyle: { width: 2, color: '#8FC6FF', type: 'dashed' }
+            lineStyle: { width: 2, color: '#E98235', type: 'dashed' }
           }
         ]
       }, true)
@@ -505,24 +505,26 @@ export default {
   margin-bottom: 12px;
 }
 .metric-box {
-  background: #1a2035;
+  background: #faf8f4;
+  border: 1px solid #eee9e2;
   border-radius: 6px;
   padding: 10px 0;
   text-align: center;
 }
 .metric-label {
   font-size: 12px;
-  color: #aaa;
+  color: #777e82;
   margin-bottom: 4px;
 }
 .metric-value {
   font-size: 20px;
   font-weight: 700;
-  color: #8FC6FF;
+  color: #b8611d;
 }
 .chart-container {
   height: 420px;
-  background: #131929;
+  background: #fff;
+  border: 1px solid #eee9e2;
   border-radius: 6px;
   overflow: hidden;
   position: relative;
@@ -542,6 +544,6 @@ export default {
 .empty-icon {
   font-size: 48px;
   margin-bottom: 12px;
-  color: #2a3a5a;
+  color: #e98235;
 }
 </style>

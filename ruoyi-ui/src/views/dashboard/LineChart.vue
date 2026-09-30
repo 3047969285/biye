@@ -94,9 +94,9 @@ export default {
         series: [{
           name: 'expected', itemStyle: {
             normal: {
-              color: '#2F67C3',
+              color: '#E98235',
               lineStyle: {
-                color: '#2F67C3',
+                color: '#E98235',
                 width: 2
               }
             }
@@ -113,13 +113,13 @@ export default {
           type: 'line',
           itemStyle: {
             normal: {
-              color: '#78B7F8',
+              color: '#527382',
               lineStyle: {
-                color: '#78B7F8',
+                color: '#527382',
                 width: 2
               },
               areaStyle: {
-                color: 'rgba(88, 143, 232, 0.18)'
+                color: 'rgba(233, 130, 53, 0.12)'
               }
             }
           },

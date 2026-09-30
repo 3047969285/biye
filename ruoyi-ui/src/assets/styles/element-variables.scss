@@ -3,21 +3,21 @@
 * So I modified the default color and you can modify it to your liking.
 **/
 
-/* theme color - 现代简约主题色（参考 Awwwards） */
-$--color-primary: #6366F1;
-$--color-success: #10B981;
-$--color-warning: #F59E0B;
-$--color-danger: #EF4444;
+/* theme color - 暖白能源主题 */
+$--color-primary: #E98235;
+$--color-success: #37866A;
+$--color-warning: #D49A3F;
+$--color-danger: #CF5C50;
 // $--color-info: #1E1E1E;
 
 $--button-font-weight: 400;
 
 // $--color-text-regular: #1f2d3d;
 
-$--border-color-light: #dfe4ed;
-$--border-color-lighter: #e6ebf5;
+$--border-color-light: #e8e3db;
+$--border-color-lighter: #f0ede7;
 
-$--table-border: 1px solid #dfe6ec;
+$--table-border: 1px solid #e8e3db;
 
 /* icon font path, required */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';

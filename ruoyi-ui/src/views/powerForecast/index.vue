@@ -688,8 +688,8 @@ export default {
       const real = this.realSeriesAligned(pred.length)
       const x = pred.map((_, i) => this.chartAxisLabel(i))
       const tickStep = Math.max(1, Math.floor(pred.length / 6))
-      const axisMuted = '#B4BAC7'
-      const axisStrong = '#F5F7FB'
+      const axisMuted = '#7b8386'
+      const axisStrong = '#30363a'
       const cmpLen =
         this.prediction.compare_length != null ? Number(this.prediction.compare_length) : pred.length
       const fut = this.prediction.future_points != null ? Number(this.prediction.future_points) : 0
@@ -704,8 +704,8 @@ export default {
         textStyle: { color: axisStrong },
         tooltip: {
           trigger: 'axis',
-          backgroundColor: 'rgba(36, 41, 56, 0.96)',
-          borderColor: '#2D3548',
+          backgroundColor: 'rgba(255, 255, 255, 0.98)',
+          borderColor: '#e8e3db',
           textStyle: { color: axisStrong },
           formatter: (params) => {
             if (!params || !params.length) return ''
@@ -739,16 +739,16 @@ export default {
             fontSize: 10,
             hideOverlap: true
           },
-          axisLine: { lineStyle: { color: '#3D4A63' } },
-          axisTick: { lineStyle: { color: '#3D4A63' } }
+          axisLine: { lineStyle: { color: '#d8d2c9' } },
+          axisTick: { lineStyle: { color: '#d8d2c9' } }
         },
         yAxis: {
           type: 'value',
           name: 'kW',
           nameTextStyle: { color: axisStrong, fontSize: 12, padding: [0, 0, 0, 8] },
           axisLabel: { color: axisMuted, fontSize: 11 },
-          axisLine: { show: true, lineStyle: { color: '#3D4A63' } },
-          splitLine: { lineStyle: { color: 'rgba(255,255,255,0.08)' } }
+          axisLine: { show: true, lineStyle: { color: '#d8d2c9' } },
+          splitLine: { lineStyle: { color: 'rgba(92, 99, 97, 0.12)' } }
         },
         series: [
           {
@@ -756,13 +756,13 @@ export default {
             type: 'line',
             smooth: true,
             data: pred,
-            itemStyle: { color: '#5B8DEF' },
+            itemStyle: { color: '#E98235' },
             lineStyle: { width: 2 },
             markLine:
               markLineData.length > 0
                 ? {
                     symbol: 'none',
-                    lineStyle: { type: 'dashed', color: 'rgba(255,255,255,0.35)' },
+                    lineStyle: { type: 'dashed', color: 'rgba(115, 121, 120, 0.45)' },
                     data: markLineData
                   }
                 : undefined
@@ -773,7 +773,7 @@ export default {
             smooth: true,
             connectNulls: false,
             data: real,
-            itemStyle: { color: '#8FC6FF' },
+            itemStyle: { color: '#527382' },
             lineStyle: { width: 2 }
           }
         ]

@@ -11,16 +11,15 @@
 @import './dropdown-fix.scss';
 
 :root {
-  /* 深蓝单色主题（避免多色/霓虹 AI 风格） */
-  --primary-bg: #0f1f3a;
-  --secondary-bg: #13284a;
-  --border-color: #1e3d6f;
-  --accent-color: #3f78c8;
-  --text-primary: #d8e7ff;
-  --text-secondary: #99b6dc;
-  --text-disabled: #6f8fb8;
-  --hover-bg: rgba(63, 120, 200, 0.14);
-  --shadow: 0 2px 12px rgba(8, 22, 44, 0.45);
+  --primary-bg: #f6f4ef;
+  --secondary-bg: #ffffff;
+  --border-color: #e8e3db;
+  --accent-color: #e98235;
+  --text-primary: #20252b;
+  --text-secondary: #666d73;
+  --text-disabled: #969da2;
+  --hover-bg: rgba(233, 130, 53, 0.1);
+  --shadow: 0 8px 26px rgba(35, 31, 26, 0.06);
   --motion-fast: 180ms;
   --motion-normal: 280ms;
   --motion-slow: 420ms;
@@ -43,11 +42,6 @@ body {
 /* 全局文字增强 */
 * {
   color: inherit;
-}
-
-/* 确保所有文字都是高对比度 */
-p, span, div, label, td, th, li {
-  color: var(--text-primary) !important;
 }
 
 label {
@@ -262,7 +256,7 @@ aside {
   }
 }
 
-/* Bienville-like: 深色大片感 + 玻璃分层 */
+/* 暖白底色和轻盈的能源橙光 */
 body::before {
   content: '';
   position: fixed;
@@ -270,9 +264,9 @@ body::before {
   z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(1200px 700px at 82% -8%, rgba(44, 90, 164, 0.2), transparent 58%),
-    radial-gradient(900px 560px at -15% 12%, rgba(35, 74, 137, 0.16), transparent 60%),
-    linear-gradient(160deg, #0b1a31 0%, #0c1f3a 48%, #09162a 100%);
+    radial-gradient(1000px 600px at 92% -12%, rgba(233, 130, 53, 0.07), transparent 62%),
+    radial-gradient(780px 520px at -18% 18%, rgba(209, 177, 136, 0.12), transparent 60%),
+    linear-gradient(160deg, #faf9f6 0%, #f6f4ef 56%, #f4f1eb 100%);
 }
 
 #app::after {
@@ -281,7 +275,7 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 22%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 24%);
 }
 
 .app-main,

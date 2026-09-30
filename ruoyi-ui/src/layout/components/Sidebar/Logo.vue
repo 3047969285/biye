@@ -59,11 +59,10 @@ export default {
   width: 100%;
   height: 66px;
   line-height: 66px;
-  background: linear-gradient(128deg, rgba(12, 20, 35, 0.96) 0%, rgba(18, 29, 48, 0.92) 100%);
+  background: #fff;
   text-align: center;
   overflow: hidden;
-  border-bottom: 1px solid rgba(146, 163, 201, 0.2);
-  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #eee9e2;
 
   & .sidebar-logo-link {
     height: 100%;
@@ -81,20 +80,19 @@ export default {
       vertical-align: middle;
       margin-right: 12px;
       transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
-      filter: drop-shadow(0 4px 10px rgba(48, 85, 182, 0.35));
+      filter: sepia(0.35) saturate(1.5);
     }
 
     & .sidebar-title {
       display: inline-block;
       margin: 0;
-      color: #FFFFFF;
+      color: #20252b;
       font-weight: 700;
       line-height: 66px;
       font-size: 14px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
       vertical-align: middle;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      letter-spacing: 0.015em;
     }
   }
 

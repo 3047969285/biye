@@ -876,7 +876,7 @@ export default {
 .dashboard-container {
   padding: 20px;
   background: transparent;
-  min-height: calc(100vh - 84px);
+  min-height: calc(100vh - 94px);
   position: relative;
   overflow: hidden;
   animation: none;
@@ -889,8 +889,8 @@ export default {
     right: -140px;
     top: -180px;
     pointer-events: none;
-    background: radial-gradient(circle at center, rgba(104, 130, 212, 0.24) 0%, rgba(104, 130, 212, 0.08) 38%, rgba(104, 130, 212, 0) 72%);
-    filter: blur(10px);
+    background: radial-gradient(circle at center, rgba(233, 130, 53, 0.1) 0%, rgba(233, 130, 53, 0.035) 38%, rgba(233, 130, 53, 0) 72%);
+    filter: blur(4px);
     animation: none;
   }
 }
@@ -903,11 +903,10 @@ export default {
 
   .dashboard-title {
     margin: 0;
-    color: #f4f7ff;
-    font-size: 18px;
+    color: $text-primary;
+    font-size: 24px;
     font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    letter-spacing: -0.035em;
     animation: none;
   }
 }
@@ -918,18 +917,18 @@ export default {
 
 .stat-card {
   border-radius: 0;
-  background: linear-gradient(160deg, rgba(24, 36, 61, 0.82) 0%, rgba(17, 28, 49, 0.78) 100%);
-  border: 1px solid rgba(136, 155, 196, 0.24);
+  background: linear-gradient(145deg, #ffffff 0%, #fcfbf9 100%);
+  border: 1px solid #e9e4dc;
   border-left: 3px solid $text-disabled;
   padding: 12px 14px;
-  box-shadow: 0 12px 26px rgba(3, 8, 18, 0.3);
+  box-shadow: 0 7px 22px rgba(35, 31, 26, 0.045);
   transition: border-color 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
   backdrop-filter: blur(8px);
   animation: none;
 
   &:hover {
-    border-color: rgba(123, 152, 239, 0.5);
-    box-shadow: 0 18px 34px rgba(5, 10, 22, 0.36);
+    border-color: #e6c4a4;
+    box-shadow: 0 12px 28px rgba(35, 31, 26, 0.08);
     transform: translateY(-2px);
   }
 
@@ -947,19 +946,19 @@ export default {
   }
 
   &--normal {
-    border-left-color: #3f78c8;
+    border-left-color: #37866a;
   }
 
   &--stopped {
-    border-left-color: #3569b1;
+    border-left-color: #9a9fa1;
   }
 
   &--maintenance {
-    border-left-color: #4a84d2;
+    border-left-color: #d49a3f;
   }
 
   &--scrapped {
-    border-left-color: #2e5fa3;
+    border-left-color: #cf5c50;
   }
 }
 
@@ -969,10 +968,10 @@ export default {
 .stats-row .el-col:nth-child(4) .stat-card { animation-delay: 0s; }
 
 .device-list-card {
-  background: linear-gradient(160deg, rgba(22, 34, 58, 0.84) 0%, rgba(16, 27, 47, 0.8) 100%);
-  border: 1px solid rgba(129, 146, 184, 0.24);
+  background: #fff;
+  border: 1px solid #e9e4dc;
   border-radius: 0;
-  box-shadow: 0 14px 36px rgba(4, 9, 21, 0.32);
+  box-shadow: 0 7px 22px rgba(35, 31, 26, 0.045);
   animation: none;
   
   .card-header {
@@ -995,18 +994,18 @@ export default {
     
     ::v-deep .device-search-input {
       .el-input__inner {
-        background: rgba(16, 26, 44, 0.76);
-        border-color: rgba(129, 146, 184, 0.24);
-        color: #F5F7FB;
+        background: #fff;
+        border-color: #e3ddd4;
+        color: #252b2f;
         
         &::placeholder {
-          color: #9AA6BF;
+          color: #a0a4a6;
         }
       }
       
       .el-input__prefix {
         .el-input__icon {
-          color: #5EA1FF;
+          color: #e98235;
         }
       }
     }
@@ -1036,7 +1035,7 @@ export default {
           ::v-deep .el-collapse-item {
             margin-bottom: 10px;
             border: 1px solid $border-color;
-            border-radius: 4px;
+            border-radius: 7px;
             overflow: hidden;
             background: $primary-bg;
           }
@@ -1088,25 +1087,25 @@ export default {
         }
     
     .device-card {
-      background: linear-gradient(165deg, rgba(23, 35, 59, 0.82) 0%, rgba(18, 29, 50, 0.78) 100%);
+      background: linear-gradient(145deg, #fff 0%, #fcfbf9 100%);
       padding: 10px 12px;
       cursor: pointer;
-      border: 1px solid rgba(136, 155, 196, 0.24);
+      border: 1px solid #e9e4dc;
       border-left: 3px solid $accent-color;
       transition: background-color 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
-      box-shadow: 0 8px 20px rgba(3, 8, 18, 0.24);
-      border-radius: 0;
+      box-shadow: 0 5px 16px rgba(35, 31, 26, 0.04);
+      border-radius: 8px;
       animation: none;
 
       &:hover {
-        background: linear-gradient(165deg, rgba(26, 39, 66, 0.9) 0%, rgba(20, 33, 56, 0.86) 100%);
-        border-color: rgba(132, 158, 238, 0.44);
-        box-shadow: 0 14px 28px rgba(5, 10, 22, 0.36);
+        background: #fffdfb;
+        border-color: #e6c4a4;
+        box-shadow: 0 12px 26px rgba(35, 31, 26, 0.08);
         transform: translateY(-2px);
       }
 
       &.status-normal {
-        border-left-color: $accent-color;
+        border-left-color: $green;
       }
       
       &.status-stopped {
@@ -1114,11 +1113,11 @@ export default {
       }
       
       &.status-maintenance {
-        border-left-color: #4a84d2;
+        border-left-color: $yellow;
       }
       
       &.status-scrapped {
-        border-left-color: #2e5fa3;
+        border-left-color: $red;
       }
       
         .device-card-header {
@@ -1127,12 +1126,12 @@ export default {
         align-items: center;
         margin-bottom: 8px;
         padding-bottom: 8px;
-        border-bottom: 1px solid #2E3B55;
+        border-bottom: 1px solid $border-color;
         
         .device-name {
           font-size: 14px;
           font-weight: 600;
-          color: #eef2f8;
+          color: $text-primary;
           flex: 1;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -1212,9 +1211,9 @@ export default {
 
             .summary-dim {
               font-size: 11px;
-              color: #9aa6bf;
+              color: $text-secondary;
               cursor: help;
-              border-bottom: 1px dashed rgba(154, 166, 191, 0.45);
+              border-bottom: 1px dashed rgba(102, 109, 115, 0.35);
               line-height: 1.3;
             }
           }
@@ -1223,22 +1222,22 @@ export default {
       
       .device-card-footer {
         padding-top: 15px;
-        border-top: 1px solid #2E3B55;
+        border-top: 1px solid $border-color;
         
         .data-count {
           display: flex;
           align-items: center;
           margin-bottom: 10px;
-          color: #D1D7E6;
+          color: $text-secondary;
           font-size: 14px;
           
           i {
             margin-right: 5px;
-            color: #5EA1FF;
+            color: $accent-color;
           }
           
           strong {
-            color: #5EA1FF;
+            color: $accent-color;
             font-size: 16px;
             margin-left: 5px;
           }
@@ -1251,7 +1250,7 @@ export default {
           
           .no-data-tip {
             font-size: 12px;
-            color: #C0C4CC;
+            color: $text-disabled;
             font-style: italic;
           }
         }
@@ -1287,7 +1286,7 @@ export default {
     margin-top: 20px;
     text-align: right;
     padding-top: 20px;
-    border-top: 1px solid #2E3B55;
+    border-top: 1px solid $border-color;
     
     ::v-deep .el-pagination {
       .el-pagination__total,
@@ -1295,17 +1294,17 @@ export default {
       .btn-prev,
       .btn-next,
       .el-pager li {
-        color: #D1D7E6;
+        color: $text-secondary;
       }
       
       .el-pager li.active {
-        color: #5EA1FF;
+        color: $accent-color;
       }
       
       .el-select .el-input__inner {
-        background: #1B2435;
-        border-color: #2E3B55;
-        color: #F5F7FB;
+        background: #fff;
+        border-color: $border-color;
+        color: $text-primary;
       }
     }
   }
@@ -1327,13 +1326,13 @@ export default {
 
 .device-info-card {
   margin-bottom: 20px;
-  background: linear-gradient(160deg, rgba(22, 34, 58, 0.84) 0%, rgba(16, 27, 47, 0.8) 100%);
-  border: 1px solid rgba(129, 146, 184, 0.24);
+  background: #fff;
+  border: 1px solid #e9e4dc;
   border-radius: 0;
   animation: none;
   
   ::v-deep .el-card__body {
-    background: #222D42;
+    background: #fff;
   }
 
   .card-header-title {
@@ -1377,13 +1376,13 @@ export default {
 
 .device-data-card {
   margin-top: 20px;
-  background: linear-gradient(160deg, rgba(22, 34, 58, 0.84) 0%, rgba(16, 27, 47, 0.8) 100%);
-  border: 1px solid rgba(129, 146, 184, 0.24);
+  background: #fff;
+  border: 1px solid #e9e4dc;
   border-radius: 0;
   animation: none;
   
   ::v-deep .el-card__body {
-    background: #222D42;
+    background: #fff;
     padding: 0;
   }
   
@@ -1409,17 +1408,17 @@ export default {
   }
   
   ::v-deep .el-tabs--border-card {
-    background: #222D42;
-    border: 1px solid #2E3B55;
+    background: #fff;
+    border: 1px solid $border-color;
     
     .el-tabs__header {
-      background: #1B2435;
-      border-bottom: 2px solid #2E3B55;
+      background: #f7f5f1;
+      border-bottom: 1px solid $border-color;
       margin: 0;
       padding: 0 20px;
       
       .el-tabs__item {
-        color: #D1D7E6;
+        color: $text-secondary;
         font-weight: 400;
 
         &.is-active {
@@ -1431,43 +1430,43 @@ export default {
     
     .el-tabs__content {
       padding: 20px;
-      background: #222D42;
+      background: #fff;
     }
   }
   
   ::v-deep .device-detail-table {
-    background: #222D42 !important;
+    background: #fff !important;
     
     th {
-      background-color: #1B2435 !important;
-      color: #F5F7FB !important;
+      background-color: #f7f5f1 !important;
+      color: $text-primary !important;
       font-weight: 600 !important;
-      border-color: #2E3B55 !important;
+      border-color: $border-color !important;
     }
     
     td {
-      background-color: #222D42 !important;
-      color: #D1D7E6 !important;
-      border-color: #2E3B55 !important;
+      background-color: #fff !important;
+      color: $text-secondary !important;
+      border-color: $border-color !important;
     }
     
     .el-table__row {
-      background-color: #222D42 !important;
+      background-color: #fff !important;
 
       &:hover td {
-        background-color: #2a3548 !important;
+        background-color: #fff7ef !important;
       }
     }
 
     .el-table__row--striped {
-      background-color: #1B2435 !important;
+      background-color: #fcfbf9 !important;
 
       td {
-        background-color: #1B2435 !important;
+        background-color: #fcfbf9 !important;
       }
 
       &:hover td {
-        background-color: #2a3548 !important;
+        background-color: #fff7ef !important;
       }
     }
   }
@@ -1517,10 +1516,10 @@ export default {
 
 @keyframes card-breathe {
   0%, 100% {
-    box-shadow: 0 12px 26px rgba(3, 8, 18, 0.3);
+    box-shadow: 0 7px 22px rgba(35, 31, 26, 0.045);
   }
   50% {
-    box-shadow: 0 16px 30px rgba(7, 14, 30, 0.34);
+    box-shadow: 0 10px 26px rgba(35, 31, 26, 0.07);
   }
 }
 
@@ -1559,11 +1558,11 @@ export default {
 }
 
 ::v-deep .el-card__header {
-  background: #1B2435;
-  border-bottom: 1px solid #2E3B55;
+  background: #fff;
+  border-bottom: 1px solid $border-color;
   
   .card-header {
-    color: #F5F7FB;
+    color: $text-primary;
   }
 }
 
@@ -1574,12 +1573,12 @@ export default {
   }
   
   .el-dialog__header {
-    background: #1B2435;
+    background: #fff;
     padding: 14px 20px;
-    border-bottom: 1px solid #2E3B55;
+    border-bottom: 1px solid $border-color;
 
     .el-dialog__title {
-      color: #F5F7FB;
+      color: $text-primary;
       font-weight: 600;
       font-size: 16px;
     }
@@ -1589,12 +1588,12 @@ export default {
       right: 20px;
       
       .el-dialog__close {
-        color: #F5F7FB;
+        color: $text-primary;
         font-size: 24px;
         font-weight: bold;
         
         &:hover {
-          color: #5EA1FF;
+          color: $accent-color;
         }
       }
     }
@@ -1602,26 +1601,26 @@ export default {
   
   .el-dialog__body {
     padding: 16px 20px;
-    background: #1B2435;
+    background: #fff;
     max-height: 72vh;
     overflow-y: auto;
   }
   
   .el-card {
-    border: 1px solid #2E3B55;
-    background: #222D42;
+    border: 1px solid $border-color;
+    background: #fff;
     
     .el-card__header {
-      background: #222D42;
-      border-bottom: 2px solid #2E3B55;
+      background: #fff;
+      border-bottom: 1px solid $border-color;
       padding: 20px;
-      color: #F5F7FB;
+      color: $text-primary;
     }
     
     .el-card__body {
       padding: 20px;
-      background: #222D42;
-      color: #F5F7FB;
+      background: #fff;
+      color: $text-primary;
     }
   }
 }
