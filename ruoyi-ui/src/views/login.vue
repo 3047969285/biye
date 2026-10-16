@@ -186,14 +186,14 @@ export default {
 
 .login-shell {
   display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
+  grid-template-columns: 1.12fr 0.88fr;
   width: min(1180px, 100%);
-  min-height: min(630px, calc(100vh - 116px));
+  min-height: min(650px, calc(100vh - 116px));
   overflow: hidden;
-  border: 1px solid #ebe6de;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 22px 72px rgba(45, 39, 32, 0.08);
+  border: 1px solid #e4d4c6;
+  border-radius: 2px;
+  background: #fffaf5;
+  box-shadow: 0 28px 80px rgba(26, 18, 14, 0.12);
   animation: floatIn 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -206,10 +206,27 @@ export default {
   overflow: hidden;
   padding: clamp(30px, 4vw, 58px);
   background:
-    radial-gradient(circle at 78% 79%, rgba(227, 6, 19, 0.14), transparent 29%),
-    radial-gradient(circle at 20% 10%, rgba(196, 163, 90, 0.12), transparent 40%),
-    linear-gradient(145deg, #2a1812 0%, #120c0a 100%);
+    radial-gradient(circle at 78% 79%, rgba(227, 6, 19, 0.22), transparent 32%),
+    radial-gradient(circle at 18% 12%, rgba(196, 163, 90, 0.18), transparent 42%),
+    radial-gradient(circle at 50% 110%, rgba(255, 200, 160, 0.12), transparent 40%),
+    linear-gradient(155deg, #3a241c 0%, #1a100c 48%, #0e0a08 100%);
   color: #f7f0e6;
+}
+
+.login-story::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255, 255, 255, 0.015) 3px, rgba(255, 255, 255, 0.015) 4px);
+  mix-blend-mode: soft-light;
+  animation: loginDrift 14s ease-in-out infinite alternate;
+}
+
+@keyframes loginDrift {
+  from { transform: translateY(0); opacity: 0.7; }
+  to { transform: translateY(-2%); opacity: 1; }
 }
 
 .login-brand,
