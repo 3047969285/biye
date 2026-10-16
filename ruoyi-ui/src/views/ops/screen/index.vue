@@ -305,11 +305,21 @@ export default {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(70% 55% at 50% 38%, rgba(255, 186, 140, 0.16), transparent 62%),
-    radial-gradient(45% 40% at 12% 18%, rgba(227, 6, 19, 0.32), transparent 58%),
-    radial-gradient(40% 35% at 88% 22%, rgba(196, 163, 90, 0.18), transparent 55%),
+    radial-gradient(70% 55% at 50% 38%, rgba(255, 186, 140, 0.2), transparent 62%),
+    radial-gradient(45% 40% at 12% 18%, rgba(227, 6, 19, 0.36), transparent 58%),
+    radial-gradient(40% 35% at 88% 22%, rgba(196, 163, 90, 0.22), transparent 55%),
+    radial-gradient(30% 25% at 70% 80%, rgba(255, 160, 120, 0.1), transparent 60%),
     linear-gradient(165deg, #3a241c 0%, #1a100c 42%, #0e0a08 100%);
   animation: photoDrift 16s ease-in-out infinite alternate;
+}
+
+.ops-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(115deg, transparent 40%, rgba(255, 220, 190, 0.06) 48%, transparent 56%);
+  animation: photoShaft 9s ease-in-out infinite alternate;
 }
 
 .ops-vignette {
@@ -330,7 +340,12 @@ export default {
 
 @keyframes photoDrift {
   from { transform: scale(1); }
-  to { transform: scale(1.04) translateY(-1.2%); }
+  to { transform: scale(1.05) translateY(-1.4%); }
+}
+
+@keyframes photoShaft {
+  from { opacity: 0.35; transform: translateX(-4%); }
+  to { opacity: 0.85; transform: translateX(5%); }
 }
 
 .ops-top,

@@ -8,15 +8,21 @@
       <div class="fleet-stage__floor" />
       <div class="fleet-stage__rim" />
 
-      <div class="fleet-hero" :key="'hero-' + (activeDevice && activeDevice.deviceId)">
-        <DeviceScene3D
-          v-if="activeDevice"
-          :device="activeDevice"
-          variant="stage"
-          :show-caption="false"
-          :interactive="false"
-        />
-      </div>
+      <transition name="fleet-focus" mode="out-in">
+        <div
+          class="fleet-hero"
+          :key="'hero-' + (activeDevice && activeDevice.deviceId)"
+        >
+          <DeviceScene3D
+            v-if="activeDevice"
+            :device="activeDevice"
+            variant="stage"
+            :show-caption="false"
+            :interactive="false"
+            :focused="true"
+          />
+        </div>
+      </transition>
 
       <div
         v-for="(device, i) in satellites"
@@ -25,7 +31,7 @@
         :class="{ active: String(device.deviceId) === String(activeId) }"
         :style="satStyle(i, satellites.length)"
       >
-        <DeviceSilhouette :device="device" size="md" />
+        <DeviceSilhouette :device="device" size="md" :focused="false" />
       </div>
     </div>
   </div>
@@ -405,6 +411,19 @@ export default {
 @keyframes heroRise {
   from { opacity: 0; transform: translate(-50%, -46%) scale(0.92); }
   to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.fleet-focus-enter-active,
+.fleet-focus-leave-active {
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fleet-focus-enter {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9) rotateY(-12deg);
+}
+.fleet-focus-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.06) rotateY(10deg);
 }
 
 @media (max-width: 900px) {

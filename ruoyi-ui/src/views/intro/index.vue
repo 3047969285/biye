@@ -122,10 +122,11 @@ export default {
   position: fixed;
   inset: 0;
   overflow: hidden;
-  color: #272b2d;
+  color: #f7f0e6;
   background:
-    radial-gradient(ellipse at 50% 43%, rgba(233, 130, 53, 0.1), transparent 43%),
-    linear-gradient(145deg, #faf9f6 0%, #f5f2ec 58%, #f7f5f0 100%);
+    radial-gradient(ellipse at 50% 40%, rgba(227, 6, 19, 0.22), transparent 48%),
+    radial-gradient(ellipse at 80% 20%, rgba(196, 163, 90, 0.14), transparent 42%),
+    linear-gradient(155deg, #2a1812 0%, #140e0b 55%, #0e0a08 100%);
 }
 
 .intro-atmosphere {
@@ -138,10 +139,10 @@ export default {
 .ambient-grid {
   position: absolute;
   inset: -20%;
-  opacity: 0.17;
+  opacity: 0.22;
   background-image:
-    linear-gradient(rgba(150, 125, 99, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(150, 125, 99, 0.09) 1px, transparent 1px);
+    linear-gradient(rgba(255, 220, 190, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 220, 190, 0.08) 1px, transparent 1px);
   background-size: 58px 58px;
   mask-image: radial-gradient(ellipse at center, #000 8%, transparent 72%);
   animation: grid-drift 28s linear infinite;
@@ -151,7 +152,7 @@ export default {
   position: absolute;
   left: 50%;
   top: 46%;
-  border: 1px solid rgba(196, 146, 105, 0.19);
+  border: 1px solid rgba(227, 6, 19, 0.28);
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
@@ -159,12 +160,13 @@ export default {
 .halo-outer {
   width: min(76vw, 900px);
   aspect-ratio: 1;
+  box-shadow: 0 0 80px rgba(227, 6, 19, 0.08);
 }
 
 .halo-inner {
   width: min(54vw, 640px);
   aspect-ratio: 1;
-  border-color: rgba(196, 146, 105, 0.13);
+  border-color: rgba(196, 163, 90, 0.22);
 }
 
 .light-orbit {
@@ -173,7 +175,7 @@ export default {
   top: 46%;
   width: min(84vw, 1040px);
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(233, 130, 53, 0.38), transparent);
+  background: linear-gradient(90deg, transparent, rgba(227, 6, 19, 0.55), transparent);
   transform: translate(-50%, -50%) rotate(-18deg);
   animation: orbit-breathe 6s ease-in-out infinite;
 }
@@ -197,14 +199,14 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 13px;
-  color: rgba(39, 43, 45, 0.72);
+  color: rgba(247, 240, 230, 0.72);
   font-size: 12px;
   letter-spacing: 0.12em;
 }
 
 .intro-brand b {
   padding: 0 5px;
-  color: rgba(233, 130, 53, 0.68);
+  color: rgba(227, 6, 19, 0.85);
   font-weight: 400;
 }
 
@@ -239,7 +241,7 @@ export default {
   gap: 12px;
   padding: 9px 0 9px 12px;
   border: 0;
-  color: rgba(39, 43, 45, 0.58);
+  color: rgba(247, 240, 230, 0.58);
   background: transparent;
   font: inherit;
   font-size: 12px;
@@ -250,7 +252,7 @@ export default {
 
 .skip-button:hover,
 .skip-button:focus-visible {
-  color: #bd641e;
+  color: #ffd2c6;
 }
 
 .skip-button:focus-visible {
@@ -280,7 +282,7 @@ export default {
 
 .word-kicker {
   margin: 0 0 clamp(20px, 4vh, 38px);
-  color: rgba(160, 112, 72, 0.82);
+  color: #c4a35a;
   font-size: 11px;
   letter-spacing: 0.3em;
 }
@@ -291,8 +293,8 @@ export default {
   gap: clamp(8px, 2.1vw, 28px);
   margin: 0;
   padding: 0 0 0 0.12em;
-  color: #262a2d;
-  font-family: 'STSong', 'Songti SC', 'Noto Serif SC', 'Microsoft YaHei', serif;
+  color: #f7f0e6;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', serif;
   font-size: clamp(58px, 13vw, 156px);
   font-weight: 700;
   line-height: 1.12;
@@ -306,11 +308,11 @@ export default {
   min-width: 1em;
   opacity: 0;
   color: transparent;
-  background: linear-gradient(150deg, #282d30 4%, #5d6466 52%, #df7f35 100%);
+  background: linear-gradient(150deg, #fff6ee 4%, #f0d0c0 48%, #e30613 100%);
   background-clip: text;
   -webkit-background-clip: text;
   filter: blur(12px);
-  text-shadow: 0 8px 28px rgba(164, 116, 72, 0.12);
+  text-shadow: 0 8px 28px rgba(227, 6, 19, 0.18);
   transform: translate3d(var(--origin-x), var(--origin-y), 0) rotate(var(--origin-rotation)) scale(0.58);
   animation: character-assemble 850ms cubic-bezier(0.2, 0.9, 0.25, 1.12) var(--character-delay) both;
 }
@@ -320,7 +322,7 @@ export default {
   inset: 0;
   color: transparent;
   content: attr(data-character);
-  -webkit-text-stroke: 1px rgba(191, 113, 52, 0.5);
+  -webkit-text-stroke: 1px rgba(227, 6, 19, 0.55);
   clip-path: inset(0 100% 0 0);
   animation: outline-assemble 720ms ease-out var(--outline-delay) both;
 }
@@ -346,7 +348,7 @@ export default {
 
 .word-subtitle {
   margin: 0;
-  color: rgba(69, 75, 77, 0.67);
+  color: rgba(247, 240, 230, 0.62);
   font-size: clamp(12px, 1.2vw, 15px);
   letter-spacing: 0.2em;
 }
@@ -360,13 +362,13 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: rgba(67, 73, 75, 0.48);
+  color: rgba(247, 240, 230, 0.45);
   font-size: 11px;
   letter-spacing: 0.12em;
 }
 
 .count-current {
-  color: #c66d28;
+  color: #e30613;
 }
 
 .count-divider {

@@ -11,6 +11,7 @@
       :device="boundDevice"
       :size="silSize"
       :spinning="autoRotate || hoverBoost"
+      :focused="focused || hoverBoost"
     />
     <canvas ref="canvas" class="device-scene-canvas" :class="{ visible: webglOk }" />
     <div v-if="showCaption" class="device-scene-caption">
@@ -40,7 +41,8 @@ export default {
     interactive: { type: Boolean, default: true },
     showCaption: { type: Boolean, default: false },
     autoRotate: { type: Boolean, default: true },
-    enableWebgl: { type: Boolean, default: false }
+    enableWebgl: { type: Boolean, default: false },
+    focused: { type: Boolean, default: false }
   },
   data() {
     return {
