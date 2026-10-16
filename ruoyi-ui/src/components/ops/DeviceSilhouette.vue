@@ -142,9 +142,9 @@ export default {
 .is-md .device-sil__model { width: 58%; height: 68%; }
 .is-lg .device-sil__model { width: 52%; height: 64%; }
 .is-xl .device-sil__model {
-  width: 46%;
-  height: 62%;
-  transform: rotateX(12deg) rotateY(-28deg) scale(1.15);
+  width: 52%;
+  height: 68%;
+  transform: rotateX(12deg) rotateY(-28deg) scale(1.35);
 }
 
 /* —— turbine —— */

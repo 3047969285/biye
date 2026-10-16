@@ -92,16 +92,17 @@ export default {
   },
   methods: {
     satStyle(i, n) {
+      // 椭圆环绕主舞台两侧与后方，避免缩成底部玩具条
       const t = n <= 1 ? 0.5 : i / Math.max(n - 1, 1)
-      const angle = -70 + t * 140
+      const angle = -105 + t * 210
       const rad = (angle * Math.PI) / 180
-      const x = Math.sin(rad) * 34
-      const y = Math.cos(rad) * 10 + 18
-      const depth = 0.72 + (1 - Math.abs(t - 0.5) * 2) * 0.35
+      const x = Math.sin(rad) * 38
+      const y = Math.cos(rad) * 14 + 2
+      const depth = 0.78 + (1 - Math.abs(t - 0.5) * 2) * 0.4
       return {
         transform: `translate(-50%, -50%) translate(${x}vw, ${y}vh) scale(${depth})`,
-        zIndex: String(8 + Math.round(depth * 10)),
-        opacity: 0.55 + depth * 0.35
+        zIndex: String(6 + Math.round(depth * 8)),
+        opacity: 0.5 + depth * 0.4
       }
     },
     init() {
@@ -322,87 +323,95 @@ export default {
 
 .fleet-stage__wash {
   position: absolute;
-  inset: 8% 12% 18%;
+  inset: 0;
   background:
-    radial-gradient(55% 50% at 50% 42%, rgba(255, 196, 150, 0.18), transparent 70%),
-    radial-gradient(40% 35% at 50% 70%, rgba(227, 6, 19, 0.2), transparent 70%);
-  filter: blur(2px);
+    radial-gradient(48% 42% at 50% 40%, rgba(255, 196, 150, 0.22), transparent 68%),
+    radial-gradient(36% 32% at 50% 62%, rgba(227, 6, 19, 0.24), transparent 70%);
   animation: stageBreath 8s ease-in-out infinite;
 }
 
 .fleet-stage__floor {
   position: absolute;
-  left: 18%;
-  right: 18%;
-  top: 58%;
-  height: 28%;
+  left: 10%;
+  right: 10%;
+  top: 52%;
+  height: 36%;
   border-radius: 50%;
   background:
-    radial-gradient(ellipse at center, rgba(90, 52, 38, 0.55), transparent 68%);
-  transform: rotateX(66deg) scale(1.15);
+    radial-gradient(ellipse at center, rgba(90, 52, 38, 0.62), transparent 70%);
+  transform: rotateX(68deg) scale(1.2);
 }
 
 .fleet-stage__rim {
   position: absolute;
-  left: 22%;
-  right: 22%;
-  top: 56%;
-  height: 26%;
+  left: 16%;
+  right: 16%;
+  top: 50%;
+  height: 34%;
   border-radius: 50%;
-  border: 1px solid rgba(227, 6, 19, 0.38);
-  box-shadow: 0 0 60px rgba(227, 6, 19, 0.16);
-  transform: rotateX(66deg) scale(1.05);
+  border: 1px solid rgba(227, 6, 19, 0.42);
+  box-shadow: 0 0 80px rgba(227, 6, 19, 0.2);
+  transform: rotateX(68deg) scale(1.08);
+  animation: rimPulse 5.5s ease-in-out infinite;
 }
 
+/* 全幅舞台：去掉硬画框，边缘羽化融入大气 */
 .fleet-hero {
   position: absolute;
   left: 50%;
-  top: 42%;
-  width: min(68vw, 860px);
-  height: min(68vh, 640px);
+  top: 40%;
+  width: min(78vw, 980px);
+  height: min(74vh, 720px);
   transform: translate(-50%, -50%);
   z-index: 20;
-  border-radius: 2px;
   overflow: hidden;
-  box-shadow:
-    0 40px 100px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 220, 190, 0.18),
-    0 0 100px rgba(227, 6, 19, 0.16);
-  animation: heroRise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  -webkit-mask-image: radial-gradient(ellipse 72% 68% at 50% 48%, #000 42%, transparent 78%);
+  mask-image: radial-gradient(ellipse 72% 68% at 50% 48%, #000 42%, transparent 78%);
+  animation: heroRise 1.05s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .fleet-sat {
   position: absolute;
   left: 50%;
-  top: 50%;
-  width: min(190px, 14.5vw);
-  height: min(168px, 16.5vh);
-  border-radius: 3px;
+  top: 44%;
+  width: min(200px, 15vw);
+  height: min(176px, 17vh);
+  border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 220, 190, 0.1);
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, filter 0.35s ease;
-  filter: saturate(0.95);
+  filter: saturate(1.05) brightness(1.02);
 
   &.active {
-    filter: saturate(1.2) brightness(1.08);
+    filter: saturate(1.25) brightness(1.1);
   }
 }
 
 @keyframes stageBreath {
-  0%, 100% { opacity: 0.75; }
+  0%, 100% { opacity: 0.8; }
   50% { opacity: 1; }
 }
 
+@keyframes rimPulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.95; }
+}
+
 @keyframes heroRise {
-  from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
+  from { opacity: 0; transform: translate(-50%, -46%) scale(0.92); }
   to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
 @media (max-width: 900px) {
   .fleet-hero {
-    width: min(78vw, 520px);
-    height: min(42vh, 360px);
-    top: 42%;
+    width: min(92vw, 640px);
+    height: min(48vh, 420px);
+    top: 40%;
   }
   .fleet-sat {
     display: none;

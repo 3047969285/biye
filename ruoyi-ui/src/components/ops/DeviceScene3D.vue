@@ -418,8 +418,9 @@ export default {
 
 .is-hero,
 .is-stage {
-  min-height: 320px;
+  min-height: 100%;
   border-radius: 0;
+  background: transparent;
 }
 
 .is-rail {

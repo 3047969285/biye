@@ -448,13 +448,14 @@ export default {
 .ops-hero {
   position: absolute;
   left: clamp(18px, 3vw, 40px);
-  bottom: 120px;
+  bottom: 108px;
   z-index: 4;
-  max-width: min(360px, 28vw);
-  padding: 18px 20px;
-  background: linear-gradient(145deg, rgba(42, 24, 18, 0.42), rgba(20, 14, 11, 0.28));
-  border: 1px solid var(--ops-glass-border);
-  backdrop-filter: blur(14px) saturate(1.1);
+  max-width: min(340px, 26vw);
+  padding: 16px 18px 18px;
+  background: linear-gradient(145deg, rgba(42, 24, 18, 0.35), rgba(20, 14, 11, 0.18));
+  border: 1px solid rgba(255, 220, 190, 0.12);
+  border-left: 2px solid var(--ops-red);
+  backdrop-filter: blur(10px) saturate(1.05);
   animation: heroIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
 }
 

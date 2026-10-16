@@ -146,11 +146,13 @@ body::before {
 .delta-page-hero {
   position: relative;
   margin: -8px 0 22px;
-  padding: clamp(28px, 4vw, 48px) clamp(22px, 3vw, 36px);
+  padding: clamp(40px, 6vw, 72px) clamp(22px, 3vw, 40px);
+  min-height: min(42vh, 380px);
   overflow: hidden;
   color: var(--ops-ivory);
   background:
-    radial-gradient(80% 120% at 90% 10%, rgba(227, 6, 19, 0.35), transparent 55%),
+    radial-gradient(70% 90% at 88% 8%, rgba(227, 6, 19, 0.4), transparent 55%),
+    radial-gradient(50% 70% at 12% 90%, rgba(196, 163, 90, 0.18), transparent 50%),
     linear-gradient(125deg, #1a100c 0%, #2a1812 48%, #120c0a 100%);
   animation: deltaHeroIn 0.8s var(--motion-ease) both;
 }
