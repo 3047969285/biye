@@ -8,7 +8,8 @@ import './assets/styles/echarts-blue-theme'
 
 import '@/assets/styles/index.scss' // global css
 import '@/assets/styles/ruoyi.scss' // ruoyi css
-import '@/assets/styles/energy-theme.scss' // shared Awwwards-inspired energy theme
+import '@/assets/styles/energy-theme.scss' // shared energy theme base
+import '@/assets/styles/delta-ops-theme.scss' // Delta Cafés–caliber ops visual language
 import App from './App'
 import store from './store'
 import router from './router'

@@ -3,20 +3,20 @@
  * Business layout, routes and component behavior remain owned by the existing Vue screens.
  */
 :root {
-  --primary-bg: #f6f4ef;
-  --secondary-bg: #ffffff;
-  --border-color: #e8e3db;
-  --accent-color: #e98235;
-  --text-primary: #20252b;
-  --text-secondary: #666d73;
-  --text-disabled: #969da2;
-  --hover-bg: rgba(233, 130, 53, 0.1);
-  --shadow: 0 8px 26px rgba(35, 31, 26, 0.06);
-  --radius: 10px;
-  --surface-1: #ffffff;
-  --text-1: #20252b;
-  --border-1: #e8e3db;
-  --shadow-1: 0 12px 38px rgba(35, 31, 26, 0.08);
+  --primary-bg: #f4ebe2;
+  --secondary-bg: #fffaf5;
+  --border-color: #e4d4c6;
+  --accent-color: #e30613;
+  --text-primary: #1a120e;
+  --text-secondary: #5c463c;
+  --text-disabled: #9a8578;
+  --hover-bg: rgba(227, 6, 19, 0.08);
+  --shadow: 0 14px 40px rgba(26, 18, 14, 0.08);
+  --radius: 2px;
+  --surface-1: #fffaf5;
+  --text-1: #1a120e;
+  --border-1: #e4d4c6;
+  --shadow-1: 0 18px 48px rgba(26, 18, 14, 0.1);
 }
 
 html,
@@ -31,7 +31,7 @@ body::before {
   background:
     radial-gradient(900px 560px at 96% -10%, rgba(233, 130, 53, 0.08), transparent 62%),
     radial-gradient(780px 520px at -18% 18%, rgba(209, 177, 136, 0.12), transparent 60%),
-    linear-gradient(160deg, #faf9f6 0%, #f6f4ef 56%, #f4f1eb 100%);
+    linear-gradient(160deg, #faf9f6 0%, #f4ebe2 56%, #efe2d4 100%);
 }
 
 #app::after {
@@ -94,7 +94,7 @@ body::before {
   left: -10px;
   width: 3px;
   border-radius: 0 3px 3px 0;
-  background: #e98235;
+  background: #e30613;
   content: '';
 }
 
@@ -105,7 +105,7 @@ body::before {
 
 .sidebar-container .el-menu-item.is-active .svg-icon,
 .sidebar-container .el-menu-item:hover .svg-icon {
-  color: #e98235 !important;
+  color: #e30613 !important;
 }
 
 .navbar {
@@ -257,8 +257,8 @@ body::before {
 .el-button--primary,
 .el-button--primary:hover,
 .el-button--primary:focus {
-  border-color: #e98235 !important;
-  background: #e98235 !important;
+  border-color: #e30613 !important;
+  background: #e30613 !important;
   color: #fff !important;
 }
 
@@ -307,7 +307,7 @@ body::before {
 .el-input__inner:focus,
 .el-textarea__inner:focus,
 .el-input.is-active .el-input__inner {
-  border-color: #e98235 !important;
+  border-color: #e30613 !important;
   box-shadow: 0 0 0 2px rgba(233, 130, 53, 0.11) !important;
 }
 
@@ -318,7 +318,7 @@ body::before {
 
 .el-input.is-disabled .el-input__inner,
 .el-textarea.is-disabled .el-textarea__inner {
-  background: #f6f4ef !important;
+  background: #f4ebe2 !important;
   color: #969da2 !important;
 }
 
@@ -404,7 +404,7 @@ body::before {
 
 .el-pagination .el-pager li.active,
 .el-pagination.is-background .el-pager li:not(.disabled).active {
-  background: #e98235 !important;
+  background: #e30613 !important;
   color: #fff !important;
 }
 
@@ -501,7 +501,7 @@ body::before {
 }
 
 .el-loading-spinner .path {
-  stroke: #e98235 !important;
+  stroke: #e30613 !important;
 }
 
 .el-message,
@@ -600,7 +600,7 @@ body::before {
 }
 
 .dashboard-container .stat-card {
-  border-left: 3px solid #e98235 !important;
+  border-left: 3px solid #e30613 !important;
 }
 
 .dashboard-container .stat-card--normal {
@@ -639,7 +639,7 @@ body::before {
 }
 
 .dashboard-container .device-card {
-  border-left: 3px solid #e98235 !important;
+  border-left: 3px solid #e30613 !important;
 }
 
 .dashboard-container .device-card.status-normal {
