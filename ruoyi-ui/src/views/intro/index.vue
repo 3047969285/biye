@@ -219,7 +219,7 @@ export default {
   display: block;
   width: 2px;
   height: 9px;
-  background: #e98235;
+  background: #e30613;
   transform: skew(-24deg);
 }
 
@@ -259,7 +259,7 @@ export default {
 }
 
 .skip-button span {
-  color: #e98235;
+  color: #e30613;
   font-size: 16px;
 }
 
@@ -339,7 +339,7 @@ export default {
   left: 50%;
   width: 34%;
   height: 1px;
-  background: #e98235;
+  background: #e30613;
   box-shadow: 0 0 12px rgba(233, 130, 53, 0.35);
   transform: translateX(-50%);
 }
@@ -393,7 +393,7 @@ export default {
 
 .sequence-progress i.active {
   width: 38px;
-  background: #e98235;
+  background: #e30613;
   box-shadow: 0 0 10px rgba(233, 130, 53, 0.28);
 }
 

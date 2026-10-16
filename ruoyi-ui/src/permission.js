@@ -14,7 +14,8 @@ NProgress.configure({ showSpinner: false })
 // 初始化页面标题
 document.title = defaultSettings.title || '智能电网运维系统'
 
-const whiteList = ['/login', '/register', '/intro']
+// /ops/screen：值班室投屏入口；页面只读可视化，写操作仍走鉴权业务页
+const whiteList = ['/login', '/register', '/intro', '/ops/screen']
 
 const isWhiteList = (path) => {
   return whiteList.some(pattern => isPathMatch(pattern, path))

@@ -1,15 +1,28 @@
 <template>
   <div class="dashboard-container">
+    <section class="delta-page-hero">
+      <p class="delta-hero-kicker">SMART GRID · OPERATIONS</p>
+      <h1 class="delta-page-hero__brand">智能电网运维</h1>
+      <p class="delta-page-hero__lead">
+        以指挥级构图统览设备态势：三维编队、状态脉搏、处置入口——让复杂运行回到清晰而有力。
+      </p>
+      <div class="delta-page-hero__actions">
+        <router-link class="delta-page-hero__btn is-solid" to="/ops/screen">进入运维指挥大屏</router-link>
+        <a class="delta-page-hero__btn" href="#device-mosaic" @click.prevent="scrollToMosaic">浏览设备三维</a>
+        <el-button
+          type="primary"
+          icon="el-icon-refresh"
+          size="small"
+          plain
+          class="delta-refresh-btn"
+          @click="loadData"
+          :loading="loading"
+        >刷新数据</el-button>
+      </div>
+    </section>
+
     <div class="dashboard-header">
       <h2 class="dashboard-title">设备概览</h2>
-      <el-button
-        type="primary"
-        icon="el-icon-refresh"
-        size="small"
-        plain
-        @click="loadData"
-        :loading="loading"
-      >刷新</el-button>
     </div>
 
     <el-row :gutter="16" class="stats-row">
@@ -38,6 +51,37 @@
         </div>
       </el-col>
     </el-row>
+
+    <div id="device-mosaic" class="device-mosaic-block">
+      <div class="device-mosaic-head">
+        <h3>每个设备的三维存在</h3>
+        <p>造型随设备类型变化，色调绑定运行状态；点击可查看详情。</p>
+      </div>
+      <div v-if="fromDemoSeed" class="delta-demo-flag">演示种子数据 · 后端设备列表不可用时的回退</div>
+      <div v-if="loading && !mosaicDevices.length" class="loading-data mosaic-loading">
+        <i class="el-icon-loading"></i>
+        <span>加载三维阵列…</span>
+      </div>
+      <div v-else class="delta-device-mosaic">
+        <article
+          v-for="device in mosaicDevices"
+          :key="'mosaic-' + device.deviceId"
+          class="delta-device-tile"
+          @click="showDeviceDetail(device.deviceId)"
+        >
+          <span v-if="device._demo" class="delta-device-tile__badge">DEMO</span>
+          <div class="delta-device-tile__scene">
+            <DeviceScene3D :device="device" variant="card" :show-caption="false" />
+          </div>
+          <div class="delta-device-tile__body">
+            <h4 class="delta-device-tile__name">{{ device.deviceName || '未命名设备' }}</h4>
+            <p class="delta-device-tile__meta">
+              {{ device.deviceType || '—' }} · {{ device.statusName || '—' }}
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
 
     <el-card class="device-list-card" shadow="never">
       <div slot="header" class="card-header">
@@ -262,6 +306,9 @@ import { listFaultRecordByDeviceId } from '@/api/equipment/faultRecord'
 import { listDeviceRuleByDeviceId } from '@/api/equipment/deviceRule'
 import { listPredictionByDeviceId } from '@/api/equipment/prediction'
 import { listDeviceStatus } from '@/api/equipment/deviceStatus'
+import { listDevice } from '@/api/equipment/device'
+import DeviceScene3D from '@/components/ops/DeviceScene3D.vue'
+import { DEMO_DEVICES, normalizeDeviceList } from '@/utils/ops/deviceCatalog'
 
 /** 详情表空值显示（与 el-table formatter 签名一致） */
 function fmtDash(row, column, cellValue) {
@@ -298,6 +345,7 @@ const MAP_ACTION_TAKEN = { 1: '待处理', 2: '已处理', 3: '忽略' }
 
 export default {
   name: 'Dashboard',
+  components: { DeviceScene3D },
   data() {
     return {
       loading: false,
@@ -322,7 +370,9 @@ export default {
       /** 按类型折叠面板：当前页切换或筛选后默认全部展开 */
       collapseActiveNames: [],
       /** 后台参与统计的数据表种类数（与设备台数无关） */
-      dataDimensionTotal: 16
+      dataDimensionTotal: 16,
+      fromDemoSeed: false,
+      mosaicDevices: []
     }
   },
   computed: {
@@ -357,6 +407,30 @@ export default {
     this.loadData()
   },
   methods: {
+    scrollToMosaic() {
+      const el = document.getElementById('device-mosaic')
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    },
+    async hydrateMosaic(fallbackDevices) {
+      try {
+        const listRes = await listDevice({ pageNum: 1, pageSize: 48 })
+        const normalized = normalizeDeviceList(listRes)
+        if (!normalized.fromDemo) {
+          this.mosaicDevices = normalized.devices
+          this.fromDemoSeed = false
+          return
+        }
+      } catch (e) {
+        /* fall through */
+      }
+      if (fallbackDevices && fallbackDevices.length) {
+        this.mosaicDevices = fallbackDevices
+        this.fromDemoSeed = false
+      } else {
+        this.mosaicDevices = DEMO_DEVICES.slice()
+        this.fromDemoSeed = true
+      }
+    },
     async loadData() {
       this.loading = true
       try {
@@ -375,12 +449,17 @@ export default {
           this.deviceData = [...this.originalDeviceData]
           this.calculateStatistics()
           this.applyPagination()
+          await this.hydrateMosaic(this.originalDeviceData)
         } else {
+          await this.hydrateMosaic([])
           this.$modal.msgError('加载数据失败: ' + (response.msg || '未知错误'))
         }
       } catch (error) {
         console.error('加载数据失败:', error)
-        this.$modal.msgError('加载数据失败: ' + error.message)
+        await this.hydrateMosaic([])
+        if (!this.fromDemoSeed) {
+          this.$modal.msgError('加载数据失败: ' + error.message)
+        }
       } finally {
         this.loading = false
       }
@@ -456,24 +535,30 @@ export default {
       return nameMap[tableName] || tableName
     },
     async showDeviceDetail(deviceId) {
-      // 从原始数据中查找完整设备信息
-      const allDevices = this.originalDeviceData.length > 0 ? this.originalDeviceData : this.deviceData
-      const device = allDevices.find(d => d.deviceId === deviceId)
+      // 从原始数据中查找完整设备信息（含三维阵列 / 演示种子）
+      const allDevices = [
+        ...(this.originalDeviceData || []),
+        ...(this.deviceData || []),
+        ...(this.mosaicDevices || [])
+      ]
+      const device = allDevices.find(d => String(d.deviceId) === String(deviceId))
       if (!device) {
         this.$modal.msgWarning('未找到该设备信息')
         return
       }
-      
+
       this.selectedDevice = device
       this.activeTab = 'deviceStatus'
-      
-      // 初始化标签页配置
       this.initializeDataTabs()
-      
       this.dialogVisible = true
+
+      if (device._demo || String(device.deviceId).indexOf('demo-') === 0) {
+        this.dialogLoading = false
+        this.$modal.msgWarning('当前为演示种子设备，无后端明细数据')
+        return
+      }
+
       this.dialogLoading = true
-      
-      // 一次性加载所有标签页的数据
       try {
         await this.loadAllTabData()
       } finally {
@@ -889,10 +974,54 @@ export default {
     right: -140px;
     top: -180px;
     pointer-events: none;
-    background: radial-gradient(circle at center, rgba(233, 130, 53, 0.1) 0%, rgba(233, 130, 53, 0.035) 38%, rgba(233, 130, 53, 0) 72%);
+    background: radial-gradient(circle at center, rgba(227, 6, 19, 0.12) 0%, rgba(196, 163, 90, 0.06) 38%, rgba(227, 6, 19, 0) 72%);
     filter: blur(4px);
     animation: none;
   }
+}
+
+.delta-hero-kicker {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 10px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #c4a35a;
+}
+
+.delta-refresh-btn {
+  margin-left: 0 !important;
+}
+
+.device-mosaic-block {
+  margin: 8px 0 22px;
+  animation: section-rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.device-mosaic-head {
+  margin-bottom: 14px;
+
+  h3 {
+    margin: 0 0 6px;
+    font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  p {
+    margin: 0;
+    color: $text-secondary;
+    font-size: 13px;
+  }
+}
+
+.mosaic-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 0;
+  color: $text-secondary;
 }
 
 .dashboard-header {
@@ -904,9 +1033,10 @@ export default {
   .dashboard-title {
     margin: 0;
     color: $text-primary;
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.035em;
+    font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
     animation: none;
   }
 }

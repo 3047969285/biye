@@ -167,19 +167,21 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
 .login {
-  --story-ink: #24272b;
-  --story-muted: #777c7d;
-  --story-line: #e5dfd6;
-  --story-orange: #e98235;
+  --story-ink: #1a120e;
+  --story-muted: #5c463c;
+  --story-line: #e4d4c6;
+  --story-orange: #e30613;
   display: flex;
   min-height: 100vh;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   padding: 30px 36px 70px;
-  background: #f6f4ef;
+  background:
+    radial-gradient(70% 50% at 10% 0%, rgba(227, 6, 19, 0.1), transparent 55%),
+    linear-gradient(160deg, #faf3eb 0%, #f4ebe2 55%, #efe2d4 100%);
   color: var(--story-ink);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: 'DM Sans', 'Noto Sans SC', 'PingFang SC', sans-serif;
 }
 
 .login-shell {
@@ -204,8 +206,10 @@ export default {
   overflow: hidden;
   padding: clamp(30px, 4vw, 58px);
   background:
-    radial-gradient(circle at 78% 79%, rgba(233, 130, 53, 0.08), transparent 29%),
-    linear-gradient(145deg, #faf8f4 0%, #f4f0e9 100%);
+    radial-gradient(circle at 78% 79%, rgba(227, 6, 19, 0.14), transparent 29%),
+    radial-gradient(circle at 20% 10%, rgba(196, 163, 90, 0.12), transparent 40%),
+    linear-gradient(145deg, #2a1812 0%, #120c0a 100%);
+  color: #f7f0e6;
 }
 
 .login-brand,
@@ -221,7 +225,7 @@ export default {
 .login-brand {
   justify-content: flex-start;
   gap: 12px;
-  color: #34383a;
+  color: #f7f0e6;
   font-size: 13px;
   font-weight: 650;
   letter-spacing: 0.03em;
@@ -281,12 +285,12 @@ export default {
 
 .login-story-copy h1 {
   margin: 0;
-  color: #20252b;
-  font-family: 'STSong', 'Songti SC', 'Noto Serif SC', 'Microsoft YaHei', serif;
+  color: #f7f0e6;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', serif;
   font-size: clamp(38px, 5vw, 62px);
   font-weight: 700;
   line-height: 1.26;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.02em;
 }
 
 .login-story-copy h1 span {
@@ -295,7 +299,7 @@ export default {
 
 .login-story-note {
   margin: 22px 0 0;
-  color: var(--story-muted);
+  color: rgba(247, 240, 230, 0.72);
   font-size: 14px;
   line-height: 1.9;
   letter-spacing: 0.035em;
