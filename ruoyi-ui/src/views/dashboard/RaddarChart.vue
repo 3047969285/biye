@@ -3,7 +3,8 @@
 </template>
 
 <script>
-import * as echarts from 'echarts'
+import echarts from '@/utils/echarts'
+import '@/assets/styles/echarts-blue-theme'
 import resize from './mixins/resize'
 
 const animationDuration = 3000

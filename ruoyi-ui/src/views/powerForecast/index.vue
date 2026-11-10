@@ -204,7 +204,8 @@
 </template>
 
 <script>
-import * as echarts from 'echarts'
+import echarts from '@/utils/echarts'
+import '@/assets/styles/echarts-blue-theme'
 import { listDevice } from '@/api/equipment/device'
 import { listDeviceStat, delDeviceStat } from '@/api/equipment/deviceStat'
 import { saveAs } from 'file-saver'

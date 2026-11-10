@@ -210,7 +210,8 @@
 </template>
 
 <script>
-import * as echarts from 'echarts'
+import echarts from '@/utils/echarts'
+import '@/assets/styles/echarts-blue-theme'
 import { trainPowerModel, quickPredictPower, getPowerStatus } from '@/api/ai/power'
 
 export default {

@@ -1,4 +1,4 @@
-import * as echarts from 'echarts'
+import { registerTheme } from 'echarts/core'
 
 const energyPalette = [
   '#E98235',
@@ -11,7 +11,7 @@ const energyPalette = [
   '#6C9081'
 ]
 
-echarts.registerTheme('ruoyi-deep-blue', {
+registerTheme('ruoyi-deep-blue', {
   color: energyPalette,
   backgroundColor: 'transparent',
   textStyle: {

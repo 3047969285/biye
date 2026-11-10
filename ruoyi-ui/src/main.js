@@ -2,9 +2,58 @@ import Vue from 'vue'
 
 import Cookies from 'js-cookie'
 
-import Element from 'element-ui'
+import Alert from 'element-ui/lib/alert'
+import Badge from 'element-ui/lib/badge'
+import Breadcrumb from 'element-ui/lib/breadcrumb'
+import BreadcrumbItem from 'element-ui/lib/breadcrumb-item'
+import Button from 'element-ui/lib/button'
+import ButtonGroup from 'element-ui/lib/button-group'
+import Card from 'element-ui/lib/card'
+import Checkbox from 'element-ui/lib/checkbox'
+import Col from 'element-ui/lib/col'
+import Collapse from 'element-ui/lib/collapse'
+import CollapseItem from 'element-ui/lib/collapse-item'
+import ColorPicker from 'element-ui/lib/color-picker'
+import DatePicker from 'element-ui/lib/date-picker'
+import Descriptions from 'element-ui/lib/descriptions'
+import DescriptionsItem from 'element-ui/lib/descriptions-item'
+import Dialog from 'element-ui/lib/dialog'
+import Divider from 'element-ui/lib/divider'
+import Drawer from 'element-ui/lib/drawer'
+import Dropdown from 'element-ui/lib/dropdown'
+import DropdownItem from 'element-ui/lib/dropdown-item'
+import DropdownMenu from 'element-ui/lib/dropdown-menu'
+import Empty from 'element-ui/lib/empty'
+import Form from 'element-ui/lib/form'
+import FormItem from 'element-ui/lib/form-item'
+import Image from 'element-ui/lib/image'
+import Input from 'element-ui/lib/input'
+import InputNumber from 'element-ui/lib/input-number'
+import Link from 'element-ui/lib/link'
+import Menu from 'element-ui/lib/menu'
+import MenuItem from 'element-ui/lib/menu-item'
+import Option from 'element-ui/lib/option'
+import ElPagination from 'element-ui/lib/pagination'
+import Popover from 'element-ui/lib/popover'
+import Progress from 'element-ui/lib/progress'
+import Radio from 'element-ui/lib/radio'
+import RadioButton from 'element-ui/lib/radio-button'
+import RadioGroup from 'element-ui/lib/radio-group'
+import Row from 'element-ui/lib/row'
+import Scrollbar from 'element-ui/lib/scrollbar'
+import Select from 'element-ui/lib/select'
+import Submenu from 'element-ui/lib/submenu'
+import Switch from 'element-ui/lib/switch'
+import TabPane from 'element-ui/lib/tab-pane'
+import Table from 'element-ui/lib/table'
+import TableColumn from 'element-ui/lib/table-column'
+import Tabs from 'element-ui/lib/tabs'
+import Tag from 'element-ui/lib/tag'
+import Tooltip from 'element-ui/lib/tooltip'
+import Transfer from 'element-ui/lib/transfer'
+import Tree from 'element-ui/lib/tree'
+import Upload from 'element-ui/lib/upload'
 import './assets/styles/element-variables.scss'
-import './assets/styles/echarts-blue-theme'
 
 import '@/assets/styles/index.scss' // global css
 import '@/assets/styles/ruoyi.scss' // ruoyi css
@@ -75,9 +124,15 @@ DictData.install()
  * please remove it before going online! ! !
  */
 
-Vue.use(Element, {
-  size: Cookies.get('size') || 'medium' // set element-ui default size
-})
+Vue.prototype.$ELEMENT = { size: Cookies.get('size') || 'medium' };
+[
+  Alert, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, Card, Checkbox, Col,
+  Collapse, CollapseItem, ColorPicker, DatePicker, Descriptions, DescriptionsItem,
+  Dialog, Divider, Drawer, Dropdown, DropdownItem, DropdownMenu, Empty, Form, FormItem,
+  Image, Input, InputNumber, Link, Menu, MenuItem, Option, ElPagination, Popover, Progress,
+  Radio, RadioButton, RadioGroup, Row, Scrollbar, Select, Submenu, Switch, TabPane, Table,
+  TableColumn, Tabs, Tag, Tooltip, Transfer, Tree, Upload
+].forEach(component => Vue.use(component))
 
 Vue.config.productionTip = false
 

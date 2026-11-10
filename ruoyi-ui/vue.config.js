@@ -74,6 +74,11 @@ module.exports = {
   },
   configureWebpack: {
     name: name,
+    performance: {
+      hints: 'warning',
+      maxAssetSize: 650000,
+      maxEntrypointSize: 1900000
+    },
     resolve: {
       alias: {
         '@': resolve('src')
@@ -129,12 +134,14 @@ module.exports = {
                 name: 'chunk-libs',
                 test: /[\\/]node_modules[\\/]/,
                 priority: 10,
-                chunks: 'initial' // only package third parties that are initially dependent
+                chunks: 'initial', // only package third parties that are initially dependent
+                maxSize: 230000
               },
               elementUI: {
                 name: 'chunk-elementUI', // split elementUI into a single package
                 test: /[\\/]node_modules[\\/]_?element-ui(.*)/, // in order to adapt to cnpm
-                priority: 20 // the weight needs to be larger than libs and app or it will be packaged into libs or app
+                priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+                maxSize: 230000
               },
               commons: {
                 name: 'chunk-commons',

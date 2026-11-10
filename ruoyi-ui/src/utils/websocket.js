@@ -1,4 +1,4 @@
-import { Message } from 'element-ui'
+import Message from 'element-ui/lib/message'
 
 class WebSocketClient {
   constructor() {

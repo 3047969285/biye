@@ -66,7 +66,8 @@
 
 <script>
 import { getCache } from "@/api/monitor/cache"
-import * as echarts from "echarts"
+import echarts from '@/utils/echarts'
+import '@/assets/styles/echarts-blue-theme'
 
 export default {
   name: "Cache",
