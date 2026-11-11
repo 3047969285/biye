@@ -86,13 +86,13 @@ export default {
     & .sidebar-title {
       display: inline-block;
       margin: 0;
-      color: #20252b;
+      color: #1a120e;
       font-weight: 700;
       line-height: 66px;
       font-size: 14px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
       vertical-align: middle;
-      letter-spacing: 0.015em;
+      letter-spacing: 0.04em;
     }
   }
 

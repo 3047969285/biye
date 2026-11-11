@@ -8,6 +8,14 @@
     <div class="right-menu">
       <template v-if="device!=='mobile'">
         <div class="right-menu-tools">
+          <router-link
+            to="/ops/screen"
+            class="navbar-tool-slot is-clickable navbar-ops-link"
+            title="运维指挥大屏"
+          >
+            <i class="el-icon-data-board" />
+            <span class="navbar-ops-label">指挥大屏</span>
+          </router-link>
           <div class="navbar-tool-slot is-clickable">
             <message-center id="header-message" />
           </div>
@@ -169,6 +177,29 @@ export default {
       height: 100%;
       gap: 2px;
       margin-right: 4px;
+    }
+
+    .navbar-ops-link {
+      gap: 6px;
+      padding: 0 12px;
+      min-width: auto;
+      text-decoration: none;
+      color: $text-secondary !important;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+
+      .el-icon-data-board {
+        font-size: 16px;
+        color: $accent-color;
+      }
+
+      &:hover {
+        color: $accent-color !important;
+      }
+    }
+
+    .navbar-ops-label {
+      font-weight: 600;
     }
 
     .navbar-tool-slot {

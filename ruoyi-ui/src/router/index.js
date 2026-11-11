@@ -68,6 +68,12 @@ export const constantRoutes = [
     meta: { title: '系统引导' }
   },
   {
+    path: '/ops/screen',
+    component: () => import('@/views/ops/screen/index'),
+    hidden: true,
+    meta: { title: '运维指挥大屏', noCache: true }
+  },
+  {
     path: '',
     component: Layout,
     redirect: 'intro',

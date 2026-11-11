@@ -63,9 +63,24 @@
       </el-col>
     </el-row>
 
+    <div class="manage-ops-banner">
+      <div>
+        <strong>运维指挥大屏</strong>
+        <span>全网设备三维编队与态势总览</span>
+      </div>
+      <router-link class="manage-ops-link" to="/ops/screen">打开大屏 →</router-link>
+    </div>
+
     <!-- 数据表格 -->
     <el-table v-loading="loading" :data="deviceList" @selection-change="handleSelectionChange" border>
       <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="三维" align="center" width="96">
+        <template slot-scope="scope">
+          <div class="manage-device-3d">
+            <DeviceScene3D :device="scope.row" variant="rail" :interactive="false" :auto-rotate="true" />
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="设备编号" align="center" prop="deviceNo" min-width="140" />
       <el-table-column label="设备名称" align="center" prop="deviceName" min-width="128" />
       <el-table-column label="设备类型" align="center" prop="deviceType" min-width="120" />
@@ -209,9 +224,11 @@
 
 <script>
 import { listDevice, getDevice, addDevice, updateDevice, delDevice, updateDeviceStatus } from "@/api/equipment/device";
+import DeviceScene3D from '@/components/ops/DeviceScene3D.vue'
 
 export default {
   name: "EquipmentManage",
+  components: { DeviceScene3D },
   data() {
     return {
       // 遮罩层
@@ -385,5 +402,45 @@ export default {
 
 .el-tag {
   cursor: pointer;
+}
+
+.manage-ops-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 16px 18px;
+  color: #f7f0e6;
+  background:
+    radial-gradient(80% 120% at 100% 0%, rgba(227, 6, 19, 0.35), transparent 50%),
+    linear-gradient(120deg, #1a100c, #2a1812);
+}
+
+.manage-ops-banner strong {
+  display: block;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.manage-ops-banner span {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.manage-ops-link {
+  color: #f7f0e6;
+  text-decoration: none;
+  border: 1px solid rgba(247, 240, 230, 0.35);
+  padding: 10px 14px;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  background: #e30613;
+}
+
+.manage-device-3d {
+  height: 72px;
+  margin: 4px 0;
 }
 </style>

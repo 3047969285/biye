@@ -11,20 +11,22 @@
 @import './dropdown-fix.scss';
 
 :root {
-  --primary-bg: #f6f4ef;
-  --secondary-bg: #ffffff;
-  --border-color: #e8e3db;
-  --accent-color: #e98235;
-  --text-primary: #20252b;
-  --text-secondary: #666d73;
-  --text-disabled: #969da2;
-  --hover-bg: rgba(233, 130, 53, 0.1);
-  --shadow: 0 8px 26px rgba(35, 31, 26, 0.06);
+  --primary-bg: #f4ebe2;
+  --secondary-bg: #fffaf5;
+  --border-color: #e4d4c6;
+  --accent-color: #e30613;
+  --text-primary: #1a120e;
+  --text-secondary: #5c463c;
+  --text-disabled: #9a8578;
+  --hover-bg: rgba(227, 6, 19, 0.08);
+  --shadow: 0 14px 40px rgba(26, 18, 14, 0.08);
   --motion-fast: 180ms;
   --motion-normal: 280ms;
-  --motion-slow: 420ms;
+  --motion-slow: 520ms;
   --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --font-display: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', serif;
+  --font-body: 'DM Sans', 'Noto Sans SC', 'PingFang SC', sans-serif;
 }
 
 body {
@@ -32,7 +34,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-family: var(--font-body);
   background: var(--primary-bg);
   color: var(--text-primary);
   position: relative;
