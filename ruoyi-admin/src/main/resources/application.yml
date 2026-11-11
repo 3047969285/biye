@@ -69,7 +69,7 @@ protocol-trans:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: 8081
+  port: 8082
   servlet:
     # 应用的访问路径
     context-path: /
@@ -234,7 +234,7 @@ wind:
   forecast:
     enabled: true
     auto-start-python: true
-    python-command: python
+    python-command: /Volumes/Games/Dev/Tools/biye-python/bin/python
     # 相对项目根目录；部署时请改为绝对路径
     work-dir: ${user.dir}/风力发电第二版
     service-host: 127.0.0.1

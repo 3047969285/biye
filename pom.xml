@@ -266,7 +266,7 @@
         <module>ruoyi-Business</module>
         <module>ruoyi-quartz</module>
         <module>ruoyi-common</module>
-        <module>spring-ai</module>
+        <module>ruoyi-ai</module>
         <module>ruoyi-ProtocolTrans</module>
     </modules>
     <packaging>pom</packaging>
